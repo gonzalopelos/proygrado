@@ -1,4 +1,4 @@
-﻿/********************************************************************
+/********************************************************************
  FileName:      main.c
  Dependencies:  See INCLUDES section
  Processor:     PIC18, PIC24, dsPIC, and PIC32 USB Microcontrollers
