@@ -1,0 +1,1132 @@
+MPLINK 4.45, Linker
+Linker Map File - Created Mon Dec 17 16:13:31 2012
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+               _entry_scn       code   0x000000    program   0x000006
+              high_vector       code   0x000008    program   0x000006
+               low_vector       code   0x000018    program   0x000006
+                   .cinit    romdata   0x000020    program   0x00000e
+    .code_BootPIC18NonJ.o       code   0x00002e    program   0x0004c8
+       .code_usbctrltrf.o       code   0x0004f6    program   0x000318
+             .code_usb9.o       code   0x00080e    program   0x00027c
+              .code_hid.o       code   0x000a8a    program   0x0001e6
+           .code_usbdrv.o       code   0x000c70    program   0x000138
+        .romdata_usbdsc.o    romdata   0x000da8    program   0x0000c2
+             .code_main.o       code   0x000e6a    program   0x0000b6
+                    .code       code   0x000f20    program   0x000020
+             _startup_scn       code   0x000f40    program   0x000018
+           .code___init.o       code   0x000f58    program   0x000002
+       .romdata_usbmmap.o    romdata   0x000f5a    program   0x000000
+       .idata_usbmmap.o_i    romdata   0x000f5a    program   0x000000
+        .idata_usbdsc.o_i    romdata   0x000f5a    program   0x000000
+        .romdata_usbdrv.o    romdata   0x000f5a    program   0x000000
+        .idata_usbdrv.o_i    romdata   0x000f5a    program   0x000000
+    .romdata_usbctrltrf.o    romdata   0x000f5a    program   0x000000
+    .idata_usbctrltrf.o_i    romdata   0x000f5a    program   0x000000
+          .romdata_usb9.o    romdata   0x000f5a    program   0x000000
+          .idata_usb9.o_i    romdata   0x000f5a    program   0x000000
+ .romdata_BootPIC18NonJ.o    romdata   0x000f5a    program   0x000000
+          .romdata_c018.o    romdata   0x000f5a    program   0x000000
+        .romdata___init.o    romdata   0x000f5a    program   0x000000
+           .romdata_hid.o    romdata   0x000f5a    program   0x000000
+          .romdata_main.o    romdata   0x000f5a    program   0x000000
+          .idata_main.o_i    romdata   0x000f5a    program   0x000002
+ .idata_BootPIC18NonJ.o_i    romdata   0x000f5c    program   0x000000
+        .idata___init.o_i    romdata   0x000f5c    program   0x000000
+          .idata_c018.o_i    romdata   0x000f5c    program   0x000000
+          .code_usbmmap.o       code   0x000f5c    program   0x000000
+           .code_usbdsc.o       code   0x000f5c    program   0x000000
+             .code_c018.o       code   0x000f5c    program   0x000000
+           .idata_hid.o_i    romdata   0x000f5c    program   0x000000
+    .config_300000_main.o    romdata   0x300000    program   0x000001
+    .config_300001_main.o    romdata   0x300001    program   0x000001
+    .config_300002_main.o    romdata   0x300002    program   0x000001
+    .config_300003_main.o    romdata   0x300003    program   0x000001
+    .config_300005_main.o    romdata   0x300005    program   0x000001
+    .config_300006_main.o    romdata   0x300006    program   0x000001
+                 .tmpdata      udata   0x000000       data   0x000003
+                MATH_DATA      udata   0x000003       data   0x000002
+         SomeSectionName3      udata   0x000060       data   0x000046
+         SomeSectionName2      udata   0x0000a6       data   0x000040
+                   .stack      udata   0x000300       data   0x000060
+                     usb4      udata   0x000400       data   0x0000a0
+         SomeSectionName1      udata   0x0004a0       data   0x00004b
+      .udata_usbctrltrf.o      udata   0x0004eb       data   0x000009
+         .udata_usbmmap.o      udata   0x0004f4       data   0x000004
+             .udata_hid.o      udata   0x0004f8       data   0x000003
+            .idata_main.o      idata   0x0004fb       data   0x000002
+          .udata_usbdrv.o      udata   0x0004fd       data   0x000001
+            .udata_c018.o      udata   0x0004fe       data   0x000000
+          .idata___init.o      idata   0x0004fe       data   0x000000
+          .udata___init.o      udata   0x0004fe       data   0x000000
+            .idata_c018.o      idata   0x0004fe       data   0x000000
+   .idata_BootPIC18NonJ.o      idata   0x0004fe       data   0x000000
+   .udata_BootPIC18NonJ.o      udata   0x0004fe       data   0x000000
+         .idata_usbmmap.o      idata   0x0004fe       data   0x000000
+          .idata_usbdsc.o      idata   0x0004fe       data   0x000000
+          .udata_usbdsc.o      udata   0x0004fe       data   0x000000
+          .idata_usbdrv.o      idata   0x0004fe       data   0x000000
+      .idata_usbctrltrf.o      idata   0x0004fe       data   0x000000
+            .idata_usb9.o      idata   0x0004fe       data   0x000000
+            .udata_usb9.o      udata   0x0004fe       data   0x000000
+            .udata_main.o      udata   0x0004fe       data   0x000000
+             .idata_hid.o      idata   0x0004fe       data   0x000000
+              SFR_BANKED0      udata   0x000f57       data   0x000009
+            SFR_UNBANKED0      udata   0x000f60       data   0x0000a0
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000005      
+                            0x000008    0x00000d      
+                            0x000018    0x00001d      
+                            0x000020    0x000f5b      
+                            0x300000    0x300003      
+                            0x300005    0x300006      
+            3924 out of 33048 program addresses used, program memory utilization is 11%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+           BlinkUSBStatus   0x000ee6    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+          ClassReqHandler   0x000e68    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+               ClearArray   0x000d7e    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+            ClearWatchdog   0x0004c4    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+      HIDGetReportHandler   0x000b58    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+                HIDInitEP   0x000b5c    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+              HIDRxReport   0x000be6    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+      HIDSetReportHandler   0x000b5a    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+              HIDTxReport   0x000b86    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+         InitializeSystem   0x000eae    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+                ProcessIO   0x000044    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+       ResetDeviceCleanly   0x00031a    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+   TableReadPostIncrement   0x0004c8    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+        USBCheckBusStatus   0x000c70    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+       USBCheckHIDRequest   0x000a8a    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+       USBCheckStdRequest   0x00080e    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+         USBCtrlEPService   0x0004f6    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+ USBCtrlEPServiceComplete   0x000742    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+      USBCtrlTrfInHandler   0x00060c    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+     USBCtrlTrfOutHandler   0x0005de    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+      USBCtrlTrfRxService   0x0006ea    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+   USBCtrlTrfSetupHandler   0x000578    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+      USBCtrlTrfTxService   0x000650    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+         USBDriverService   0x000c9a    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+          USBModuleEnable   0x000c8c    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+USBPrepareForNextSetupTrf   0x0007b4    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+  USBProtocolResetHandler   0x000d1e    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+          USBStallHandler   0x000cfe    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+  USBStdFeatureReqHandler   0x0009b4    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+      USBStdGetDscHandler   0x0008ac    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+   USBStdGetStatusHandler   0x000950    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+      USBStdSetCfgHandler   0x00091a    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+               USBSuspend   0x000ce0    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+                 USBTasks   0x000ede    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+       USBWakeFromSuspend   0x000cf0    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+               USB_CD_Ptr   0x000e5e    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+               USB_SD_Ptr   0x000e62    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+        UnlockAndActivate   0x000490    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                 UserInit   0x00002e    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+          WriteConfigBits   0x00040e    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+              WriteEEPROM   0x00045a    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+          WriteFlashBlock   0x000346    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+         ___else_lbl00052   0x0003ac    program     static                          
+         ___else_lbl00054   0x0003b2    program     static                          
+          ___for_lbl00043   0x000338    program     static                          
+          ___for_lbl00044   0x00033e    program     static                          
+          ___for_lbl00047   0x000322    program     static                          
+          ___for_lbl00049   0x0003ba    program     static                          
+          ___for_lbl00050   0x0003c0    program     static                          
+          ___for_lbl00055   0x00037a    program     static                          
+          ___for_lbl00056   0x000406    program     static                          
+          ___for_lbl00057   0x00040c    program     static                          
+          ___for_lbl00058   0x0003d2    program     static                          
+          ___for_lbl00060   0x000452    program     static                          
+          ___for_lbl00061   0x000458    program     static                          
+          ___for_lbl00062   0x00041e    program     static                          
+           ___if_lbl00003   0x000e88    program     static                          
+           ___if_lbl00007   0x000ea2    program     static                          
+           ___if_lbl00051   0x0003b0    program     static                          
+           ___if_lbl00053   0x0003ba    program     static                          
+           ___if_lbl00070   0x0004ac    program     static                          
+       ___return_lbl00000   0x00000c    program     static                          
+       ___return_lbl00000   0x000004    program     static                          
+       ___return_lbl00001   0x00001c    program     static                          
+       ___return_lbl00001   0x000f56    program     static                          
+       ___return_lbl00002   0x000ea4    program     static                          
+       ___return_lbl00022   0x000cee    program     static                          
+       ___return_lbl00030   0x000d7c    program     static                          
+       ___return_lbl00033   0x000da0    program     static                          
+       ___return_lbl00042   0x000344    program     static                          
+       ___return_lbl00048   0x00040c    program     static                          
+       ___return_lbl00059   0x000458    program     static                          
+       ___return_lbl00067   0x0004bc    program     static                          
+       ___return_lbl00073   0x0004c6    program     static                          
+       ___return_lbl00074   0x0004ca    program     static                          
+        ___while_lbl00004   0x000e8a    program     static                          
+        ___while_lbl00005   0x000ea4    program     static                          
+        ___while_lbl00031   0x000d44    program     static                          
+        ___while_lbl00032   0x000d52    program     static                          
+        ___while_lbl00034   0x000d92    program     static                          
+        ___while_lbl00035   0x000da0    program     static                          
+        ___while_lbl00045   0x00032c    program     static                          
+        ___while_lbl00046   0x000338    program     static                          
+        ___while_lbl00068   0x0004a6    program     static                          
+        ___while_lbl00069   0x0004aa    program     static                          
+        ___while_lbl00071   0x0004b6    program     static                          
+        ___while_lbl00072   0x0004ba    program     static                          
+               __config_0   0x300000    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+               __config_1   0x300001    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+               __config_2   0x300002    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+               __config_3   0x300003    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+               __config_4   0x300005    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+               __config_5   0x300006    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+                   __init   0x000f58    program     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\stdclib\__init.c
+                   __pa_0   0x0004cc    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                   __pa_0   0x000c50    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+                   __pa_0   0x000a20    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+                   __pa_0   0x0007be    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                   __pa_1   0x0004de    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                   __pa_1   0x000c68    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+                   __pa_1   0x000a38    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+                   __pa_1   0x0007ce    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                   __pa_2   0x0004e8    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                   __pa_2   0x000a4a    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+                   __pa_2   0x0007de    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                   __pa_3   0x000a5c    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+                   __pa_3   0x0007ec    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                   __pa_4   0x0007f6    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                   __pa_4   0x000a6c    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+                   __pa_5   0x0007fe    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                   __pa_5   0x000a7a    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+                   __pa_6   0x000a82    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+               __tmplbl_0   0x000e9e    program     static                          
+               __tmplbl_1   0x000e98    program     static                          
+            __zero_memory   0x000f20    program     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   _entry   0x000000    program     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\startup\c018.c
+                 _startup   0x000f40    program     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\startup\c018.c
+                    cfg01   0x000dba    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+                compare_l   0x000f36    program     static E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               device_dsc   0x000da8    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+                hid_rpt01   0x000e41    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+ interrupt_at_high_vector   0x000008    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+  interrupt_at_low_vector   0x000018    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+                     loop   0x000f4c    program     static                          
+                   loop_h   0x000f2e    program     static E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   loop_l   0x000f38    program     static E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     main   0x000e6a    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+                    sd000   0x000de3    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+                    sd001   0x000de7    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+                    sd002   0x000e1b    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+               zero_block   0x000f2e    program     static E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ACTCON   0x000fb5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ACTCONbits   0x000fb5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ADCON0   0x000fc2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ADCON0bits   0x000fc2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ADCON1   0x000fc1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ADCON1bits   0x000fc1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ADCON2   0x000fc0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ADCON2bits   0x000fc0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ADRESH   0x000fc4       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ADRESL   0x000fc3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ANSELA   0x000f5b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ANSELAbits   0x000f5b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ANSELB   0x000f5c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ANSELBbits   0x000f5c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ANSELC   0x000f5d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ANSELCbits   0x000f5d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ANSELD   0x000f5e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ANSELDbits   0x000f5e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ANSELE   0x000f5f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ANSELEbits   0x000f5f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  BAUDCON   0x000fb8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 BAUDCON1   0x000fb8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             BAUDCON1bits   0x000fb8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              BAUDCONbits   0x000fb8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                      BSR   0x000fe0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                BootState   0x0004a3       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+        BufferedDataIndex   0x0004a6       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+     BytesTakenFromBuffer   0x0000a2       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                  CCP1CON   0x000fbd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              CCP1CONbits   0x000fbd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  CCP2CON   0x000f97       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              CCP2CONbits   0x000f97       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    CCPR1   0x000fbe       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   CCPR1H   0x000fbf       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   CCPR1L   0x000fbe       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    CCPR2   0x000f90       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   CCPR2H   0x000f91       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   CCPR2L   0x000f90       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  CCPTMRS   0x000f59       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              CCPTMRSbits   0x000f59       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  CM1CON0   0x000f98       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              CM1CON0bits   0x000f98       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  CM2CON0   0x000f99       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              CM2CON0bits   0x000f99       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  CM2CON1   0x000f9a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              CM2CON1bits   0x000f9a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 CTMUCON0   0x000f8f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             CTMUCON0bits   0x000f8f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 CTMUCON1   0x000f8e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             CTMUCON1bits   0x000f8e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 CTMUCONH   0x000f8f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             CTMUCONHbits   0x000f8f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 CTMUCONL   0x000f8e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             CTMUCONLbits   0x000f8e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 CTMUICON   0x000f88       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             CTMUICONbits   0x000f88       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+         ConfigsLockValue   0x0004aa       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+         CorrectionFactor   0x0000a3       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+              CtrlTrfData   0x000418       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+                     DDRA   0x000f92       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 DDRAbits   0x000f92       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     DDRB   0x000f93       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 DDRBbits   0x000f93       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     DDRC   0x000f94       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 DDRCbits   0x000f94       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     DDRD   0x000f95       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 DDRDbits   0x000f95       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     DDRE   0x000f96       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 DDREbits   0x000f96       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  ECCP1AS   0x000fb6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              ECCP1ASbits   0x000fb6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 ECCP1CON   0x000fbd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             ECCP1CONbits   0x000fbd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 ECCP1DEL   0x000fb7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             ECCP1DELbits   0x000fb7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 ECCP2CON   0x000f97       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             ECCP2CONbits   0x000f97       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    EEADR   0x000fa9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   EECON1   0x000fa6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               EECON1bits   0x000fa6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   EECON2   0x000fa7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   EEDATA   0x000fa8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+         ErasePageTracker   0x0004a4       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                     FSR0   0x000fe9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    FSR0H   0x000fea       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    FSR0L   0x000fe9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     FSR1   0x000fe1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    FSR1H   0x000fe2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    FSR1L   0x000fe1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     FSR2   0x000fd9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    FSR2H   0x000fda       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    FSR2L   0x000fd9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  HLVDCON   0x000f9c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              HLVDCONbits   0x000f9c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    INDF0   0x000fef       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    INDF1   0x000fe7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    INDF2   0x000fdf       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   INTCON   0x000ff2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  INTCON2   0x000ff1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              INTCON2bits   0x000ff1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  INTCON3   0x000ff0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              INTCON3bits   0x000ff0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               INTCONbits   0x000ff2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     IOCB   0x000f86       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 IOCBbits   0x000f86       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     IOCC   0x000f87       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 IOCCbits   0x000f87       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     IPR1   0x000f9f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 IPR1bits   0x000f9f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     IPR2   0x000fa2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 IPR2bits   0x000fa2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     IPR3   0x000fa5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 IPR3bits   0x000fa5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     LATA   0x000f89       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 LATAbits   0x000f89       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     LATB   0x000f8a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 LATBbits   0x000f8a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     LATC   0x000f8b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 LATCbits   0x000f8b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     LATD   0x000f8c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 LATDbits   0x000f8c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     LATE   0x000f8d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 LATEbits   0x000f8d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   OSCCON   0x000fd3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  OSCCON2   0x000fd2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              OSCCON2bits   0x000fd2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               OSCCONbits   0x000fd3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  OSCTUNE   0x000f9b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              OSCTUNEbits   0x000f9b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                       PC   0x000ff9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                      PCL   0x000ff9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   PCLATH   0x000ffa       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   PCLATU   0x000ffb       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PIE1   0x000f9d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PIE1bits   0x000f9d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PIE2   0x000fa0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PIE2bits   0x000fa0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PIE3   0x000fa3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PIE3bits   0x000fa3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PIR1   0x000f9e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PIR1bits   0x000f9e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PIR2   0x000fa1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PIR2bits   0x000fa1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PIR3   0x000fa4       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PIR3bits   0x000fa4       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   PLUSW0   0x000feb       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   PLUSW1   0x000fe3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   PLUSW2   0x000fdb       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PMD0   0x000f7e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PMD0bits   0x000f7e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PMD1   0x000f7f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PMD1bits   0x000f7f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    PORTA   0x000f80       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                PORTAbits   0x000f80       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    PORTB   0x000f81       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                PORTBbits   0x000f81       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    PORTC   0x000f82       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                PORTCbits   0x000f82       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    PORTD   0x000f83       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                PORTDbits   0x000f83       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    PORTE   0x000f84       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                PORTEbits   0x000f84       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 POSTDEC0   0x000fed       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 POSTDEC1   0x000fe5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 POSTDEC2   0x000fdd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 POSTINC0   0x000fee       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 POSTINC1   0x000fe6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 POSTINC2   0x000fde       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                      PR2   0x000fbb       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  PREINC0   0x000fec       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  PREINC1   0x000fe4       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  PREINC2   0x000fdc       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PROD   0x000ff3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    PRODH   0x000ff4       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    PRODL   0x000ff3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PSTR1CON   0x000fb9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             PSTR1CONbits   0x000fb9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  PWM1CON   0x000fb7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              PWM1CONbits   0x000fb7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             PacketFromPC   0x0000a6       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+               PacketToPC   0x000060       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+    ProgramMemStopAddress   0x0004a0       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+        ProgrammedPointer   0x0004a7       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+        ProgrammingBuffer   0x0004ab       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                     RCON   0x000fd0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 RCONbits   0x000fd0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    RCREG   0x000fae       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   RCREG1   0x000fae       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    RCSTA   0x000fab       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   RCSTA1   0x000fab       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               RCSTA1bits   0x000fab       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                RCSTAbits   0x000fab       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     SIGN   0x000003       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\math\cmath18.asm
+                   SLRCON   0x000f7a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               SLRCONbits   0x000f7a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    SPBRG   0x000faf       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   SPBRG1   0x000faf       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               SPBRG1bits   0x000faf       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   SPBRGH   0x000fb0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  SPBRGH1   0x000fb0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              SPBRGH1bits   0x000fb0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               SPBRGHbits   0x000fb0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                SPBRGbits   0x000faf       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   SRCON0   0x000f58       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               SRCON0bits   0x000f58       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   SRCON1   0x000f57       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               SRCON1bits   0x000f57       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  SSP1ADD   0x000fc8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              SSP1ADDbits   0x000fc8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  SSP1BUF   0x000fc9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  SSP1CON   0x000fc6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 SSP1CON1   0x000fc6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             SSP1CON1bits   0x000fc6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 SSP1CON2   0x000fc5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             SSP1CON2bits   0x000fc5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 SSP1CON3   0x000fcb       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             SSP1CON3bits   0x000fcb       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              SSP1CONbits   0x000fc6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  SSP1MSK   0x000fca       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              SSP1MSKbits   0x000fca       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 SSP1STAT   0x000fc7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             SSP1STATbits   0x000fc7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   SSPADD   0x000fc8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               SSPADDbits   0x000fc8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   SSPBUF   0x000fc9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   SSPCON   0x000fc6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  SSPCON2   0x000fc5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              SSPCON2bits   0x000fc5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  SSPCON3   0x000fcb       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              SSPCON3bits   0x000fcb       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               SSPCONbits   0x000fc6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   SSPMSK   0x000fca       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               SSPMSKbits   0x000fca       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  SSPSTAT   0x000fc7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              SSPSTATbits   0x000fc7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   STATUS   0x000fd8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               STATUSbits   0x000fd8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    STCON   0x000fb5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                STCONbits   0x000fb5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   STKPTR   0x000ffc       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               STKPTRbits   0x000ffc       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 SetupPkt   0x000410       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+                    T0CON   0x000fd5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                T0CONbits   0x000fd5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    T1CON   0x000fcd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                T1CONbits   0x000fcd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   T1GCON   0x000fcc       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               T1GCONbits   0x000fcc       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    T2CON   0x000fba       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                T2CONbits   0x000fba       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    T3CON   0x000fb1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                T3CONbits   0x000fb1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   T3GCON   0x000fb4       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               T3GCONbits   0x000fb4       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   TABLAT   0x000ff5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   TBLPTR   0x000ff6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  TBLPTRH   0x000ff7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  TBLPTRL   0x000ff6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  TBLPTRU   0x000ff8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TMR0H   0x000fd7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TMR0L   0x000fd6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TMR1H   0x000fcf       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TMR1L   0x000fce       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     TMR2   0x000fbc       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TMR3H   0x000fb3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TMR3L   0x000fb2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                      TOS   0x000ffd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     TOSH   0x000ffe       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     TOSL   0x000ffd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     TOSU   0x000fff       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TRISA   0x000f92       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                TRISAbits   0x000f92       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TRISB   0x000f93       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                TRISBbits   0x000f93       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TRISC   0x000f94       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                TRISCbits   0x000f94       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TRISD   0x000f95       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                TRISDbits   0x000f95       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TRISE   0x000f96       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                TRISEbits   0x000f96       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TXREG   0x000fad       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   TXREG1   0x000fad       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TXSTA   0x000fac       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   TXSTA1   0x000fac       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               TXSTA1bits   0x000fac       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                TXSTAbits   0x000fac       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UADDR   0x000f63       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UADDRbits   0x000f63       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UCFG   0x000f62       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UCFGbits   0x000f62       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UCON   0x000f60       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UCONbits   0x000f60       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEIE   0x000f66       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEIEbits   0x000f66       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEIR   0x000f67       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEIRbits   0x000f67       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP0   0x000f6a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP0bits   0x000f6a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP1   0x000f6b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UEP10   0x000f74       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UEP10bits   0x000f74       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UEP11   0x000f75       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UEP11bits   0x000f75       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UEP12   0x000f76       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UEP12bits   0x000f76       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UEP13   0x000f77       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UEP13bits   0x000f77       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UEP14   0x000f78       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UEP14bits   0x000f78       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UEP15   0x000f79       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UEP15bits   0x000f79       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP1bits   0x000f6b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP2   0x000f6c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP2bits   0x000f6c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP3   0x000f6d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP3bits   0x000f6d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP4   0x000f6e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP4bits   0x000f6e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP5   0x000f6f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP5bits   0x000f6f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP6   0x000f70       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP6bits   0x000f70       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP7   0x000f71       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP7bits   0x000f71       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP8   0x000f72       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP8bits   0x000f72       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP9   0x000f73       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP9bits   0x000f73       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UFRM   0x000f68       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UFRMH   0x000f69       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UFRMHbits   0x000f69       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UFRML   0x000f68       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UFRMLbits   0x000f68       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                      UIE   0x000f64       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  UIEbits   0x000f64       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                      UIR   0x000f65       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  UIRbits   0x000f65       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    USTAT   0x000f61       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                USTATbits   0x000f61       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 VREFCON0   0x000f7d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             VREFCON0bits   0x000f7d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 VREFCON1   0x000f7c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             VREFCON1bits   0x000f7c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 VREFCON2   0x000f7b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             VREFCON2bits   0x000f7b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  VREGCON   0x000f5a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              VREGCONbits   0x000f5a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   WDTCON   0x000fd1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               WDTCONbits   0x000fd1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     WPUB   0x000f85       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 WPUBbits   0x000f85       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     WREG   0x000fe8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                __FPFLAGS   0x000004       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\math\cmath18.asm
+            __FPFLAGSbits   0x000004       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\math\cmath18.asm
+                  __tmp_0   0x000000       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                  __tmp_0   0x000000       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+                  __tmp_0   0x000000       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+                  __tmp_0   0x000000       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+          active_protocol   0x0004f9       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+              bTRNIFCount   0x0004fd       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+   ctrl_trf_session_owner   0x0004ec       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+           ctrl_trf_state   0x0004eb       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                    ep0Bi   0x000404       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+                    ep0Bo   0x000400       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+                    ep1Bi   0x00040c       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+                    ep1Bo   0x000408       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+            hid_report_in   0x000460       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+           hid_report_out   0x000420       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+           hid_rpt_rx_len   0x0004fa       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+                        i   0x0000a5       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                        i   0x0000a4       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                        i   0x0000a1       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                        i   0x0000a0       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                idle_rate   0x0004f8       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+                led_count   0x0004fb       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+                     pDst   0x0004ef       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                     pSrc   0x0004ed       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+         short_pkt_status   0x0004f3       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+           usb_active_cfg   0x0004f6       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+             usb_alt_intf   0x0004f7       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+         usb_device_state   0x0004f4       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+                 usb_stat   0x0004f5       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+                   wCount   0x0004f1       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   _entry   0x000000    program     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\startup\c018.c
+       ___return_lbl00000   0x000004    program     static                          
+ interrupt_at_high_vector   0x000008    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+       ___return_lbl00000   0x00000c    program     static                          
+  interrupt_at_low_vector   0x000018    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+       ___return_lbl00001   0x00001c    program     static                          
+                 UserInit   0x00002e    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                ProcessIO   0x000044    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+       ResetDeviceCleanly   0x00031a    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+          ___for_lbl00047   0x000322    program     static                          
+        ___while_lbl00045   0x00032c    program     static                          
+        ___while_lbl00046   0x000338    program     static                          
+          ___for_lbl00043   0x000338    program     static                          
+          ___for_lbl00044   0x00033e    program     static                          
+       ___return_lbl00042   0x000344    program     static                          
+          WriteFlashBlock   0x000346    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+          ___for_lbl00055   0x00037a    program     static                          
+         ___else_lbl00052   0x0003ac    program     static                          
+           ___if_lbl00051   0x0003b0    program     static                          
+         ___else_lbl00054   0x0003b2    program     static                          
+          ___for_lbl00049   0x0003ba    program     static                          
+           ___if_lbl00053   0x0003ba    program     static                          
+          ___for_lbl00050   0x0003c0    program     static                          
+          ___for_lbl00058   0x0003d2    program     static                          
+          ___for_lbl00056   0x000406    program     static                          
+          ___for_lbl00057   0x00040c    program     static                          
+       ___return_lbl00048   0x00040c    program     static                          
+          WriteConfigBits   0x00040e    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+          ___for_lbl00062   0x00041e    program     static                          
+          ___for_lbl00060   0x000452    program     static                          
+       ___return_lbl00059   0x000458    program     static                          
+          ___for_lbl00061   0x000458    program     static                          
+              WriteEEPROM   0x00045a    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+        UnlockAndActivate   0x000490    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+        ___while_lbl00068   0x0004a6    program     static                          
+        ___while_lbl00069   0x0004aa    program     static                          
+           ___if_lbl00070   0x0004ac    program     static                          
+        ___while_lbl00071   0x0004b6    program     static                          
+        ___while_lbl00072   0x0004ba    program     static                          
+       ___return_lbl00067   0x0004bc    program     static                          
+            ClearWatchdog   0x0004c4    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+       ___return_lbl00073   0x0004c6    program     static                          
+   TableReadPostIncrement   0x0004c8    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+       ___return_lbl00074   0x0004ca    program     static                          
+                   __pa_0   0x0004cc    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                   __pa_1   0x0004de    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                   __pa_2   0x0004e8    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+         USBCtrlEPService   0x0004f6    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+   USBCtrlTrfSetupHandler   0x000578    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+     USBCtrlTrfOutHandler   0x0005de    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+      USBCtrlTrfInHandler   0x00060c    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+      USBCtrlTrfTxService   0x000650    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+      USBCtrlTrfRxService   0x0006ea    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+ USBCtrlEPServiceComplete   0x000742    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+USBPrepareForNextSetupTrf   0x0007b4    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                   __pa_0   0x0007be    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                   __pa_1   0x0007ce    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                   __pa_2   0x0007de    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                   __pa_3   0x0007ec    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                   __pa_4   0x0007f6    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                   __pa_5   0x0007fe    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+       USBCheckStdRequest   0x00080e    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+      USBStdGetDscHandler   0x0008ac    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+      USBStdSetCfgHandler   0x00091a    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+   USBStdGetStatusHandler   0x000950    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+  USBStdFeatureReqHandler   0x0009b4    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+                   __pa_0   0x000a20    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+                   __pa_1   0x000a38    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+                   __pa_2   0x000a4a    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+                   __pa_3   0x000a5c    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+                   __pa_4   0x000a6c    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+                   __pa_5   0x000a7a    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+                   __pa_6   0x000a82    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+       USBCheckHIDRequest   0x000a8a    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+      HIDGetReportHandler   0x000b58    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+      HIDSetReportHandler   0x000b5a    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+                HIDInitEP   0x000b5c    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+              HIDTxReport   0x000b86    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+              HIDRxReport   0x000be6    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+                   __pa_0   0x000c50    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+                   __pa_1   0x000c68    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+        USBCheckBusStatus   0x000c70    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+          USBModuleEnable   0x000c8c    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+         USBDriverService   0x000c9a    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+               USBSuspend   0x000ce0    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+       ___return_lbl00022   0x000cee    program     static                          
+       USBWakeFromSuspend   0x000cf0    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+          USBStallHandler   0x000cfe    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+  USBProtocolResetHandler   0x000d1e    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+        ___while_lbl00031   0x000d44    program     static                          
+        ___while_lbl00032   0x000d52    program     static                          
+       ___return_lbl00030   0x000d7c    program     static                          
+               ClearArray   0x000d7e    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+        ___while_lbl00034   0x000d92    program     static                          
+        ___while_lbl00035   0x000da0    program     static                          
+       ___return_lbl00033   0x000da0    program     static                          
+               device_dsc   0x000da8    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+                    cfg01   0x000dba    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+                    sd000   0x000de3    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+                    sd001   0x000de7    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+                    sd002   0x000e1b    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+                hid_rpt01   0x000e41    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+               USB_CD_Ptr   0x000e5e    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+               USB_SD_Ptr   0x000e62    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+          ClassReqHandler   0x000e68    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdsc.c
+                     main   0x000e6a    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+           ___if_lbl00003   0x000e88    program     static                          
+        ___while_lbl00004   0x000e8a    program     static                          
+               __tmplbl_1   0x000e98    program     static                          
+               __tmplbl_0   0x000e9e    program     static                          
+           ___if_lbl00007   0x000ea2    program     static                          
+        ___while_lbl00005   0x000ea4    program     static                          
+       ___return_lbl00002   0x000ea4    program     static                          
+         InitializeSystem   0x000eae    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+                 USBTasks   0x000ede    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+           BlinkUSBStatus   0x000ee6    program     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+            __zero_memory   0x000f20    program     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   loop_h   0x000f2e    program     static E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               zero_block   0x000f2e    program     static E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                compare_l   0x000f36    program     static E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   loop_l   0x000f38    program     static E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 _startup   0x000f40    program     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\startup\c018.c
+                     loop   0x000f4c    program     static                          
+       ___return_lbl00001   0x000f56    program     static                          
+                   __init   0x000f58    program     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\stdclib\__init.c
+               __config_0   0x300000    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+               __config_1   0x300001    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+               __config_2   0x300002    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+               __config_3   0x300003    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+               __config_4   0x300005    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+               __config_5   0x300006    program     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+                  __tmp_0   0x000000       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                  __tmp_0   0x000000       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                  __tmp_0   0x000000       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+                  __tmp_0   0x000000       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usb9.c
+                     SIGN   0x000003       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\math\cmath18.asm
+                __FPFLAGS   0x000004       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\math\cmath18.asm
+            __FPFLAGSbits   0x000004       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\math\cmath18.asm
+               PacketToPC   0x000060       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                        i   0x0000a0       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                        i   0x0000a1       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+     BytesTakenFromBuffer   0x0000a2       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+         CorrectionFactor   0x0000a3       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                        i   0x0000a4       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                        i   0x0000a5       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+             PacketFromPC   0x0000a6       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                    ep0Bo   0x000400       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+                    ep0Bi   0x000404       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+                    ep1Bo   0x000408       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+                    ep1Bi   0x00040c       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+                 SetupPkt   0x000410       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+              CtrlTrfData   0x000418       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+           hid_report_out   0x000420       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+            hid_report_in   0x000460       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+    ProgramMemStopAddress   0x0004a0       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+                BootState   0x0004a3       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+         ErasePageTracker   0x0004a4       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+        BufferedDataIndex   0x0004a6       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+        ProgrammedPointer   0x0004a7       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+         ConfigsLockValue   0x0004aa       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+        ProgrammingBuffer   0x0004ab       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\BootPIC18NonJ.c
+           ctrl_trf_state   0x0004eb       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+   ctrl_trf_session_owner   0x0004ec       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                     pSrc   0x0004ed       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                     pDst   0x0004ef       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+                   wCount   0x0004f1       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+         short_pkt_status   0x0004f3       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbctrltrf.c
+         usb_device_state   0x0004f4       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+                 usb_stat   0x0004f5       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+           usb_active_cfg   0x0004f6       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+             usb_alt_intf   0x0004f7       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbmmap.c
+                idle_rate   0x0004f8       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+          active_protocol   0x0004f9       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+           hid_rpt_rx_len   0x0004fa       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\hid.c
+                led_count   0x0004fb       data     static C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\main.c
+              bTRNIFCount   0x0004fd       data     extern C:\Microchip Solutions v2012-10-15\USB\Device - Bootloaders\HID\Firmware - PIC18 Non-J\usbdrv.c
+               SRCON1bits   0x000f57       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   SRCON1   0x000f57       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   SRCON0   0x000f58       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               SRCON0bits   0x000f58       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              CCPTMRSbits   0x000f59       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  CCPTMRS   0x000f59       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              VREGCONbits   0x000f5a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  VREGCON   0x000f5a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ANSELA   0x000f5b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ANSELAbits   0x000f5b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ANSELB   0x000f5c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ANSELBbits   0x000f5c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ANSELCbits   0x000f5d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ANSELC   0x000f5d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ANSELD   0x000f5e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ANSELDbits   0x000f5e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ANSELEbits   0x000f5f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ANSELE   0x000f5f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UCON   0x000f60       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UCONbits   0x000f60       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    USTAT   0x000f61       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                USTATbits   0x000f61       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UCFG   0x000f62       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UCFGbits   0x000f62       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UADDR   0x000f63       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UADDRbits   0x000f63       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  UIEbits   0x000f64       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                      UIE   0x000f64       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  UIRbits   0x000f65       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                      UIR   0x000f65       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEIEbits   0x000f66       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEIE   0x000f66       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEIRbits   0x000f67       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEIR   0x000f67       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UFRMLbits   0x000f68       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UFRML   0x000f68       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UFRM   0x000f68       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UFRMHbits   0x000f69       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UFRMH   0x000f69       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP0   0x000f6a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP0bits   0x000f6a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP1bits   0x000f6b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP1   0x000f6b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP2   0x000f6c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP2bits   0x000f6c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP3   0x000f6d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP3bits   0x000f6d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP4   0x000f6e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP4bits   0x000f6e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP5   0x000f6f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP5bits   0x000f6f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP6   0x000f70       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP6bits   0x000f70       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP7bits   0x000f71       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP7   0x000f71       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP8bits   0x000f72       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP8   0x000f72       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     UEP9   0x000f73       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 UEP9bits   0x000f73       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UEP10bits   0x000f74       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UEP10   0x000f74       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UEP11bits   0x000f75       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UEP11   0x000f75       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UEP12   0x000f76       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UEP12bits   0x000f76       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UEP13   0x000f77       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UEP13bits   0x000f77       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UEP14bits   0x000f78       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UEP14   0x000f78       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                UEP15bits   0x000f79       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    UEP15   0x000f79       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   SLRCON   0x000f7a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               SLRCONbits   0x000f7a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             VREFCON2bits   0x000f7b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 VREFCON2   0x000f7b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             VREFCON1bits   0x000f7c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 VREFCON1   0x000f7c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             VREFCON0bits   0x000f7d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 VREFCON0   0x000f7d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PMD0bits   0x000f7e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PMD0   0x000f7e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PMD1bits   0x000f7f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PMD1   0x000f7f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                PORTAbits   0x000f80       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    PORTA   0x000f80       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                PORTBbits   0x000f81       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    PORTB   0x000f81       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    PORTC   0x000f82       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                PORTCbits   0x000f82       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                PORTDbits   0x000f83       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    PORTD   0x000f83       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                PORTEbits   0x000f84       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    PORTE   0x000f84       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 WPUBbits   0x000f85       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     WPUB   0x000f85       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 IOCBbits   0x000f86       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     IOCB   0x000f86       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     IOCC   0x000f87       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 IOCCbits   0x000f87       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             CTMUICONbits   0x000f88       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 CTMUICON   0x000f88       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 LATAbits   0x000f89       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     LATA   0x000f89       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     LATB   0x000f8a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 LATBbits   0x000f8a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     LATC   0x000f8b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 LATCbits   0x000f8b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     LATD   0x000f8c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 LATDbits   0x000f8c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 LATEbits   0x000f8d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     LATE   0x000f8d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             CTMUCON1bits   0x000f8e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 CTMUCON1   0x000f8e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             CTMUCONLbits   0x000f8e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 CTMUCONL   0x000f8e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             CTMUCONHbits   0x000f8f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 CTMUCONH   0x000f8f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             CTMUCON0bits   0x000f8f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 CTMUCON0   0x000f8f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    CCPR2   0x000f90       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   CCPR2L   0x000f90       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   CCPR2H   0x000f91       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 DDRAbits   0x000f92       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TRISA   0x000f92       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     DDRA   0x000f92       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                TRISAbits   0x000f92       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     DDRB   0x000f93       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 DDRBbits   0x000f93       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TRISB   0x000f93       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                TRISBbits   0x000f93       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TRISC   0x000f94       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     DDRC   0x000f94       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 DDRCbits   0x000f94       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                TRISCbits   0x000f94       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     DDRD   0x000f95       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 DDRDbits   0x000f95       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TRISD   0x000f95       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                TRISDbits   0x000f95       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                TRISEbits   0x000f96       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TRISE   0x000f96       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     DDRE   0x000f96       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 DDREbits   0x000f96       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              CCP2CONbits   0x000f97       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  CCP2CON   0x000f97       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             ECCP2CONbits   0x000f97       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 ECCP2CON   0x000f97       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  CM1CON0   0x000f98       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              CM1CON0bits   0x000f98       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  CM2CON0   0x000f99       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              CM2CON0bits   0x000f99       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  CM2CON1   0x000f9a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              CM2CON1bits   0x000f9a       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  OSCTUNE   0x000f9b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              OSCTUNEbits   0x000f9b       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              HLVDCONbits   0x000f9c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  HLVDCON   0x000f9c       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PIE1bits   0x000f9d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PIE1   0x000f9d       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PIR1   0x000f9e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PIR1bits   0x000f9e       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     IPR1   0x000f9f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 IPR1bits   0x000f9f       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PIE2   0x000fa0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PIE2bits   0x000fa0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PIR2   0x000fa1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PIR2bits   0x000fa1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 IPR2bits   0x000fa2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     IPR2   0x000fa2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PIE3   0x000fa3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PIE3bits   0x000fa3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PIR3   0x000fa4       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PIR3bits   0x000fa4       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     IPR3   0x000fa5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 IPR3bits   0x000fa5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   EECON1   0x000fa6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               EECON1bits   0x000fa6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   EECON2   0x000fa7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   EEDATA   0x000fa8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    EEADR   0x000fa9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    RCSTA   0x000fab       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   RCSTA1   0x000fab       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               RCSTA1bits   0x000fab       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                RCSTAbits   0x000fab       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TXSTA   0x000fac       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   TXSTA1   0x000fac       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               TXSTA1bits   0x000fac       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                TXSTAbits   0x000fac       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TXREG   0x000fad       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   TXREG1   0x000fad       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    RCREG   0x000fae       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   RCREG1   0x000fae       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    SPBRG   0x000faf       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   SPBRG1   0x000faf       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               SPBRG1bits   0x000faf       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                SPBRGbits   0x000faf       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               SPBRGHbits   0x000fb0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              SPBRGH1bits   0x000fb0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  SPBRGH1   0x000fb0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   SPBRGH   0x000fb0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    T3CON   0x000fb1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                T3CONbits   0x000fb1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TMR3L   0x000fb2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TMR3H   0x000fb3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               T3GCONbits   0x000fb4       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   T3GCON   0x000fb4       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ACTCONbits   0x000fb5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ACTCON   0x000fb5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                STCONbits   0x000fb5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    STCON   0x000fb5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              ECCP1ASbits   0x000fb6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  ECCP1AS   0x000fb6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             ECCP1DELbits   0x000fb7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 ECCP1DEL   0x000fb7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  PWM1CON   0x000fb7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              PWM1CONbits   0x000fb7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              BAUDCONbits   0x000fb8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             BAUDCON1bits   0x000fb8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 BAUDCON1   0x000fb8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  BAUDCON   0x000fb8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 PSTR1CON   0x000fb9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             PSTR1CONbits   0x000fb9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                T2CONbits   0x000fba       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    T2CON   0x000fba       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                      PR2   0x000fbb       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     TMR2   0x000fbc       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  CCP1CON   0x000fbd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             ECCP1CONbits   0x000fbd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 ECCP1CON   0x000fbd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              CCP1CONbits   0x000fbd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    CCPR1   0x000fbe       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   CCPR1L   0x000fbe       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   CCPR1H   0x000fbf       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ADCON2   0x000fc0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ADCON2bits   0x000fc0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ADCON1   0x000fc1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ADCON1bits   0x000fc1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               ADCON0bits   0x000fc2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ADCON0   0x000fc2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ADRESL   0x000fc3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   ADRESH   0x000fc4       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  SSPCON2   0x000fc5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              SSPCON2bits   0x000fc5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             SSP1CON2bits   0x000fc5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 SSP1CON2   0x000fc5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   SSPCON   0x000fc6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               SSPCONbits   0x000fc6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              SSP1CONbits   0x000fc6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             SSP1CON1bits   0x000fc6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  SSP1CON   0x000fc6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 SSP1CON1   0x000fc6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 SSP1STAT   0x000fc7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              SSPSTATbits   0x000fc7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  SSPSTAT   0x000fc7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             SSP1STATbits   0x000fc7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               SSPADDbits   0x000fc8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  SSP1ADD   0x000fc8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              SSP1ADDbits   0x000fc8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   SSPADD   0x000fc8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   SSPBUF   0x000fc9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  SSP1BUF   0x000fc9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              SSP1MSKbits   0x000fca       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  SSP1MSK   0x000fca       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   SSPMSK   0x000fca       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               SSPMSKbits   0x000fca       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+             SSP1CON3bits   0x000fcb       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 SSP1CON3   0x000fcb       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              SSPCON3bits   0x000fcb       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  SSPCON3   0x000fcb       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               T1GCONbits   0x000fcc       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   T1GCON   0x000fcc       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    T1CON   0x000fcd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                T1CONbits   0x000fcd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TMR1L   0x000fce       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TMR1H   0x000fcf       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     RCON   0x000fd0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 RCONbits   0x000fd0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   WDTCON   0x000fd1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               WDTCONbits   0x000fd1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  OSCCON2   0x000fd2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              OSCCON2bits   0x000fd2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   OSCCON   0x000fd3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               OSCCONbits   0x000fd3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    T0CON   0x000fd5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                T0CONbits   0x000fd5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TMR0L   0x000fd6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    TMR0H   0x000fd7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   STATUS   0x000fd8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               STATUSbits   0x000fd8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     FSR2   0x000fd9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    FSR2L   0x000fd9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    FSR2H   0x000fda       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   PLUSW2   0x000fdb       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  PREINC2   0x000fdc       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 POSTDEC2   0x000fdd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 POSTINC2   0x000fde       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    INDF2   0x000fdf       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                      BSR   0x000fe0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     FSR1   0x000fe1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    FSR1L   0x000fe1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    FSR1H   0x000fe2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   PLUSW1   0x000fe3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  PREINC1   0x000fe4       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 POSTDEC1   0x000fe5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 POSTINC1   0x000fe6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    INDF1   0x000fe7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     WREG   0x000fe8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    FSR0L   0x000fe9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     FSR0   0x000fe9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    FSR0H   0x000fea       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   PLUSW0   0x000feb       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  PREINC0   0x000fec       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 POSTDEC0   0x000fed       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 POSTINC0   0x000fee       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    INDF0   0x000fef       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  INTCON3   0x000ff0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              INTCON3bits   0x000ff0       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+              INTCON2bits   0x000ff1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  INTCON2   0x000ff1       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               INTCONbits   0x000ff2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   INTCON   0x000ff2       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     PROD   0x000ff3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    PRODL   0x000ff3       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    PRODH   0x000ff4       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   TABLAT   0x000ff5       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   TBLPTR   0x000ff6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  TBLPTRL   0x000ff6       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  TBLPTRH   0x000ff7       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                  TBLPTRU   0x000ff8       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                      PCL   0x000ff9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                       PC   0x000ff9       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   PCLATH   0x000ffa       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   PCLATU   0x000ffb       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   STKPTR   0x000ffc       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               STKPTRbits   0x000ffc       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                      TOS   0x000ffd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     TOSL   0x000ffd       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     TOSH   0x000ffe       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     TOSU   0x000fff       data     extern E:\3.44\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+
+
