@@ -33,19 +33,17 @@ void checkButtonStatus(void) {
 void initialize(void) {
     //TRISD = 0; // se configuran los pines asociados al puerto D para salida
     TRISA = 0; // se configuran todos los pines asociados al puerto C para salida
+    TRISB = 0;
     TRISAbits.RA2 = 1; // se configura el pin asociado al bit 0 del puerto A para lectura de entrada anal[ogica]
-    ANSELAbits.ANSA2= 0;               // set pin as digital
+    //ANSELAbits.ANSA2= 0;               // set pin as digital
     _maxTimeOut = 131072;
+    PORTA = 0;
 }
 
 void main(void) {
     initialize();
     while (1) {
-        LATAbits.LATA0 = 1;
-        sleep(_maxTimeOut);
-        LATAbits.LATA0 = 0;
-        sleep(_maxTimeOut);
-        checkButtonStatus();
+        LATBbits.LATB2 = PORTAbits.RA2;
     }
 
 }
