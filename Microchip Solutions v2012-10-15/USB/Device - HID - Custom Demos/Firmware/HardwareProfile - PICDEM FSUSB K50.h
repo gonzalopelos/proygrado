@@ -96,6 +96,7 @@
     #define PICDEM_FS_USB_K50
     #define PIC18F45K50_FAMILY
     #define CLOCK_FREQ 48000000
+    #define HARDKERNEL_PIC18F45K50
 
 
     /** LED ************************************************************/
