@@ -19,7 +19,7 @@ endif
 endif
 
 # Environment
-MKDIR=gnumkdir -p
+MKDIR=mkdir -p
 RM=rm -f 
 MV=mv 
 CP=cp 
@@ -93,7 +93,7 @@ ${OBJECTDIR}/_ext/1609153167/usb_function_hid.o: ../../../Microchip\ Solutions\ 
 	@${MKDIR} "${OBJECTDIR}/_ext/1609153167" 
 	@${RM} ${OBJECTDIR}/_ext/1609153167/usb_function_hid.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1609153167/usb_function_hid.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/_ext/1609153167/usb_function_hid.o   "../../../Microchip Solutions v2012-10-15/Microchip/USB/HID Device Driver/usb_function_hid.c" 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1609153167/usb_function_hid.o   "../../../Microchip Solutions v2012-10-15/Microchip/USB/HID Device Driver/usb_function_hid.c" 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1609153167/usb_function_hid.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1609153167/usb_function_hid.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -101,7 +101,7 @@ ${OBJECTDIR}/_ext/652438347/usb_device.o: ../../../Microchip\ Solutions\ v2012-1
 	@${MKDIR} "${OBJECTDIR}/_ext/652438347" 
 	@${RM} ${OBJECTDIR}/_ext/652438347/usb_device.o.d 
 	@${RM} ${OBJECTDIR}/_ext/652438347/usb_device.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/_ext/652438347/usb_device.o   "../../../Microchip Solutions v2012-10-15/Microchip/USB/usb_device.c" 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/652438347/usb_device.o   "../../../Microchip Solutions v2012-10-15/Microchip/USB/usb_device.c" 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/652438347/usb_device.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/652438347/usb_device.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -109,7 +109,7 @@ ${OBJECTDIR}/_ext/256613855/usb_descriptors.o: ../../../Microchip\ Solutions\ v2
 	@${MKDIR} "${OBJECTDIR}/_ext/256613855" 
 	@${RM} ${OBJECTDIR}/_ext/256613855/usb_descriptors.o.d 
 	@${RM} ${OBJECTDIR}/_ext/256613855/usb_descriptors.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/_ext/256613855/usb_descriptors.o   "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c" 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/256613855/usb_descriptors.o   "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c" 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/256613855/usb_descriptors.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/256613855/usb_descriptors.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -117,7 +117,7 @@ ${OBJECTDIR}/_ext/256613855/main.o: ../../../Microchip\ Solutions\ v2012-10-15/U
 	@${MKDIR} "${OBJECTDIR}/_ext/256613855" 
 	@${RM} ${OBJECTDIR}/_ext/256613855/main.o.d 
 	@${RM} ${OBJECTDIR}/_ext/256613855/main.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/_ext/256613855/main.o   "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c" 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/256613855/main.o   "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c" 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/256613855/main.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/256613855/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -126,7 +126,7 @@ ${OBJECTDIR}/_ext/1609153167/usb_function_hid.o: ../../../Microchip\ Solutions\ 
 	@${MKDIR} "${OBJECTDIR}/_ext/1609153167" 
 	@${RM} ${OBJECTDIR}/_ext/1609153167/usb_function_hid.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1609153167/usb_function_hid.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/_ext/1609153167/usb_function_hid.o   "../../../Microchip Solutions v2012-10-15/Microchip/USB/HID Device Driver/usb_function_hid.c" 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1609153167/usb_function_hid.o   "../../../Microchip Solutions v2012-10-15/Microchip/USB/HID Device Driver/usb_function_hid.c" 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1609153167/usb_function_hid.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1609153167/usb_function_hid.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -134,7 +134,7 @@ ${OBJECTDIR}/_ext/652438347/usb_device.o: ../../../Microchip\ Solutions\ v2012-1
 	@${MKDIR} "${OBJECTDIR}/_ext/652438347" 
 	@${RM} ${OBJECTDIR}/_ext/652438347/usb_device.o.d 
 	@${RM} ${OBJECTDIR}/_ext/652438347/usb_device.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/_ext/652438347/usb_device.o   "../../../Microchip Solutions v2012-10-15/Microchip/USB/usb_device.c" 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/652438347/usb_device.o   "../../../Microchip Solutions v2012-10-15/Microchip/USB/usb_device.c" 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/652438347/usb_device.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/652438347/usb_device.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -142,7 +142,7 @@ ${OBJECTDIR}/_ext/256613855/usb_descriptors.o: ../../../Microchip\ Solutions\ v2
 	@${MKDIR} "${OBJECTDIR}/_ext/256613855" 
 	@${RM} ${OBJECTDIR}/_ext/256613855/usb_descriptors.o.d 
 	@${RM} ${OBJECTDIR}/_ext/256613855/usb_descriptors.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/_ext/256613855/usb_descriptors.o   "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c" 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/256613855/usb_descriptors.o   "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c" 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/256613855/usb_descriptors.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/256613855/usb_descriptors.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -150,7 +150,7 @@ ${OBJECTDIR}/_ext/256613855/main.o: ../../../Microchip\ Solutions\ v2012-10-15/U
 	@${MKDIR} "${OBJECTDIR}/_ext/256613855" 
 	@${RM} ${OBJECTDIR}/_ext/256613855/main.o.d 
 	@${RM} ${OBJECTDIR}/_ext/256613855/main.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/_ext/256613855/main.o   "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c" 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/256613855/main.o   "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c" 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/256613855/main.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/256613855/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -161,11 +161,11 @@ endif
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 dist/${CND_CONF}/${IMAGE_TYPE}/Demos.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    ../../../Microchip\ Solutions\ v2012-10-15/USB/Device\ -\ HID\ -\ Custom\ Demos/Firmware/rm18f45k50_g.lkr
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_LD} $(MP_EXTRA_LD_PRE) "..\..\..\Microchip Solutions v2012-10-15\USB\Device - HID - Custom Demos\Firmware\rm18f45k50_g.lkr"  -p$(MP_PROCESSOR_OPTION_LD)  -w -x -u_DEBUG -m"$(BINDIR_)$(TARGETBASE).map" -w -l"../../../../../../../../../mcc18/lib" -l"."  -z__MPLAB_BUILD=1  -u_CRUNTIME -z__MPLAB_DEBUG=1 -z__MPLAB_DEBUGGER_SIMULATOR=1 $(MP_LINKER_DEBUG_OPTION) -l ${MP_CC_DIR}\\..\\lib  -o dist/${CND_CONF}/${IMAGE_TYPE}/Demos.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}   
+	${MP_LD} $(MP_EXTRA_LD_PRE) "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/rm18f45k50_g.lkr"  -p$(MP_PROCESSOR_OPTION_LD)  -w -x -u_DEBUG -m"$(BINDIR_)$(TARGETBASE).map" -w -l"../../../../../../../../../mcc18/lib" -l"."  -z__MPLAB_BUILD=1  -u_CRUNTIME -z__MPLAB_DEBUG=1 -z__MPLAB_DEBUGGER_SIMULATOR=1 $(MP_LINKER_DEBUG_OPTION) -l ${MP_CC_DIR}/../lib  -o dist/${CND_CONF}/${IMAGE_TYPE}/Demos.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}   
 else
 dist/${CND_CONF}/${IMAGE_TYPE}/Demos.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   ../../../Microchip\ Solutions\ v2012-10-15/USB/Device\ -\ HID\ -\ Custom\ Demos/Firmware/rm18f45k50_g.lkr
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_LD} $(MP_EXTRA_LD_PRE) "..\..\..\Microchip Solutions v2012-10-15\USB\Device - HID - Custom Demos\Firmware\rm18f45k50_g.lkr"  -p$(MP_PROCESSOR_OPTION_LD)  -w  -m"$(BINDIR_)$(TARGETBASE).map" -w -l"../../../../../../../../../mcc18/lib" -l"."  -z__MPLAB_BUILD=1  -u_CRUNTIME -l ${MP_CC_DIR}\\..\\lib  -o dist/${CND_CONF}/${IMAGE_TYPE}/Demos.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}   
+	${MP_LD} $(MP_EXTRA_LD_PRE) "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/rm18f45k50_g.lkr"  -p$(MP_PROCESSOR_OPTION_LD)  -w  -m"$(BINDIR_)$(TARGETBASE).map" -w -l"../../../../../../../../../mcc18/lib" -l"."  -z__MPLAB_BUILD=1  -u_CRUNTIME -l ${MP_CC_DIR}/../lib  -o dist/${CND_CONF}/${IMAGE_TYPE}/Demos.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}   
 endif
 
 
@@ -184,7 +184,7 @@ endif
 # Enable dependency checking
 .dep.inc: .depcheck-impl
 
-DEPFILES=$(shell mplabwildcard ${POSSIBLE_DEPFILES})
+DEPFILES=$(shell "${PATH_TO_IDE_BIN}"mplabwildcard ${POSSIBLE_DEPFILES})
 ifneq (${DEPFILES},)
 include ${DEPFILES}
 endif
