@@ -345,6 +345,45 @@ void ProcessComands(int command, hid_device *handle){
 				}
 			}			
 		break;
+		case 101:
+			buf[0] = 0;
+			buf[1] = 0x9C;
+
+			char text2[100];
+			strcpy((char *)text2, "0000");
+			unsigned char hexText2[100];
+			
+			stringToHex(hexText2, text2, 4);
+			
+			strncpy((char*)buf+2, (char*)hexText2, 4);
+
+			res = hid_write(handle, buf, 17);
+			if (res < 0){
+				printf("Unable to write()\n");
+				printf("Error: %ls\n", hid_error(handle));
+			}
+			else{
+				printf("%s\n", "Data sent successfully");
+				usleep(500*10000);
+			}
+		break;
+		case 102:
+			res = 0;
+			while (res == 0) {
+				res = hid_read(handle, buf, sizeof(buf));
+				if (res == 0) {
+					printf("waiting...\n");
+				}
+				else if (res < 0){
+					printf("Unable to read()\n");
+				}
+				else {
+					printf("Data read (%d bytes):\n", res);
+					hexToString(text, buf, res);
+				}
+				usleep(500*1000);
+			}
+		break;
  		default: return;
  	}
  }
