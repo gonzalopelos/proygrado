@@ -1,5 +1,5 @@
 MPLINK 5.00, LINKER
-Linker Map File - Created Wed Oct 14 23:27:55 2015
+Linker Map File - Created Sat Oct 24 18:38:03 2015
 
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
@@ -13,39 +13,39 @@ REMAPPED_HIGH_INTERRUPT_VECTOR       code   0x001008    program   0x000006
 REMAPPED_LOW_INTERRUPT_VECTOR       code   0x001018    program   0x000006
                    .cinit    romdata   0x00101e    program   0x00000e
        .code_usb_device.o       code   0x00102c    program   0x001266
-             .code_main.o       code   0x002292    program   0x000d52
-.romdata_usb_descriptors.o    romdata   0x002fe4    program   0x0000c5
-        .romdata_u1defs.o    romdata   0x0030a9    program   0x000000
-        .idata_u1defs.o_i    romdata   0x0030a9    program   0x000000
-        .romdata_u1read.o    romdata   0x0030a9    program   0x000000
-        .idata_u1read.o_i    romdata   0x0030a9    program   0x000000
-        .romdata_u1open.o    romdata   0x0030a9    program   0x000000
-        .idata_u1open.o_i    romdata   0x0030a9    program   0x000000
-             .stringtable    romdata   0x0030a9    program   0x000000
-       .idata_u1write.o_i    romdata   0x0030a9    program   0x000000
-       .romdata_u1write.o    romdata   0x0030a9    program   0x000000
-        .idata___init.o_i    romdata   0x0030a9    program   0x000000
-        .romdata___init.o    romdata   0x0030a9    program   0x000000
-         .idata_c018i.o_i    romdata   0x0030a9    program   0x000000
-         .romdata_c018i.o    romdata   0x0030a9    program   0x000000
-.idata_usb_function_hid.o_i    romdata   0x0030a9    program   0x000000
-.romdata_usb_function_hid.o    romdata   0x0030a9    program   0x000000
-    .idata_usb_device.o_i    romdata   0x0030a9    program   0x000000
-    .romdata_usb_device.o    romdata   0x0030a9    program   0x000000
-.idata_usb_descriptors.o_i    romdata   0x0030a9    program   0x000000
-          .romdata_main.o    romdata   0x0030a9    program   0x000000
-  .code_usb_descriptors.o       code   0x0030aa    program   0x000000
-            .code_c018i.o       code   0x0030aa    program   0x000000
- .code_usb_function_hid.o       code   0x0030aa    program   0x0000c2
-           .code_u1defs.o       code   0x0030aa    program   0x000000
-               _cinit_scn       code   0x00316c    program   0x00009e
-           .code_u1open.o       code   0x00320a    program   0x000072
-           .code_u1read.o       code   0x00327c    program   0x00003e
-                   STRING       code   0x0032ba    program   0x000034
-          .code_u1write.o       code   0x0032ee    program   0x00002e
-                    .code       code   0x00331c    program   0x000020
-             _startup_scn       code   0x00333c    program   0x00001c
-          .idata_main.o_i    romdata   0x003358    program   0x00000b
+             .code_main.o       code   0x002292    program   0x000e0a
+.romdata_usb_descriptors.o    romdata   0x00309c    program   0x0000c5
+        .romdata_u1defs.o    romdata   0x003161    program   0x000000
+        .idata_u1defs.o_i    romdata   0x003161    program   0x000000
+        .romdata_u1read.o    romdata   0x003161    program   0x000000
+        .idata_u1read.o_i    romdata   0x003161    program   0x000000
+        .romdata_u1open.o    romdata   0x003161    program   0x000000
+        .idata_u1open.o_i    romdata   0x003161    program   0x000000
+             .stringtable    romdata   0x003161    program   0x000000
+       .idata_u1write.o_i    romdata   0x003161    program   0x000000
+       .romdata_u1write.o    romdata   0x003161    program   0x000000
+        .idata___init.o_i    romdata   0x003161    program   0x000000
+        .romdata___init.o    romdata   0x003161    program   0x000000
+         .idata_c018i.o_i    romdata   0x003161    program   0x000000
+         .romdata_c018i.o    romdata   0x003161    program   0x000000
+.idata_usb_function_hid.o_i    romdata   0x003161    program   0x000000
+.romdata_usb_function_hid.o    romdata   0x003161    program   0x000000
+    .idata_usb_device.o_i    romdata   0x003161    program   0x000000
+    .romdata_usb_device.o    romdata   0x003161    program   0x000000
+.idata_usb_descriptors.o_i    romdata   0x003161    program   0x000000
+          .romdata_main.o    romdata   0x003161    program   0x000000
+  .code_usb_descriptors.o       code   0x003162    program   0x000000
+            .code_c018i.o       code   0x003162    program   0x000000
+ .code_usb_function_hid.o       code   0x003162    program   0x0000c2
+           .code_u1defs.o       code   0x003162    program   0x000000
+               _cinit_scn       code   0x003224    program   0x00009e
+           .code_u1open.o       code   0x0032c2    program   0x000072
+           .code_u1read.o       code   0x003334    program   0x00003e
+                   STRING       code   0x003372    program   0x000034
+          .code_u1write.o       code   0x0033a6    program   0x00002e
+                    .code       code   0x0033d4    program   0x000020
+             _startup_scn       code   0x0033f4    program   0x00001c
+          .idata_main.o_i    romdata   0x003410    program   0x00000b
     .config_300000_main.o    romdata   0x300000    program   0x000001
     .config_300001_main.o    romdata   0x300001    program   0x000001
     .config_300002_main.o    romdata   0x300002    program   0x000001
@@ -89,38 +89,38 @@ REMAPPED_LOW_INTERRUPT_VECTOR       code   0x001018    program   0x000006
                             0x000008    0x00000d      
                             0x000018    0x00001d      
                             0x001000    0x00100d      
-                            0x001018    0x0030a8      
-                            0x0030aa    0x003362      
+                            0x001018    0x003160      
+                            0x003162    0x00341a      
                             0x300000    0x300003      
                             0x300005    0x300006      
-            9072 out of 33048 program addresses used, program memory utilization is 27%
+            9256 out of 33048 program addresses used, program memory utilization is 28%
 
 
 
                               Symbols - Sorted by Name
                      Name    Address   Location    Storage File                     
                 ---------  ---------  ---------  --------- ---------                
-           BlinkUSBStatus   0x002e44    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+           BlinkUSBStatus   0x002efc    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
                  High_ISR   0x000008    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
          InitializeSystem   0x002492    program     static /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
                   Low_ISR   0x000018    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-               Open1USART   0x00320a    program     extern E:\3.46\pic18-lt\cxx-framework\src\pmc_common\USART\u1open.c
+               Open1USART   0x0032c2    program     extern E:\3.46\pic18-lt\cxx-framework\src\pmc_common\USART\u1open.c
                 ProcessIO   0x002516    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-               Read1USART   0x00327c    program     extern E:\3.46\pic18-lt\cxx-framework\src\pmc_common\USART\u1read.c
-                  ReadPOT   0x002c4e    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                 ReadPOT1   0x002c0a    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+               Read1USART   0x003334    program     extern E:\3.46\pic18-lt\cxx-framework\src\pmc_common\USART\u1read.c
+                  ReadPOT   0x002d06    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                 ReadPOT1   0x002cc2    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
         Remapped_High_ISR   0x001008    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
          Remapped_Low_ISR   0x001018    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-       USBCBCheckOtherReq   0x002eca    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-        USBCBErrorHandler   0x002ec8    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-              USBCBInitEP   0x002ed0    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-          USBCBSendResume   0x002f08    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-    USBCBStdSetDscHandler   0x002ece    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-             USBCBSuspend   0x002ec2    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-     USBCBWakeFromSuspend   0x002ec4    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-        USBCB_SOF_Handler   0x002ec6    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+       USBCBCheckOtherReq   0x002f82    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+        USBCBErrorHandler   0x002f80    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+              USBCBInitEP   0x002f88    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+          USBCBSendResume   0x002fc0    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+    USBCBStdSetDscHandler   0x002f86    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+             USBCBSuspend   0x002f7a    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+     USBCBWakeFromSuspend   0x002f7c    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+        USBCB_SOF_Handler   0x002f7e    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
               USBCancelIO   0x0014e6    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/Microchip/USB/usb_device.c
-       USBCheckHIDRequest   0x0030aa    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/Microchip/USB/HID Device Driver/usb_function_hid.c
+       USBCheckHIDRequest   0x003162    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/Microchip/USB/HID Device Driver/usb_function_hid.c
        USBCheckStdRequest   0x001f64    program     static /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/Microchip/USB/usb_device.c
      USBConfigureEndpoint   0x0016ec    program     static /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/Microchip/USB/usb_device.c
   USBCtrlEPAllowDataStage   0x001670    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/Microchip/USB/usb_device.c
@@ -146,21 +146,21 @@ USBCtrlEPAllowStatusStage   0x0015ce    program     extern /home/gonzalo/git/pro
                USBSuspend   0x001ce6    program     static /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/Microchip/USB/usb_device.c
      USBTransferOnePacket   0x001318    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/Microchip/USB/usb_device.c
        USBWakeFromSuspend   0x001d10    program     static /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/Microchip/USB/usb_device.c
-               USB_CD_Ptr   0x0030a1    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
-               USB_SD_Ptr   0x0030a3    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
-USER_USB_CALLBACK_EVENT_HANDLER   0x002f50    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+               USB_CD_Ptr   0x003159    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
+               USB_SD_Ptr   0x00315b    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
+USER_USB_CALLBACK_EVENT_HANDLER   0x003008    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
                  UserInit   0x0024c6    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-              Write1USART   0x0032ee    program     extern E:\3.46\pic18-lt\cxx-framework\src\pmc_common\USART\u1write.c
+              Write1USART   0x0033a6    program     extern E:\3.46\pic18-lt\cxx-framework\src\pmc_common\USART\u1write.c
   YourHighPriorityISRCode   0x002292    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
    YourLowPriorityISRCode   0x002328    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-              _2jContinue   0x0032da    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
-                   _3jEnd   0x0032e4    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
+              _2jContinue   0x003392    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
+                   _3jEnd   0x00339c    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
        ___return_lbl00000   0x000004    program     static                          
        ___return_lbl00000   0x001004    program     static                          
-       ___return_lbl00001   0x003356    program     static                          
+       ___return_lbl00001   0x00340e    program     static                          
        ___return_lbl00001   0x00100c    program     static                          
+       ___return_lbl00002   0x0032c0    program     static                          
        ___return_lbl00002   0x00101c    program     static                          
-       ___return_lbl00002   0x003208    program     static                          
        ___return_lbl00003   0x00000c    program     static                          
        ___return_lbl00004   0x00001c    program     static                          
                __config_0   0x300000    program     static /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
@@ -170,47 +170,48 @@ USER_USB_CALLBACK_EVENT_HANDLER   0x002f50    program     extern /home/gonzalo/g
                __config_4   0x300005    program     static /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
                __config_5   0x300006    program     static /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
                    __init   0x001006    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\__init.c
-            __zero_memory   0x00331c    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
-                _do_cinit   0x00316c    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\startup\c018i.c
+            __zero_memory   0x0033d4    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                _do_cinit   0x003224    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\startup\c018i.c
                    _entry   0x000000    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\startup\c018i.c
                    _reset   0x001000    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                 _startup   0x00333c    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\startup\c018i.c
-                compare_l   0x003332    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
-        configDescriptor1   0x002ff6    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
-                copy_loop   0x0031de    program     static                          
-            copy_one_byte   0x0031e4    program     static                          
-               device_dsc   0x002fe4    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
-                     done   0x003208    program     static                          
-             done_copying   0x0031f2    program     static                          
-                hid_rpt01   0x003085    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
-                 i2c_idle   0x002cac    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                 i2c_init   0x002c92    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-            i2c_isdatardy   0x002d40    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-           i2c_master_ack   0x002d12    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                 i2c_read   0x002d34    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-            i2c_slave_ack   0x002ce8    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                i2c_start   0x002cba    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                 i2c_stop   0x002ce0    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                i2c_write   0x002cf2    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                 _startup   0x0033f4    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\startup\c018i.c
+                compare_l   0x0033ea    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+        configDescriptor1   0x0030ae    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
+                copy_loop   0x003296    program     static                          
+            copy_one_byte   0x00329c    program     static                          
+               device_dsc   0x00309c    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
+                     done   0x0032c0    program     static                          
+             done_copying   0x0032aa    program     static                          
+                hid_rpt01   0x00313d    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
+                 i2c_idle   0x002d64    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                 i2c_init   0x002d4a    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+            i2c_isdatardy   0x002df8    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+           i2c_master_ack   0x002dca    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                 i2c_read   0x002dec    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+            i2c_slave_ack   0x002da0    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                i2c_start   0x002d72    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                 i2c_stop   0x002d98    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                i2c_write   0x002daa    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
                 ie_btnLed   0x002364    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
                    ie_pwm   0x00234a    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                     jEnd   0x0032ec    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
-                    jLoop   0x0032ce    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
-                     loop   0x00334c    program     static                          
-                   loop_h   0x00332a    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
-                   loop_l   0x003334    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                     jEnd   0x0033a4    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
+                    jLoop   0x003386    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
+                     loop   0x003404    program     static                          
+                   loop_h   0x0033e2    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   loop_l   0x0033ec    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
                      main   0x002488    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                   memset   0x0032ba    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
+                   memset   0x003372    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
               rw_Register   0x002376    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
           rw_Register_bit   0x0023ce    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                    sd000   0x00301f    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
-                    sd001   0x003023    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
-                    sd002   0x003057    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
-                   spi_cs   0x002e1e    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                 spi_init   0x002d46    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-             spi_transfer   0x002e02    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                     test   0x003186    program     static                          
-               zero_block   0x00332a    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                    sd000   0x0030d7    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
+                    sd001   0x0030db    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
+                    sd002   0x00310f    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
+                   spi_cs   0x002ed6    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                 spi_init   0x002dfe    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+             spi_transfer   0x002eba    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                     test   0x00323e    program     static                          
+              toggle_leds   0x002c96    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+               zero_block   0x0033e2    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
                    ACTCON   0x000fb5       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
                ACTCONbits   0x000fb5       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
                    ADCON0   0x000fc2       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
@@ -666,62 +667,63 @@ USBCtrlEPAllowStatusStage   0x0015ce    program     extern /home/gonzalo/git/pro
          InitializeSystem   0x002492    program     static /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
                  UserInit   0x0024c6    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
                 ProcessIO   0x002516    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                 ReadPOT1   0x002c0a    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                  ReadPOT   0x002c4e    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                 i2c_init   0x002c92    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                 i2c_idle   0x002cac    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                i2c_start   0x002cba    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                 i2c_stop   0x002ce0    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-            i2c_slave_ack   0x002ce8    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                i2c_write   0x002cf2    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-           i2c_master_ack   0x002d12    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                 i2c_read   0x002d34    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-            i2c_isdatardy   0x002d40    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                 spi_init   0x002d46    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-             spi_transfer   0x002e02    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-                   spi_cs   0x002e1e    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-           BlinkUSBStatus   0x002e44    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-             USBCBSuspend   0x002ec2    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-     USBCBWakeFromSuspend   0x002ec4    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-        USBCB_SOF_Handler   0x002ec6    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-        USBCBErrorHandler   0x002ec8    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-       USBCBCheckOtherReq   0x002eca    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-    USBCBStdSetDscHandler   0x002ece    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-              USBCBInitEP   0x002ed0    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-          USBCBSendResume   0x002f08    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-USER_USB_CALLBACK_EVENT_HANDLER   0x002f50    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
-               device_dsc   0x002fe4    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
-        configDescriptor1   0x002ff6    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
-                    sd000   0x00301f    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
-                    sd001   0x003023    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
-                    sd002   0x003057    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
-                hid_rpt01   0x003085    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
-               USB_CD_Ptr   0x0030a1    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
-               USB_SD_Ptr   0x0030a3    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
-       USBCheckHIDRequest   0x0030aa    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/Microchip/USB/HID Device Driver/usb_function_hid.c
-                _do_cinit   0x00316c    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\startup\c018i.c
-                     test   0x003186    program     static                          
-                copy_loop   0x0031de    program     static                          
-            copy_one_byte   0x0031e4    program     static                          
-             done_copying   0x0031f2    program     static                          
-                     done   0x003208    program     static                          
-       ___return_lbl00002   0x003208    program     static                          
-               Open1USART   0x00320a    program     extern E:\3.46\pic18-lt\cxx-framework\src\pmc_common\USART\u1open.c
-               Read1USART   0x00327c    program     extern E:\3.46\pic18-lt\cxx-framework\src\pmc_common\USART\u1read.c
-                   memset   0x0032ba    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
-                    jLoop   0x0032ce    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
-              _2jContinue   0x0032da    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
-                   _3jEnd   0x0032e4    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
-                     jEnd   0x0032ec    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
-              Write1USART   0x0032ee    program     extern E:\3.46\pic18-lt\cxx-framework\src\pmc_common\USART\u1write.c
-            __zero_memory   0x00331c    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
-               zero_block   0x00332a    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
-                   loop_h   0x00332a    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
-                compare_l   0x003332    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
-                   loop_l   0x003334    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
-                 _startup   0x00333c    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\startup\c018i.c
-                     loop   0x00334c    program     static                          
-       ___return_lbl00001   0x003356    program     static                          
+              toggle_leds   0x002c96    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                 ReadPOT1   0x002cc2    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                  ReadPOT   0x002d06    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                 i2c_init   0x002d4a    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                 i2c_idle   0x002d64    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                i2c_start   0x002d72    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                 i2c_stop   0x002d98    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+            i2c_slave_ack   0x002da0    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                i2c_write   0x002daa    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+           i2c_master_ack   0x002dca    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                 i2c_read   0x002dec    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+            i2c_isdatardy   0x002df8    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                 spi_init   0x002dfe    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+             spi_transfer   0x002eba    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+                   spi_cs   0x002ed6    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+           BlinkUSBStatus   0x002efc    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+             USBCBSuspend   0x002f7a    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+     USBCBWakeFromSuspend   0x002f7c    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+        USBCB_SOF_Handler   0x002f7e    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+        USBCBErrorHandler   0x002f80    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+       USBCBCheckOtherReq   0x002f82    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+    USBCBStdSetDscHandler   0x002f86    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+              USBCBInitEP   0x002f88    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+          USBCBSendResume   0x002fc0    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+USER_USB_CALLBACK_EVENT_HANDLER   0x003008    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+               device_dsc   0x00309c    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
+        configDescriptor1   0x0030ae    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
+                    sd000   0x0030d7    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
+                    sd001   0x0030db    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
+                    sd002   0x00310f    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
+                hid_rpt01   0x00313d    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
+               USB_CD_Ptr   0x003159    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
+               USB_SD_Ptr   0x00315b    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c
+       USBCheckHIDRequest   0x003162    program     extern /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/Microchip/USB/HID Device Driver/usb_function_hid.c
+                _do_cinit   0x003224    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\startup\c018i.c
+                     test   0x00323e    program     static                          
+                copy_loop   0x003296    program     static                          
+            copy_one_byte   0x00329c    program     static                          
+             done_copying   0x0032aa    program     static                          
+       ___return_lbl00002   0x0032c0    program     static                          
+                     done   0x0032c0    program     static                          
+               Open1USART   0x0032c2    program     extern E:\3.46\pic18-lt\cxx-framework\src\pmc_common\USART\u1open.c
+               Read1USART   0x003334    program     extern E:\3.46\pic18-lt\cxx-framework\src\pmc_common\USART\u1read.c
+                   memset   0x003372    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
+                    jLoop   0x003386    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
+              _2jContinue   0x003392    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
+                   _3jEnd   0x00339c    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
+                     jEnd   0x0033a4    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\stdclib\memset.asm
+              Write1USART   0x0033a6    program     extern E:\3.46\pic18-lt\cxx-framework\src\pmc_common\USART\u1write.c
+            __zero_memory   0x0033d4    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+               zero_block   0x0033e2    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   loop_h   0x0033e2    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                compare_l   0x0033ea    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                   loop_l   0x0033ec    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f45k50.asm
+                 _startup   0x0033f4    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\startup\c018i.c
+                     loop   0x003404    program     static                          
+       ___return_lbl00001   0x00340e    program     static                          
                __config_0   0x300000    program     static /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
                __config_1   0x300001    program     static /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
                __config_2   0x300002    program     static /home/gonzalo/git/proygrado/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
