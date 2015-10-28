@@ -31,6 +31,8 @@
 
 void ReadCommands(hid_device *handle);
 void ProcessComands(int command, hid_device *handle);
+void stringToHex(unsigned char* hexString, char* string, int stringLenght);
+void hexToString(char* string, unsigned char* hexString, int stringLenght);
 
  //======================================================
 
@@ -43,7 +45,6 @@ int main(int argc, char* argv[])
 	#define MAX_STR 255
 	wchar_t wstr[MAX_STR];
 	hid_device *handle;
-	int i;
 
 #ifdef WIN32
 	UNREFERENCED_PARAMETER(argc);
@@ -118,7 +119,7 @@ int main(int argc, char* argv[])
 	
 	// Try to read from the device. There shoud be no
 	// data here, but execution should not block.
-	res = hid_read(handle, buf, 17);
+	//res = hid_read(handle, buf, 17);
 
 	// Send a Feature Report to the device
 	/*
@@ -222,6 +223,7 @@ void ReadCommands(hid_device *handle){
 
 void ProcessComands(int command, hid_device *handle){
  	int res;
+	int i;
  	unsigned char buf[256];
 	memset(buf,0x00,sizeof(buf));
  	switch(command){
@@ -238,7 +240,134 @@ void ProcessComands(int command, hid_device *handle){
 				printf("Error: %ls\n", hid_error(handle));
 			}
  		break;
+ 		case 81:
+ 			memset(buf,0x00,sizeof(buf));
+		 	buf[0] = 0;
+			buf[1] = 0x81;
+			res = hid_write(handle, buf, 17);
+			if (res < 0)
+				printf("Unable to write() (2)\n");
+
+			usleep(500*10000);
+			res = 0;
+			while (res == 0) {
+				res = hid_read(handle, buf, sizeof(buf));
+				if (res == 0)
+					printf("waiting...\n");
+				if (res < 0)
+					printf("Unable to read()\n");
+				
+				usleep(500*1000);
+			}
+			printf("Data read (%d bytes):\n", res);
+			// Print out the returned buffer.
+			for (i = 0; i < res; i++)
+				printf("%02hhx ", buf[i]);
+			printf("\n");
+ 		break;
+ 		case 86:
+ 			buf[0] = 0;
+			buf[1] = 0x86;
+			buf[2] = 'H';
+			buf[3] = 'o';
+			buf[4] = 'l';
+			buf[5] = 'a';
+			res = hid_write(handle, buf, 17);
+			if (res < 0) {
+				printf("Unable to write()\n");
+				printf("Error: %ls\n", hid_error(handle));
+			}
+			else {
+				printf("%s\n", "Data sent successfully");
+			}
+		break;
+		case 87:
+			buf[0] = 0;
+			buf[1] = 0x87;
+			res = hid_write(handle, buf, 17);
+			if (res < 0)
+			{
+				printf("Unable to write()\n");
+				printf("Error: %ls\n", hid_error(handle));
+			}
+			else{
+				printf("%s: %d\n", "UART available to read", buf[1]);
+			}
+		break;
+		case 88:
+			buf[0] = 0;
+			buf[1] = 0x88;
+			res = hid_write(handle, buf, 17);
+			if (res < 0)
+			{
+				printf("Unable to write()\n");
+				printf("Error: %ls\n", hid_error(handle));
+			}
+			else {
+				printf("%s: %d\n", "UART readed", buf[2]);
+			}
+		break;
+		case 100:
+			buf[0] = 0;
+			buf[1] = 0x9C;
+
+			char text[100];
+			strcpy((char *)text, "0000");
+			unsigned char hexText[100];
+			
+			stringToHex(hexText, text, 4);
+			
+			strncpy((char*)buf+2, (char*)hexText, 4);
+
+			res = hid_write(handle, buf, 17);
+			if (res < 0){
+				printf("Unable to write()\n");
+				printf("Error: %ls\n", hid_error(handle));
+			}
+			else{
+				printf("%s\n", "Data sent successfully");
+
+				usleep(500*10000);
+				res = 0;
+				while (res == 0) {
+					res = hid_read(handle, buf, sizeof(buf));
+					if (res == 0) {
+						printf("waiting...\n");
+					}
+					else if (res < 0){
+						printf("Unable to read()\n");
+					}
+					else {
+						printf("Data read (%d bytes):\n", res);
+						hexToString(text, buf, res);
+					}
+					usleep(500*1000);
+				}
+			}			
+		break;
  		default: return;
  	}
  }
+
+void stringToHex(unsigned char* hexString, char* string, int stringLenght){
+	memset(hexString,0x00,stringLenght);
+ 	strcpy((char*)hexString, string);
+  	
+    for (int x = 0; x < stringLenght; x++)
+    {
+    	printf("cahr: %c, hex %02hhx \n", string[x], hexString[x]);
+    }
+}
+
+
+void hexToString(char* string, unsigned char* hexString, int stringLenght){
+	memset(string, 0, stringLenght);
+ 	strcpy(string, (char*)hexString);
+  	
+    for (int x = 0; x < stringLenght; x++)
+    {
+    	printf("cahr: %c, hex %02hhx \n", string[x], hexString[x]);
+    }
+}
+
  //======================================================
