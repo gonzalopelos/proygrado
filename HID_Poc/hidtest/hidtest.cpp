@@ -212,6 +212,9 @@ void ReadCommands(hid_device *handle){
  	printf("Comandos:\n");
  	printf("\t\"0\"-> Quit\n");
  	printf("\t\"80\"-> Toggle LEDs\n");
+ 	printf("\t\"100\"-> Write 0000 and Read 1111\n");
+ 	printf("\t\"101\"-> Write 0000\n");
+ 	printf("\t\"102\"-> Write 1111\n");
 	printf("\n");
 	
  	int command;
