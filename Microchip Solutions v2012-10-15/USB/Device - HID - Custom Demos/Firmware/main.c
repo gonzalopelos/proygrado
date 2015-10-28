@@ -12,7 +12,7 @@
  Software License Agreement:
 
  The software supplied herewith by Microchip Technology Incorporated
- (the "Company") for its PICÂ® Microcontroller is intended and
+ (the "Company") for its PIC® Microcontroller is intended and
  supplied to you, the Company's customer, for use solely and
  exclusively on Microchip PIC Microcontroller products. The
  software is owned by the Company and/or its supplier, and is
@@ -394,6 +394,7 @@ unsigned char i2c_isdatardy(void);
 void spi_init(unsigned char, unsigned char, unsigned char);
 unsigned char spi_transfer(unsigned char);
 void spi_cs(unsigned char);
+void toggle_leds(void);
 
 /** VECTOR REMAPPING ***********************************************/
 #if defined(__18CXX)
@@ -1033,23 +1034,7 @@ void ProcessIO(void)
                 spi_cs(ReceivedDataBuffer[1]);
                 break;
             case 0x80:  //Toggle LEDs command
-		        blinkStatusValid = FALSE;			//Stop blinking the LEDs automatically, going to manually control them now.
-                if(mGetLED_1() == mGetLED_2())
-                {
-                    mLED_1_Toggle();
-                    mLED_2_Toggle();
-                }
-                else
-                {
-                    if(mGetLED_1())
-                    {
-                        mLED_2_On();
-                    }
-                    else
-                    {
-                        mLED_2_Off();
-                    }
-                }
+                toggle_leds();
                 break;
             case 0x81:  //Get push button state
                 //Check to make sure the endpoint/buffer is free before we modify the contents
@@ -1273,6 +1258,23 @@ void ProcessIO(void)
 				}
 				break;
 #endif
+            case 0x9C:
+                //test
+                if(!HIDTxHandleBusy(USBInHandle))
+                {
+                    ToSendDataBuffer[0] = 0x9C;
+                    n=1;
+                    while (ReceivedDataBuffer[n]) {
+                        ToSendDataBuffer[n] = ReceivedDataBuffer[n] + 1;
+                        n++;
+                    }
+                    if(n == 5){
+                      toggle_leds();  
+                    }
+    				//Prepare the USB module to send the data packet to the host
+                    USBInHandle = HIDTxPacket(HID_EP,(BYTE*)&ToSendDataBuffer[0],n);
+                }
+                break;
         }
         //Re-arm the OUT endpoint, so we can receive the next OUT data packet 
         //that the host may try to send us.
@@ -1282,6 +1284,25 @@ void ProcessIO(void)
     
 }//end ProcessIO
 
+void toggle_leds(){
+    blinkStatusValid = FALSE;			//Stop blinking the LEDs automatically, going to manually control them now.
+    if(mGetLED_1() == mGetLED_2())
+    {
+        mLED_1_Toggle();
+        mLED_2_Toggle();
+    }
+    else
+    {
+        if(mGetLED_1())
+        {
+            mLED_2_On();
+        }
+        else
+        {
+            mLED_2_Off();
+        }
+    }
+}
 /******************************************************************************
  * Function:        WORD_VAL ReadPOT(void)
  *
@@ -1750,8 +1771,6 @@ void BlinkUSBStatus(void)
 }//end BlinkUSBStatus
 
 
-
-
 // ******************************************************************************************************
 // ************** USB Callback Functions ****************************************************************
 // ******************************************************************************************************
@@ -2211,6 +2230,9 @@ BOOL USER_USB_CALLBACK_EVENT_HANDLER(int event, void *pdata, WORD size)
     }      
     return TRUE; 
 }
+
+
+
 
 /** EOF main.c *************************************************/
 #endif
