@@ -36,8 +36,11 @@ dist/
 *.d
 build/
 production/
-/USB/Demos/Demos.X/.map
-/USB/Demos/Demos.X/nbproject/private/private.xml
-/DemoPoc.X/nbproject/Makefile-genesis.properties
-/DemoPoc.X/nbproject/Makefile-variables.mk
-/Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/nbproject/private/private.xml
+
+**/USB/Demos/Demos.X/.map
+**/nbproject/private/private.xml
+**/nbproject/Makefile*.*
+**/nbproject/Makefile-genesis.properties
+
+
+**/.vscode
