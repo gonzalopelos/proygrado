@@ -27,6 +27,10 @@
 #define FALSE 0
 #define TRUE 1
 
+ #define MAX_STR 255
+
+wchar_t wstr[MAX_STR];
+
 volatile int STOP=FALSE;
 
 
@@ -50,6 +54,7 @@ int frame_data(const char * send_data, unsigned char* frame_data_hexa, unsigned 
 
 int main(int argc, char* argv[])
 {
+
 	ReadCommands();	
 
 	return 0;
@@ -86,8 +91,8 @@ void ProcessComands(int command){
  			return;
  		break;
  		case 1: //Toggle LEDs command
- 			struct usb_device_info * devs, *cur_dev;
- 			devs = usb_enumerate(0x0, 0x0);
+ 			struct hid_device_info * devs, *cur_dev;
+ 			devs = hid_enumerate(0x0, 0x0);
  			cur_dev = devs;	
 			while (cur_dev) {
 				printf("Device Found\n  type: %04hx %04hx\n  path: %s\n  serial_number: %ls", cur_dev->vendor_id, cur_dev->product_id, cur_dev->path, cur_dev->serial_number);
@@ -99,11 +104,57 @@ void ProcessComands(int command){
 				printf("\n");
 				cur_dev = cur_dev->next;
 			}
-			usb_free_enumeration(devs);
+			hid_free_enumeration(devs);
+		break;
+		case 2:
+		    // Open the device using the VID, PID,
+			// and optionally the Serial number.
+			////handle = hid_open(0x4d8, 0x3f, L"12345");
+			hid_device * usb;
+
+			usb = hid_open(0x04d8, 0x003f, NULL);
+			if (!usb) {
+				printf("unable to open device\n");
+		 		return;
+			}
+
+			// Read the Manufacturer String
+			wstr[0] = 0x0000;
+			res = hid_get_manufacturer_string(usb, wstr, MAX_STR);
+			if (res < 0)
+				printf("Unable to read manufacturer string\n");
+			printf("Manufacturer String: %ls\n", wstr);
+
+			// Read the Product String
+			wstr[0] = 0x0000;
+			res = hid_get_product_string(usb, wstr, MAX_STR);
+			if (res < 0)
+				printf("Unable to read product string\n");
+			printf("Product String: %ls\n", wstr);
+
+			// Read the Serial Number String
+			wstr[0] = 0x0000;
+			res = hid_get_serial_number_string(usb, wstr, MAX_STR);
+			if (res < 0)
+				printf("Unable to read serial number string\n");
+			printf("Serial Number String: (%d) %ls", wstr[0], wstr);
+			printf("\n");
+
+			// Read Indexed String 1
+			wstr[0] = 0x0000;
+			res = hid_get_indexed_string(usb, 1, wstr, MAX_STR);
+			if (res < 0)
+				printf("Unable to read indexed string 1\n");
+			printf("Indexed String 1: %ls\n", wstr);
+
+			// Set the hid_read() function to be non-blocking.
+			hid_set_nonblocking(usb, 1);
+
 		break;
 		
  		default: return;
  	}
+
  }
 
 void stringToHex(unsigned char* hexString, const char* string, int stringLenght){
