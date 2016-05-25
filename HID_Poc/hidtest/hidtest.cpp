@@ -31,7 +31,7 @@
 
 void ReadCommands(hid_device *handle);
 void ProcessComands(int command, hid_device *handle);
-void stringToHex(unsigned char* hexString, char* string, int stringLenght);
+void stringToHex(unsigned char* hexString, const char* string, int stringLenght);
 void hexToString(char* string, unsigned char* hexString, int stringLenght);
 
  //======================================================
@@ -385,6 +385,28 @@ void ProcessComands(int command, hid_device *handle){
 					hexToString(text, buf, res);
 				}
 				usleep(500*1000);
+			}
+		break;
+		case 103:
+			//buf[0] = 1;
+			//buf[1] = 0x00;
+
+			char text3[100];
+			strcpy((char *)text3, "test");
+			unsigned char hexText3[100];
+			
+			stringToHex(hexText3, text3, 4);
+			
+			strncpy((char*)buf, (char*)hexText3, 4);
+
+			res = hid_write(handle, buf, 17);
+			if (res < 0){
+				printf("Unable to write()\n");
+				printf("Error: %ls\n", hid_error(handle));
+			}
+			else{
+				printf("%s\n", "Data sent successfully");
+				usleep(500*10000);
 			}
 		break;
  		default: return;
