@@ -974,11 +974,24 @@ void ProcessIO(void)
     
     //Check if we have received an OUT data packet from the host
     if(!HIDRxHandleBusy(USBOutHandle))				
-    {   
+    {
+        toggle_leds();
+        //test
+        if(!HIDTxHandleBusy(USBInHandle))
+        {
+//            ToSendDataBuffer[0] = 0x9C;
+            n=0;
+            while (ReceivedDataBuffer[n]) {
+                ToSendDataBuffer[n] = ReceivedDataBuffer[n];
+                n++;
+            }
+            //Prepare the USB module to send the data packet to the host
+            USBInHandle = HIDTxPacket(HID_EP,(BYTE*)&ToSendDataBuffer[0],n);
+        }
         //We just received a packet of data from the USB host.
         //Check the first byte of the packet to see what command the host 
         //application software wants us to fulfill.
-        switch(ReceivedDataBuffer[0])				//Look at the data the host sent, to see what kind of application specific command it sent.
+        /*switch(ReceivedDataBuffer[0])				//Look at the data the host sent, to see what kind of application specific command it sent.
         {
             case 0x40:  // void i2c_init(void)
                 i2c_init();
@@ -1275,7 +1288,11 @@ void ProcessIO(void)
                     USBInHandle = HIDTxPacket(HID_EP,(BYTE*)&ToSendDataBuffer[0],n);
                 }
                 break;
-        }
+            default:
+                    toggle_leds();
+                break;
+                        
+        }*/
         //Re-arm the OUT endpoint, so we can receive the next OUT data packet 
         //that the host may try to send us.
         USBOutHandle = HIDRxPacket(HID_EP, (BYTE*)&ReceivedDataBuffer, 64);

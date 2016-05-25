@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED="../../../Microchip Solutions v2012-10-15/Microchip/USB/HID Device Driver/usb_function_hid.c" "../../../Microchip Solutions v2012-10-15/Microchip/USB/usb_device.c" "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c" "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c"
+SOURCEFILES_QUOTED_IF_SPACED="../../../Microchip Solutions v2012-10-15/Microchip/USB/HID Device Driver/usb_function_hid.c" "../../../Microchip Solutions v2012-10-15/Microchip/USB/usb_device.c" "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c" "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c" "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/yahdlc.c" "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/fcs16.c"
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1609153167/usb_function_hid.o ${OBJECTDIR}/_ext/652438347/usb_device.o ${OBJECTDIR}/_ext/256613855/usb_descriptors.o ${OBJECTDIR}/_ext/256613855/main.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1609153167/usb_function_hid.o.d ${OBJECTDIR}/_ext/652438347/usb_device.o.d ${OBJECTDIR}/_ext/256613855/usb_descriptors.o.d ${OBJECTDIR}/_ext/256613855/main.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1609153167/usb_function_hid.o ${OBJECTDIR}/_ext/652438347/usb_device.o ${OBJECTDIR}/_ext/256613855/usb_descriptors.o ${OBJECTDIR}/_ext/256613855/main.o ${OBJECTDIR}/_ext/256613855/yahdlc.o ${OBJECTDIR}/_ext/256613855/fcs16.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1609153167/usb_function_hid.o.d ${OBJECTDIR}/_ext/652438347/usb_device.o.d ${OBJECTDIR}/_ext/256613855/usb_descriptors.o.d ${OBJECTDIR}/_ext/256613855/main.o.d ${OBJECTDIR}/_ext/256613855/yahdlc.o.d ${OBJECTDIR}/_ext/256613855/fcs16.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/1609153167/usb_function_hid.o ${OBJECTDIR}/_ext/652438347/usb_device.o ${OBJECTDIR}/_ext/256613855/usb_descriptors.o ${OBJECTDIR}/_ext/256613855/main.o
+OBJECTFILES=${OBJECTDIR}/_ext/1609153167/usb_function_hid.o ${OBJECTDIR}/_ext/652438347/usb_device.o ${OBJECTDIR}/_ext/256613855/usb_descriptors.o ${OBJECTDIR}/_ext/256613855/main.o ${OBJECTDIR}/_ext/256613855/yahdlc.o ${OBJECTDIR}/_ext/256613855/fcs16.o
 
 # Source Files
-SOURCEFILES=../../../Microchip Solutions v2012-10-15/Microchip/USB/HID Device Driver/usb_function_hid.c ../../../Microchip Solutions v2012-10-15/Microchip/USB/usb_device.c ../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c ../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c
+SOURCEFILES=../../../Microchip Solutions v2012-10-15/Microchip/USB/HID Device Driver/usb_function_hid.c ../../../Microchip Solutions v2012-10-15/Microchip/USB/usb_device.c ../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/usb_descriptors.c ../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c ../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/yahdlc.c ../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/fcs16.c
 
 
 CFLAGS=
@@ -121,6 +121,22 @@ ${OBJECTDIR}/_ext/256613855/main.o: ../../../Microchip\ Solutions\ v2012-10-15/U
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/256613855/main.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/256613855/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
+${OBJECTDIR}/_ext/256613855/yahdlc.o: ../../../Microchip\ Solutions\ v2012-10-15/USB/Device\ -\ HID\ -\ Custom\ Demos/Firmware/yahdlc.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/_ext/256613855" 
+	@${RM} ${OBJECTDIR}/_ext/256613855/yahdlc.o.d 
+	@${RM} ${OBJECTDIR}/_ext/256613855/yahdlc.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/256613855/yahdlc.o   "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/yahdlc.c" 
+	@${DEP_GEN} -d ${OBJECTDIR}/_ext/256613855/yahdlc.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/256613855/yahdlc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
+	
+${OBJECTDIR}/_ext/256613855/fcs16.o: ../../../Microchip\ Solutions\ v2012-10-15/USB/Device\ -\ HID\ -\ Custom\ Demos/Firmware/fcs16.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/_ext/256613855" 
+	@${RM} ${OBJECTDIR}/_ext/256613855/fcs16.o.d 
+	@${RM} ${OBJECTDIR}/_ext/256613855/fcs16.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/256613855/fcs16.o   "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/fcs16.c" 
+	@${DEP_GEN} -d ${OBJECTDIR}/_ext/256613855/fcs16.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/256613855/fcs16.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
+	
 else
 ${OBJECTDIR}/_ext/1609153167/usb_function_hid.o: ../../../Microchip\ Solutions\ v2012-10-15/Microchip/USB/HID\ Device\ Driver/usb_function_hid.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/_ext/1609153167" 
@@ -153,6 +169,22 @@ ${OBJECTDIR}/_ext/256613855/main.o: ../../../Microchip\ Solutions\ v2012-10-15/U
 	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/256613855/main.o   "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/main.c" 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/256613855/main.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/256613855/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
+	
+${OBJECTDIR}/_ext/256613855/yahdlc.o: ../../../Microchip\ Solutions\ v2012-10-15/USB/Device\ -\ HID\ -\ Custom\ Demos/Firmware/yahdlc.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/_ext/256613855" 
+	@${RM} ${OBJECTDIR}/_ext/256613855/yahdlc.o.d 
+	@${RM} ${OBJECTDIR}/_ext/256613855/yahdlc.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/256613855/yahdlc.o   "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/yahdlc.c" 
+	@${DEP_GEN} -d ${OBJECTDIR}/_ext/256613855/yahdlc.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/256613855/yahdlc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
+	
+${OBJECTDIR}/_ext/256613855/fcs16.o: ../../../Microchip\ Solutions\ v2012-10-15/USB/Device\ -\ HID\ -\ Custom\ Demos/Firmware/fcs16.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/_ext/256613855" 
+	@${RM} ${OBJECTDIR}/_ext/256613855/fcs16.o.d 
+	@${RM} ${OBJECTDIR}/_ext/256613855/fcs16.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -I"../../../Microchip Solutions v2012-10-15/Microchip/Include" -I"../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware" -I"../../../../../../../../../MCC18/h" -I"../../../Microchip Solutions v2012-10-15/Microchip/Include/USB" -I"../../../Microchip Solutions v2012-10-15/Microchip/USB" -I"." -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/256613855/fcs16.o   "../../../Microchip Solutions v2012-10-15/USB/Device - HID - Custom Demos/Firmware/fcs16.c" 
+	@${DEP_GEN} -d ${OBJECTDIR}/_ext/256613855/fcs16.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/256613855/fcs16.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
 endif
 
