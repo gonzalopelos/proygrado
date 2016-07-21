@@ -43,7 +43,7 @@
 #include <linux/input.h>
 #include <libudev.h>
 
-#include "usb_controller.h"
+#include "../includes/usb_controller.h"
 
 /* Definitions from linux/hidraw.h. Since these are new, some distros
    may not have header files which contain them. */
