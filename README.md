@@ -17,3 +17,6 @@ Para instalarlo seguir los siguientes pasos:
 5. Cerrar el IDE.
 6. Volver a establecer la fecha de la pc correctamente.
 8. Listo, la trial durara hasta que la gente de JetBrains se avive o hasta que se cumpla la fecha establecida  30 dias.
+
+## Deploy del Firmware
+Una vez compilado el firmware base simplemente se debe conectar la placa y copiar el archivo __ras_fdrm.bin__ generado en la compilacion al directorio (usb storage) de la placa. Una vez que la placa lo detecta se instala automaticamente, solo resta presionar el boto Reset de dicha placa y se comenzara a ejecutar la rutina del firmware.
