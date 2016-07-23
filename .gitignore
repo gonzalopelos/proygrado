@@ -45,3 +45,8 @@ production/
 
 **/.vscode
 /.project
+
+# Kinetis Studio
+Debug/
+.settings/
+
