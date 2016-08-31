@@ -1,0 +1,19 @@
+@startuml
+
+title HDLC Protocol - Initiation
+
+SBC -> FRDM : SARM
+note left
+    Envio de frame SARM mediante 
+    la operacion __hdlc_send_sarm__
+end note
+FRDM -> SBC : UA
+note right
+    Luego de leer el frame __SARM__
+    con la operacion __hdlc_read_frame__
+    y ver la solicitud de conexion
+    se envia el frame UA mediante la
+    operacion send __hdlc_send_ua__
+end note
+
+@enduml
