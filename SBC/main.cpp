@@ -83,8 +83,6 @@ void ReadCommands(){
 
 void ProcessComands(int command){
     int res;
-    int i,n;
-    char* str;
     int file_descriptor;
 
     switch(command){
@@ -93,7 +91,7 @@ void ProcessComands(int command){
             break;
         case 1: //Toggle LEDs command
             file_descriptor = open_frdm_connection();
-            if(send_to_frdm(file_descriptor, "1", 1) == 1){
+            if(send_to_frdm(file_descriptor, (char *) "1", 1) == 1){
                 printf("Toogle leds successfully\n");
             }else{
                 printf("Error sending command\n");
@@ -101,10 +99,9 @@ void ProcessComands(int command){
             close_frdm_connection(file_descriptor);
             break;
         case 2:
-
             char data_exa[256];
             unsigned int frame_length;
-            frame_data("test", data_exa, &frame_length);
+            res = frame_data("test", data_exa, &frame_length);
 
             if (res < 0){
                 printf("Unable to write()\n");
@@ -114,7 +111,6 @@ void ProcessComands(int command){
                 printf("Data sent successfully\nres: %d - frame_length: %d\n", res, frame_length);
                 usleep(500*10000);
                 res = 0;
-                unsigned char data_read[256];
                 while (res == 0) {
                     res = frame_length;
                     if (res == 0) {
@@ -125,17 +121,14 @@ void ProcessComands(int command){
                     }
                     else {
                         printf("Data read (%d bytes):\n", res);
-                        char frame[frame_length];
                         char data[frame_length];
                         unsigned int data_length = 0;
                         get_data(data_exa, frame_length, data, &data_length);
-                        printf("Data read decoded (%d bytes):\n %s", data_length, data);
+                        printf("Data read decoded (%d bytes):\n%s\n", data_length, data);
                     }
                     usleep(500*1000);
                 }
             }
-
-
             break;
 
         default: return;
@@ -144,7 +137,7 @@ void ProcessComands(int command){
 }
 
 void stringToHex(unsigned char* hexString, const char* string, int stringLenght){
-    memset(hexString,0x00,stringLenght);
+    memset(hexString, 0x00, (size_t) stringLenght);
     strcpy((char*)hexString, string);
 
     for (int x = 0; x < stringLenght; x++)
@@ -166,7 +159,7 @@ void hexToString(char* string, unsigned char* hexString, int stringLenght){
 
 int frame_data(const char * send_data, char* frame_data,  unsigned int* frame_length){
     int ret;
-    unsigned int data_length, seq_no = 0, frame_length2 = 0;
+    unsigned int data_length, seq_no = 0;
     data_length = sizeof(send_data);
 
 
@@ -203,18 +196,10 @@ int frame_data(const char * send_data, char* frame_data,  unsigned int* frame_le
 
     ret = yahdlc_frame_data(&control, send_data, data_length, frame_data, frame_length);
     /* If success */
-    if (ret == 0)
+    if (ret != 0)
     {
-        //frame_data_hexa = unsigned char [frame_length];
-        //return PyBytes_FromStringAndSize(frame_data, frame_length);
-        // else
-        // {
-        // 	PyErr_SetString(PyExc_ValueError, "invalid parameter");
-        // 	return NULL;
-    }
-    else {
         printf("Error yahdlc_frame_data, ret:%d\n", ret);
-        printf("yahdlc_frame_data, frame_length:%d\n", frame_length);
+        printf("yahdlc_frame_data, frame_length:%d\n", (int) (*frame_length));
         printf("yahdlc_frame_data, data:%s, data_length:%d\n", send_data, data_length);
 
     }
@@ -226,6 +211,7 @@ int get_data (char* frame, unsigned int frame_length, char* data, unsigned int* 
     yahdlc_control_t control;
     *data_length = 0;
     ret = yahdlc_get_data(&control, frame, frame_length, data, data_length);
+    return ret;
 }
 
 

@@ -18,15 +18,17 @@
 
 /** Supported HDLC frame types */
 typedef enum {
-  YAHDLC_FRAME_DATA,
-  YAHDLC_FRAME_ACK,
-  YAHDLC_FRAME_NACK,
+    YAHDLC_FRAME_DATA,
+    YAHDLC_FRAME_ACK,
+    YAHDLC_FRAME_NACK,
+    YAHDLC_FRAME_SARM,
+    YAHDLC_FRAME_UA,
 } yahdlc_frame_t;
 
 /** Control field information */
 typedef struct {
-  yahdlc_frame_t frame;
-  unsigned char seq_no :3;
+    yahdlc_frame_t frame;
+    unsigned char seq_no :3;
 } yahdlc_control_t;
 
 #ifdef __cplusplus
