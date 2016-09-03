@@ -1,0 +1,20 @@
+@startuml
+
+title HDLC Protocol - Receiver States
+
+[*] --> StartConnection
+StartConnection --> ReadSABM : hdlc_read(SABM)\n start sequence counters
+ReadSABM --> ReadSABM : hdlc_read()\nno SABM\n no DM
+ReadSABM --> Connected : hdlc_read(SABM)\n hdlc_send(UA)\n stop timer\n start sequence counters
+
+
+
+Connected --> ReadMessage : hdlc_readMessage(1)
+ReadMessage --> ReadMessage : hdlc_read()\nno NS 1\n or no checksum OK\n no DM
+ReadMessage --> [*] : hdlc_send(ACK 1)\n update sequence counters
+
+ReadMessage --> Disconected : hdlc_read(DM)
+ReadSABM --> Disconected : hdlc_read(DM)
+Disconected --> [*]
+
+@enduml

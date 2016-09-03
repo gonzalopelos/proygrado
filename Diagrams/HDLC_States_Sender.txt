@@ -1,0 +1,23 @@
+@startuml
+
+title HDLC Protocol - Sender States
+
+[*] --> StartConnection
+StartConnection --> ReadUA : hdlc_send_sabm\nstart timer
+ReadUA --> ReadUA : hdlc_read()\nno UA\nno DM
+ReadUA --> StartConnection : time out
+ReadUA --> Connected : hdlc_read(UA)\nstop timer\nstart sequence counters
+ReadUA --> Disconected : hdlc_read(DM)
+
+
+Connected --> ReadACK : hdlc_sendMessage(1)\nstart timer
+ReadACK --> ReadACK : hdlc_read()\nno ACK 1\nno DM
+
+ReadACK --> Connected : TIME OUT
+ReadACK --> Connected : hdlc_read(NACK 1)
+
+ReadACK --> Disconected : hdlc_read()\n DM
+ReadACK --> [*] : hdlc_read(ACK 1)\nstop timer\nupdate sequence counters
+Disconected --> [*]
+
+@enduml
