@@ -11,7 +11,17 @@
 
 int connectionID;
 const unsigned int _TIME_OUT = 200;
-const int _MAX_MESSAGE_LENGTH = 256;
+typedef enum {
+    HDLC_START_CONNECTION,
+    HDLC_CONNECTED,
+    HDLC_READ_ACK,
+    HDLC_READ_UA,
+    HDLC_DISCONNECTED
+} hdlc_status_t;
+
+hdlc_status_t sender_status;
+hdlc_status_t receiver_status;
+
 /** HDLC station address */
 #define YAHDLC_STATION_ADDR 0x01
 

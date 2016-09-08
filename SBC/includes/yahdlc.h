@@ -16,6 +16,8 @@
 /** HDLC all station address */
 #define YAHDLC_ALL_STATION_ADDR 0xFF
 
+const int _MAX_MESSAGE_LENGTH = 256;
+
 /** Supported HDLC frame types */
 typedef enum {
     YAHDLC_FRAME_DATA,
