@@ -10,6 +10,9 @@
 #include "../includes/hdlc_receiver.h"
 #include "../includes/hdlc_sender.h"
 
+/****************************************************
+ * Global variables and structures
+ ****************************************************/
 const unsigned int _TIME_OUT = 200;
 typedef enum {
     HDLC_START_CONNECTION,
@@ -28,11 +31,22 @@ int sender_buffer_index;
 char receiver_buffer[_MAX_MESSAGE_LENGTH];
 int receiver_buffer_index;
 
-
 using namespace std;
 
-/** HDLC station address */
-#define YAHDLC_STATION_ADDR 0x01
+const unsigned char PRIMARY_STATION_ADDR = 0x01;
+
+/****************************************************/
+
+
+/****************************************************
+ * Auxiliar Functions
+ ****************************************************/
+
+void hdlc_sender(unsigned char* station_address);
+void hdlc_receiver(unsigned char* station_address);
+bool hdlc_primary_station
+
+/****************************************************/
 
 int hdlc_init(unsigned char * station_address) {
 
@@ -54,12 +68,13 @@ int hdlc_read_data(char *data_received, unsigned int data_received_length) {
     return 0;
 }
 
+
+
 int hdlc_send_data(char *data, unsigned int data_length) {
     return 0;
 }
 
-
-int hdlc_sender(char* station_address) {
+void hdlc_sender(unsigned char *station_address) {
     /*
      connectionID = open_frdm_connection();
     if(connectionID) {
@@ -87,13 +102,17 @@ int hdlc_sender(char* station_address) {
     }
      */
     int sender_connectionID = open_frdm_connection();
+    if(sender_connectionID) {
+        //the primary station
+        if(station_address == &PRIMARY_STATION_ADDR) {
 
+        }
+    }
 
-    return 0;
 }
 
-int hdlc_receiver(char* station_address) {
+void hdlc_receiver(unsigned char *station_address) {
     int receiver_connectionID;
-    return 0;
+
 
 }
