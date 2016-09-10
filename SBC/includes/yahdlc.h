@@ -16,6 +16,8 @@
 /** HDLC all station address */
 #define YAHDLC_ALL_STATION_ADDR 0xFF
 
+#define PRIMARY_STATION_ADDR 0x01;
+
 const int _MAX_MESSAGE_LENGTH = 256;
 
 /** Supported HDLC frame types */
@@ -32,6 +34,11 @@ typedef struct {
     yahdlc_frame_t frame;
     unsigned char seq_no :3;
 } yahdlc_control_t;
+
+typedef enum {
+    HDLC_OPERATION_OK = 1,
+    HDLC_OPERATION_ERROR_NOT_FOUND = 2
+} hdlc_operation_result;
 
 #ifdef __cplusplus
 extern "C" {

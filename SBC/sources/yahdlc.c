@@ -77,6 +77,10 @@ unsigned char yahdlc_frame_control_type(yahdlc_control_t *control) {
             value |= (YAHDLC_CONTROL_TYPE_REJECT << YAHDLC_CONTROL_S_FRAME_TYPE_BIT);
             value |= (1 << YAHDLC_CONTROL_S_OR_U_FRAME_BIT);
             break;
+        case YAHDLC_FRAME_SARM:
+            break;
+        case YAHDLC_FRAME_UA:
+            break;
     }
 
     return value;

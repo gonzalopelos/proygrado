@@ -5,18 +5,22 @@
 #include "../includes/yahdlc.h"
 #include "../includes/hdlc_sender.h"
 
-int hdlc_send_sabm(int connectionID) {
-    int result = -1;
+int hdlc_send_sabm(int connectionId) {
+    int result = HDLC_OPERATION_ERROR_NOT_FOUND;
     yahdlc_control_t controlFrame;
     controlFrame.frame = YAHDLC_FRAME_SARM;
+    controlFrame.seq_no= 0;
     char frame[_MAX_MESSAGE_LENGTH];
     unsigned int frameSize;
     if(yahdlc_frame_data(&controlFrame,"",0, frame, &frameSize)) {
-        if(send_to_frdm(connectionID, frame, frameSize)) {
-            result = frameSize;
+        if (send_to_frdm(connectionId, frame, frameSize)) {
+            result = HDLC_OPERATION_OK;
         }
     }
+
     return result;
+
+
 }
 
 int hdlc_send_message(int connectionId, char *data, int dataLength) {

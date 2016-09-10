@@ -18,7 +18,7 @@ int open_frdm_connection(){
     int res;
     /* Device_Name is a string such as "/dev/ttyUSB0" */
     if((res = open(frdm_devicePath, O_RDWR | O_NOCTTY | O_NDELAY)) == -1) {
-        char* errorDesc;
+        char errorDesc[200];
         sprintf(errorDesc, "Failed to open port %s:%d:%s\n", frdm_devicePath, errno, strerror(errno));
         perror(errorDesc);
         res = -1;

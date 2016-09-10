@@ -10,10 +10,12 @@
 #include "../includes/hdlc_receiver.h"
 #include "../includes/hdlc_sender.h"
 
+using namespace std;
+
 /****************************************************
  * Global variables and structures
  ****************************************************/
-const unsigned int _TIME_OUT = 200;
+volatile const unsigned int _HDLC_TIME_OUT = 200;
 typedef enum {
     HDLC_START_CONNECTION,
     HDLC_CONNECTED,
@@ -22,18 +24,19 @@ typedef enum {
     HDLC_DISCONNECTED
 } hdlc_status_t;
 
-hdlc_status_t sender_status;
-hdlc_status_t receiver_status;
+hdlc_status_t _sender_status;
+hdlc_status_t _receiver_status;
 
-char sender_buffer[_MAX_MESSAGE_LENGTH];
-int sender_buffer_index;
+mutex _sender_status_nutex;
+mutex _receiver_status_mutex;
 
-char receiver_buffer[_MAX_MESSAGE_LENGTH];
-int receiver_buffer_index;
+char _sender_buffer[_MAX_MESSAGE_LENGTH];
+int _sender_buffer_index;
 
-using namespace std;
+char _receiver_buffer[_MAX_MESSAGE_LENGTH];
+int _receiver_buffer_index;
 
-const unsigned char PRIMARY_STATION_ADDR = 0x01;
+unsigned char* _station_address;
 
 /****************************************************/
 
@@ -42,21 +45,30 @@ const unsigned char PRIMARY_STATION_ADDR = 0x01;
  * Auxiliar Functions
  ****************************************************/
 
-void hdlc_sender(unsigned char* station_address);
-void hdlc_receiver(unsigned char* station_address);
-bool hdlc_primary_station
+void hdlc_sender();
+void hdlc_receiver();
+bool hdlc_primary_station() { return (*_station_address) == PRIMARY_STATION_ADDR; }
+int hdlc_initialyze_connection(int sender_connection_id);
+hdlc_status_t hdlc_get_sender_status();
+void hdlc_update_sender_status(hdlc_status_t status);
+hdlc_status_t hdlc_get_receiver_status();
+void hdlc_update_receiver_status(hdlc_status_t status);
 
 /****************************************************/
 
 int hdlc_init(unsigned char * station_address) {
 
     //buffers initialization
-    receiver_buffer_index = sender_buffer_index = 0;
+    _receiver_buffer_index = _sender_buffer_index = 0;
     //status initialization
-    sender_status = receiver_status = HDLC_START_CONNECTION;
+    hdlc_update_sender_status(HDLC_START_CONNECTION);
+    hdlc_update_receiver_status(HDLC_START_CONNECTION);
 
-    thread sender_thread(hdlc_sender, station_address);
-    thread receiver_thread(hdlc_receiver, station_address);
+    //station address initialization
+    _station_address = station_address;
+
+    thread sender_thread(hdlc_sender);
+    thread receiver_thread(hdlc_receiver);
 
     sender_thread.join();
     receiver_thread.join();
@@ -74,7 +86,7 @@ int hdlc_send_data(char *data, unsigned int data_length) {
     return 0;
 }
 
-void hdlc_sender(unsigned char *station_address) {
+void hdlc_sender() {
     /*
      connectionID = open_frdm_connection();
     if(connectionID) {
@@ -101,18 +113,82 @@ void hdlc_sender(unsigned char *station_address) {
         }
     }
      */
-    int sender_connectionID = open_frdm_connection();
-    if(sender_connectionID) {
-        //the primary station
-        if(station_address == &PRIMARY_STATION_ADDR) {
+    int sender_connectionId = open_frdm_connection();
+    if(sender_connectionId) {
+        return;
+    }
 
+    //the primary station still retains responsibility for error recovery, link setup, and link disconnection.
+    if(hdlc_primary_station()) {
+        if(hdlc_initialyze_connection(sender_connectionId) != HDLC_OPERATION_OK) {
+            hdlc_update_sender_status(HDLC_DISCONNECTED);
+            return;
+        }
+    }
+    while(hdlc_get_sender_status() == HDLC_CONNECTED) {
+        //ToDo: mutuoexcluir el acceso a los buufers e indices.
+        if(_sender_buffer_index) {
+            
         }
     }
 
 }
 
-void hdlc_receiver(unsigned char *station_address) {
-    int receiver_connectionID;
+void hdlc_receiver() {
+    int receiver_connectionID = open_frdm_connection();
+    if(receiver_connectionID) {
 
+    }
+}
 
+int hdlc_initialyze_connection(int sender_connection_id) {
+    int result = hdlc_send_sabm(sender_connection_id);
+    if (result == HDLC_OPERATION_OK) {
+        hdlc_update_sender_status(HDLC_READ_UA);
+        int max_time = _HDLC_TIME_OUT;
+        while (hdlc_get_sender_status() == HDLC_READ_UA && result == HDLC_OPERATION_OK) {
+            switch (hdlc_read_ua(sender_connection_id, &max_time)) {
+                case HDLC_OPERATION_OK:
+                    hdlc_update_sender_status(HDLC_CONNECTED);
+                    break;
+                case HDLC_OPERATION_ERROR_NOT_FOUND:
+                    if (!max_time) {
+                        result = hdlc_send_sabm(sender_connection_id);
+                        if (result == HDLC_OPERATION_OK) {
+                            max_time = _HDLC_TIME_OUT;
+                        }
+                        break;
+                    }
+            }
+        }
+    }
+    return result;
+}
+
+void hdlc_update_receiver_status(hdlc_status_t status) {
+    _receiver_status_mutex.lock();
+    _sender_status = status;
+    _receiver_status_mutex.unlock();
+}
+
+hdlc_status_t hdlc_get_receiver_status() {
+    hdlc_status_t result;
+    _receiver_status_mutex.lock();
+    result = _receiver_status;
+    _receiver_status_mutex.unlock();
+    return result;
+}
+
+void hdlc_update_sender_status(hdlc_status_t status) {
+    _sender_status_nutex.lock();
+    _sender_status = status;
+    _sender_status_nutex.unlock();
+}
+
+hdlc_status_t hdlc_get_sender_status() {
+    hdlc_status_t result;
+    _sender_status_nutex.lock();
+    result = _sender_status;
+    _sender_status_nutex.unlock();
+    return result;
 }
