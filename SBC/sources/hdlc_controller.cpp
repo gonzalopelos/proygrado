@@ -3,13 +3,13 @@
 //
 
 
-#include <zconf.h>
 #include <yahdlc.h>
 #include "../includes/hdlc_controller.h"
-#include "../includes/yahdlc.h"
+#include <thread>
 #include "../includes/frdm_communication.h"
+#include "../includes/hdlc_receiver.h"
+#include "../includes/hdlc_sender.h"
 
-int connectionID;
 const unsigned int _TIME_OUT = 200;
 typedef enum {
     HDLC_START_CONNECTION,
@@ -22,11 +22,46 @@ typedef enum {
 hdlc_status_t sender_status;
 hdlc_status_t receiver_status;
 
+char sender_buffer[_MAX_MESSAGE_LENGTH];
+int sender_buffer_index;
+
+char receiver_buffer[_MAX_MESSAGE_LENGTH];
+int receiver_buffer_index;
+
+
+using namespace std;
+
 /** HDLC station address */
 #define YAHDLC_STATION_ADDR 0x01
 
-int hdlc_init(unsigned char * secondaryStationAddress) {
-    connectionID = open_frdm_connection();
+int hdlc_init(unsigned char * station_address) {
+
+    //buffers initialization
+    receiver_buffer_index = sender_buffer_index = 0;
+    //status initialization
+    sender_status = receiver_status = HDLC_START_CONNECTION;
+
+    thread sender_thread(hdlc_sender, station_address);
+    thread receiver_thread(hdlc_receiver, station_address);
+
+    sender_thread.join();
+    receiver_thread.join();
+
+    return 0;
+}
+
+int hdlc_read_data(char *data_received, unsigned int data_received_length) {
+    return 0;
+}
+
+int hdlc_send_data(char *data, unsigned int data_length) {
+    return 0;
+}
+
+
+int hdlc_sender(char* station_address) {
+    /*
+     connectionID = open_frdm_connection();
     if(connectionID) {
         yahdlc_control_t controlFrame;
         controlFrame.frame = YAHDLC_FRAME_SARM;
@@ -50,7 +85,15 @@ int hdlc_init(unsigned char * secondaryStationAddress) {
             }
         }
     }
+     */
+    int sender_connectionID = open_frdm_connection();
+
+
     return 0;
 }
 
-//int hdlc_read_frame()
+int hdlc_receiver(char* station_address) {
+    int receiver_connectionID;
+    return 0;
+
+}
