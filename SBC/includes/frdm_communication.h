@@ -13,7 +13,7 @@
  */
 int open_frdm_connection();
 
-int get_from_fdrm(int file_descriptor, char* dataRead, unsigned int maxSize);
+int get_from_fdrm(int file_descriptor, char *dataRead, unsigned int maxSize);
 
 int send_to_frdm(int file_descriptor, char* data, unsigned int size);
 

@@ -69,9 +69,9 @@ void ReadCommands(){
     printf("Comandos:\n");
     printf("\t\"0\"-> Quit\n");
     printf("\t\"1\"-> Toggle LEDs\n");
-    printf("\t\"100\"-> Write 0000 and Read 1111\n");
-    printf("\t\"101\"-> Write 0000\n");
-    printf("\t\"102\"-> Write 1111\n");
+    printf("\t\"2\"-> Test encode and decode data with yahdlc\n");
+    printf("\t\"3\"-> Start primary station for HDLC communication\n");
+    printf("\t\"4\"-> Start secondary station for HDLC communication\n");
     printf("\n");
 
     int command;
@@ -131,6 +131,9 @@ void ProcessComands(int command){
             }
             break;
 
+        case 3:
+
+            break;
         default: return;
     }
 

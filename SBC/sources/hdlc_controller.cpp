@@ -168,7 +168,7 @@ void hdlc_sender() {
         if(data_length) {
             do {
 
-                if(hdlc_sender_send_message(sender_connectionId, data, data_length) == HDLC_OPERATION_OK) {
+                if(hdlc_sender_send_message(sender_connectionId, 0, data, data_length) == HDLC_OPERATION_OK) {
                     hdlc_sender_update_status(HDLC_READ_ACK);
                     //ToDo: add mutex to sequence numbers access
                     switch(hdlc_sender_read_ack(sender_connectionId, &max_time, _sender_seq_number)) {

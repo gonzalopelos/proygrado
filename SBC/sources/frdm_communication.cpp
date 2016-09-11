@@ -29,21 +29,24 @@ int open_frdm_connection(){
     return res;
 }
 
-int get_from_fdrm(int file_descriptor, char* dataRead, unsigned int maxSize){
+int get_from_fdrm(int file_descriptor, char *dataRead, unsigned int maxSize) {
     int res = -1;
     // Most USB serial port implementations use a max of 4096 for the buffer
 
-    res = read(file_descriptor, dataRead, maxSize);
+    ssize_t data_read_size = read(file_descriptor, dataRead, maxSize);
 
     /* 0 means no data - errno can indicate 2 or 11 and not be a problem, other values are bad */
     /* -1 means error, check errno */
     /* >0 means you got data at inPtr, which is the start of inBuf and the value indicates how much data you got */
+    res = static_cast<int>(data_read_size);
 
     return res;
 }
 
 int send_to_frdm(int file_descriptor, char* data, unsigned int size){
-    int res = write(file_descriptor, data, size);
+    int res = -1;
+    ssize_t data_written_size = write(file_descriptor, data, size);
+    res = static_cast<int>(data_written_size);
     return res;
 }
 
