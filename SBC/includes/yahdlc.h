@@ -18,7 +18,7 @@
 
 #define PRIMARY_STATION_ADDR 0x01;
 
-const int _MAX_MESSAGE_LENGTH = 256;
+const int _HDLC_MAX_MESSAGE_LENGTH = 256;
 
 /** Supported HDLC frame types */
 typedef enum {

@@ -6,6 +6,7 @@
 #include <yahdlc.h>
 #include "../includes/hdlc_controller.h"
 #include <thread>
+#include <cstdlib>
 #include "../includes/frdm_communication.h"
 #include "../includes/hdlc_receiver.h"
 #include "../includes/hdlc_sender.h"
@@ -23,46 +24,76 @@ typedef enum {
     HDLC_READ_UA,
     HDLC_DISCONNECTED
 } hdlc_status_t;
-
-hdlc_status_t _sender_status;
-hdlc_status_t _receiver_status;
-
-mutex _sender_status_nutex;
-mutex _receiver_status_mutex;
-
-char _sender_buffer[_MAX_MESSAGE_LENGTH];
-int _sender_buffer_index;
-
-char _receiver_buffer[_MAX_MESSAGE_LENGTH];
-int _receiver_buffer_index;
-
 unsigned char* _station_address;
+
+/**================== SENDER VARIABLES ===============*/
+hdlc_status_t _sender_status;
+mutex _sender_status_nutex;
+mutex _sender_buffer_mutex;
+
+char _sender_buffer[_HDLC_MAX_MESSAGE_LENGTH];
+unsigned int _sender_buffer_index;
+unsigned int _sender_seq_number;
+/**=================================*/
+
+/**================== RECEIVER VARIABLES ===============*/
+hdlc_status_t _receiver_status;
+mutex _receiver_status_mutex;
+mutex _receiver_buffer_mutex;
+
+char _receiver_buffer[_HDLC_MAX_MESSAGE_LENGTH];
+unsigned int _receiver_buffer_index;
+unsigned int _receiver_seq_number;
+
+/**=================================*/
+
+
 
 /****************************************************/
 
 
 /****************************************************
- * Auxiliar Functions
+  CONTROLLER AUXILIAR FUNCTIONS
  ****************************************************/
 
 void hdlc_sender();
 void hdlc_receiver();
 bool hdlc_primary_station() { return (*_station_address) == PRIMARY_STATION_ADDR; }
-int hdlc_initialyze_connection(int sender_connection_id);
-hdlc_status_t hdlc_get_sender_status();
-void hdlc_update_sender_status(hdlc_status_t status);
-hdlc_status_t hdlc_get_receiver_status();
-void hdlc_update_receiver_status(hdlc_status_t status);
+
+/**=========== SENDER AUXILIAR FUNCTIONS ========================*/
+hdlc_status_t hdlc_sender_get_status();
+int hdlc_sender_initialize_connection(int sender_connection_id);
+void hdlc_sender_update_status(hdlc_status_t status);
+int hdlc_sender_buffer_add_data(const char * data, unsigned int data_length);
+int hdlc_sender_buffer_get_data(char* data, unsigned int * data_length);
+int hdlc_sender_buffer_remove_data(unsigned int index);
+int hdlc_sender_buffer_clean();
+
+/**=========== RECEIVER AUXILIAR FUNCTIONS ========================*/
+hdlc_status_t hdlc_receiver_get_status();
+int hdlc_receiver_initialize_connection(int receiver_connection_id);
+void hdlc_receiver_update_status(hdlc_status_t status);
+int hdlc_receiver_buffer_celan();
+int hdlc_receiver_buffer_add_data(const char * data, unsigned int data_length);
+unsigned int hdlc_receiver_buffuer_available_capacity();
 
 /****************************************************/
+
+/*******************************************************************************************
+ ***************************** CONTROLLER API FUNCTIONS ********************************/
 
 int hdlc_init(unsigned char * station_address) {
 
     //buffers initialization
-    _receiver_buffer_index = _sender_buffer_index = 0;
+    hdlc_sender_buffer_clean();
+    hdlc_receiver_buffer_celan();
+
+    //sequence numbers initialization
+    _sender_seq_number = _receiver_seq_number = 0;
+
     //status initialization
-    hdlc_update_sender_status(HDLC_START_CONNECTION);
-    hdlc_update_receiver_status(HDLC_START_CONNECTION);
+    hdlc_sender_update_status(HDLC_START_CONNECTION);
+    hdlc_receiver_update_status(HDLC_START_CONNECTION);
 
     //station address initialization
     _station_address = station_address;
@@ -80,11 +111,13 @@ int hdlc_read_data(char *data_received, unsigned int data_received_length) {
     return 0;
 }
 
-
-
 int hdlc_send_data(char *data, unsigned int data_length) {
-    return 0;
+    int result = hdlc_sender_buffer_add_data(data, data_length);
+    return result;
 }
+
+/*******************************************************************************************
+ ***************************** CONTROLLER THREAD FUNCTIONS ********************************/
 
 void hdlc_sender() {
     /*
@@ -93,16 +126,16 @@ void hdlc_sender() {
         yahdlc_control_t controlFrame;
         controlFrame.frame = YAHDLC_FRAME_SARM;
         controlFrame.seq_no= 0;
-        char frame[_MAX_MESSAGE_LENGTH];
+        char frame[_HDLC_MAX_MESSAGE_LENGTH];
         unsigned int frameSize;
         if(yahdlc_frame_data(&controlFrame,"",0, frame, &frameSize)) {
             if(send_to_frdm(connectionID, frame, frameSize)) {
-                char receivedFrame[_MAX_MESSAGE_LENGTH];
-                char receivedFrameData[_MAX_MESSAGE_LENGTH];
+                char receivedFrame[_HDLC_MAX_MESSAGE_LENGTH];
+                char receivedFrameData[_HDLC_MAX_MESSAGE_LENGTH];
                 unsigned int receivedFrameDataLength;
                 int readBytes = 0;
                 while(!readBytes) {
-                    readBytes = get_from_fdrm(connectionID, receivedFrame,_MAX_MESSAGE_LENGTH);
+                    readBytes = get_from_fdrm(connectionID, receivedFrame,_HDLC_MAX_MESSAGE_LENGTH);
                 }
                 yahdlc_control_t receivedControlFrame;
                 yahdlc_frame_data(&receivedControlFrame,receivedFrame, readBytes, receivedFrameData, &receivedFrameDataLength);
@@ -113,47 +146,116 @@ void hdlc_sender() {
         }
     }
      */
+    //ToDo: refactor to return Operation Result
     int sender_connectionId = open_frdm_connection();
-    if(sender_connectionId) {
+    if(sender_connectionId <= 0) {
         return;
     }
 
     //the primary station still retains responsibility for error recovery, link setup, and link disconnection.
     if(hdlc_primary_station()) {
-        if(hdlc_initialyze_connection(sender_connectionId) != HDLC_OPERATION_OK) {
-            hdlc_update_sender_status(HDLC_DISCONNECTED);
+        if(hdlc_sender_initialize_connection(sender_connectionId) != HDLC_OPERATION_OK) {
+            hdlc_sender_update_status(HDLC_DISCONNECTED);
             return;
         }
     }
-    while(hdlc_get_sender_status() == HDLC_CONNECTED) {
-        //ToDo: mutuoexcluir el acceso a los buufers e indices.
-        if(_sender_buffer_index) {
-            
+    char data[_HDLC_MAX_MESSAGE_LENGTH];
+    unsigned int data_length;
+    int max_time = _HDLC_TIME_OUT;
+    while(hdlc_sender_get_status() == HDLC_CONNECTED) {
+        hdlc_sender_buffer_get_data(data, &data_length);
+        // there are data to send
+        if(data_length) {
+            do {
+
+                if(hdlc_sender_send_message(sender_connectionId, data, data_length) == HDLC_OPERATION_OK) {
+                    hdlc_sender_update_status(HDLC_READ_ACK);
+                    //ToDo: add mutex to sequence numbers access
+                    switch(hdlc_sender_read_ack(sender_connectionId, &max_time, _sender_seq_number)) {
+                        case HDLC_OPERATION_OK:
+                            //ToDo: add mutex to sequence numbers access
+                            //ToDo: check number mod 8 (3 bits).
+                            _sender_seq_number++;
+                            hdlc_sender_update_status(HDLC_CONNECTED);
+                            hdlc_sender_buffer_remove_data(data_length);
+                            break;
+                        case HDLC_OPERATION_ERROR_NOT_FOUND:
+                            if(max_time) {
+                                //ToDo: check possible errors and DM
+                                hdlc_sender_update_status(HDLC_DISCONNECTED);
+                            }
+                            break;
+                    }
+
+                }
+
+            } while (hdlc_sender_get_status() == HDLC_READ_ACK);
         }
     }
 
 }
 
 void hdlc_receiver() {
-    int receiver_connectionID = open_frdm_connection();
-    if(receiver_connectionID) {
-
+    //ToDo: refactor to return Operation Result
+    int receiver_connection_id = open_frdm_connection();
+    if(receiver_connection_id <= 0) {
+        return;
     }
+
+    if(!hdlc_primary_station()) {
+        hdlc_receiver_update_status(HDLC_START_CONNECTION);
+        if(hdlc_receiver_initialize_connection(receiver_connection_id) != HDLC_OPERATION_OK) {
+            hdlc_receiver_update_status(HDLC_DISCONNECTED);
+            return;
+        }
+    } else {
+        //wait the connection initialized for sender
+        while (hdlc_sender_get_status() != HDLC_CONNECTED && hdlc_sender_get_status() != HDLC_DISCONNECTED);
+        hdlc_receiver_update_status(hdlc_sender_get_status());
+    }
+    unsigned int receiver_buffer_capacity;
+    char data_read[_HDLC_MAX_MESSAGE_LENGTH];
+    unsigned int data_read_length;
+    do {
+        receiver_buffer_capacity = hdlc_receiver_buffuer_available_capacity();
+        if(receiver_buffer_capacity) {
+            if(hdlc_receiver_read_message(receiver_connection_id, _receiver_seq_number, receiver_buffer_capacity, data_read,
+                                       &data_read_length) == HDLC_OPERATION_OK) {
+                hdlc_receiver_buffer_add_data(data_read, data_read_length);
+                switch(hdlc_receiver_send_ack(receiver_connection_id, _receiver_seq_number)) {
+                    case HDLC_OPERATION_OK:
+                        //ToDo: add mutex to sequence numbers access
+                        //ToDo: check number mod 8 (3 bits).
+                        _receiver_seq_number++;
+                        break;
+                    case HDLC_OPERATION_ERROR_NOT_FOUND:
+                        //ToDo: check errors and DM
+                        hdlc_receiver_update_status(HDLC_DISCONNECTED);
+                        break;
+                }
+            }
+        }
+    } while (hdlc_receiver_get_status() == HDLC_CONNECTED);
+
+
 }
 
-int hdlc_initialyze_connection(int sender_connection_id) {
-    int result = hdlc_send_sabm(sender_connection_id);
+/*******************************************************************************************
+ ***************************** SENDER AUXILIAR FUNCTIONS ********************************/
+
+int hdlc_sender_initialize_connection(int sender_connection_id) {
+    int result = hdlc_sender_send_sabm(sender_connection_id);
     if (result == HDLC_OPERATION_OK) {
-        hdlc_update_sender_status(HDLC_READ_UA);
+        hdlc_sender_update_status(HDLC_READ_UA);
         int max_time = _HDLC_TIME_OUT;
-        while (hdlc_get_sender_status() == HDLC_READ_UA && result == HDLC_OPERATION_OK) {
-            switch (hdlc_read_ua(sender_connection_id, &max_time)) {
+        while (hdlc_sender_get_status() == HDLC_READ_UA && result == HDLC_OPERATION_OK) {
+            switch (hdlc_sender_read_ua(sender_connection_id, &max_time)) {
                 case HDLC_OPERATION_OK:
-                    hdlc_update_sender_status(HDLC_CONNECTED);
+                    hdlc_sender_update_status(HDLC_CONNECTED);
                     break;
                 case HDLC_OPERATION_ERROR_NOT_FOUND:
                     if (!max_time) {
-                        result = hdlc_send_sabm(sender_connection_id);
+                        result = hdlc_sender_send_sabm(sender_connection_id);
                         if (result == HDLC_OPERATION_OK) {
                             max_time = _HDLC_TIME_OUT;
                         }
@@ -165,13 +267,89 @@ int hdlc_initialyze_connection(int sender_connection_id) {
     return result;
 }
 
-void hdlc_update_receiver_status(hdlc_status_t status) {
-    _receiver_status_mutex.lock();
+void hdlc_sender_update_status(hdlc_status_t status) {
+    _sender_status_nutex.lock();
     _sender_status = status;
-    _receiver_status_mutex.unlock();
+    _sender_status_nutex.unlock();
 }
 
-hdlc_status_t hdlc_get_receiver_status() {
+hdlc_status_t hdlc_sender_get_status() {
+    hdlc_status_t result;
+    _sender_status_nutex.lock();
+    result = _sender_status;
+    _sender_status_nutex.unlock();
+    return result;
+}
+
+int hdlc_sender_buffer_add_data(const char *data, unsigned int data_length) {
+    int result = HDLC_OPERATION_ERROR_NOT_FOUND;
+    _sender_buffer_mutex.lock();
+
+    if(_sender_buffer_index + data_length <= _HDLC_MAX_MESSAGE_LENGTH) {
+        strcpy(_sender_buffer, data);
+        _sender_buffer_index += data_length;
+        if(_sender_buffer_index < _HDLC_MAX_MESSAGE_LENGTH) {
+            _sender_buffer[_sender_buffer_index] = '\0';
+        }
+        result = HDLC_OPERATION_OK;
+    }
+
+    _sender_buffer_mutex.unlock();
+
+    return result;
+}
+
+int hdlc_sender_buffer_get_data(char *data, unsigned int *data_length) {
+    int result = HDLC_OPERATION_ERROR_NOT_FOUND;
+
+    _sender_buffer_mutex.lock();
+
+    if(_sender_buffer_index) {
+        data[0] = '\0';
+        strcpy(data, _sender_buffer);
+    }
+    *data_length = _sender_buffer_index;
+    result = HDLC_OPERATION_OK;
+
+    _sender_buffer_mutex.unlock();
+
+    return result;
+}
+
+int hdlc_sender_buffer_clean() {
+    _sender_buffer_mutex.lock();
+    _sender_buffer_index = 0;
+    _sender_buffer[_sender_buffer_index] = '\0';
+    _sender_buffer_mutex.unlock();
+    return HDLC_OPERATION_OK;
+}
+
+int hdlc_sender_buffer_remove_data(unsigned int index) {
+    int result = HDLC_OPERATION_ERROR_NOT_FOUND;
+
+    _sender_buffer_mutex.lock();
+
+    //remove al data form sender buffer
+    if(index == _sender_buffer_index) {
+        _sender_buffer[0] = '\0';
+        _sender_buffer_index = 0;
+    }
+    else {
+
+        for (int i = index; i < _sender_buffer_index; ++i) {
+            _sender_buffer[i - index] = _sender_buffer[i];
+        }
+        _sender_buffer_index -= index;
+    }
+    result = HDLC_OPERATION_OK;
+    return result;
+}
+
+
+/*******************************************************************************************
+ ***************************** RECEIVER AUXILIAR FUNCTIONS ********************************/
+
+hdlc_status_t hdlc_receiver_get_status() {
     hdlc_status_t result;
     _receiver_status_mutex.lock();
     result = _receiver_status;
@@ -179,16 +357,67 @@ hdlc_status_t hdlc_get_receiver_status() {
     return result;
 }
 
-void hdlc_update_sender_status(hdlc_status_t status) {
-    _sender_status_nutex.lock();
+void hdlc_receiver_update_status(hdlc_status_t status) {
+    _receiver_status_mutex.lock();
     _sender_status = status;
-    _sender_status_nutex.unlock();
+    _receiver_status_mutex.unlock();
 }
 
-hdlc_status_t hdlc_get_sender_status() {
-    hdlc_status_t result;
-    _sender_status_nutex.lock();
-    result = _sender_status;
-    _sender_status_nutex.unlock();
+int hdlc_receiver_buffer_celan() {
+    _receiver_buffer_mutex.lock();
+    _receiver_buffer_index = 0;
+    _receiver_buffer[_sender_buffer_index] = '\0';
+    _receiver_buffer_mutex.unlock();
+    return HDLC_OPERATION_OK;
+}
+
+int hdlc_receiver_initialize_connection(int receiver_connection_id) {
+    int result = HDLC_OPERATION_ERROR_NOT_FOUND;
+    do {
+        switch (hdlc_receiver_read_sabm(receiver_connection_id)) {
+            case HDLC_OPERATION_OK:
+                hdlc_receiver_send_ua(receiver_connection_id);
+                hdlc_receiver_update_status(HDLC_CONNECTED);
+                result = HDLC_OPERATION_OK;
+                break;
+            case HDLC_OPERATION_ERROR_NOT_FOUND:
+                //ToDo: check errors and DM
+                hdlc_receiver_update_status(HDLC_DISCONNECTED);
+                break;
+        }
+
+    } while (hdlc_receiver_get_status() == HDLC_START_CONNECTION);
     return result;
+}
+
+unsigned int hdlc_receiver_buffuer_available_capacity() {
+    unsigned int result = 0;
+
+    _receiver_buffer_mutex.lock();
+
+    result = _HDLC_MAX_MESSAGE_LENGTH - _receiver_buffer_index;
+
+    _receiver_buffer_mutex.unlock();
+
+    return result;
+}
+
+int hdlc_receiver_buffer_add_data(const char *data, unsigned int data_length) {
+    int result = HDLC_OPERATION_ERROR_NOT_FOUND;
+
+    _receiver_buffer_mutex.lock();
+
+    if(_receiver_buffer_index + data_length <= _HDLC_MAX_MESSAGE_LENGTH) {
+        strcpy(_sender_buffer, data);
+        _receiver_buffer_index += data_length;
+        if(_receiver_buffer_index < _HDLC_MAX_MESSAGE_LENGTH) {
+            _receiver_buffer[_receiver_buffer_index] = '\0';
+        }
+        result = HDLC_OPERATION_OK;
+    }
+
+    _receiver_buffer_mutex.unlock();
+
+    return result;
+
 }
