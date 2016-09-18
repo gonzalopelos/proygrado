@@ -8,6 +8,11 @@
 #include <stdlib.h>
 #include <errno.h>     // Error number definitions
 #include <unistd.h>
+#include <fstream>
+#include <thread>
+
+#include <hdlc_controller.h>
+#include <fcntl.h>
 #include "includes/yahdlc.h"
 #include "frdm_communication.h"
 
@@ -48,7 +53,8 @@ int frame_data(const char * send_data, char* frame_data, unsigned int* frame_dat
 int get_data (char* frame, unsigned int frame_length, char* data, unsigned int* data_length);
 
 
-
+void start_primary_station();
+void start_secondary_station();
 
 
 
@@ -88,7 +94,6 @@ void ProcessComands(int command){
     switch(command){
         case 0: // Quit command
             return;
-            break;
         case 1: //Toggle LEDs command
             file_descriptor = open_frdm_connection();
             if(send_to_frdm(file_descriptor, (char *) "1", 1) == 1){
@@ -119,7 +124,7 @@ void ProcessComands(int command){
                     else if (res < 0){
                         printf("Unable to read()\n");
                     }
-                    else {
+                        else {
                         printf("Data read (%d bytes):\n", res);
                         char data[frame_length];
                         unsigned int data_length = 0;
@@ -130,13 +135,15 @@ void ProcessComands(int command){
                 }
             }
             break;
-
         case 3:
 
+            start_primary_station();
             break;
-        default: return;
+        case 4:
+            start_secondary_station();
+            break;
+        default:break;
     }
-
 }
 
 void stringToHex(unsigned char* hexString, const char* string, int stringLenght){
@@ -216,6 +223,67 @@ int get_data (char* frame, unsigned int frame_length, char* data, unsigned int* 
     ret = yahdlc_get_data(&control, frame, frame_length, data, data_length);
     return ret;
 }
+
+void hdlc_controller_init_primary_station() {
+    unsigned char primary_station_address = PRIMARY_STATION_ADDR;
+    hdlc_init(primary_station_address);
+}
+
+void hdlc_controller_init_secondary_station() {
+    unsigned char secondary_station_address = 0x2;
+    hdlc_init(secondary_station_address);
+}
+
+void start_primary_station() {
+    FILE * f = fopen("/Users/gonzalopelos/Documents/ProyGrado/HDLC_Test/comunication.txt","w+");
+    fclose(f);
+    std::thread primary_station_thread(hdlc_controller_init_primary_station);
+    int primary_station_command;
+    char data_read[256];
+    char data_send[256];
+    unsigned int data_read_length;
+    unsigned int data_send_length;
+    int send_result;
+    do{
+        printf("Enter 1 to send data\n");
+        scanf("%d", &primary_station_command);
+        if(primary_station_command) {
+            scanf("%4s", data_send);
+            data_send_length = 4;
+            send_result = hdlc_send_data(data_send, data_send_length);
+            if(send_result) {
+                printf("Data send: %s\nResult: %d", data_send, send_result);
+                do {
+                    hdlc_read_data(data_read, &data_read_length);
+                } while (data_read_length == 0);
+                printf("Data read: %s\nData read length: %d\n", data_read, data_read_length);
+            }
+        }
+    } while(primary_station_command != 0);
+
+    primary_station_thread.join();
+}
+
+void start_secondary_station() {
+    std::thread secondary_station_thread(hdlc_controller_init_secondary_station);
+    int secondary_station_command;
+    char data_read[256];
+    unsigned int data_read_length;
+    do{
+        printf("Enter 1 to read data\n");
+        scanf("%d", &secondary_station_command);
+        if(secondary_station_command) {
+            hdlc_read_data(data_read, &data_read_length);
+            if(data_read_length) {
+                printf("Data read: %s\nData read length: %d\n", data_read, data_read_length);
+                strcat(data_read, "- from station 2");
+                hdlc_send_data(data_read, data_read_length + 16);
+            }
+        }
+    } while(secondary_station_command != 0);
+    secondary_station_thread.join();
+}
+
 
 
 //======================================================

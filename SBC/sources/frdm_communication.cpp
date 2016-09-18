@@ -8,7 +8,7 @@
 #include <cstdio>
 #include <zconf.h>
 #include "frdm_communication.h"
-const char* frdm_devicePath = "/dev/ttyACM0";
+const char* frdm_devicePath = "/Users/gonzalopelos/Documents/ProyGrado/HDLC_Test/comunication.txt";
 /*
  * 'open_port()' - Open serial port 1.
  *

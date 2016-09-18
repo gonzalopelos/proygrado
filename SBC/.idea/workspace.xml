@@ -13,12 +13,16 @@
   <component name="ChangeListManager">
     <list default="true" id="05fcb916-348e-4204-8ee5-a2b068ee5535" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/includes/frdm_communication.h" afterPath="$PROJECT_DIR$/includes/frdm_communication.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/includes/hdlc_controller.h" afterPath="$PROJECT_DIR$/includes/hdlc_controller.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/includes/hdlc_receiver.h" afterPath="$PROJECT_DIR$/includes/hdlc_receiver.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/includes/hdlc_sender.h" afterPath="$PROJECT_DIR$/includes/hdlc_sender.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/includes/yahdlc.h" afterPath="$PROJECT_DIR$/includes/yahdlc.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sources/frdm_communication.cpp" afterPath="$PROJECT_DIR$/sources/frdm_communication.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sources/hdlc_controller.cpp" afterPath="$PROJECT_DIR$/sources/hdlc_controller.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sources/hdlc_receiver.cpp" afterPath="$PROJECT_DIR$/sources/hdlc_receiver.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sources/hdlc_sender.cpp" afterPath="$PROJECT_DIR$/sources/hdlc_sender.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sources/yahdlc.c" afterPath="$PROJECT_DIR$/sources/yahdlc.c" />
     </list>
     <ignored path="SBC.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -45,21 +49,20 @@
       <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="463">
-              <caret line="217" column="1" selection-start-line="217" selection-start-column="1" selection-end-line="217" selection-end-column="1" />
+            <state relative-caret-position="208">
+              <caret line="251" column="0" selection-start-line="251" selection-start-column="0" selection-end-line="251" selection-end-column="0" />
               <folding>
                 <element signature="e#0#120#0" expanded="false" />
-                <element signature="e#647#703#0" expanded="false" />
-                <element signature="e#1150#1222#0" expanded="false" />
-                <element signature="e#1224#1280#0" expanded="false" />
-                <element signature="e#1326#1942#0" expanded="false" />
-                <element signature="e#1944#3769#0" expanded="false" />
-                <element signature="e#4071#4347#0" expanded="false" />
-                <element signature="e#4349#5687#0" expanded="false" />
-                <element signature="e#4643#5239#0" expanded="false" />
-                <element signature="e#5689#5942#0" expanded="false" />
-                <marker date="1473625665000" expanded="false" signature="2159:2478" ph="..." />
-                <marker date="1473625665000" expanded="false" signature="2507:3698" ph="..." />
+                <element signature="e#122#140#0" expanded="true" />
+                <element signature="e#733#789#0" expanded="false" />
+                <element signature="e#1371#1427#0" expanded="false" />
+                <element signature="e#4310#4586#0" expanded="false" />
+                <element signature="e#4882#5478#0" expanded="false" />
+                <marker date="1474144285000" expanded="false" signature="1330:1369" ph="{...}" />
+                <marker date="1474144285000" expanded="true" signature="2287:2606" ph="..." />
+                <marker date="1474144285000" expanded="true" signature="2635:3829" ph="..." />
+                <marker date="1474144285000" expanded="false" signature="4090:4307" ph="{...}" />
+                <marker date="1474144285000" expanded="false" signature="6020:6181" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -68,62 +71,75 @@
       <file leaf-file-name="hdlc_controller.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sources/hdlc_controller.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="170" column="19" selection-start-line="170" selection-start-column="19" selection-end-line="170" selection-end-column="19" />
+            <state relative-caret-position="139">
+              <caret line="201" column="0" selection-start-line="201" selection-start-column="0" selection-end-line="201" selection-end-column="0" />
               <folding>
                 <element signature="e#0#2#0" expanded="false" />
-                <element signature="e#280#423#0" expanded="false" />
-                <element signature="e#482#596#0" expanded="false" />
-                <element signature="e#2519#3309#0" expanded="false" />
-                <element signature="e#3311#3403#0" expanded="false" />
-                <element signature="e#3763#4872#0" expanded="false" />
-                <element signature="e#9919#10072#0" expanded="false" />
-                <element signature="e#10074#10258#0" expanded="false" />
-                <element signature="e#10260#10805#0" expanded="false" />
-                <element signature="e#10807#11193#0" expanded="false" />
-                <element signature="e#11195#11406#0" expanded="false" />
-                <element signature="e#11408#11942#0" expanded="false" />
-                <element signature="e#11945#12324#0" expanded="false" />
-                <element signature="e#12326#12485#0" expanded="false" />
-                <element signature="e#12487#12708#0" expanded="false" />
-                <element signature="e#12710#13410#0" expanded="false" />
-                <element signature="e#13412#13659#0" expanded="false" />
-                <element signature="e#13661#14224#0" expanded="false" />
+                <element signature="e#303#446#0" expanded="false" />
+                <element signature="e#505#619#0" expanded="false" />
+                <element signature="e#1416#1556#0" expanded="false" />
+                <element signature="e#2613#2795#0" expanded="false" />
+                <element signature="e#2613#3605#0" expanded="false" />
+                <element signature="e#3607#3936#0" expanded="false" />
+                <element signature="e#3938#4082#0" expanded="false" />
+                <element signature="e#4085#4270#0" expanded="false" />
+                <element signature="e#4297#5406#0" expanded="false" />
+                <element signature="e#10332#10515#0" expanded="false" />
+                <element signature="e#11847#12057#0" expanded="false" />
+                <element signature="e#12059#12243#0" expanded="false" />
+                <element signature="e#12245#12790#0" expanded="false" />
+                <element signature="e#12792#13178#0" expanded="false" />
+                <element signature="e#13180#13391#0" expanded="false" />
+                <element signature="e#13393#13927#0" expanded="false" />
+                <element signature="e#13930#14115#0" expanded="false" />
+                <element signature="e#13930#14309#0" expanded="false" />
+                <element signature="e#14737#15473#0" expanded="false" />
+                <element signature="e#15475#15722#0" expanded="false" />
+                <element signature="e#15724#16289#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="yahdlc.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sources/yahdlc.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-411">
-              <caret line="95" column="4" selection-start-line="95" selection-start-column="4" selection-end-line="95" selection-end-column="4" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="errno.h" pinned="false" current-in-tab="false">
-        <entry file="file:///usr/include/sys/errno.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="91" column="8" selection-start-line="91" selection-start-column="8" selection-end-line="91" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="hdlc_sender.cpp" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/sources/hdlc_sender.cpp">
+      <file leaf-file-name="hdlc_controller.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/includes/hdlc_controller.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="120">
               <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="yahdlc.c" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/sources/yahdlc.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="145">
+              <caret line="164" column="0" selection-start-line="164" selection-start-column="0" selection-end-line="164" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fcs16.c" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sources/fcs16.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="465">
+              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="hdlc_sender.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sources/hdlc_sender.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="435">
+              <caret line="76" column="14" selection-start-line="75" selection-start-column="14" selection-end-line="76" selection-end-column="14" />
               <folding>
-                <element signature="e#36#67#0" expanded="true" />
-                <element signature="e#158#636#0" expanded="false" />
-                <element signature="e#638#1208#0" expanded="false" />
-                <element signature="e#1210#2276#0" expanded="false" />
+                <element signature="e#0#2#0" expanded="false" />
+                <element signature="e#176#1050#0" expanded="false" />
+                <element signature="e#1052#1731#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -132,19 +148,26 @@
       <file leaf-file-name="hdlc_receiver.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sources/hdlc_receiver.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="23" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
-              <folding />
+            <state relative-caret-position="116">
+              <caret line="94" column="0" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#2#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="hdlc_sender.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/includes/hdlc_sender.h">
+      <file leaf-file-name="yahdlc.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/includes/yahdlc.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
-              <folding />
+            <state relative-caret-position="178">
+              <caret line="35" column="18" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
+              <folding>
+                <element signature="e#0#25#0" expanded="false" />
+                <element signature="e#854#1552#0" expanded="false" />
+                <element signature="e#1697#1788#0" expanded="false" />
+                <element signature="e#1820#2232#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -152,32 +175,13 @@
       <file leaf-file-name="frdm_communication.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sources/frdm_communication.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="43" column="1" selection-start-line="43" selection-start-column="1" selection-end-line="43" selection-end-column="1" />
+            <state relative-caret-position="208">
+              <caret line="35" column="32" selection-start-line="35" selection-start-column="32" selection-end-line="35" selection-end-column="32" />
               <folding>
-                <element signature="e#42#60#0" expanded="true" />
-                <element signature="e#1549#1633#0" expanded="false" />
+                <element signature="e#0#2#0" expanded="false" />
+                <element signature="e#286#392#0" expanded="false" />
+                <element signature="e#1603#1687#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="unistd.h" pinned="false" current-in-tab="false">
-        <entry file="file:///usr/include/unistd.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="470" column="5" selection-start-line="470" selection-start-column="5" selection-end-line="470" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_ssize_t.h" pinned="false" current-in-tab="false">
-        <entry file="file:///usr/include/sys/_types/_ssize_t.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="29" column="39" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="39" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -197,14 +201,14 @@
         <option value="$PROJECT_DIR$/includes/frdm_comunication.h" />
         <option value="$PROJECT_DIR$/sources/frdm_comunication.cpp" />
         <option value="$PROJECT_DIR$/includes/hdlc_receiver.h" />
-        <option value="$PROJECT_DIR$/includes/hdlc_controller.h" />
-        <option value="$PROJECT_DIR$/sources/yahdlc.c" />
-        <option value="$PROJECT_DIR$/includes/yahdlc.h" />
         <option value="$PROJECT_DIR$/includes/hdlc_sender.h" />
-        <option value="$PROJECT_DIR$/sources/hdlc_receiver.cpp" />
-        <option value="$PROJECT_DIR$/sources/hdlc_controller.cpp" />
-        <option value="$PROJECT_DIR$/main.cpp" />
+        <option value="$PROJECT_DIR$/includes/hdlc_controller.h" />
         <option value="$PROJECT_DIR$/sources/frdm_communication.cpp" />
+        <option value="$PROJECT_DIR$/main.cpp" />
+        <option value="$PROJECT_DIR$/includes/yahdlc.h" />
+        <option value="$PROJECT_DIR$/sources/hdlc_controller.cpp" />
+        <option value="$PROJECT_DIR$/sources/yahdlc.c" />
+        <option value="$PROJECT_DIR$/sources/hdlc_receiver.cpp" />
         <option value="$PROJECT_DIR$/sources/hdlc_sender.cpp" />
       </list>
     </option>
@@ -271,28 +275,14 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SBC" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SBC" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="includes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="settin&#9;ACTION&#9;WelcomeScreen.Settings&#10;settings&#9;ACTION&#9;WelcomeScreen.Settings&#10;cmak&#9;ACTION&#9;CMake.OpenCMakeSettings&#10;cmake&#9;ACTION&#9;CMake.OpenCMakeSettings" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
+    <property name="SearchEverywhereHistoryKey" value="settings&#9;ACTION&#9;TemplateProjectProperties&#10;settin&#9;ACTION&#9;WelcomeScreen.Settings&#10;cmak&#9;ACTION&#9;CMake.OpenCMakeSettings&#10;cmake&#9;ACTION&#9;CMake.OpenCMakeSettings" />
+    <property name="settings.editor.selected.configurable" value="CMakeSettings" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="FullScreen" value="true" />
   </component>
@@ -470,20 +460,20 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18263888" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18534179" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30229747" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30099502" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.5031299" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41044775" sideWeight="0.5045807" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32769045" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32914847" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3270809" sideWeight="0.4968701" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32587063" sideWeight="0.4968701" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24926035" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39969134" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41044775" sideWeight="0.49541932" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -525,36 +515,51 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="16" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/sources/hdlc_controller.cpp</url>
+          <line>178</line>
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/sources/hdlc_controller.cpp</url>
+          <line>201</line>
+          <option name="timeStamp" value="71" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/sources/hdlc_controller.cpp</url>
+          <line>260</line>
+          <option name="timeStamp" value="74" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/main.cpp</url>
+          <line>275</line>
+          <option name="timeStamp" value="84" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/main.cpp</url>
+          <line>273</line>
+          <option name="timeStamp" value="85" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/sources/yahdlc.c</url>
+          <line>164</line>
+          <option name="timeStamp" value="87" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="88" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="864">
-          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-          <folding>
-            <element signature="e#122#140#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/frdm_communication.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sources/frdm_communication.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#42#60#0" expanded="true" />
-            <element signature="e#1549#1633#0" expanded="false" />
+            <element signature="e#0#2#0" expanded="false" />
+            <element signature="e#286#392#0" expanded="false" />
+            <element signature="e#1603#1687#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -594,7 +599,17 @@
         <state relative-caret-position="3708">
           <caret line="206" column="17" selection-start-line="206" selection-start-column="17" selection-end-line="206" selection-end-column="17" />
           <folding>
+            <element signature="e#0#120#0" expanded="false" />
             <element signature="e#122#140#0" expanded="true" />
+            <element signature="e#733#789#0" expanded="false" />
+            <element signature="e#1371#1427#0" expanded="false" />
+            <element signature="e#4310#4586#0" expanded="false" />
+            <element signature="e#4882#5478#0" expanded="false" />
+            <marker date="1474144285000" expanded="false" signature="1330:1369" ph="{...}" />
+            <marker date="1474144285000" expanded="true" signature="2287:2606" ph="..." />
+            <marker date="1474144285000" expanded="true" signature="2635:3829" ph="..." />
+            <marker date="1474144285000" expanded="false" signature="4090:4307" ph="{...}" />
+            <marker date="1474144285000" expanded="false" signature="6020:6181" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -633,7 +648,17 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="e#0#120#0" expanded="false" />
             <element signature="e#122#140#0" expanded="true" />
+            <element signature="e#733#789#0" expanded="false" />
+            <element signature="e#1371#1427#0" expanded="false" />
+            <element signature="e#4310#4586#0" expanded="false" />
+            <element signature="e#4882#5478#0" expanded="false" />
+            <marker date="1474144285000" expanded="false" signature="1330:1369" ph="{...}" />
+            <marker date="1474144285000" expanded="true" signature="2287:2606" ph="..." />
+            <marker date="1474144285000" expanded="true" signature="2635:3829" ph="..." />
+            <marker date="1474144285000" expanded="false" signature="4090:4307" ph="{...}" />
+            <marker date="1474144285000" expanded="false" signature="6020:6181" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -666,7 +691,17 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="e#0#120#0" expanded="false" />
             <element signature="e#122#140#0" expanded="true" />
+            <element signature="e#733#789#0" expanded="false" />
+            <element signature="e#1371#1427#0" expanded="false" />
+            <element signature="e#4310#4586#0" expanded="false" />
+            <element signature="e#4882#5478#0" expanded="false" />
+            <marker date="1474144285000" expanded="false" signature="1330:1369" ph="{...}" />
+            <marker date="1474144285000" expanded="true" signature="2287:2606" ph="..." />
+            <marker date="1474144285000" expanded="true" signature="2635:3829" ph="..." />
+            <marker date="1474144285000" expanded="false" signature="4090:4307" ph="{...}" />
+            <marker date="1474144285000" expanded="false" signature="6020:6181" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -692,13 +727,6 @@
     <entry file="file://$PROJECT_DIR$/sources/usb_controller.c" />
     <entry file="file://$PROJECT_DIR$/includes/usb_controller.h" />
     <entry file="file:///usr/include/x86_64-linux-gnu/bits/errno.h" />
-    <entry file="file:///usr/include/stdio.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="363" column="11" selection-start-line="363" selection-start-column="11" selection-end-line="363" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/include/fcntl.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-399">
@@ -707,13 +735,6 @@
       </provider>
     </entry>
     <entry file="file:///usr/include/x86_64-linux-gnu/bits/unistd.h" />
-    <entry file="file://$PROJECT_DIR$/sources/fcs16.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/includes/fcs16.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -733,14 +754,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/hdlc_controller.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="16" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
           <folding />
         </state>
       </provider>
@@ -765,7 +778,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="183">
           <caret line="44" column="9" selection-start-line="44" selection-start-column="9" selection-end-line="44" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -773,20 +785,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
           <caret line="78" column="9" selection-start-line="78" selection-start-column="9" selection-end-line="78" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/yahdlc.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="34" column="4" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#25#0" expanded="false" />
-            <element signature="e#824#1522#0" expanded="false" />
-            <element signature="e#1667#1758#0" expanded="false" />
-            <element signature="e#1790#2202#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -798,115 +796,171 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sources/hdlc_receiver.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="23" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sources/hdlc_controller.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="170" column="19" selection-start-line="170" selection-start-column="19" selection-end-line="170" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#2#0" expanded="false" />
-            <element signature="e#280#423#0" expanded="false" />
-            <element signature="e#482#596#0" expanded="false" />
-            <element signature="e#2519#3309#0" expanded="false" />
-            <element signature="e#3311#3403#0" expanded="false" />
-            <element signature="e#3763#4872#0" expanded="false" />
-            <element signature="e#9919#10072#0" expanded="false" />
-            <element signature="e#10074#10258#0" expanded="false" />
-            <element signature="e#10260#10805#0" expanded="false" />
-            <element signature="e#10807#11193#0" expanded="false" />
-            <element signature="e#11195#11406#0" expanded="false" />
-            <element signature="e#11408#11942#0" expanded="false" />
-            <element signature="e#11945#12324#0" expanded="false" />
-            <element signature="e#12326#12485#0" expanded="false" />
-            <element signature="e#12487#12708#0" expanded="false" />
-            <element signature="e#12710#13410#0" expanded="false" />
-            <element signature="e#13412#13659#0" expanded="false" />
-            <element signature="e#13661#14224#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="463">
-          <caret line="217" column="1" selection-start-line="217" selection-start-column="1" selection-end-line="217" selection-end-column="1" />
-          <folding>
-            <element signature="e#0#120#0" expanded="false" />
-            <element signature="e#647#703#0" expanded="false" />
-            <element signature="e#1150#1222#0" expanded="false" />
-            <element signature="e#1224#1280#0" expanded="false" />
-            <element signature="e#1326#1942#0" expanded="false" />
-            <element signature="e#1944#3769#0" expanded="false" />
-            <element signature="e#4071#4347#0" expanded="false" />
-            <element signature="e#4349#5687#0" expanded="false" />
-            <element signature="e#4643#5239#0" expanded="false" />
-            <element signature="e#5689#5942#0" expanded="false" />
-            <marker date="1473625665000" expanded="false" signature="2159:2478" ph="..." />
-            <marker date="1473625665000" expanded="false" signature="2507:3698" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/include/sys/errno.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
+        <state relative-caret-position="1365">
           <caret line="91" column="8" selection-start-line="91" selection-start-column="8" selection-end-line="91" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file:///usr/include/sys/_types/_ssize_t.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
+        <state relative-caret-position="435">
           <caret line="29" column="39" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sources/fcs16.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/sys/fcntl.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="813">
+          <caret line="477" column="4" selection-start-line="477" selection-start-column="4" selection-end-line="477" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/hdlc_controller.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/sys/semaphore.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="50" column="13" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/stdio.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1749">
+          <caret line="301" column="9" selection-start-line="301" selection-start-column="9" selection-end-line="301" selection-end-column="9" />
+          <folding>
+            <element signature="e#13561#13871#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file:///usr/include/unistd.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="470" column="5" selection-start-line="470" selection-start-column="5" selection-end-line="470" selection-end-column="5" />
+        <state relative-caret-position="418">
+          <caret line="470" column="9" selection-start-line="470" selection-start-column="9" selection-end-line="470" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sources/frdm_communication.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="43" column="1" selection-start-line="43" selection-start-column="1" selection-end-line="43" selection-end-column="1" />
+        <state relative-caret-position="208">
+          <caret line="35" column="32" selection-start-line="35" selection-start-column="32" selection-end-line="35" selection-end-column="32" />
           <folding>
-            <element signature="e#42#60#0" expanded="true" />
-            <element signature="e#1549#1633#0" expanded="false" />
+            <element signature="e#0#2#0" expanded="false" />
+            <element signature="e#286#392#0" expanded="false" />
+            <element signature="e#1603#1687#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/yahdlc.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="35" column="18" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#25#0" expanded="false" />
+            <element signature="e#854#1552#0" expanded="false" />
+            <element signature="e#1697#1788#0" expanded="false" />
+            <element signature="e#1820#2232#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sources/hdlc_sender.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="76" column="14" selection-start-line="75" selection-start-column="14" selection-end-line="76" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#2#0" expanded="false" />
+            <element signature="e#176#1050#0" expanded="false" />
+            <element signature="e#1052#1731#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sources/hdlc_receiver.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="94" column="0" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#2#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="251" column="0" selection-start-line="251" selection-start-column="0" selection-end-line="251" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#120#0" expanded="false" />
+            <element signature="e#122#140#0" expanded="true" />
+            <element signature="e#733#789#0" expanded="false" />
+            <element signature="e#1371#1427#0" expanded="false" />
+            <element signature="e#4310#4586#0" expanded="false" />
+            <element signature="e#4882#5478#0" expanded="false" />
+            <marker date="1474144285000" expanded="false" signature="1330:1369" ph="{...}" />
+            <marker date="1474144285000" expanded="true" signature="2287:2606" ph="..." />
+            <marker date="1474144285000" expanded="true" signature="2635:3829" ph="..." />
+            <marker date="1474144285000" expanded="false" signature="4090:4307" ph="{...}" />
+            <marker date="1474144285000" expanded="false" signature="6020:6181" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sources/hdlc_controller.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="201" column="0" selection-start-line="201" selection-start-column="0" selection-end-line="201" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#2#0" expanded="false" />
+            <element signature="e#303#446#0" expanded="false" />
+            <element signature="e#505#619#0" expanded="false" />
+            <element signature="e#1416#1556#0" expanded="false" />
+            <element signature="e#2613#2795#0" expanded="false" />
+            <element signature="e#2613#3605#0" expanded="false" />
+            <element signature="e#3607#3936#0" expanded="false" />
+            <element signature="e#3938#4082#0" expanded="false" />
+            <element signature="e#4085#4270#0" expanded="false" />
+            <element signature="e#4297#5406#0" expanded="false" />
+            <element signature="e#10332#10515#0" expanded="false" />
+            <element signature="e#11847#12057#0" expanded="false" />
+            <element signature="e#12059#12243#0" expanded="false" />
+            <element signature="e#12245#12790#0" expanded="false" />
+            <element signature="e#12792#13178#0" expanded="false" />
+            <element signature="e#13180#13391#0" expanded="false" />
+            <element signature="e#13393#13927#0" expanded="false" />
+            <element signature="e#13930#14115#0" expanded="false" />
+            <element signature="e#13930#14309#0" expanded="false" />
+            <element signature="e#14737#15473#0" expanded="false" />
+            <element signature="e#15475#15722#0" expanded="false" />
+            <element signature="e#15724#16289#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sources/yahdlc.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-411">
-          <caret line="95" column="4" selection-start-line="95" selection-start-column="4" selection-end-line="95" selection-end-column="4" />
+        <state relative-caret-position="145">
+          <caret line="164" column="0" selection-start-line="164" selection-start-column="0" selection-end-line="164" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sources/hdlc_sender.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <element signature="e#36#67#0" expanded="true" />
-            <element signature="e#158#636#0" expanded="false" />
-            <element signature="e#638#1208#0" expanded="false" />
-            <element signature="e#1210#2276#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>

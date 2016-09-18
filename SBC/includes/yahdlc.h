@@ -33,6 +33,7 @@ typedef enum {
 typedef struct {
     yahdlc_frame_t frame;
     unsigned char seq_no :3;
+    unsigned char address :8;
 } yahdlc_control_t;
 
 typedef enum {
