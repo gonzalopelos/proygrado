@@ -1,5 +1,6 @@
 #include <yahdlc.h>
 #include <//printf.h>
+#include <stddef.h>
 #include "../includes/fcs16.h"
 #include "../includes/yahdlc.h"
 
@@ -33,37 +34,34 @@ void yahdlc_escape_value(char value, char *dest, int *dest_index) {
     dest[(*dest_index)++] = value;
 }
 
-yahdlc_control_t yahdlc_get_control_type(unsigned char control) {
-    yahdlc_control_t value;
+void yahdlc_get_control_type(unsigned char control, yahdlc_control_t * control_frame) {
     // Check if the frame is a S-frame (or U-frame)
     if (control & (1 << YAHDLC_CONTROL_S_OR_U_FRAME_BIT)) {
         if(control == 0x1f){
             //printf("yahdlc get_control_type YAHDLC_FRAME_SARM\n");
-            value.frame = YAHDLC_FRAME_SARM;
+            control_frame->frame = YAHDLC_FRAME_SARM;
         } else if (control == 0x63) {
             //printf("yahdlc get_control_type YAHDLC_FRAME_UA\n");
-            value.frame = YAHDLC_FRAME_UA;
+            control_frame->frame = YAHDLC_FRAME_UA;
         } else if (((control >> YAHDLC_CONTROL_S_FRAME_TYPE_BIT) & 0x3) // Check if S-frame type is a Receive Ready (ACK)
                    == YAHDLC_CONTROL_TYPE_RECEIVE_READY) {
             //printf("yahdlc get_control_type YAHDLC_FRAME_ACK\n");
-            value.frame = YAHDLC_FRAME_ACK;
+            control_frame->frame = YAHDLC_FRAME_ACK;
             } else {
-            //printf("yahdlc get_control_type YAHDLC_FRAME_NACK\n");
+                //printf("yahdlc get_control_type YAHDLC_FRAME_NACK\n");
 
-            // Assume it is an NACK since Receive Not Ready, Selective Reject and U-frames are not supported
-                value.frame = YAHDLC_FRAME_NACK;
+                // Assume it is an NACK since Receive Not Ready, Selective Reject and U-frames are not supported
+                control_frame->frame = YAHDLC_FRAME_NACK;
             }
         // Add the receive sequence number from the S-frame (or U-frame)
-        value.seq_no = (control >> YAHDLC_CONTROL_RECV_SEQ_NO_BIT);
+        control_frame->seq_no = (control >> YAHDLC_CONTROL_RECV_SEQ_NO_BIT);
     } else {
         // It must be an I-frame so add the send sequence number (receive sequence number is not used)
         //printf("yahdlc get_control_type YAHDLC_FRAME_DATA\n");
 
-        value.frame = YAHDLC_FRAME_DATA;
-        value.seq_no = (control >> YAHDLC_CONTROL_SEND_SEQ_NO_BIT);
+        control_frame->frame = YAHDLC_FRAME_DATA;
+        control_frame->seq_no = (control >> YAHDLC_CONTROL_SEND_SEQ_NO_BIT);
     }
-
-    return value;
 }
 
 unsigned char yahdlc_frame_control_type(yahdlc_control_t *control) {
@@ -165,7 +163,7 @@ int yahdlc_get_data(yahdlc_control_t *control, const char *src,
                     control->address = (unsigned char) value;
                 } else if (yahdlc_src_index == yahdlc_start_index + 2) {
                     // Control field is the second byte after the start flag sequence
-                    *control = yahdlc_get_control_type((unsigned char) value);
+                    yahdlc_get_control_type((unsigned char) value, control);
                 } else if (yahdlc_src_index > (yahdlc_start_index + 2)) {
                     // Start adding the data values after the Control field to the buffer
                     dest[yahdlc_dest_index++] = value;

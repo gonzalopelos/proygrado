@@ -13,6 +13,7 @@
 
 #include <hdlc_controller.h>
 #include <fcntl.h>
+#include <yahdlc.h>
 #include "includes/yahdlc.h"
 #include "frdm_communication.h"
 
@@ -88,7 +89,6 @@ void ReadCommands(){
 }
 
 void ProcessComands(int command){
-    int res;
     int file_descriptor;
 
     switch(command){
@@ -106,34 +106,18 @@ void ProcessComands(int command){
         case 2:
             char data_exa[256];
             unsigned int frame_length;
-            res = frame_data("test", data_exa, &frame_length);
-
-            if (res < 0){
-                printf("Unable to write()\n");
-                printf("Error:\n");
-            }
-            else{
-                printf("Data sent successfully\nres: %d - frame_length: %d\n", res, frame_length);
-                usleep(500*10000);
-                res = 0;
-                while (res == 0) {
-                    res = frame_length;
-                    if (res == 0) {
-                        printf("waiting...\n");
-                    }
-                    else if (res < 0){
-                        printf("Unable to read()\n");
-                    }
-                        else {
-                        printf("Data read (%d bytes):\n", res);
-                        char data[frame_length];
-                        unsigned int data_length = 0;
-                        get_data(data_exa, frame_length, data, &data_length);
-                        printf("Data read decoded (%d bytes):\n%s\n", data_length, data);
-                    }
-                    usleep(500*1000);
-                }
-            }
+            yahdlc_control_t control;
+            control.address = 0x2;
+            control.frame = YAHDLC_FRAME_DATA;
+            control.seq_no = 1;
+            data_exa[0] = '\0';
+            yahdlc_frame_data(&control,"test", 4, data_exa, &frame_length);
+            yahdlc_control_t control2;
+            char data[256];
+            data[0] = '\0';
+            unsigned int data_length;
+            yahdlc_get_data(&control2, data_exa, frame_length, data, &data_length);
+            printf("Data: %4s\n", data);
             break;
         case 3:
 
@@ -167,62 +151,62 @@ void hexToString(char* string, unsigned char* hexString, int stringLenght){
     }
 }
 
-int frame_data(const char * send_data, char* frame_data,  unsigned int* frame_length){
-    int ret;
-    unsigned int data_length, seq_no = 0;
-    data_length = sizeof(send_data);
+//int frame_data(const char * send_data, char* frame_data,  unsigned int* frame_length){
+//    int ret;
+//    unsigned int data_length, seq_no = 0;
+//    data_length = sizeof(send_data);
+//
+//
+//    yahdlc_control_t control;
+//    yahdlc_frame_t frame_type = YAHDLC_FRAME_DATA;
+//
+//    *frame_length = 0;
+//
+//
+//
+//
+//    /*if (!PyArg_ParseTuple(args, "s#|II", &send_data, &data_length, &frame_type, &seq_no))
+//        return NULL;
+//
+//    if (data_length > MAX_FRAME_PAYLOAD)
+//    {
+//        PyErr_SetString(PyExc_ValueError, "data too long");
+//        return NULL;
+//    }
+//    else if (frame_type != YAHDLC_FRAME_DATA && frame_type != YAHDLC_FRAME_ACK && frame_type != YAHDLC_FRAME_NACK)
+//    {
+//        PyErr_SetString(PyExc_ValueError, "bad frame type");
+//        return NULL;
+//    }
+//    else if (seq_no < 0 || seq_no > 7)
+//    {
+//        PyErr_SetString(PyExc_ValueError, "invalid sequence number");
+//        return NULL;
+//    }*/
+//
+//    control.frame = frame_type;
+//    control.seq_no = seq_no;
+//
+//
+//    ret = yahdlc_frame_data(&control, send_data, data_length, frame_data, frame_length);
+//    /* If success */
+//    if (ret != 0)
+//    {
+//        printf("Error yahdlc_frame_data, ret:%d\n", ret);
+//        printf("yahdlc_frame_data, frame_length:%d\n", (int) (*frame_length));
+//        printf("yahdlc_frame_data, data:%s, data_length:%d\n", send_data, data_length);
+//
+//    }
+//    return ret;
+//}
 
-
-    yahdlc_control_t control;
-    yahdlc_frame_t frame_type = YAHDLC_FRAME_DATA;
-
-    *frame_length = 0;
-
-
-
-
-    /*if (!PyArg_ParseTuple(args, "s#|II", &send_data, &data_length, &frame_type, &seq_no))
-        return NULL;
-
-    if (data_length > MAX_FRAME_PAYLOAD)
-    {
-        PyErr_SetString(PyExc_ValueError, "data too long");
-        return NULL;
-    }
-    else if (frame_type != YAHDLC_FRAME_DATA && frame_type != YAHDLC_FRAME_ACK && frame_type != YAHDLC_FRAME_NACK)
-    {
-        PyErr_SetString(PyExc_ValueError, "bad frame type");
-        return NULL;
-    }
-    else if (seq_no < 0 || seq_no > 7)
-    {
-        PyErr_SetString(PyExc_ValueError, "invalid sequence number");
-        return NULL;
-    }*/
-
-    control.frame = frame_type;
-    control.seq_no = seq_no;
-
-
-    ret = yahdlc_frame_data(&control, send_data, data_length, frame_data, frame_length);
-    /* If success */
-    if (ret != 0)
-    {
-        printf("Error yahdlc_frame_data, ret:%d\n", ret);
-        printf("yahdlc_frame_data, frame_length:%d\n", (int) (*frame_length));
-        printf("yahdlc_frame_data, data:%s, data_length:%d\n", send_data, data_length);
-
-    }
-    return ret;
-}
-
-int get_data (char* frame, unsigned int frame_length, char* data, unsigned int* data_length){
-    int ret;
-    yahdlc_control_t control;
-    *data_length = 0;
-    ret = yahdlc_get_data(&control, frame, frame_length, data, data_length);
-    return ret;
-}
+//int get_data (char* frame, unsigned int frame_length, char* data, unsigned int* data_length){
+//    int ret;
+//    yahdlc_control_t control;
+//    *data_length = 0;
+//    ret = yahdlc_get_data(&control, frame, frame_length, data, data_length);
+//    return ret;
+//}
 
 void hdlc_controller_init_primary_station() {
     unsigned char primary_station_address = PRIMARY_STATION_ADDR;
@@ -252,7 +236,7 @@ void start_primary_station() {
             data_send_length = 4;
             send_result = hdlc_send_data(data_send, data_send_length);
             if(send_result) {
-                printf("Data send: %s\nResult: %d", data_send, send_result);
+                printf("Data send: %s\nResult: %d\n", data_send, send_result);
                 do {
                     hdlc_read_data(data_read, &data_read_length);
                 } while (data_read_length == 0);
@@ -277,7 +261,9 @@ void start_secondary_station() {
             if(data_read_length) {
                 printf("Data read: %s\nData read length: %d\n", data_read, data_read_length);
                 strcat(data_read, "- from station 2");
-                hdlc_send_data(data_read, data_read_length + 16);
+                if(hdlc_send_data(data_read, data_read_length + 16) != HDLC_OPERATION_OK) {
+                    printf("hdlc_send_data error, data: %s\n data length: %d\n", data_read, data_read_length + 16 );
+                }
             }
         }
     } while(secondary_station_command != 0);
