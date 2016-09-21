@@ -107,6 +107,7 @@ int hdlc_receiver_send_ack(int connectionId, unsigned char station_address, int 
     controlFrame.seq_no= (unsigned char) seqNumber;
     controlFrame.address = station_address;
     char frame[_HDLC_MAX_MESSAGE_LENGTH];
+    frame[0] = '\0';
     unsigned int frameSize;
     if(yahdlc_frame_data(&controlFrame,"",0, frame, &frameSize) == 0) {
         if (send_to_frdm(connectionId, frame, frameSize)) {

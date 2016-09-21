@@ -207,8 +207,8 @@ void hdlc_sender() {
                             //ToDo: add mutex to sequence numbers access
                             //ToDo: check number mod 8 (3 bits).
                             _sender_seq_number++;
-                            hdlc_sender_update_status(HDLC_CONNECTED);
                             hdlc_sender_buffer_remove_data(data_length);
+                            hdlc_sender_update_status(HDLC_CONNECTED);
                             break;
                         case HDLC_OPERATION_ERROR_NOT_FOUND:
                             if(max_time) {
@@ -334,7 +334,7 @@ int hdlc_sender_buffer_add_data(const char *data, unsigned int data_length) {
     _sender_buffer_mutex.lock();
 
     if(_sender_buffer_index + data_length <= _HDLC_MAX_MESSAGE_LENGTH) {
-        strcpy(_sender_buffer, data);
+        strcat(_sender_buffer, data);
         _sender_buffer_index += data_length;
         if(_sender_buffer_index < _HDLC_MAX_MESSAGE_LENGTH) {
             _sender_buffer[_sender_buffer_index] = '\0';
@@ -366,8 +366,10 @@ int hdlc_sender_buffer_get_data(char *data, unsigned int *data_length) {
 
 int hdlc_sender_buffer_clean() {
     _sender_buffer_mutex.lock();
+
     _sender_buffer_index = 0;
     _sender_buffer[_sender_buffer_index] = '\0';
+
     _sender_buffer_mutex.unlock();
     return HDLC_OPERATION_OK;
 }
@@ -389,6 +391,9 @@ int hdlc_sender_buffer_remove_data(unsigned int index) {
         }
         _sender_buffer_index -= index;
     }
+
+    _sender_buffer_mutex.unlock();
+
     result = HDLC_OPERATION_OK;
     return result;
 }
@@ -457,7 +462,7 @@ int hdlc_receiver_buffer_add_data(const char *data, unsigned int data_length) {
     _receiver_buffer_mutex.lock();
 
     if(_receiver_buffer_index + data_length <= _HDLC_MAX_MESSAGE_LENGTH) {
-        strcpy(_receiver_buffer, data);
+        strcat(_receiver_buffer, data);
         _receiver_buffer_index += data_length;
         if(_receiver_buffer_index < _HDLC_MAX_MESSAGE_LENGTH) {
             _receiver_buffer[_receiver_buffer_index] = '\0';

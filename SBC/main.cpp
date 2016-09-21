@@ -229,19 +229,22 @@ void start_primary_station() {
     unsigned int data_send_length;
     int send_result;
     do{
-        printf("Enter 1 to send data\n");
+        printf("Enter 1 to send data\nEnter 2 to read data\n");
         scanf("%d", &primary_station_command);
-        if(primary_station_command) {
+        if(primary_station_command == 1) {
             scanf("%4s", data_send);
             data_send_length = 4;
             send_result = hdlc_send_data(data_send, data_send_length);
             if(send_result) {
                 printf("Data send: %s\nResult: %d\n", data_send, send_result);
-                do {
-                    hdlc_read_data(data_read, &data_read_length);
-                } while (data_read_length == 0);
-                printf("Data read: %s\nData read length: %d\n", data_read, data_read_length);
+            } else {
+                printf("Error send data\n");
             }
+        } else {
+            data_read[0] = '\0';
+            data_read_length = 0;
+            hdlc_read_data(data_read, &data_read_length);
+            printf("Data read: %s\nData read length: %d\n", data_read, data_read_length);
         }
     } while(primary_station_command != 0);
 
@@ -250,23 +253,33 @@ void start_primary_station() {
 
 void start_secondary_station() {
     std::thread secondary_station_thread(hdlc_controller_init_secondary_station);
-    int secondary_station_command;
+
+    int primary_station_command;
     char data_read[256];
+    char data_send[256];
     unsigned int data_read_length;
+    unsigned int data_send_length;
+    int send_result;
     do{
-        printf("Enter 1 to read data\n");
-        scanf("%d", &secondary_station_command);
-        if(secondary_station_command) {
-            hdlc_read_data(data_read, &data_read_length);
-            if(data_read_length) {
-                printf("Data read: %s\nData read length: %d\n", data_read, data_read_length);
-                strcat(data_read, "- from station 2");
-                if(hdlc_send_data(data_read, data_read_length + 16) != HDLC_OPERATION_OK) {
-                    printf("hdlc_send_data error, data: %s\n data length: %d\n", data_read, data_read_length + 16 );
-                }
+        printf("Enter 1 to send data\nEnter 2 to read data\n");
+        scanf("%d", &primary_station_command);
+        if(primary_station_command == 1) {
+            scanf("%4s", data_send);
+            data_send_length = 4;
+            send_result = hdlc_send_data(data_send, data_send_length);
+            if(send_result) {
+                printf("Data send: %s\nResult: %d\n", data_send, send_result);
+            } else {
+                printf("Error send data\n");
             }
+        } else {
+            data_read[0] = '\0';
+            data_read_length = 0;
+            hdlc_read_data(data_read, &data_read_length);
+            printf("Data read: %s\nData read length: %d\n", data_read, data_read_length);
         }
-    } while(secondary_station_command != 0);
+    } while(primary_station_command != 0);
+
     secondary_station_thread.join();
 }
 

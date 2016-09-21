@@ -4,6 +4,7 @@
 #include <frdm_communication.h>
 #include <yahdlc.h>
 #include <cstdio>
+#include <ctime>
 #include "../includes/yahdlc.h"
 #include "../includes/hdlc_sender.h"
 
@@ -43,6 +44,7 @@ int hdlc_sender_send_message(int connectionId, unsigned char station_address, in
     controlFrame.seq_no= (unsigned char) seq_number;
     controlFrame.address = station_address;
     char frame[_HDLC_MAX_MESSAGE_LENGTH];
+    frame[0] = '\0';
     unsigned int frameSize;
     if(yahdlc_frame_data(&controlFrame, data, dataLength, frame, &frameSize) == 0) {
         if (send_to_frdm(connectionId, frame, frameSize)) {
@@ -62,6 +64,12 @@ int hdlc_sender_read_ack(int connectionId, unsigned char station_address, int *m
     int data_read_length;
     char data_read_decoded[_HDLC_MAX_MESSAGE_LENGTH];
     unsigned int data_read_decoded_length;
+    time_t start_time = 0;
+    time_t end_time = 0;
+    double time_diff = 0;
+
+    /* Get the initial time */
+    start_time = time(NULL);
     do {
         data_read_length = get_from_fdrm(connectionId, data_read, _HDLC_MAX_MESSAGE_LENGTH);
         if(data_read_length > 0) {
@@ -76,7 +84,17 @@ int hdlc_sender_read_ack(int connectionId, unsigned char station_address, int *m
 //            if(result != HDLC_OPERATION_OK)
 //                timeout = true;
         }
-
+        /* Get the end time after each iteration */
+        end_time = time(NULL);
+        /* Get the difference between times */
+        time_diff = difftime(end_time, start_time);
+        if(time_diff > *max_time) {
+            /* timed out before getting an event */
+            timeout = true;
+            *max_time = 0;
+        } else {
+            *max_time = (int) (*max_time - time_diff);
+        }
     } while (result != HDLC_OPERATION_OK && !timeout);
 
     return result;
