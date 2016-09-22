@@ -32,6 +32,7 @@ hdlc_status_t _sender_status;
 mutex _sender_status_nutex;
 mutex _sender_buffer_mutex;
 mutex _sender_wait_connection_mutex;
+mutex _sender_wait_data_mutex;
 
 char _sender_buffer[_HDLC_MAX_MESSAGE_LENGTH];
 unsigned int _sender_buffer_index;
@@ -341,7 +342,9 @@ int hdlc_sender_buffer_add_data(const char *data, unsigned int data_length) {
         }
         result = HDLC_OPERATION_OK;
     }
-
+    if(_sender_buffer_index > 0) {
+        _sender_wait_data_mutex.unlock();
+    }
     _sender_buffer_mutex.unlock();
 
     return result;
@@ -349,7 +352,7 @@ int hdlc_sender_buffer_add_data(const char *data, unsigned int data_length) {
 
 int hdlc_sender_buffer_get_data(char *data, unsigned int *data_length) {
     int result = HDLC_OPERATION_ERROR_NOT_FOUND;
-
+    _sender_wait_data_mutex.lock();
     _sender_buffer_mutex.lock();
 
     if(_sender_buffer_index) {
@@ -358,6 +361,10 @@ int hdlc_sender_buffer_get_data(char *data, unsigned int *data_length) {
     }
     *data_length = _sender_buffer_index;
     result = HDLC_OPERATION_OK;
+
+    if(_sender_buffer_index > 0) {
+        _sender_wait_data_mutex.unlock();
+    }
 
     _sender_buffer_mutex.unlock();
 
@@ -391,7 +398,9 @@ int hdlc_sender_buffer_remove_data(unsigned int index) {
         }
         _sender_buffer_index -= index;
     }
-
+    if(_sender_buffer_index == 0){
+        _sender_wait_data_mutex.lock();
+    }
     _sender_buffer_mutex.unlock();
 
     result = HDLC_OPERATION_OK;
