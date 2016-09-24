@@ -12,8 +12,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="05fcb916-348e-4204-8ee5-a2b068ee5535" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../ras_fdrm/.hg/requires" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../ras_fdrm/.hgignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../ras_fdrm/GettingStarted.htm" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../ras_fdrm/exporter.yaml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../ras_fdrm/mbed/.hg/keep.me" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/SBC.iml" afterPath="$PROJECT_DIR$/.idea/SBC.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sources/hdlc_controller.cpp" afterPath="$PROJECT_DIR$/sources/hdlc_controller.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ras_fdrm/.cproject" afterPath="$PROJECT_DIR$/../ras_fdrm/.cproject" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ras_fdrm/main.cpp" afterPath="$PROJECT_DIR$/../ras_fdrm/main.cpp" />
     </list>
     <ignored path="SBC.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -63,25 +70,22 @@
       <file leaf-file-name="hdlc_controller.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sources/hdlc_controller.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="345" column="41" selection-start-line="345" selection-start-column="41" selection-end-line="345" selection-end-column="41" />
+            <state relative-caret-position="3075">
+              <caret line="283" column="64" selection-start-line="283" selection-start-column="64" selection-end-line="283" selection-end-column="64" />
               <folding>
                 <element signature="e#0#2#0" expanded="false" />
                 <element signature="e#303#446#0" expanded="false" />
                 <element signature="e#505#619#0" expanded="false" />
                 <element signature="e#1447#1587#0" expanded="false" />
                 <element signature="e#2644#2826#0" expanded="false" />
+                <element signature="e#2644#3636#0" expanded="false" />
                 <element signature="e#4116#4301#0" expanded="false" />
                 <element signature="e#4328#5437#0" expanded="false" />
                 <element signature="e#10380#10563#0" expanded="false" />
+                <element signature="e#13429#13642#0" expanded="false" />
                 <element signature="e#14298#14483#0" expanded="false" />
-                <marker date="1474586486000" expanded="false" signature="2873:3636" ph="{...}" />
-                <marker date="1474586486000" expanded="false" signature="10629:11893" ph="{...}" />
-                <marker date="1474586486000" expanded="false" signature="11948:12105" ph="{...}" />
-                <marker date="1474586486000" expanded="false" signature="12146:12291" ph="{...}" />
-                <marker date="1474586486000" expanded="false" signature="13460:13642" ph="{...}" />
-                <marker date="1474586486000" expanded="false" signature="14526:14677" ph="{...}" />
-                <marker date="1474586486000" expanded="false" signature="15899:16090" ph="{...}" />
+                <element signature="e#14298#14677#0" expanded="false" />
+                <element signature="e#15843#16090#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -120,7 +124,7 @@
       <file leaf-file-name="hdlc_sender.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sources/hdlc_sender.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="870">
+            <state relative-caret-position="1665">
               <caret line="111" column="8" selection-start-line="111" selection-start-column="8" selection-end-line="111" selection-end-column="8" />
               <folding>
                 <element signature="e#0#2#0" expanded="false" />
@@ -451,7 +455,6 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18534179" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30099502" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41044775" sideWeight="0.5045807" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329105" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -459,6 +462,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30099502" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -933,7 +937,7 @@
     <entry file="file://$PROJECT_DIR$/sources/yahdlc_test.cpp" />
     <entry file="file://$PROJECT_DIR$/sources/hdlc_sender.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="870">
+        <state relative-caret-position="1665">
           <caret line="111" column="8" selection-start-line="111" selection-start-column="8" selection-end-line="111" selection-end-column="8" />
           <folding>
             <element signature="e#0#2#0" expanded="false" />
@@ -944,25 +948,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sources/hdlc_controller.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="345" column="41" selection-start-line="345" selection-start-column="41" selection-end-line="345" selection-end-column="41" />
+        <state relative-caret-position="3075">
+          <caret line="283" column="64" selection-start-line="283" selection-start-column="64" selection-end-line="283" selection-end-column="64" />
           <folding>
             <element signature="e#0#2#0" expanded="false" />
             <element signature="e#303#446#0" expanded="false" />
             <element signature="e#505#619#0" expanded="false" />
             <element signature="e#1447#1587#0" expanded="false" />
             <element signature="e#2644#2826#0" expanded="false" />
+            <element signature="e#2644#3636#0" expanded="false" />
             <element signature="e#4116#4301#0" expanded="false" />
             <element signature="e#4328#5437#0" expanded="false" />
             <element signature="e#10380#10563#0" expanded="false" />
+            <element signature="e#13429#13642#0" expanded="false" />
             <element signature="e#14298#14483#0" expanded="false" />
-            <marker date="1474586486000" expanded="false" signature="2873:3636" ph="{...}" />
-            <marker date="1474586486000" expanded="false" signature="10629:11893" ph="{...}" />
-            <marker date="1474586486000" expanded="false" signature="11948:12105" ph="{...}" />
-            <marker date="1474586486000" expanded="false" signature="12146:12291" ph="{...}" />
-            <marker date="1474586486000" expanded="false" signature="13460:13642" ph="{...}" />
-            <marker date="1474586486000" expanded="false" signature="14526:14677" ph="{...}" />
-            <marker date="1474586486000" expanded="false" signature="15899:16090" ph="{...}" />
+            <element signature="e#14298#14677#0" expanded="false" />
+            <element signature="e#15843#16090#0" expanded="false" />
           </folding>
         </state>
       </provider>
