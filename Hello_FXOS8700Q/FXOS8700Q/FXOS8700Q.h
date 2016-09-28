@@ -1,25 +1,26 @@
-/* FXOS8700Q sensor driver
- * Copyright (c) 2014-2015 ARM Limited
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+/* Copyright (c) 2010-2011 mbed.org, MIT License
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+* and associated documentation files (the "Software"), to deal in the Software without
+* restriction, including without limitation the rights to use, copy, modify, merge, publish,
+* distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+* Software is furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in all copies or
+* substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+* BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+* DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 
 #ifndef FXOS8700Q_H
 #define FXOS8700Q_H
 
 #include "mbed.h"
 #include "MotionSensor.h"
-
 // FXOS8700CQ I2C address
 #define FXOS8700CQ_SLAVE_ADDR0 (0x1E<<1) // with pins SA0=0, SA1=0
 #define FXOS8700CQ_SLAVE_ADDR1 (0x1D<<1) // with pins SA0=1, SA1=0
@@ -41,123 +42,106 @@
 #define FXOS8700Q_WHOAMI_VAL 0xC7
 
 
-/** FXOS8700Q accelerometer example
-    @code
-    #include "mbed.h"
-    #include "FXOS8700Q.h"
-    I2C i2c(PTE25, PTE24);
-    FXOS8700QAccelerometer acc(i2c, FXOS8700CQ_SLAVE_ADDR1);    // Configured for the FRDM-K64F with onboard sensors
-    FXOS8700QMagnetometer mag(i2c, FXOS8700CQ_SLAVE_ADDR1);
-    int main(void)
-    {
-        motion_data_units_t acc_data, mag_data;
-        motion_data_counts_t acc_raw, mag_raw;
-        float faX, faY, faZ, fmX, fmY, fmZ, tmp_float;
-        int16_t raX, raY, raZ, rmX, rmY, rmZ, tmp_int;
-        acc.enable();
-        mag.enable();
-        while (true) {
-            // counts based results
-            acc.getAxis(acc_raw);
-            mag.getAxis(mag_raw);
-            acc.getX(raX);
-            acc.getY(raY);
-            acc.getZ(raZ);
-            mag.getX(rmX);
-            mag.getY(rmY);
-            mag.getZ(rmZ);
-            // unit based results
-            acc.getAxis(acc_data);
-            mag.getAxis(mag_data);
-            acc.getX(faX);
-            acc.getY(faY);
-            acc.getZ(faZ);
-            mag.getX(fmX);
-            mag.getY(fmY);
-            mag.getZ(fmZ);
-            wait(0.1f);
-        }
-    }
-    @endcode
- */
+/**
+* MMA8451Q accelerometer example
+*
+* @code
+* #include "mbed.h"
+* #include "FXOS8700Q.h"
+* 
+* 
+* int main(void) {
+* 
+* FXOS8700Q combo( A4, A5, FXOS8700Q_I2C_ADDRESS0);
+* PwmOut rled(LED_RED);
+* PwmOut gled(LED_GREEN);
+* PwmOut bled(LED_BLUE);
+* 
+*     while (true) {       
+*         rled1.0 - combo(acc.getAccX());
+*         gled1.0 - combo(acc.getAccY());
+*         bled1.0 - combo(acc.getAccZ());
+*         wait(0.1);
+*     }
+* }
+* @endcode
+*/
 
-/** FXOS8700Q driver class
- */
-class FXOS8700Q : public MotionSensor
+class FXOS8700Q_acc : public MotionSensor
 {
 public:
+  /**
+  * FXOS8700Q constructor
+  *
+  * @param sda SDA pin
+  * @param sdl SCL pin
+  * @param addr addr of the I2C peripheral
+  */
+  
+  FXOS8700Q_acc(PinName sda, PinName scl, int addr);
 
-    /** Read a device register
-        @param addr The address to read from
-        @param data The data to read from it
-        @param len The amount of data to read from it
-        @return 0 if successful, negative number otherwise
-     */
-    void readRegs(uint8_t addr, uint8_t *data, uint32_t len) const;
+  /**
+  * FXOS8700Q destructor
+  */
+  ~FXOS8700Q_acc();
 
-    /** Read the ID from a whoAmI register
-        @return The device whoAmI register contents
-     */
-    uint8_t whoAmI(void) const;
+    void enable(void);
+    void disable(void);
+    uint32_t sampleRate(uint32_t frequency);
+    uint32_t whoAmI(void);
+    uint32_t dataReady(void);
+    void getX(int16_t * x);
+    void getY(int16_t * y);
+    void getZ(int16_t * z);
+    void getX(float * x);
+    void getY(float * y);
+    void getZ(float * z);
+    void getAxis(MotionSensorDataCounts &data);
+    void getAxis(MotionSensorDataUnits &data);
+  
+  void readRegs(int addr, uint8_t * data, int len);
+  
+private:
+  I2C m_i2c;
+  int m_addr;
 
-    virtual void enable(void) const;
-    virtual void disable(void) const;
-    virtual uint32_t sampleRate(uint32_t frequency) const;
-    virtual uint32_t dataReady(void) const;
-
-protected:
-    I2C *_i2c;
-    uint8_t _addr;
-    
-    /** FXOS8700Q constructor
-        @param i2c a configured i2c object
-        @param addr addr of the I2C peripheral as wired
-     */
-    FXOS8700Q(I2C &i2c, uint8_t addr);
-
-    /** FXOS8700Q deconstructor
-     */
-    ~FXOS8700Q();
-    
-    void writeRegs(uint8_t *data, uint32_t len) const;
-    int16_t getSensorAxis(uint8_t addr) const;
-};
-
-/** FXOS8700QAccelerometer interface
- */
-class FXOS8700QAccelerometer : public FXOS8700Q
-{
-public:
-
-    FXOS8700QAccelerometer(I2C &i2c, uint8_t addr) : FXOS8700Q(i2c, addr) {}
-
-    virtual int16_t getX(int16_t &x) const;
-    virtual int16_t getY(int16_t &y) const;
-    virtual int16_t getZ(int16_t &z) const;
-    virtual float getX(float &x) const;
-    virtual float getY(float &y) const;
-    virtual float getZ(float &z) const;
-    virtual void getAxis(motion_data_counts_t &xyz) const;
-    virtual void getAxis(motion_data_units_t &xyz) const;
+  void writeRegs(uint8_t * data, int len);
+  int16_t getAccAxis(uint8_t addr);
 
 };
 
-/** FXOS8700QMagnetometer interface
- */
-class FXOS8700QMagnetometer : public FXOS8700Q
+class FXOS8700Q_mag : public MotionSensor
 {
 public:
+  FXOS8700Q_mag(PinName sda, PinName scl, int addr);
 
-    FXOS8700QMagnetometer(I2C &i2c, uint8_t addr) : FXOS8700Q(i2c, addr) {}
+  /**
+  * FXOS8700Q destructor
+  */
+  ~FXOS8700Q_mag();
 
-    virtual int16_t getX(int16_t &x) const;
-    virtual int16_t getY(int16_t &y) const;
-    virtual int16_t getZ(int16_t &z) const;
-    virtual float getX(float &x) const;
-    virtual float getY(float &y) const;
-    virtual float getZ(float &z) const;
-    virtual void getAxis(motion_data_counts_t &xyz) const;
-    virtual void getAxis(motion_data_units_t &xyz) const;
+    void enable(void);
+    void disable(void);
+    uint32_t sampleRate(uint32_t fequency);
+    uint32_t whoAmI(void);
+    uint32_t dataReady(void);
+    void getX(int16_t * x);
+    void getY(int16_t * y);
+    void getZ(int16_t * z);
+    void getX(float * x);
+    void getY(float * y);
+    void getZ(float * z);
+    void getAxis(MotionSensorDataCounts &data);
+    void getAxis(MotionSensorDataUnits &data);
+  
+  void readRegs(int addr, uint8_t * data, int len);
+  
+private:
+  I2C m_i2c;
+  int m_addr;
+
+  void writeRegs(uint8_t * data, int len);
+  int16_t getAccAxis(uint8_t addr);
 
 };
 

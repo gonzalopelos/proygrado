@@ -11,7 +11,7 @@
 **
 **     Compilers:           Keil ARM C/C++ Compiler
 **                          Freescale C/C++ for Embedded ARM
-**                          GNU C Compiler
+**                          GNU C Compileri2x
 **                          IAR ANSI C/C++ Compiler for ARM
 **
 **     Reference manual:    K64P144M120SF5RM, Rev.2, January 2014

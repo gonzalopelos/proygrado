@@ -1,37 +1,29 @@
-/* FXOS8700Q sensor driver
- * Copyright (c) 2014-2015 ARM Limited
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+/* Copyright (c) 2010-2011 mbed.org, MIT License
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+* and associated documentation files (the "Software"), to deal in the Software without
+* restriction, including without limitation the rights to use, copy, modify, merge, publish,
+* distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+* Software is furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in all copies or
+* substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+* BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+* DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 
 #include "FXOS8700Q.h"
+#define UINT14_MAX        16383
 
-const uint16_t uint14_max = 0x3FFF;
-void static inline normalize_14bits(int16_t &x)
-{
-    x = ((x) > (uint14_max/2)) ? (x - uint14_max) : (x);
-}
 
-static int16_t dummy_int16_t = 0;
-static float dummy_float = 0.0f;
-
-FXOS8700Q::FXOS8700Q(I2C &i2c, uint8_t addr)
-{
-    _i2c = &i2c;
-    _addr = addr;
+FXOS8700Q_acc::FXOS8700Q_acc(PinName sda, PinName scl, int addr) : m_i2c(sda, scl), m_addr(addr) {
     // activate the peripheral
     uint8_t data[2] = {FXOS8700Q_CTRL_REG1, 0x00};
-    _i2c->frequency(400000);
+    m_i2c.frequency(400000);
     writeRegs(data, 2);
     data[0] = FXOS8700Q_M_CTRL_REG1;
     data[1] = 0x1F;
@@ -43,189 +35,260 @@ FXOS8700Q::FXOS8700Q(I2C &i2c, uint8_t addr)
     data[1] = 0x00;
     writeRegs(data, 2);
     data[0] = FXOS8700Q_CTRL_REG1;
-    data[1] = 0x1C;
+    data[1] = 0x18;//0x1D;
     writeRegs(data, 2);
 }
 
-FXOS8700Q::~FXOS8700Q()
-{
-    _i2c = 0;
-    _addr = 0;
-}
+FXOS8700Q_acc::~FXOS8700Q_acc() { }
 
-void FXOS8700Q::readRegs(uint8_t addr, uint8_t *data, uint32_t len) const
-{
-    uint8_t t[1] = {addr};
-    _i2c->write(_addr, (char *)t, sizeof(t), true);
-    _i2c->read(_addr, (char *)data, len);
-}
-
-uint8_t FXOS8700Q::whoAmI() const
-{
-    uint8_t who_am_i = 0;
-    readRegs(FXOS8700Q_WHOAMI, &who_am_i, sizeof(who_am_i));
-    return who_am_i;
-}
-
-void FXOS8700Q::writeRegs(uint8_t * data, uint32_t len) const
-{
-    _i2c->write(_addr, (char *)data, len);
-}
-
-
-int16_t FXOS8700Q::getSensorAxis(uint8_t addr) const
-{
-    uint8_t res[2];
-    readRegs(addr, res, sizeof(res));
-    return static_cast<int16_t>((res[0] << 8) | res[1]);
-}
-
-void FXOS8700Q::enable(void) const
-{
+void FXOS8700Q_acc::enable(void) {
     uint8_t data[2];
-    readRegs(FXOS8700Q_CTRL_REG1, &data[1], 1);
+    readRegs( FXOS8700Q_CTRL_REG1, &data[1], 1);
     data[1] |= 0x01;
     data[0] = FXOS8700Q_CTRL_REG1;
-    writeRegs(data, sizeof(data));
+    writeRegs(data, 2);
 }
 
-void FXOS8700Q::disable(void) const
-{
+void FXOS8700Q_acc::disable(void) {
     uint8_t data[2];
-    readRegs(FXOS8700Q_CTRL_REG1, &data[1], 1);
+    readRegs( FXOS8700Q_CTRL_REG1, &data[1], 1);
     data[1] &= 0xFE;
     data[0] = FXOS8700Q_CTRL_REG1;
-    writeRegs(data, sizeof(data));
+    writeRegs(data, 2);
 }
 
-uint32_t FXOS8700Q::dataReady(void) const
-{
+
+
+uint32_t FXOS8700Q_acc::whoAmI() {
+    uint8_t who_am_i = 0;
+    readRegs(FXOS8700Q_WHOAMI, &who_am_i, 1);
+    return (uint32_t) who_am_i;
+}
+
+uint32_t FXOS8700Q_acc::dataReady(void) {
     uint8_t stat = 0;
     readRegs(FXOS8700Q_STATUS, &stat, 1);
-    return (uint32_t)stat;
+    return (uint32_t) stat;
 }
 
-uint32_t FXOS8700Q::sampleRate(uint32_t frequency) const
-{
+uint32_t FXOS8700Q_acc::sampleRate(uint32_t f) {
     return(50); // for now sample rate is fixed at 50Hz
 }
 
-int16_t FXOS8700QAccelerometer::getX(int16_t &x = dummy_int16_t) const
-{
-    x = getSensorAxis(FXOS8700Q_OUT_X_MSB) >> 2;
-    normalize_14bits(x);
-    return x;
+void FXOS8700Q_acc::getX(float * x) {
+    *x = (float(getAccAxis(FXOS8700Q_OUT_X_MSB))/4096.0f);
 }
 
-int16_t FXOS8700QAccelerometer::getY(int16_t &y = dummy_int16_t) const
-{
-    y = getSensorAxis(FXOS8700Q_OUT_Y_MSB) >> 2;
-    normalize_14bits(y);
-    return y;
+void FXOS8700Q_acc::getY(float * y) {
+    *y = (float(getAccAxis(FXOS8700Q_OUT_Y_MSB))/4096.0f);
 }
 
-int16_t FXOS8700QAccelerometer::getZ(int16_t &z = dummy_int16_t) const
-{
-    z = getSensorAxis(FXOS8700Q_OUT_Z_MSB) >> 2;
-    normalize_14bits(z);
-    return z;
+void FXOS8700Q_acc::getZ(float * z) {
+    *z = (float(getAccAxis(FXOS8700Q_OUT_Z_MSB))/4096.0f);
 }
 
-float FXOS8700QAccelerometer::getX(float &x = dummy_float) const
-{
-    int16_t val = getSensorAxis(FXOS8700Q_OUT_X_MSB) >> 2;
-    normalize_14bits(val);
-    x = val / 4096.0f;
-    return x;
+void FXOS8700Q_acc::getX(int16_t * d) {
+    *d = getAccAxis(FXOS8700Q_OUT_X_MSB);
 }
 
-float FXOS8700QAccelerometer::getY(float &y = dummy_float) const
-{
-    int16_t val = getSensorAxis(FXOS8700Q_OUT_Y_MSB) >> 2;
-    normalize_14bits(val);
-    y = val / 4096.0f;
-    return y;
+void FXOS8700Q_acc::getY(int16_t * d) {
+    *d = getAccAxis(FXOS8700Q_OUT_Y_MSB);
 }
 
-float FXOS8700QAccelerometer::getZ(float &z = dummy_float) const
-{
-    int16_t val = getSensorAxis(FXOS8700Q_OUT_Z_MSB) >> 2;
-    normalize_14bits(val);
-    z = val / 4096.0f;
-    return z;
+void FXOS8700Q_acc::getZ(int16_t * d) {
+    *d = getAccAxis(FXOS8700Q_OUT_Z_MSB);
 }
 
-void FXOS8700QAccelerometer::getAxis(motion_data_counts_t &xyz) const
-{
+
+void FXOS8700Q_acc::getAxis(MotionSensorDataUnits &data) {
+    int16_t acc, t[3];
     uint8_t res[6];
-    readRegs(FXOS8700Q_OUT_X_MSB, res, sizeof(res));
-    xyz.x = static_cast<int16_t>((res[0] << 8) | res[1]) >> 2;
-    xyz.y = static_cast<int16_t>((res[2] << 8) | res[3]) >> 2;
-    xyz.z = static_cast<int16_t>((res[4] << 8) | res[5]) >> 2;
-    normalize_14bits(xyz.x);
-    normalize_14bits(xyz.y);
-    normalize_14bits(xyz.z);
+   readRegs(FXOS8700Q_OUT_X_MSB, res, 6);
+
+    acc = (res[0] << 6) | (res[1] >> 2);
+    if (acc > UINT14_MAX/2)
+        acc -= UINT14_MAX;
+    t[0] = acc;
+    acc = (res[2] << 6) | (res[3] >> 2);
+    if (acc > UINT14_MAX/2)
+        acc -= UINT14_MAX;
+    t[1] = acc;
+    acc = (res[4] << 6) | (res[5] >> 2);
+    if (acc > UINT14_MAX/2)
+        acc -= UINT14_MAX;
+    t[2] = acc;
+    data.x = ((float) t[0]) / 4096.0f;
+    data.y = ((float) t[1]) / 4096.0f;
+    data.z = ((float) t[2]) / 4096.0f;
 }
 
-void FXOS8700QAccelerometer::getAxis(motion_data_units_t &xyz) const
-{
-    motion_data_counts_t _xyz;
-    FXOS8700QAccelerometer::getAxis(_xyz);
-    xyz.x = _xyz.x / 4096.0f;
-    xyz.y = _xyz.y / 4096.0f;
-    xyz.z = _xyz.z / 4096.0f;
-}
 
-int16_t FXOS8700QMagnetometer::getX(int16_t &x = dummy_int16_t) const
-{
-    x = getSensorAxis(FXOS8700Q_M_OUT_X_MSB);
-    return x;
-}
-
-int16_t FXOS8700QMagnetometer::getY(int16_t &y = dummy_int16_t) const
-{
-    y = getSensorAxis(FXOS8700Q_M_OUT_Y_MSB);
-    return y;
-}
-
-int16_t FXOS8700QMagnetometer::getZ(int16_t &z = dummy_int16_t) const
-{
-    z = getSensorAxis(FXOS8700Q_M_OUT_Z_MSB);
-    return z;
-}
-
-float FXOS8700QMagnetometer::getX(float &x = dummy_float) const
-{
-    x = static_cast<float>(getSensorAxis(FXOS8700Q_M_OUT_X_MSB)) * 0.1f;
-    return x;
-}
-
-float FXOS8700QMagnetometer::getY(float &y = dummy_float) const
-{
-    y = static_cast<float>(getSensorAxis(FXOS8700Q_M_OUT_Y_MSB)) * 0.1f;
-    return y;
-}
-
-float FXOS8700QMagnetometer::getZ(float &z = dummy_float) const
-{
-    z = static_cast<float>(getSensorAxis(FXOS8700Q_M_OUT_Z_MSB)) * 0.1f;
-    return z;
-}
-
-void FXOS8700QMagnetometer::getAxis(motion_data_counts_t &xyz) const
-{
+void FXOS8700Q_acc::getAxis(MotionSensorDataCounts &data) {
+    int16_t acc;
     uint8_t res[6];
-    readRegs(FXOS8700Q_M_OUT_X_MSB, res, sizeof(res));
-    xyz.x = (res[0] << 8) | res[1];
-    xyz.y = (res[2] << 8) | res[3];
-    xyz.z = (res[4] << 8) | res[5];
+    readRegs(FXOS8700Q_OUT_X_MSB, res, 6);
+
+    acc = (res[0] << 6) | (res[1] >> 2);
+    if (acc > UINT14_MAX/2)
+        acc -= UINT14_MAX;
+    data.x = acc;
+    acc = (res[2] << 6) | (res[3] >> 2);
+    if (acc > UINT14_MAX/2)
+        acc -= UINT14_MAX;
+    data.y = acc;
+    acc = (res[4] << 6) | (res[5] >> 2);
+    if (acc > UINT14_MAX/2)
+        acc -= UINT14_MAX;
+    data.z = acc;
 }
 
-void FXOS8700QMagnetometer::getAxis(motion_data_units_t &xyz) const
-{
-    motion_data_counts_t _xyz;
-    FXOS8700QMagnetometer::getAxis(_xyz);
-    xyz.x = static_cast<float>(_xyz.x * 0.1f);
-    xyz.y = static_cast<float>(_xyz.y * 0.1f);
-    xyz.z = static_cast<float>(_xyz.z * 0.1f);
+void FXOS8700Q_acc::readRegs(int addr, uint8_t * data, int len) {
+    char t[1] = {addr};
+    m_i2c.write(m_addr, t, 1, true);
+    m_i2c.read(m_addr, (char *)data, len);
+}
+
+void FXOS8700Q_acc::writeRegs(uint8_t * data, int len) {
+    m_i2c.write(m_addr, (char *)data, len);
+}
+
+
+int16_t FXOS8700Q_acc::getAccAxis(uint8_t addr) {
+    int16_t acc;
+    uint8_t res[2];
+    readRegs(addr, res, 2);
+
+    acc = (res[0] << 6) | (res[1] >> 2);
+    if (acc > UINT14_MAX/2)
+        acc -= UINT14_MAX;
+
+    return acc;
+}
+
+
+
+FXOS8700Q_mag::FXOS8700Q_mag(PinName sda, PinName scl, int addr) : m_i2c(sda, scl), m_addr(addr) {
+    // activate the peripheral
+    uint8_t data[2] = {FXOS8700Q_CTRL_REG1, 0x00};
+    m_i2c.frequency(400000);
+    writeRegs(data, 2);
+    data[0] = FXOS8700Q_M_CTRL_REG1;
+    data[1] = 0x1F;
+    writeRegs(data, 2);
+    data[0] = FXOS8700Q_M_CTRL_REG2;
+    data[1] = 0x20;
+    writeRegs(data, 2);
+    data[0] = FXOS8700Q_XYZ_DATA_CFG;
+    data[1] = 0x00;
+    writeRegs(data, 2);
+    data[0] = FXOS8700Q_CTRL_REG1;
+    data[1] = 0x18;//0x1D;
+    writeRegs(data, 2);
+}
+
+FXOS8700Q_mag::~FXOS8700Q_mag() { }
+
+void FXOS8700Q_mag::enable(void) {
+    uint8_t data[2];
+    readRegs( FXOS8700Q_CTRL_REG1, &data[1], 1);
+    data[1] |= 0x01;
+    data[0] = FXOS8700Q_CTRL_REG1;
+    writeRegs(data, 2);
+}
+
+void FXOS8700Q_mag::disable(void) {
+    uint8_t data[2];
+    readRegs( FXOS8700Q_CTRL_REG1, &data[1], 1);
+    data[1] &= 0xFE;
+    data[0] = FXOS8700Q_CTRL_REG1;
+    writeRegs(data, 2);
+}
+
+
+
+uint32_t FXOS8700Q_mag::whoAmI() {
+    uint8_t who_am_i = 0;
+    readRegs(FXOS8700Q_WHOAMI, &who_am_i, 1);
+    return (uint32_t) who_am_i;
+}
+
+uint32_t FXOS8700Q_mag::dataReady(void) {
+    uint8_t stat = 0;
+    readRegs(FXOS8700Q_STATUS, &stat, 1);
+    return (uint32_t) stat;
+}
+
+uint32_t FXOS8700Q_mag::sampleRate(uint32_t f) {
+    return(50); // for now sample rate is fixed at 50Hz
+}
+
+void FXOS8700Q_mag::getX(float * x) {
+    *x = (float(getAccAxis(FXOS8700Q_M_OUT_X_MSB)) * 0.1f);
+}
+
+void FXOS8700Q_mag::getY(float * y) {
+    *y = (float(getAccAxis(FXOS8700Q_M_OUT_Y_MSB)) * 0.1f);
+}
+
+void FXOS8700Q_mag::getZ(float * z) {
+    *z = (float(getAccAxis(FXOS8700Q_M_OUT_Z_MSB)) * 0.1f);
+}
+
+void FXOS8700Q_mag::getX(int16_t * d) {
+    *d = getAccAxis(FXOS8700Q_M_OUT_X_MSB);
+}
+
+void FXOS8700Q_mag::getY(int16_t * d) {
+    *d = getAccAxis(FXOS8700Q_M_OUT_Y_MSB);
+}
+
+void FXOS8700Q_mag::getZ(int16_t * d) {
+    *d = getAccAxis(FXOS8700Q_M_OUT_Z_MSB);
+}
+
+
+void FXOS8700Q_mag::getAxis(MotionSensorDataUnits &data) {
+    int16_t t[3];
+    uint8_t res[6];
+   readRegs(FXOS8700Q_M_OUT_X_MSB, res, 6);
+
+    t[0] = (res[0] << 8) | res[1];
+    t[1] = (res[2] << 8) | res[3];
+    t[2] = (res[4] << 8) | res[5];
+
+    data.x = ((float) t[0]) * 0.1f;
+    data.y = ((float) t[1]) * 0.1f;
+    data.z = ((float) t[2]) * 0.1f;
+}
+
+
+void FXOS8700Q_mag::getAxis(MotionSensorDataCounts &data) {
+    int16_t acc;
+    uint8_t res[6];
+    readRegs(FXOS8700Q_M_OUT_X_MSB, res, 6);
+
+    data.x = (res[0] << 8) | res[1];
+    data.y = (res[2] << 8) | res[3];
+    data.z = (res[4] << 8) | res[5];
+}
+
+void FXOS8700Q_mag::readRegs(int addr, uint8_t * data, int len) {
+    char t[1] = {addr};
+    m_i2c.write(m_addr, t, 1, true);
+    m_i2c.read(m_addr, (char *)data, len);
+}
+
+void FXOS8700Q_mag::writeRegs(uint8_t * data, int len) {
+    m_i2c.write(m_addr, (char *)data, len);
+}
+
+
+int16_t FXOS8700Q_mag::getAccAxis(uint8_t addr) {
+    int16_t acc;
+    uint8_t res[2];
+    readRegs(addr, res, 2);
+
+    acc = (res[0] << 8) | res[1];
+
+    return acc;
 }
