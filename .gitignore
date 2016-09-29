@@ -51,6 +51,7 @@ production/
 **/Release/
 **/.settings/
 !**/TOOLCHAIN_GCC_ARM/*.o
+!**/TOOLCHAIN_GCC_ARM/*.a
 !**/ras_frdm/*.lib
 !**/Hello_FXOS8700Q/*.lib
 
