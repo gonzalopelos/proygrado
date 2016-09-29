@@ -50,6 +50,9 @@ production/
 **/Debug/
 **/Release/
 **/.settings/
+!**/TOOLCHAIN_GCC_ARM/*.o
+!**/ras_frdm/*.lib
+!**/Hello_FXOS8700Q/*.lib
 
 # SBC
 ### JetBrains ###
