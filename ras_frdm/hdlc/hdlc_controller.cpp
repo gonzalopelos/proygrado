@@ -5,7 +5,7 @@
 
 #include "yahdlc.h"
 #include "hdlc_controller.h"
-#include <thread>
+#include "Thread.h"
 #include <cstdlib>
 #include "rtos.h"
 #include "frdm_communication.h"
@@ -110,11 +110,20 @@ int hdlc_init(unsigned char station_address) {
         _sender_wait_connection_mutex.lock();
     }
 
-//    Thread sender_thread(hdlc_sender);
-//    Thread receiver_thread(hdlc_receiver);
+//    rtos::Thread::attach_idle_hook(hdlc_sender);
+////    sender_thread.start(hdlc_sender);
+//    rtos::Thread::attach_idle_hook(hdlc_receiver);
 
-//    sender_thread.join();
-//    receiver_thread.join();
+    Thread sender_thread;
+    Thread receiver_thread;
+//    sender_thread.attach_idle_hook(hdlc_sender);
+    sender_thread.start(hdlc_sender);
+    receiver_thread.start(hdlc_sender);
+
+//    receiver_thread.start(hdlc_receiver);
+
+    sender_thread.join();
+    receiver_thread.join();
 
     return 0;
 }
@@ -142,32 +151,6 @@ int hdlc_send_data(char *data, unsigned int data_length) {
  ***************************** CONTROLLER THREAD FUNCTIONS ********************************/
 
 void hdlc_sender() {
-    /*
-     connectionID = open_frdm_connection();
-    if(connectionID) {
-        yahdlc_control_t controlFrame;
-        controlFrame.frame = YAHDLC_FRAME_SARM;
-        controlFrame.seq_no= 0;
-        char frame[_HDLC_MAX_MESSAGE_LENGTH];
-        unsigned int frameSize;
-        if(yahdlc_frame_data(&controlFrame,"",0, frame, &frameSize)) {
-            if(send_to_frdm(connectionID, frame, frameSize)) {
-                char receivedFrame[_HDLC_MAX_MESSAGE_LENGTH];
-                char receivedFrameData[_HDLC_MAX_MESSAGE_LENGTH];
-                unsigned int receivedFrameDataLength;
-                int readBytes = 0;
-                while(!readBytes) {
-                    readBytes = get_from_fdrm(connectionID, receivedFrame,_HDLC_MAX_MESSAGE_LENGTH);
-                }
-                yahdlc_control_t receivedControlFrame;
-                yahdlc_frame_data(&receivedControlFrame,receivedFrame, readBytes, receivedFrameData, &receivedFrameDataLength);
-                if(receivedControlFrame.frame == YAHDLC_FRAME_UA) {
-                    return 1;
-                }
-            }
-        }
-    }
-     */
     //ToDo: refactor to return Operation Result
     int sender_connectionId = open_frdm_connection();
     //printf("Sender connection id: %d\n", sender_connectionId);
