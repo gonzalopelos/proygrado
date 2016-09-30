@@ -203,10 +203,10 @@ void PCF8591_AnalogOut::write(float analogOut) {
   *
   * @param  analogOut value (0.0f .. 1.0f)
   */  
-PCF8591_AnalogOut& PCF8591_AnalogOut::operator= (float value){  
-  write(value);     
-  return *this;   
-}
+//PCF8591_AnalogOut& PCF8591_AnalogOut::operator= (float value){  
+//  write(value);     
+//  return *this;   
+//}
  
 
 /** Initialise DAC driver 
@@ -271,10 +271,10 @@ float PCF8591_AnalogIn::read() {
   *
   * @return analogIn value (0 .. 1.0)
   */  
-PCF8591_AnalogIn::operator float(){
-  return (read());    
-}
- 
+//PCF8591_AnalogIn::operator float(){
+//  return (read());    
+//}
+// 
 
 /** Initialise ADC driver 
   *

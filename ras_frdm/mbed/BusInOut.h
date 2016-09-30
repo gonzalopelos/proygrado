@@ -17,10 +17,13 @@
 #define MBED_BUSINOUT_H
 
 #include "DigitalInOut.h"
+#include "PlatformMutex.h"
 
 namespace mbed {
 
 /** A digital input output bus, used for setting the state of a collection of pins
+ *
+ * @Note Synchronization level: Thread safe
  */
 class BusInOut {
 
@@ -51,7 +54,6 @@ public:
      */
     void write(int value);
 
-
     /** Read the value currently output on the bus
      *
      *  @returns
@@ -73,19 +75,42 @@ public:
      */
     void mode(PinMode pull);
 
-#ifdef MBED_OPERATORS
+    /** Binary mask of bus pins connected to actual pins (not NC pins)
+     *  If bus pin is in NC state make corresponding bit will be cleared (set to 0), else bit will be set to 1
+     *
+     *  @returns
+     *    Binary mask of connected pins
+     */
+    int mask() {
+        // No lock needed since _nc_mask is not modified outside the constructor
+        return _nc_mask;
+    }
+
      /** A shorthand for write()
      */
     BusInOut& operator= (int v);
     BusInOut& operator= (BusInOut& rhs);
 
+    /** Access to particular bit in random-iterator fashion
+    */
+    DigitalInOut& operator[] (int index);
+
     /** A shorthand for read()
      */
     operator int();
-#endif
 
 protected:
+    virtual void lock();
+    virtual void unlock();
     DigitalInOut* _pin[16];
+
+    /** Mask of bus's NC pins
+     * If bit[n] is set to 1 - pin is connected
+     * if bit[n] is cleared - pin is not connected (NC)
+     */
+    int _nc_mask;
+
+    PlatformMutex _mutex;
 
     /* disallow copy constructor and assignment operators */
 private:

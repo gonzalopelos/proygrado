@@ -22,6 +22,7 @@
 
 #include "Stream.h"
 #include "SerialBase.h"
+#include "PlatformMutex.h"
 #include "serial_api.h"
 
 namespace mbed {
@@ -30,6 +31,8 @@ namespace mbed {
  *
  * Can be used for Full Duplex communication, or Simplex by specifying
  * one pin as NC (Not Connected)
+ *
+ * @Note Synchronization level: Thread safe
  *
  * Example:
  * @code
@@ -47,6 +50,11 @@ namespace mbed {
 class Serial : public SerialBase, public Stream {
 
 public:
+#if DEVICE_SERIAL_ASYNCH
+    using SerialBase::read;
+    using SerialBase::write;
+#endif
+
     /** Create a Serial port, connected to the specified transmit and receive pins
      *
      *  @param tx Transmit pin
@@ -60,6 +68,10 @@ public:
 protected:
     virtual int _getc();
     virtual int _putc(int c);
+    virtual void lock();
+    virtual void unlock();
+
+    PlatformMutex _mutex;
 };
 
 } // namespace mbed

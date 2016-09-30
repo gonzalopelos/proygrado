@@ -17,10 +17,13 @@
 #define MBED_TIMER_H
 
 #include "platform.h"
+#include "ticker_api.h"
 
 namespace mbed {
 
 /** A general purpose timer
+ *
+ * @Note Synchronization level: Interrupt safe
  *
  * Example:
  * @code
@@ -45,6 +48,7 @@ class Timer {
 
 public:
     Timer();
+    Timer(const ticker_data_t *data);
 
     /** Start the timer
      */
@@ -72,15 +76,16 @@ public:
      */
     int read_us();
 
-#ifdef MBED_OPERATORS
+    /** An operator shorthand for read()
+     */
     operator float();
-#endif
 
 protected:
     int slicetime();
     int _running;          // whether the timer is running
     unsigned int _start;   // the start time of the latest slice
     int _time;             // any accumulated time from previous slices
+    const ticker_data_t *_ticker_data;
 };
 
 } // namespace mbed

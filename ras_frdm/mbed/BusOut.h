@@ -17,6 +17,7 @@
 #define MBED_BUSOUT_H
 
 #include "DigitalOut.h"
+#include "PlatformMutex.h"
 
 namespace mbed {
 
@@ -29,6 +30,8 @@ public:
     /** Create an BusOut, connected to the specified pins
      *
      *  @param p<n> DigitalOut pin to connect to bus bit <n> (p5-p30, NC)
+     *
+     *  @Note Synchronization level: Thread safe
      *
      *  @note
      *  It is only required to specify as many pin variables as is required
@@ -56,19 +59,42 @@ public:
      */
     int read();
 
-#ifdef MBED_OPERATORS
+    /** Binary mask of bus pins connected to actual pins (not NC pins)
+     *  If bus pin is in NC state make corresponding bit will be cleared (set to 0), else bit will be set to 1
+     *
+     *  @returns
+     *    Binary mask of connected pins
+     */
+    int mask() {
+        // No lock needed since _nc_mask is not modified outside the constructor
+        return _nc_mask;
+    }
+
     /** A shorthand for write()
      */
     BusOut& operator= (int v);
     BusOut& operator= (BusOut& rhs);
 
+    /** Access to particular bit in random-iterator fashion
+     */
+    DigitalOut& operator[] (int index);
+
     /** A shorthand for read()
      */
     operator int();
-#endif
 
 protected:
+    virtual void lock();
+    virtual void unlock();
     DigitalOut* _pin[16];
+
+    /** Mask of bus's NC pins
+     * If bit[n] is set to 1 - pin is connected
+     * if bit[n] is cleared - pin is not connected (NC)
+     */
+    int _nc_mask;
+
+    PlatformMutex _mutex;
 
    /* disallow copy constructor and assignment operators */
 private:

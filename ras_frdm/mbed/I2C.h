@@ -1,5 +1,5 @@
 /* mbed Microcontroller Library
- * Copyright (c) 2006-2013 ARM Limited
+ * Copyright (c) 2006-2015 ARM Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,10 +21,20 @@
 #if DEVICE_I2C
 
 #include "i2c_api.h"
+#include "SingletonPtr.h"
+#include "PlatformMutex.h"
+
+#if DEVICE_I2C_ASYNCH
+#include "CThunk.h"
+#include "dma_api.h"
+#include "FunctionPointer.h"
+#endif
 
 namespace mbed {
 
 /** An I2C Master, used for communicating with I2C slave devices
+ *
+ * @Note Synchronization level: Thread safe
  *
  * Example:
  * @code
@@ -129,12 +139,51 @@ public:
      */
     void stop(void);
 
+    /** Acquire exclusive access to this I2C bus
+     */
+    virtual void lock(void);
+
+    /** Release exclusive access to this I2C bus
+     */
+    virtual void unlock(void);
+
+    virtual ~I2C() {
+        // Do nothing
+    }
+
+#if DEVICE_I2C_ASYNCH
+
+    /** Start non-blocking I2C transfer.
+     *
+     * @param address   8/10 bit I2c slave address
+     * @param tx_buffer The TX buffer with data to be transfered
+     * @param tx_length The length of TX buffer in bytes
+     * @param rx_buffer The RX buffer which is used for received data
+     * @param rx_length The length of RX buffer in bytes
+     * @param event     The logical OR of events to modify
+     * @param callback  The event callback function
+     * @param repeated Repeated start, true - do not send stop at end
+     * @return Zero if the transfer has started, or -1 if I2C peripheral is busy
+     */
+    int transfer(int address, const char *tx_buffer, int tx_length, char *rx_buffer, int rx_length, const event_callback_t& callback, int event = I2C_EVENT_TRANSFER_COMPLETE, bool repeated = false);
+
+    /** Abort the on-going I2C transfer
+     */
+    void abort_transfer();
+protected:
+    void irq_handler_asynch(void);
+    event_callback_t _callback;
+    CThunk<I2C> _irq;
+    DMAUsage _usage;
+#endif
+
 protected:
     void aquire();
 
     i2c_t _i2c;
     static I2C  *_owner;
     int         _hz;
+    static SingletonPtr<PlatformMutex> _mutex;
 };
 
 } // namespace mbed

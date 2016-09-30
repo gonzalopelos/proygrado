@@ -167,11 +167,12 @@ public:
   PCF8591_AnalogOut(I2C *i2c, uint8_t deviceAddress = PCF8591_SA0);
 
   void write(float value);
-  #ifdef MBED_OPERATORS
-  /** An operator shorthand for write()
-   */ 
-  PCF8591_AnalogOut& operator= (float value);
-  #endif
+  
+  //#ifdef MBED_OPERATORS
+//  /** An operator shorthand for write()
+//   */ 
+//  PCF8591_AnalogOut& operator= (float value);
+//  #endif
 
 protected:
   I2C *_i2c;                    //I2C bus reference

@@ -21,13 +21,20 @@
 #if DEVICE_SERIAL
 
 #include "Stream.h"
-#include "FunctionPointer.h"
+#include "Callback.h"
 #include "serial_api.h"
+
+#if DEVICE_SERIAL_ASYNCH
+#include "CThunk.h"
+#include "dma_api.h"
+#endif
 
 namespace mbed {
 
 /** A base class for serial port implementations
  * Can't be instantiated directly (use Serial or RawSerial)
+ *
+ * @Note Synchronization level: Set by subclass
  */
 class SerialBase {
 
@@ -48,7 +55,9 @@ public:
 
     enum IrqType {
         RxIrq = 0,
-        TxIrq
+        TxIrq,
+
+        IrqCnt
     };
 
     enum Flow {
@@ -84,28 +93,48 @@ public:
 
     /** Attach a function to call whenever a serial interrupt is generated
      *
-     *  @param fptr A pointer to a void function, or 0 to set as none
+     *  @param func A pointer to a void function, or 0 to set as none
      *  @param type Which serial interrupt to attach the member function to (Seriall::RxIrq for receive, TxIrq for transmit buffer empty)
      */
-    void attach(void (*fptr)(void), IrqType type=RxIrq);
+    void attach(Callback<void()> func, IrqType type=RxIrq);
 
     /** Attach a member function to call whenever a serial interrupt is generated
      *
-     *  @param tptr pointer to the object to call the member function on
-     *  @param mptr pointer to the member function to be called
+     *  @param obj pointer to the object to call the member function on
+     *  @param method pointer to the member function to be called
      *  @param type Which serial interrupt to attach the member function to (Seriall::RxIrq for receive, TxIrq for transmit buffer empty)
      */
     template<typename T>
-    void attach(T* tptr, void (T::*mptr)(void), IrqType type=RxIrq) {
-        if((mptr != NULL) && (tptr != NULL)) {
-            _irq[type].attach(tptr, mptr);
-            serial_irq_set(&_serial, (SerialIrq)type, 1);
-        }
+    void attach(T *obj, void (T::*method)(), IrqType type=RxIrq) {
+        attach(Callback<void()>(obj, method), type);
+    }
+
+    /** Attach a member function to call whenever a serial interrupt is generated
+     *
+     *  @param obj pointer to the object to call the member function on
+     *  @param method pointer to the member function to be called
+     *  @param type Which serial interrupt to attach the member function to (Seriall::RxIrq for receive, TxIrq for transmit buffer empty)
+     */
+    template<typename T>
+    void attach(T *obj, void (*method)(T*), IrqType type=RxIrq) {
+        attach(Callback<void()>(obj, method), type);
     }
 
     /** Generate a break condition on the serial line
      */
     void send_break();
+
+protected:
+
+    /** Acquire exclusive access to this serial port
+     */
+    virtual void lock(void);
+
+    /** Release exclusive access to this serial port
+     */
+    virtual void unlock(void);
+
+public:
 
 #if DEVICE_SERIAL_FC
     /** Set the flow control type on the serial port
@@ -119,6 +148,74 @@ public:
 
     static void _irq_handler(uint32_t id, SerialIrq irq_type);
 
+#if DEVICE_SERIAL_ASYNCH
+
+    /** Begin asynchronous write using 8bit buffer. The completition invokes registered TX event callback
+     *
+     *  @param buffer   The buffer where received data will be stored
+     *  @param length   The buffer length in bytes
+     *  @param callback The event callback function
+     *  @param event    The logical OR of TX events
+     */
+    int write(const uint8_t *buffer, int length, const event_callback_t& callback, int event = SERIAL_EVENT_TX_COMPLETE);
+
+    /** Begin asynchronous write using 16bit buffer. The completition invokes registered TX event callback
+     *
+     *  @param buffer   The buffer where received data will be stored
+     *  @param length   The buffer length in bytes
+     *  @param callback The event callback function
+     *  @param event    The logical OR of TX events
+     */
+    int write(const uint16_t *buffer, int length, const event_callback_t& callback, int event = SERIAL_EVENT_TX_COMPLETE);
+
+    /** Abort the on-going write transfer
+     */
+    void abort_write();
+
+    /** Begin asynchronous reading using 8bit buffer. The completition invokes registred RX event callback.
+     *
+     *  @param buffer     The buffer where received data will be stored
+     *  @param length     The buffer length in bytes
+     *  @param callback   The event callback function
+     *  @param event      The logical OR of RX events
+     *  @param char_match The matching character
+     */
+    int read(uint8_t *buffer, int length, const event_callback_t& callback, int event = SERIAL_EVENT_RX_COMPLETE, unsigned char char_match = SERIAL_RESERVED_CHAR_MATCH);
+
+    /** Begin asynchronous reading using 16bit buffer. The completition invokes registred RX event callback.
+     *
+     *  @param buffer     The buffer where received data will be stored
+     *  @param length     The buffer length in bytes
+     *  @param callback   The event callback function
+     *  @param event      The logical OR of RX events
+     *  @param char_match The matching character
+     */
+    int read(uint16_t *buffer, int length, const event_callback_t& callback, int event = SERIAL_EVENT_RX_COMPLETE, unsigned char char_match = SERIAL_RESERVED_CHAR_MATCH);
+
+    /** Abort the on-going read transfer
+     */
+    void abort_read();
+
+    /** Configure DMA usage suggestion for non-blocking TX transfers
+     *
+     *  @param usage The usage DMA hint for peripheral
+     *  @return Zero if the usage was set, -1 if a transaction is on-going
+     */
+    int set_dma_usage_tx(DMAUsage usage);
+
+    /** Configure DMA usage suggestion for non-blocking RX transfers
+     *
+     *  @param usage The usage DMA hint for peripheral
+     *  @return Zero if the usage was set, -1 if a transaction is on-going
+     */
+    int set_dma_usage_rx(DMAUsage usage);
+
+protected:
+    void start_read(void *buffer, int buffer_size, char buffer_width, const event_callback_t& callback, int event, unsigned char char_match);
+    void start_write(const void *buffer, int buffer_size, char buffer_width, const event_callback_t& callback, int event);
+    void interrupt_handler_asynch(void);
+#endif
+
 protected:
     SerialBase(PinName tx, PinName rx);
     virtual ~SerialBase() {
@@ -127,9 +224,18 @@ protected:
     int _base_getc();
     int _base_putc(int c);
 
-    serial_t        _serial;
-    FunctionPointer _irq[2];
-    int             _baud;
+#if DEVICE_SERIAL_ASYNCH
+    CThunk<SerialBase> _thunk_irq;
+    event_callback_t _tx_callback;
+    event_callback_t _rx_callback;
+    DMAUsage _tx_usage;
+    DMAUsage _rx_usage;
+#endif
+
+    serial_t         _serial;
+    Callback<void()> _irq[IrqCnt];
+    int              _baud;
+
 };
 
 } // namespace mbed
