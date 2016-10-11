@@ -96,8 +96,20 @@ void ProcessComands(int command){
             return;
         case 1: //Toggle LEDs command
             file_descriptor = open_frdm_connection();
+            char data_read[256];
+            if(get_from_fdrm(file_descriptor, data_read, 255)) {
+                printf("Data read: %s\n", data_read);
+            } else {
+                printf("Nothing to read\n");
+            }
+
             if(send_to_frdm(file_descriptor, (char *) "1", 1) == 1){
                 printf("Toogle leds successfully\n");
+                if(get_from_fdrm(file_descriptor, data_read, 255)) {
+                    printf("Data read: %s\n", data_read);
+                } else {
+                    printf("Nothing to read\n");
+                }
             }else{
                 printf("Error sending command\n");
             }

@@ -19,4 +19,6 @@ int send_to_frdm(int file_descriptor, char* data, unsigned int size);
 
 int close_frdm_connection(int file_descriptor);
 
+
+
 #endif //SBC_FRDM_COMUNICATION_H

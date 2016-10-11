@@ -9,9 +9,20 @@
 #include "Serial.h"
 #include "mbed.h"
 #include "frdm_communication.h"
-const char* frdm_devicePath = "/Users/gonzalopelos/Documents/ProyGrado/HDLC_Test/comunication.txt";
 
-Serial _serail_connection(USBTX, USBRX);
+Serial _serial_connection(USBTX, USBRX);
+
+bool _serial_connection_callback_attached = false;
+
+typedef struct {
+	int index;
+	char data[256];
+
+}structured_data_t;
+
+void serial_connection_callback() {
+
+}
 
 /*
  * 'open_port()' - Open serial port 1.
@@ -24,22 +35,32 @@ int open_frdm_connection(){
 }
 
 int get_from_fdrm(int file_descriptor, char *dataRead, unsigned int maxSize) {
+	int data_read_index = 0;
 
+	while(_serial_connection.readable() && (unsigned int)data_read_index < maxSize) {
+		dataRead[data_read_index] = _serial_connection.getc();
+		data_read_index++;
+	}
 
-    _serail_connection.gets(dataRead, maxSize);
-
-    return 1;
+	if(data_read_index < maxSize)
+	{
+		dataRead[data_read_index] = '\0';
+	}
+    return data_read_index;
 }
 
 int send_to_frdm(int file_descriptor, char* data, unsigned int size){
-    int res = -1;
+    int data_sent_index = 0;
+    if(_serial_connection.writeable() && data_sent_index < size){
+    	_serial_connection.putc(data[data_sent_index]);
+    	data_sent_index++;
+    }
 
-    res = _serail_connection.puts(data);
-
-    return res;
+    return data_sent_index;
 }
 
 int close_frdm_connection(int file_descriptor){
-//    return _serail_connection.close();
+//    return _serial_connection.close();
+	//_serial_connection.close();
 	return 1;
 }
