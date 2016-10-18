@@ -2,7 +2,7 @@
 // Created by root on 8/28/16.
 //
 
-
+#include "mbed.h"
 #include "yahdlc.h"
 #include "hdlc_controller.h"
 #include "Thread.h"
@@ -14,6 +14,8 @@
 
 using namespace std;
 
+DigitalOut hdlc_controller_led3(LED3);
+DigitalOut hdlc_controller_led4(LED4);
 /****************************************************
  * Global variables and structures
  ****************************************************/
@@ -303,6 +305,11 @@ void hdlc_sender_update_status(hdlc_status_t status) {
     _sender_status_nutex.lock();
     _sender_status = status;
     _sender_status_nutex.unlock();
+    if(status == HDLC_CONNECTED) {
+        	hdlc_controller_led4 = 1;
+        	wait(0.5);
+        	hdlc_controller_led4 = 0;
+    }
     //printf("sender update status: %d\n", (int)status);
 }
 
@@ -407,6 +414,11 @@ void hdlc_receiver_update_status(hdlc_status_t status) {
     _receiver_status_mutex.lock();
     _receiver_status = status;
     _receiver_status_mutex.unlock();
+    if(status == HDLC_CONNECTED) {
+    	hdlc_controller_led3 = 1;
+    	wait(0.5);
+    	hdlc_controller_led3 = 0;
+    }
     //printf("Receiver update status: %d\n", (int)status);
 }
 
