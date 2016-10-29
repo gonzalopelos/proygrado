@@ -53,6 +53,8 @@ int frame_data(const char * send_data, char* frame_data, unsigned int* frame_dat
 
 int get_data (char* frame, unsigned int frame_length, char* data, unsigned int* data_length);
 
+void test_hdlc_frdm();
+
 
 void start_primary_station();
 void start_secondary_station();
@@ -137,6 +139,9 @@ void ProcessComands(int command){
             break;
         case 4:
             start_secondary_station();
+            break;
+        case 5:
+            test_hdlc_frdm();
             break;
         default:break;
     }
@@ -293,6 +298,39 @@ void start_secondary_station() {
     } while(primary_station_command != 0);
 
     secondary_station_thread.join();
+}
+
+void test_hdlc_frdm() {
+    char data5[256];
+    yahdlc_control_t control4;
+    control4.address = 0x2;
+    control4.frame = YAHDLC_FRAME_DATA;
+    control4.seq_no = 1;
+    data5[0] = '\0';
+    char data_read2[256];
+    data_read2[0] = '\0';
+    yahdlc_control_t control5;
+    control5.address = 0x2;
+    control5.frame = YAHDLC_FRAME_DATA;
+    control5.seq_no = 2;
+    char decoded_data[256];
+    unsigned int decoded_data_size;
+    unsigned int frame_length;
+
+    yahdlc_frame_data(&control4,"hola mundo", 10, data5, &frame_length);
+    int connection_id = open_frdm_connection();
+    if(connection_id) {
+        if(send_to_frdm(connection_id, data5, frame_length)) {
+            printf("Data sent successfully. Data size %d\n", frame_length);
+            unsigned int frame_size = get_from_fdrm(connection_id, data_read2, 256);
+            if(frame_size > 0) {
+                yahdlc_get_data(&control5, data_read2, frame_size, decoded_data, &decoded_data_size);
+                printf("Data read: %s\n", decoded_data);
+            }
+        }
+        close_frdm_connection(connection_id);
+    }
+
 }
 
 

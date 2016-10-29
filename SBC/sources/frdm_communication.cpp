@@ -21,7 +21,7 @@ static struct termios gOriginalTTYAttrs;
 static int openSerialPort(const char *bsdPath)
 {
     int             fileDescriptor = -1;
-    int             handshake;
+//    int             handshake;
     struct termios  options;
 
     // Open the serial port read/write, with no controlling terminal, and don't wait for a connection.
@@ -99,8 +99,8 @@ static int openSerialPort(const char *bsdPath)
     // See tcsetattr(4) <x-man-page://4/tcsetattr> and termios(4) <x-man-page://4/termios> for details.
 
     cfmakeraw(&options);
-    options.c_cc[VMIN] = 0;
-    options.c_cc[VTIME] = 10;
+    //options.c_cc[VMIN] = 0;
+    //options.c_cc[VTIME] = 10;
 
     // The baud rate, word length, and handshake options can be set as follows:
 
@@ -113,9 +113,9 @@ static int openSerialPort(const char *bsdPath)
 
     // disable parity generation and 2 stop bits
     options.c_cflag &= ~(PARENB | CSTOPB);
+   // options.c_cflag &= ~PARENB;
 
     // Enable Raw Input
-
     options.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
 
     // Disable Software Flow control
@@ -175,22 +175,22 @@ static int openSerialPort(const char *bsdPath)
     }
 
     // Set the modem lines depending on the bits set in handshake
-    handshake = TIOCM_DTR | TIOCM_RTS | TIOCM_CTS | TIOCM_DSR;
-    if (ioctl(fileDescriptor, TIOCMSET, &handshake) == -1) {
-        printf("Error setting handshake lines %s - %s(%d).\n",
-               bsdPath, strerror(errno), errno);
-    }
+//    handshake = TIOCM_DTR | TIOCM_RTS | TIOCM_CTS | TIOCM_DSR;
+//    if (ioctl(fileDescriptor, TIOCMSET, &handshake) == -1) {
+//        printf("Error setting handshake lines %s - %s(%d).\n",
+//               bsdPath, strerror(errno), errno);
+//    }
 
     // To read the state of the modem lines, use the following ioctl.
     // See tty(4) <x-man-page//4/tty> and ioctl(2) <x-man-page//2/ioctl> for details.
 
     // Store the state of the modem lines in handshake
-    if (ioctl(fileDescriptor, TIOCMGET, &handshake) == -1) {
-        printf("Error getting handshake lines %s - %s(%d).\n",
-               bsdPath, strerror(errno), errno);
-    }
+//    if (ioctl(fileDescriptor, TIOCMGET, &handshake) == -1) {
+//        printf("Error getting handshake lines %s - %s(%d).\n",
+//               bsdPath, strerror(errno), errno);
+//    }
 
-    printf("Handshake lines currently set to %d\n", handshake);
+//    printf("Handshake lines currently set to %d\n", handshake);
 
 //    unsigned long mics = 1UL;
 
@@ -281,8 +281,25 @@ int get_from_fdrm(int file_descriptor, char *dataRead, unsigned int maxSize) {
 
 int send_to_frdm(int file_descriptor, char* data, unsigned int size){
     int res = -1;
+//    bool end = false;
+//    int index = 0;
+//    while(!end) {
+//        if(write(file_descriptor, &data[index], 1) == 1) {
+//            index++;
+//            end = (index == size);
+//        } else {
+//            end = true;
+//        }
+//    }
+//
+//    if (index) {
+//        res = index;
+//    }
+
     ssize_t data_written_size = write(file_descriptor, data, size);
     res = static_cast<int>(data_written_size);
+
+
     return res;
 }
 
