@@ -3,40 +3,24 @@
 #ifdef MAIN_AM
 #include "mbed.h"
 #include "PCF8591.h"
-#define VERSION "22_07_2014"
-#define CIBLE "KL25Z"
+#include "PIDModule.h"
 
-
-// I2C Communication
-  I2C i2c_adcdac(PTC9,PTC8); // SDA, SCL for LPC1768
-  //I2C i2c_adcdac(P0_10,P0_11); // SDA, SCL for LPC812
- 
-  //Declare a composite ADC and DAC device that may be used through public methods
-  PCF8591 capteur0(&i2c_adcdac,PCF8591_SA0); // I2C bus, Default PCF8591 Slaveaddress
- 
-  //Declare independent ADC and DAC objects that may be used similar to mbed AnalogIn and AnalogOut pins
-  //PCF8591_AnalogOut anaOut(&i2c_bus);
-  //
-  //PCF8591_AnalogIn anaIn(&i2c_bus, PCF8591_ADC0);
- 
+I2C i2c(PTE25, PTE24); // SDA, SCL para K64F
+PCF8591 DAC_I2C(&i2c, PCF8591_SA0); // I2C bus, Default PCF8591 Slaveaddress
   
-  int main() {
-    uint8_t count = 0; 
-    uint8_t analog;  
-    printf("LAAS-CNRS ,PCF8591 ,%s ,%s\r\n",CIBLE,VERSION);
+int main() {
+	PIDModule pid[1];
+	uint8_t count = 0;
+	float vel = 0;
     while(1) {
-      wait(1);    
-      count++;       
- 
-      // Composite device methods    
-     capteur0.write(count);                 // write D/A value
-     analog = capteur0.read(PCF8591_ADC0);  // read A/D value for Channel 0
-printf("AO=%d AI=%d \r\n",count,analog);
-              // read A/D value for Channel 0 in (Volts*10)
-  }
+    	wait(0.1);
+    	count++;
 
- 
- }
+    	vel = pid[1].compute(0, 10);
+
+    	DAC_I2C.write(count);
+    }
+}
 
 #endif
 
