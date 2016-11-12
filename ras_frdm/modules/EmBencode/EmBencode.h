@@ -10,10 +10,10 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "mbed.h"
+//#include "mbed.h"
 #include "rtos.h"
 
-//Mutex serial_pkg;
+Mutex serial_pkg;
 
 /// Encoder class to generate Bencode on the fly (no buffer storage needed).
 class EmBencode {
@@ -56,8 +56,7 @@ public:
   }
 
   static void startFrame () {
-    lock(); // definido en mcc :(
-    //serial_pkg.lock();
+    serial_pkg.lock();
     //serial_pkg.wait();
     startList();
   }
@@ -66,8 +65,7 @@ public:
     PushEnd();
     PushChar('\n');
     //serial_pkg.release();
-    //serial_pkg.unlock();
-    unlock(); // definido en mcc :(
+    serial_pkg.unlock();
   }
 
   /// Start a new new list. Must be matched with a call to endList().
@@ -97,8 +95,7 @@ public:
 protected:
   static void PushCount (uint32_t num) {
     char buf[11];
-    //PushData(ultoa(num, buf, 10), strlen(buf));
-    uint8_t len = sprintf(buf, "%u", (unsigned int)num);	// 2016.11.04 AM - snprintf no compila, pero creo se puede usar sprintf sin problemas.
+    uint8_t len = sprintf(buf, "%u", (unsigned int)num);
     PushData(buf, len);
   }
 
@@ -114,8 +111,6 @@ protected:
   /// This function is not implemented in the library. It must be supplied by
   /// the caller to implement the actual writing of characters.
   static void PushChar (char ch);
-  static void lock ();
-  static void unlock ();
 };
 
 /// Decoder class, needs an external buffer to collect the incoming data.
