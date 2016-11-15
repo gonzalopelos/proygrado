@@ -383,7 +383,6 @@ int hdlc_sender_buffer_remove_data(unsigned int index) {
         _sender_buffer_index = 0;
     }
     else {
-
         for (int i = index; i < _sender_buffer_index; ++i) {
             _sender_buffer[i - index] = _sender_buffer[i];
         }
