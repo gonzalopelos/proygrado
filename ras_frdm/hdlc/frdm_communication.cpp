@@ -4,7 +4,6 @@
 #include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
-#include "Serial.h"
 #include "mbed.h"
 #include "rtos.h"
 #include "frdm_communication.h"

@@ -95,7 +95,7 @@ public:
 protected:
   static void PushCount (uint32_t num) {
     char buf[11];
-    uint8_t len = sprintf(buf, "%u", (unsigned int)num);
+    uint8_t len = snprintf(buf, 10,"%u", (unsigned int)num);
     PushData(buf, len);
   }
 

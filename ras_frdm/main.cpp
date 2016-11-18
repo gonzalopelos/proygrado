@@ -224,25 +224,6 @@ int main() {
 					}
 				}
 			}
-			//wait(0.5);
-			//led3 = !led3;
-
-//			osEvent e =  messages.get();
-//			if(e.status == osEventMessage) {
-//				led2 = !led2;
-//				wait(0.5);
-//				led2 = !led2;
-//
-//				my_message = (message_data_t *)e.value.p;
-//				if(my_message->size > 0) {
-//					led3 = !led3;
-//					wait(0.5);
-//					led3 = !led3;
-//					pc.puts(my_message->data);
-//					messages_pool.free(my_message);
-//					messages_count--;
-//				}
-//			}
 		}
 		message_count_mutex.unlock();
     }
