@@ -7,7 +7,33 @@
 
 I2C i2c(PTE25, PTE24); // SDA, SCL para K64F
 PCF8591 DAC_I2C(&i2c, PCF8591_SA0); // I2C bus, Default PCF8591 Slaveaddress
-  
+Serial pc(USBTX, USBRX);
+
+DigitalOut led(LED_RED);
+DigitalOut ledGreen(LED_GREEN);
+
+int main()
+{
+	led 		= 0;
+	ledGreen	= 0;
+    while (true) {
+    	int command = pc.getc();
+    	switch(command){
+			case 1:
+				led 		= !led;
+				ledGreen 	= !led;
+				break;
+			case 6:
+
+				break;
+			default:
+				ledGreen = !ledGreen;
+    	}
+        wait(0.4f);
+    }
+}
+
+/*
 int main() {
 	PIDModule pid[1];
 	uint8_t count = 0;
@@ -21,6 +47,7 @@ int main() {
     	DAC_I2C.write(count);
     }
 }
+*/
 
 #endif
 
