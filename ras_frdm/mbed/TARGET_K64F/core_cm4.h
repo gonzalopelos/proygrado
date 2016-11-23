@@ -248,6 +248,14 @@
 #define     __O     volatile             /*!< Defines 'write only' permissions                */
 #define     __IO    volatile             /*!< Defines 'read / write' permissions              */
 
+#ifdef __cplusplus
+  #define   __IM    volatile             /*!< Defines 'read only' permissions                 */
+#else
+  #define   __IM    volatile const       /*!< Defines 'read only' permissions                 */
+#endif
+#define     __OM    volatile             /*!< Defines 'write only' permissions                */
+#define     __IOM   volatile             /*!< Defines 'read / write' permissions              */
+
 /*@} end of group Cortex_M4 */
 
 
@@ -1518,6 +1526,7 @@ typedef struct
   #define NVIC_GetActive              __NVIC_GetActive
   #define NVIC_SetPriority            __NVIC_SetPriority
   #define NVIC_GetPriority            __NVIC_GetPriority
+  #define NVIC_SystemReset            __NVIC_SystemReset
 #endif /* CMSIS_NVIC_VIRTUAL */
 
 #ifdef CMSIS_VECTAB_VIRTUAL
@@ -1747,7 +1756,7 @@ __STATIC_INLINE void NVIC_DecodePriority (uint32_t Priority, uint32_t PriorityGr
 
     The function initiates a system reset request to reset the MCU.
  */
-__STATIC_INLINE void NVIC_SystemReset(void)
+__STATIC_INLINE void __NVIC_SystemReset(void)
 {
   __DSB();                                                          /* Ensure all outstanding memory accesses included
                                                                        buffered write are completed before reset */

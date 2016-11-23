@@ -1,4 +1,4 @@
-#define MAIN_AM
+//#define MAIN_AM
 
 #ifdef MAIN_AM
 #include "mbed.h"
@@ -53,112 +53,214 @@ int main() {
 
 #ifndef MAIN_AM
 
-#include "mbed.h"
-#include "hdlc/frdm_communication.h"
-#include "rtos.h"
+//#include "mbed.h"
+//#include "hdlc/frdm_communication.h"
+//#include "rtos.h"
 
-DigitalOut led1(LED1);
-DigitalOut led2(LED2);
-DigitalOut led3(LED3);
-DigitalOut led4(LED4);
+//DigitalOut led1(LED1);
+//DigitalOut led2(LED2);
+//DigitalOut led3(LED3);
+//DigitalOut led4(LED4);
+//
+////Serial pc(USBTX, USBRX);
+//Serial my_serial(USBTX, USBRX);
 
-//Serial pc(USBTX, USBRX);
-//Serial pc2(USBTX, USBRX);
-
-Thread hdlc_secondary_station_thread;
-Thread pc_serial;
+//Thread hdlc_secondary_station_thread;
+//Thread pc_serial;
 //Thread pc_serial_2;
+//typedef struct {
+//	char data[256];
+//	int size;
+//}message_data_t;
 
-void callback() {
-    // Note: you need to actually read from the serial to clear the RX interrupt
-//    pc.printf("%c\n", pc.getc());
-//    if(pc.getc() == '1'){
-//    	led1 = 1;
-//    } else {
-//    	led1 = 0;
-//    }
-//    //pc.printf("1-%c", pc.getc());
-//    wait(0.5);
+//Queue<message_data_t, 16> messages;
+//MemoryPool<message_data_t, 16> messages_pool;
 
-}
+//int messages_count = 0;
 
-void callback2() {
-    // Note: you need to actually read from the serial to clear the RX interrupt
-//    pc.printf("%c\n", pc.getc());
-    led1 = !led1;
-   // pc2.printf("2-%s", pc2.getc());
-    wait(3);
-
-}
-
-void pc_serial_echo() {
-//	char data[20];
-//	data[0] = '\0';
-//	while(1) {
-//		if(pc.readable()) {
-//			sprintf(data, "FRDM %c\n", pc.getc());
-//			pc.puts(data);
-//			led1 = 0;
-//		} else {
-//			led1 = 1;
-//		}
-//		wait(1);
+//void pc_callback() {
+//	led3 = !led3;
+//	while(my_serial.readable()){
+//		my_serial.getc();
 //	}
-}
 
-void pc_serial_2_echo() {
-//	while(1) {
-//		if(pc2.readable()) {
-//			pc2.printf("2 %c\n", pc2.getc());
-//			led2 = 0;
-//		} else {
-//			led2 = 1;
+//	message_data_t * me = messages_pool.alloc();
+//	me->size = 0;
+//	while(pc.readable()) {
+//		if(me->size < 256) {
+//			me->data[me->size] = pc.getc();
+//			me->size++;
 //		}
-//		wait(1);
 //	}
-}
+//	led4 = !led4;
+//	wait(0.5);
+//	led4 = !led4;
+//	messages.put(me);
+//	messages_count++;
+//}
 
 
-void hdlc_secondary_station() {
-	led2 = 1;
-	wait(1);
-	led2 = 0;
-//	hdlc_init(0x2);
-}
+//int main() {
+//	led1 = 1;
+//	led2 = 1;
+//	led3 = 1;
+//	led4 = 1;
 
-int main() {
-	led1 = 1;
-	led2 = 1;
-	led3 = 1;
-	led4 = 1;
-
-    //pc.attach(&callback);
-    //pc2.attach(&callback2);
-    //led1 = 1;
-
-    //hdlc_secondary_station_thread.start(hdlc_secondary_station);
-   // char command;
-    //char data_read[256];
-    //unsigned int data_read_size;
-	//pc_serial.start(pc_serial_echo);
-	//pc_serial_2.start(pc_serial_2_echo);
-	int connection = open_frdm_connection();
+	/*int connection = open_frdm_connection();
 	char data[256];
 	int data_size;
 	int data_sent_size;
     while (1) {
-//        led1 = !led1;
         wait(0.5);
-        //data_size = get_from_fdrm(connection, data, 256);
-//        if(data_size > 0) {
-//        	led1 = !led1;
-//        	data_sent_size = send_to_frdm(connection, data, data_size);
-//        	if(data_size == data_sent_size) {
-//        		led3 = !led3;
-//        	}
-//        }
+        data_size = get_from_fdrm(connection, data, 255);
+        if(data_size > 0){
+        	led1 = !led1;
+			wait(1);
+			led1 = !led1;
+        	data_sent_size = send_to_frdm(connection, data, data_size);
+        	if(data_sent_size == data_size){
+        		led4= !led4;
+        		wait(1);
+        		led4 = !led4;
 
+        	}
+        }
+    }*/
+	//my_serial.baud(9600);
+	//pc.format();
+//	my_serial.attach(&pc_callback);
+
+	//message_data_t* my_message;
+//	while(1) {
+//		wait(0.5);
+//		led2 = !led2;
+	//	if(messages_count > 1){
+//			led1 = !led1;
+//			wait(0.5);
+//			led1 = !led1;
+//
+//			osEvent e =  messages.get();
+//			if(e.status == osEventMessage) {
+//				led2 = !led2;
+//				wait(0.5);
+//				led2 = !led2;
+//
+//				my_message = (message_data_t *)e.value.p;
+//				if(my_message->size > 0) {
+//					led3 = !led3;
+//					wait(0.5);
+//					led3 = !led3;
+//					pc.puts(my_message->data);
+//					messages_pool.free(my_message);
+//					messages_count--;
+//				}
+//			}
+//		}
+//	}
+
+//}
+#include "mbed.h"
+#include "rtos.h"
+
+
+DigitalOut led1(LED1);
+DigitalOut led2(LED2);
+DigitalOut led3(LED3);
+
+Serial pc(USBTX, USBRX);
+
+typedef struct {
+	char data[256];
+	int size;
+}message_data_t;
+
+Queue<message_data_t, 16> messages;
+MemoryPool<message_data_t, 16> messages_pool;
+Mutex message_count_mutex;
+Thread _reader_thread;
+
+int messages_count = 0;
+
+
+void reader_func();
+void start_reader();
+
+/*void callback() {
+    led2 = !led2;   // on
+	message_data_t * me = messages_pool.alloc();
+	me->size = 0;
+	while(pc->readable()) {
+		if(me->size < 256) {
+			me->data[me->size] = pc->getc();
+			me->size++;
+		}
+	}
+	messages.put(me);
+	message_count_mutex.lock();
+	messages_count++;
+	message_count_mutex.unlock();
+}*/
+
+void reader_func(){
+	while(1){
+		led2 = !led2;
+
+		message_data_t * me = messages_pool.alloc();
+		me->size = 0;
+		while(pc.readable()) {
+			if(me->size < 256) {
+				me->data[me->size] = pc.getc();
+				me->size++;
+			}
+		}
+		if(me->size > 0){
+			messages.put(me);
+			message_count_mutex.lock();
+			messages_count++;
+			message_count_mutex.unlock();
+		} else {
+			messages_pool.free(me);
+		}
+	}
+}
+
+int main() {
+    led1 = 0;
+    led2 = 1;   // Off
+    led3 = 1;
+    pc.baud(9600);
+    start_reader();
+    message_data_t* my_message;
+    while(1) {
+        led1 = !led1;
+
+        message_count_mutex.lock();
+		if(messages_count > 0) {
+			led3 = !led3;
+			//wait(0.5);
+			if(messages_count == 2) {
+				//wait(0.5);
+				led3 = !led3;
+				osEvent e =  messages.get();
+				if(e.status == osEventMessage) {
+					my_message = (message_data_t *)e.value.p;
+					if(my_message->size > 0) {
+						pc.puts(my_message->data);
+						messages_pool.free(my_message);
+						messages_count--;
+					}
+				}
+			}
+		}
+		message_count_mutex.unlock();
     }
+
+}
+
+inline void start_reader() {
+
+	_reader_thread.start(reader_func);
+	//_reader_thread.join();
 }
 
 #endif

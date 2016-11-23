@@ -24,10 +24,12 @@
 
 #include <stdint.h>
 #include "cmsis_os.h"
-#include "Callback.h"
-#include "toolchain.h"
+#include "platform/Callback.h"
+#include "platform/toolchain.h"
 
 namespace rtos {
+/** \addtogroup rtos */
+/** @{*/
 
 /** The RtosTimer class allow creating and and controlling of timer functions in the system.
  A timer function is called when a time period expires whereby both on-shot and
@@ -47,7 +49,7 @@ public:
     MBED_DEPRECATED_SINCE("mbed-os-5.1",
         "Replaced with RtosTimer(Callback<void()>, os_timer_type)")
     RtosTimer(void (*func)(void const *argument), os_timer_type type=osTimerPeriodic, void *argument=NULL) {
-        constructor(mbed::Callback<void()>(argument, (void (*)(void *))func), type);
+        constructor(mbed::callback((void (*)(void *))func, argument), type);
     }
     
     /** Create timer.
@@ -62,10 +64,16 @@ public:
       @param   obj       pointer to the object to call the member function on.
       @param   method    member function to be executed by this timer.
       @param   type      osTimerOnce for one-shot or osTimerPeriodic for periodic behaviour. (default: osTimerPeriodic)
+      @deprecated
+          The RtosTimer constructor does not support cv-qualifiers. Replaced by
+          RtosTimer(callback(obj, method), os_timer_type).
     */
     template <typename T, typename M>
+    MBED_DEPRECATED_SINCE("mbed-os-5.1",
+        "The RtosTimer constructor does not support cv-qualifiers. Replaced by "
+        "RtosTimer(callback(obj, method), os_timer_type).")
     RtosTimer(T *obj, M method, os_timer_type type=osTimerPeriodic) {
-        constructor(mbed::Callback<void()>(obj, method), type);
+        constructor(mbed::callback(obj, method), type);
     }
 
     /** Stop the timer.
@@ -99,3 +107,5 @@ private:
 }
 
 #endif
+
+/** @}*/
