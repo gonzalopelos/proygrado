@@ -1,6 +1,74 @@
+#define MAIN_AM
 /*******************************************************
  HDLC
 ********************************************************/
+#ifdef MAIN_AM
+#include <stdio.h>
+#include "frdm_communication.h"
+
+
+//======================================================
+//Definicion de operaciones auxiliares
+
+void ReadCommands();
+void ProcessComands(int command);
+
+int main(int argc, char* argv[])
+{
+
+    ReadCommands();
+
+    return 0;
+}
+
+//======================================================
+// Implementacion de operaciones auxiliares
+
+void ReadCommands(){
+    printf("\n\n******************************************************\n");
+    printf("******************************************************\n");
+    printf("Comandos:\n");
+    printf("\t\"0\"-> Quit\n");
+    printf("\t\"1\"-> Toggle LEDs\n");
+    printf("\t\"2\"-> Test encode and decode data with BEncode\n");
+    printf("\n");
+
+    int command;
+    do{
+        scanf("%d", &command);
+        ProcessComands(command);
+    } while(command != 0);
+}
+
+void ProcessComands(int command){
+    int file_descriptor;
+
+    switch(command){
+        case 0: // Quit command
+            return;
+        case 1: //Toggle LEDs command
+            file_descriptor = open_frdm_connection();
+            if(send_to_frdm(file_descriptor, (char *) "1", 1) == 1){
+                printf("Sent: message 1\n");
+            }
+            else{
+                printf("Error sending command\n");
+            }
+            close_frdm_connection(file_descriptor);
+            break;
+        case 2:
+            //
+            break;
+        default:break;
+    }
+}
+
+
+
+#endif
+//======================================================
+
+#ifndef MAIN_AM
 
 #include <stdio.h>
 #include <wchar.h>
@@ -17,13 +85,8 @@
 #include "includes/yahdlc.h"
 #include "frdm_communication.h"
 
-
-
-
-
 #define MAX_FRAME_PAYLOAD		512
 #define HEADERS_LENGTH			8
-
 #define TOTAL_FRAME_LENGTH		MAX_FRAME_PAYLOAD + HEADERS_LENGTH
 
 #define BAUDRATE B38400
@@ -35,30 +98,18 @@
 
 #define MAX_STR 255
 
-
-
-
-
-
-
 //======================================================
 //Definicion de operaciones auxiliares
 
-void ReadCommands();
-void ProcessComands(int command);
 void stringToHex(unsigned char* hexString, const char* string, int stringLenght);
 void hexToString(char* string, unsigned char* hexString, int stringLenght);
 
 int frame_data(const char * send_data, char* frame_data, unsigned int* frame_data_length);
-
 int get_data (char* frame, unsigned int frame_length, char* data, unsigned int* data_length);
-
 
 void start_primary_station();
 void start_secondary_station();
 void test_hdlc_frdm();
-
-
 
 int main(int argc, char* argv[])
 {
@@ -80,6 +131,8 @@ void ReadCommands(){
     printf("\t\"2\"-> Test encode and decode data with yahdlc\n");
     printf("\t\"3\"-> Start primary station for HDLC communication\n");
     printf("\t\"4\"-> Start secondary station for HDLC communication\n");
+    printf("\t\"4\"-> Test HDLC \n");
+    printf("\n");
     printf("\n");
 
     int command;
@@ -97,26 +150,10 @@ void ProcessComands(int command){
             return;
         case 1: //Toggle LEDs command
             file_descriptor = open_frdm_connection();
-            char data_read[256];
-//            if(get_from_fdrm(file_descriptor, data_read, 255)) {
-//                printf("Data read: %s\n", data_read);
-//            } else {
-//                printf("Nothing to read\n");
-//            }
-
-            if(send_to_frdm(file_descriptor, (char *) "message 1", 9) == 9){
+            if(send_to_frdm(file_descriptor, (char *) "1", 1) == 1){
                 printf("Sent: message 1\n");
-                if(send_to_frdm(file_descriptor, (char *) "message 2", 9) == 9) {
-                    printf("Sent: message 2\n");
-                    if(get_from_fdrm(file_descriptor, data_read, 255)) {
-                        printf("Data read: %s\n", data_read);
-                    } else {
-                        printf("Nothing to read\n");
-                    }
-                }else {
-                    printf("Error sending command\n");
-                }
-            }else{
+            }
+            else{
                 printf("Error sending command\n");
             }
             close_frdm_connection(file_descriptor);
@@ -138,7 +175,6 @@ void ProcessComands(int command){
             printf("Data: %4s\n", data);
             break;
         case 3:
-
             start_primary_station();
             break;
         case 4:
@@ -147,7 +183,6 @@ void ProcessComands(int command){
         case 5:
             test_hdlc_frdm();
             break;
-
         default:break;
     }
 }
@@ -161,7 +196,6 @@ void stringToHex(unsigned char* hexString, const char* string, int stringLenght)
         printf("cahr: %c, hex %02hhx \n", string[x], hexString[x]);
     }
 }
-
 
 void hexToString(char* string, unsigned char* hexString, int stringLenght){
     memset(string, 0, stringLenght);
@@ -338,5 +372,4 @@ void test_hdlc_frdm() {
 
 }
 
-
-//======================================================
+#endif
