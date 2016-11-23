@@ -6,6 +6,8 @@
 #include <yahdlc.h>
 #include "../includes/hdlc_controller.h"
 #include <thread>
+#include <mutex>
+#include <cstring>
 #include <cstdlib>
 #include <semaphore.h>
 #include "../includes/frdm_communication.h"
