@@ -1,4 +1,4 @@
-#define MAIN_AM
+//#define MAIN_AM
 /*******************************************************
  HDLC
 ********************************************************/
@@ -84,6 +84,14 @@ void ProcessComands(int command){
 #include <yahdlc.h>
 #include "includes/yahdlc.h"
 #include "frdm_communication.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
 
 #define MAX_FRAME_PAYLOAD		512
 #define HEADERS_LENGTH			8
@@ -101,6 +109,8 @@ void ProcessComands(int command){
 //======================================================
 //Definicion de operaciones auxiliares
 
+void ReadCommands(int parsed_command);
+void ProcessComands(int command);
 void stringToHex(unsigned char* hexString, const char* string, int stringLenght);
 void hexToString(char* string, unsigned char* hexString, int stringLenght);
 
@@ -110,11 +120,16 @@ int get_data (char* frame, unsigned int frame_length, char* data, unsigned int* 
 void start_primary_station();
 void start_secondary_station();
 void test_hdlc_frdm();
+void frdm_log();
+void error(const char *msg);
 
 int main(int argc, char* argv[])
 {
-
-    ReadCommands();
+    int command = -1;
+    if(argc == 2){
+        command = (int)(*argv[1]) - 48;
+    }
+    ReadCommands(command);
 
     return 0;
 }
@@ -122,7 +137,7 @@ int main(int argc, char* argv[])
 //======================================================
 // Implementacion de operaciones auxiliares
 
-void ReadCommands(){
+void ReadCommands(int parsed_command){
     printf("\n\n******************************************************\n");
     printf("******************************************************\n");
     printf("Comandos:\n");
@@ -133,9 +148,10 @@ void ReadCommands(){
     printf("\t\"4\"-> Start secondary station for HDLC communication\n");
     printf("\t\"4\"-> Test HDLC \n");
     printf("\n");
-    printf("\n");
-
     int command;
+    if(parsed_command > 0){
+        ProcessComands(parsed_command);
+    }
     do{
         scanf("%d", &command);
         ProcessComands(command);
@@ -183,6 +199,9 @@ void ProcessComands(int command){
         case 5:
             test_hdlc_frdm();
             break;
+        case 6:
+            frdm_log();
+            break;
         default:break;
     }
 }
@@ -206,63 +225,6 @@ void hexToString(char* string, unsigned char* hexString, int stringLenght){
         printf("cahr: %c, hex %02hhx \n", string[x], hexString[x]);
     }
 }
-
-//int frame_data(const char * send_data, char* frame_data,  unsigned int* frame_length){
-//    int ret;
-//    unsigned int data_length, seq_no = 0;
-//    data_length = sizeof(send_data);
-//
-//
-//    yahdlc_control_t control;
-//    yahdlc_frame_t frame_type = YAHDLC_FRAME_DATA;
-//
-//    *frame_length = 0;
-//
-//
-//
-//
-//    /*if (!PyArg_ParseTuple(args, "s#|II", &send_data, &data_length, &frame_type, &seq_no))
-//        return NULL;
-//
-//    if (data_length > MAX_FRAME_PAYLOAD)
-//    {
-//        PyErr_SetString(PyExc_ValueError, "data too long");
-//        return NULL;
-//    }
-//    else if (frame_type != YAHDLC_FRAME_DATA && frame_type != YAHDLC_FRAME_ACK && frame_type != YAHDLC_FRAME_NACK)
-//    {
-//        PyErr_SetString(PyExc_ValueError, "bad frame type");
-//        return NULL;
-//    }
-//    else if (seq_no < 0 || seq_no > 7)
-//    {
-//        PyErr_SetString(PyExc_ValueError, "invalid sequence number");
-//        return NULL;
-//    }*/
-//
-//    control.frame = frame_type;
-//    control.seq_no = seq_no;
-//
-//
-//    ret = yahdlc_frame_data(&control, send_data, data_length, frame_data, frame_length);
-//    /* If success */
-//    if (ret != 0)
-//    {
-//        printf("Error yahdlc_frame_data, ret:%d\n", ret);
-//        printf("yahdlc_frame_data, frame_length:%d\n", (int) (*frame_length));
-//        printf("yahdlc_frame_data, data:%s, data_length:%d\n", send_data, data_length);
-//
-//    }
-//    return ret;
-//}
-
-//int get_data (char* frame, unsigned int frame_length, char* data, unsigned int* data_length){
-//    int ret;
-//    yahdlc_control_t control;
-//    *data_length = 0;
-//    ret = yahdlc_get_data(&control, frame, frame_length, data, data_length);
-//    return ret;
-//}
 
 void hdlc_controller_init_primary_station() {
     unsigned char primary_station_address = PRIMARY_STATION_ADDR;
@@ -372,4 +334,51 @@ void test_hdlc_frdm() {
 
 }
 
+void frdm_log() {
+    int sockfd, portno, n;
+    struct sockaddr_in serv_addr;
+    struct hostent *server;
+
+    char buffer[256];
+    //if (argc < 3) {
+//        fprintf(stderr,"usage %s hostname port\n", argv[0]);
+//        exit(0);
+//    }
+    portno = 5000;//atoi(argv[2]);
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd < 0)
+        error("ERROR opening socket");
+    server = gethostbyname("192.168.1.52");//gethostbyname(argv[1]);
+    if (server == NULL) {
+        fprintf(stderr,"ERROR, no such host\n");
+        exit(0);
+    }
+    bzero((char *) &serv_addr, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;
+    bcopy((char *)server->h_addr,
+          (char *)&serv_addr.sin_addr.s_addr,
+          server->h_length);
+    serv_addr.sin_port = htons(portno);
+    if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0){
+        error("ERROR connecting");
+    }
+    while(true) {
+        bzero(buffer,256);
+        n = read(sockfd,buffer,255);
+        if (n < 0){
+            error("ERROR reading from socket");
+            break;
+        }
+        printf("%s\n",buffer);
+    }
+    close(sockfd);
+}
+
+void error(const char *msg)
+{
+    perror(msg);
+    exit(0);
+}
+
 #endif
+//======================================================

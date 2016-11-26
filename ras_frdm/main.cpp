@@ -162,12 +162,20 @@ int main() {
 #include "mbed.h"
 #include "rtos.h"
 
+#include "EthernetInterface.h"
 
-DigitalOut led1(LED1);
-DigitalOut led2(LED2);
-DigitalOut led3(LED3);
+#include "Logging/Logger.h"
 
-Serial pc(USBTX, USBRX);
+#define MBED_DEV_IP       "192.168.1.52"
+#define MBED_DEV_MASK     "255.255.255.0"
+#define MBED_DEV_GW       "0.0.0.0"
+#define ECHO_SERVER_PORT   5000
+
+//DigitalOut led1(LED1);
+//DigitalOut led2(LED2);
+//DigitalOut led3(LED3);
+//
+//Serial pc(USBTX, USBRX);
 
 typedef struct {
 	char data[256];
@@ -200,6 +208,7 @@ void start_reader();
 	messages_count++;
 	message_count_mutex.unlock();
 }*/
+/*
 
 void reader_func(){
 	while(1){
@@ -223,8 +232,10 @@ void reader_func(){
 		}
 	}
 }
+*/
 
 int main() {
+/*
     led1 = 0;
     led2 = 1;   // Off
     led3 = 1;
@@ -254,8 +265,59 @@ int main() {
 		}
 		message_count_mutex.unlock();
     }
+*/
+
+/*	Serial pc(USBTX, USBRX);
+	EthernetInterface eth;
+	DigitalOut led_green(LED_GREEN);
+	led_green = 0;
+	eth.init(MBED_DEV_IP, MBED_DEV_MASK, MBED_DEV_GW); //Assign a device ip, mask and gateway
+	eth.connect(100);
+	pc.printf("IP Address is %s\n", eth.getIPAddress());
+	led_green = !led_green;
+	TCPSocketServer server;
+	server.bind(ECHO_SERVER_PORT);
+	server.listen();
+
+	while (true) {
+		pc.printf("\nWait for new connection...\n");
+		TCPSocketConnection client;
+		server.accept(client);
+		client.set_blocking(false, 1500); // Timeout after (1.5)s
+		led_green = !led_green;
+		pc.printf("Connection from: %s\n", client.get_address());
+		char buffer[256];
+		while (true) {
+			int n = client.receive(buffer, sizeof(buffer));
+			if(n>0){
+				client.send_all(buffer, n);
+			}
+		}
+		led_green = !led_green;
+		client.close();
+	}*/
+
+	DigitalOut led_green(LED_GREEN);
+	DigitalOut led_red(LED_RED);
+	DigitalOut led_blue(LED_BLUE);
+	led_red = 1;
+	led_blue = 1;
+	led_green = 0;
+	Logger* _logger = Logger::get_instance();
+	int counter = 0;
+	char data[128];
+	while(true){
+		wait(1.5);
+		led_green = !led_green;
+		bzero(data, sizeof(data));
+		sprintf(data, "test from main %d\n", counter);
+		_logger->write_trace(data);
+		counter ++;
+	}
 
 }
+
+
 
 inline void start_reader() {
 
