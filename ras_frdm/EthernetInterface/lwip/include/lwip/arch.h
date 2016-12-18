@@ -110,14 +110,22 @@ extern "C" {
 #define  EPIPE        32  /* Broken pipe */
 #define  EDOM         33  /* Math argument out of domain of func */
 #define  ERANGE       34  /* Math result not representable */
+#undef 	 EDEADLK
 #define  EDEADLK      35  /* Resource deadlock would occur */
+#undef   ENAMETOOLONG
 #define  ENAMETOOLONG 36  /* File name too long */
+#undef   ENOLCK
 #define  ENOLCK       37  /* No record locks available */
+#undef   ENOSYS
 #define  ENOSYS       38  /* Function not implemented */
+#undef   ENOTEMPTY
 #define  ENOTEMPTY    39  /* Directory not empty */
+#undef   ELOOP
 #define  ELOOP        40  /* Too many symbolic links encountered */
 #define  EWOULDBLOCK  EAGAIN  /* Operation would block */
+#undef   ENOMSG
 #define  ENOMSG       42  /* No message of desired type */
+#undef   EIDRM
 #define  EIDRM        43  /* Identifier removed */
 #define  ECHRNG       44  /* Channel number out of range */
 #define  EL2NSYNC     45  /* Level 2 not synchronized */
@@ -149,9 +157,12 @@ extern "C" {
 #define  ESRMNT       69  /* Srmount error */
 #define  ECOMM        70  /* Communication error on send */
 #define  EPROTO       71  /* Protocol error */
+#undef   EMULTIHOP
 #define  EMULTIHOP    72  /* Multihop attempted */
 #define  EDOTDOT      73  /* RFS specific error */
+#undef   EBADMSG
 #define  EBADMSG      74  /* Not a data message */
+#undef   EOVERFLOW
 #define  EOVERFLOW    75  /* Value too large for defined data type */
 #define  ENOTUNIQ     76  /* Name not unique on network */
 #define  EBADFD       77  /* File descriptor in bad state */
@@ -161,44 +172,68 @@ extern "C" {
 #define  ELIBSCN      81  /* .lib section in a.out corrupted */
 #define  ELIBMAX      82  /* Attempting to link in too many shared libraries */
 #define  ELIBEXEC     83  /* Cannot exec a shared library directly */
+#undef   EILSEQ
 #define  EILSEQ       84  /* Illegal byte sequence */
 #define  ERESTART     85  /* Interrupted system call should be restarted */
 #define  ESTRPIPE     86  /* Streams pipe error */
 #define  EUSERS       87  /* Too many users */
+#undef   ENOTSOCK
 #define  ENOTSOCK     88  /* Socket operation on non-socket */
+#undef   EDESTADDRREQ
 #define  EDESTADDRREQ 89  /* Destination address required */
+#undef   EMSGSIZE
 #define  EMSGSIZE     90  /* Message too long */
+#undef	EPROTOTYPE
 #define  EPROTOTYPE   91  /* Protocol wrong type for socket */
+#undef	ENOPROTOOPT
 #define  ENOPROTOOPT  92  /* Protocol not available */
+#undef	EPROTONOSUPPORT
 #define  EPROTONOSUPPORT 93  /* Protocol not supported */
 #define  ESOCKTNOSUPPORT 94  /* Socket type not supported */
 #define  EOPNOTSUPP      95  /* Operation not supported on transport endpoint */
 #define  EPFNOSUPPORT    96  /* Protocol family not supported */
+#undef	EAFNOSUPPORT
 #define  EAFNOSUPPORT    97  /* Address family not supported by protocol */
+#undef	EADDRINUSE
 #define  EADDRINUSE      98  /* Address already in use */
+#undef	EADDRNOTAVAIL
 #define  EADDRNOTAVAIL   99  /* Cannot assign requested address */
+#undef	ENETDOWN
 #define  ENETDOWN       100  /* Network is down */
+#undef	ENETUNREACH
 #define  ENETUNREACH    101  /* Network is unreachable */
+#undef	ENETRESET
 #define  ENETRESET      102  /* Network dropped connection because of reset */
+#undef	ECONNABORTED
 #define  ECONNABORTED   103  /* Software caused connection abort */
 #define  ECONNRESET     104  /* Connection reset by peer */
 #define  ENOBUFS        105  /* No buffer space available */
+#undef	EISCONN
 #define  EISCONN        106  /* Transport endpoint is already connected */
+#undef	ENOTCONN
 #define  ENOTCONN       107  /* Transport endpoint is not connected */
 #define  ESHUTDOWN      108  /* Cannot send after transport endpoint shutdown */
+#undef	ETOOMANYREFS
 #define  ETOOMANYREFS   109  /* Too many references: cannot splice */
+#undef	ETIMEDOUT
 #define  ETIMEDOUT      110  /* Connection timed out */
 #define  ECONNREFUSED   111  /* Connection refused */
+#undef	EHOSTDOWN
 #define  EHOSTDOWN      112  /* Host is down */
+#undef	EHOSTUNREACH
 #define  EHOSTUNREACH   113  /* No route to host */
+#undef	EALREADY
 #define  EALREADY       114  /* Operation already in progress */
+#undef	EINPROGRESS
 #define  EINPROGRESS    115  /* Operation now in progress */
+#undef	ESTALE
 #define  ESTALE         116  /* Stale NFS file handle */
 #define  EUCLEAN        117  /* Structure needs cleaning */
 #define  ENOTNAM        118  /* Not a XENIX named type file */
 #define  ENAVAIL        119  /* No XENIX semaphores available */
 #define  EISNAM         120  /* Is a named type file */
 #define  EREMOTEIO      121  /* Remote I/O error */
+#undef	EDQUOT
 #define  EDQUOT         122  /* Quota exceeded */
 
 #define  ENOMEDIUM      123  /* No medium found */
