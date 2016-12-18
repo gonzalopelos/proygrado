@@ -7,46 +7,45 @@
 #include "mbed.h"
 #include "rtos.h"
 #include "frdm_communication.h"
+#include "Logging/Logger.h"
 
 Serial _serial_connection(USBTX, USBRX);
 DigitalOut frdm_comm_led_green(LED2);
 DigitalOut frdm_comm_led_blue(LED3);
-DigitalOut frdm_comm_led4(LED4);
+DigitalOut frdm_comm_led_red(LED4);
 
 bool _serial_connection_callback_attached = false;
 
 /** HDLC start/end flag sequence */
 #define _YAHDLC_FLAG_SEQUENCE 0x7E
 
-volatile const int _HDLC_MAX_MESSAGE_LENGTH = 256;
+#define _HDLC_MAX_MESSAGE_LENGTH 128
+
 const int _BUFFER_MEESSAGE_CAPACITY = 10;
 
 typedef struct {
 	int size;
-	char data[256];
+	char data[_HDLC_MAX_MESSAGE_LENGTH];
 
 } structured_data_t;
 
 typedef struct {
 	int connection_id;
-	Queue<structured_data_t, 16> messages_queue;
-	structured_data_t messages[_BUFFER_MEESSAGE_CAPACITY];
-	MemoryPool<structured_data_t, _BUFFER_MEESSAGE_CAPACITY> messages_pool;
-	int message_count;
+	Mail<structured_data_t, 16> messages;
 } read_messages_buffer_t;
 
 read_messages_buffer_t _read_message_buffers[2];
 
 int _connections_count = 0;
 
-Mutex _connection_mutex;
-Mutex _read_message_buffers_mutex;
+rtos::Mutex _connection_mutex;
+rtos::Mutex _read_message_buffers_mutex;
+
+rtos::Thread _reader_thread;
 
 int started_message = 0;
 
-unsigned char test_data[200];
-int test_index = 0;
-Mutex _test_mutex;
+char _logger_data[_HDLC_MAX_MESSAGE_LENGTH];
 
 
 read_messages_buffer_t get_read_messages_buffer(int connection_id){
@@ -55,120 +54,95 @@ read_messages_buffer_t get_read_messages_buffer(int connection_id){
 //		return;
 //	}
 //	else {
-		return _read_message_buffers[connection_id];
+	/*bzero(_logger_data, sizeof(_logger_data));
+	sprintf(_logger_data, "get_read_messages_buffer connection id: %d\n", connection_id);
+	Logger::get_instance()->write_trace(_logger_data);
+*/
+	return _read_message_buffers[connection_id];
 //	}
 }
 
-/*structured_data_t copy_message(structured_data_t message) {
-	structured_data_t result;
-	result.size = message.size;
-	if (message.size > 0) {
-		for (int index = 0; index < message.size; index++) {
-			result.data[index] = message.data[index];
-		}
-	}
-	if (message.size < _HDLC_MAX_MESSAGE_LENGTH) {
-		result.data[message.size] = '\0';
-	}
-}*/
 
 void delete_message(int connection_id, structured_data_t * message) {
+
 	_read_message_buffers_mutex.lock();
 
 	read_messages_buffer_t buffer = get_read_messages_buffer(connection_id);
-	buffer.messages_pool.free(message);
+	buffer.messages.free(message);
 
 	_read_message_buffers_mutex.unlock();
 }
 
 void add_message_in_buffers(structured_data_t message) {
-	int new_index, index;
-	_read_message_buffers_mutex.lock();
-/*	for (int buffer_index = 0; buffer_index < _connections_count; buffer_index++) {
-		if (_read_message_buffers[buffer_index].message_count < _BUFFER_MEESSAGE_CAPACITY) {
-			_read_message_buffers[buffer_index].messages[_read_message_buffers[buffer_index].message_count] = copy_message(message);
-			if(_read_message_buffers[0].messages[0].size > 0) {
-				wait(1);
-				frdm_comm_led_green = !frdm_comm_led_green;
-				wait(1);
-				frdm_comm_led_green = !frdm_comm_led_green;
-				wait(1);
-			}
-			_read_message_buffers[buffer_index].message_count++;
+	bzero(_logger_data, sizeof(_logger_data));
+	sprintf(_logger_data, "frdm_communication - add_message_in_buffers:\n%s\n\n", message.data);
+	Logger::get_instance()->write_trace("add_message_in_buffers");
+	Logger::get_instance()->write_trace(_logger_data);
 
-		}
-	}*/
+	_read_message_buffers_mutex.lock();
+
 	structured_data_t * new_meesage;
-	for (index = 0; index < _connections_count; index++) {
-		new_meesage = _read_message_buffers[index].messages_pool.alloc();
+	for (int index = 0; index < _connections_count; index++) {
+		new_meesage = _read_message_buffers[index].messages.alloc();
 		new_meesage->size = message.size;
-		for (new_index = 0; new_index < message.size; new_index++) {
-			new_meesage->data[new_index] = message.data[new_index];
-		}
-//		sprintf(new_meesage->data, message.data);
-		_read_message_buffers[index].messages_queue.put(new_meesage);
-		frdm_comm_led_green = !frdm_comm_led_green;
-		wait(0.5);
-		frdm_comm_led_green = !frdm_comm_led_green;
+		bzero(new_meesage->data, sizeof(new_meesage->data));
+		sprintf(new_meesage->data, message.data);
+		_read_message_buffers[index].messages.put(new_meesage);
 	}
 
 	_read_message_buffers_mutex.unlock();
+
+
+
 }
 
-bool try_get_message_from_buffer(int connection_id,	structured_data_t* message) {
-	bool result = false;
+structured_data_t* get_message_from_buffer(int connection_id) {
+
+	structured_data_t* result = NULL;
 	read_messages_buffer_t buffer = get_read_messages_buffer(connection_id);
-	if (buffer.message_count > 0) {
-		/*		message = (structured_data_t*) malloc(sizeof(structured_data_t));
-		for (int data_index = 0; data_index	< _read_message_buffers[connection_id].messages[0].size; data_index++) {
-			message->data[data_index] =	_read_message_buffers[connection_id].messages[0].data[data_index];
-		}
-		message->size = _read_message_buffers[connection_id].messages[0].size;
-		if(_read_message_buffers[connection_id].messages[0].size > 0) {
-			frdm_comm_led_blue = !frdm_comm_led_blue;
-			wait(0.5);
-			frdm_comm_led_blue = !frdm_comm_led_blue;
-		}
-//		for (int index = 0;	index < _read_message_buffers[connection_id].message_count - 1;	++index) {
-//			_read_message_buffers[connection_id].messages[index] = copy_message(_read_message_buffers[connection_id].messages[index + 1]);
-//		}
- */
-		osEvent e = buffer.messages_queue.get();
-		if (e.status == osEventMessage) {
-			message = (structured_data_t*)e.value.p;
-			_read_message_buffers[connection_id].message_count--;
-			result = true;
-		}
+	osEvent e = buffer.messages.get(500);
+	if (e.status == osEventMail) {
+		result = (structured_data_t*)e.value.p;
+		frdm_comm_led_blue = 0;
 	}
+
 
 	return result;
 }
 
 void serial_connection_callback() {
 	//char read_char;
-	_test_mutex.lock();
-	structured_data_t message;
-	while (_serial_connection.readable()) {
-		unsigned char read_char = _serial_connection.getc();
+	while(1){
+//		frdm_comm_led_red = !frdm_comm_led_red;
+		structured_data_t message;
 
-		test_data[test_index] = read_char;
-		test_index++;
-		if (started_message == 0 && read_char == _YAHDLC_FLAG_SEQUENCE) {
-			started_message = 1;
-			message.size = 1;
-			message.data[0] = read_char;
+		while (_serial_connection.readable()) {
+			unsigned char read_char = _serial_connection.getc();
+			if (started_message == 0 && read_char == _YAHDLC_FLAG_SEQUENCE) {
+				bzero(message.data, sizeof(message.data));
+				started_message = 1;
+				message.size = 1;
+				message.data[0] = read_char;
+				frdm_comm_led_red = 0;
+//				Logger::get_instance()->write_trace("Started message\n");
 
-		} else if (started_message == 1 && read_char != _YAHDLC_FLAG_SEQUENCE) {
-			message.data[message.size] = read_char;
-			message.size++;
-		} else if (started_message == 1 && read_char == _YAHDLC_FLAG_SEQUENCE) {
-			started_message = 0;
-			message.data[message.size] = read_char;
-			message.size++;
-			add_message_in_buffers((message));
+			} else if (started_message == 1 && read_char != _YAHDLC_FLAG_SEQUENCE) {
+				message.data[message.size] = read_char;
+				message.size++;
+//				Logger::get_instance()->write_trace("Read message data\n");
+			} else if (started_message == 1 && read_char == _YAHDLC_FLAG_SEQUENCE) {
+				started_message = 0;
+				message.data[message.size] = read_char;
+				message.size++;
+//				Logger::get_instance()->write_trace("Before add message in buffer\n");
+				add_message_in_buffers(message);
+				frdm_comm_led_red = 1;
+			}
 		}
+
+//		frdm_comm_led_red = !frdm_comm_led_red;
+
 	}
-	_test_mutex.unlock();
 }
 
 /*
@@ -183,10 +157,16 @@ int open_frdm_connection() {
 	if (_connections_count == 0) {
 		_serial_connection.baud(9600);
 		_serial_connection.format();
-		_serial_connection.attach(serial_connection_callback);
+		frdm_comm_led_red = 1;
+
+		_reader_thread.start(serial_connection_callback);
+	bzero(_logger_data, sizeof(_logger_data));
+	sprintf(_logger_data, "open_frdm_connection return: %d\n", connection_id);
+	Logger::get_instance()->write_trace(_logger_data);
+
+		//_serial_connection.attach(&serial_connection_callback);
 	}
 	_read_message_buffers[_connections_count].connection_id = connection_id;
-	_read_message_buffers[_connections_count].message_count = 0;
 	_connections_count++;
 
 	_connection_mutex.unlock();
@@ -195,37 +175,34 @@ int open_frdm_connection() {
 }
 
 int get_from_fdrm(int file_descriptor, char *dataRead, unsigned int maxSize) {
+
 	int data_read_size = 0;
 	structured_data_t * message;
+
 	_read_message_buffers_mutex.lock();
 
-	if (try_get_message_from_buffer(file_descriptor, message)) {
-		frdm_comm_led_green = !frdm_comm_led_green;
-		wait(1);
-		frdm_comm_led_green = !frdm_comm_led_green;
+	message = get_message_from_buffer(file_descriptor);
+	if (message != NULL) {
 		if(message->size>0){
-			frdm_comm_led_blue = !frdm_comm_led_blue;
-			wait(1);
-			frdm_comm_led_blue = !frdm_comm_led_blue;
+			if(message->size <= maxSize){
+				data_read_size = sprintf(dataRead, message->data);
+			}
 		}
-		for (int index = 0; index < message->size; index++) {
-			dataRead[index] = message->data[index];
-		}
-		data_read_size = message->size;
-		if (data_read_size < maxSize) {
-			dataRead[data_read_size] = '\0';
-		}
+//		for (int index = 0; index < message->size; index++) {
+//			dataRead[index] = message->data[index];
+//		}
+//		data_read_size = message->size;
+//		if (data_read_size < maxSize) {
+//			dataRead[data_read_size] = '\0';
+//		}
 	} else {
 		dataRead[0] = '\0';
 	}
 
 	_read_message_buffers_mutex.unlock();
 
-	if(data_read_size>0){
+	if(message != NULL){
 		delete_message(file_descriptor, message);
-		frdm_comm_led_blue = !frdm_comm_led_blue;
-		wait(1);
-		frdm_comm_led_blue = !frdm_comm_led_blue;
 	}
 
 	return data_read_size;
