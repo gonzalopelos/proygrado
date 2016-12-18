@@ -74,24 +74,17 @@ void ProcessComands(int command){
 #include <wchar.h>
 #include <string.h>
 #include <stdlib.h>
-#include <errno.h>     // Error number definitions
 #include <unistd.h>
 #include <fstream>
 #include <thread>
 
 #include <hdlc_controller.h>
-#include <fcntl.h>
 #include <yahdlc.h>
-#include "includes/yahdlc.h"
 #include "frdm_communication.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <chrono>
 
 #define MAX_FRAME_PAYLOAD		512
 #define HEADERS_LENGTH			8
@@ -122,6 +115,7 @@ void start_secondary_station();
 void test_hdlc_frdm();
 void frdm_log();
 void error(const char *msg);
+void test_tcp_connection();
 
 int main(int argc, char* argv[])
 {
@@ -201,6 +195,9 @@ void ProcessComands(int command){
             break;
         case 6:
             frdm_log();
+            break;
+        case 7:
+            test_tcp_connection();
             break;
         default:break;
     }
@@ -377,8 +374,93 @@ void frdm_log() {
 void error(const char *msg)
 {
     perror(msg);
-    exit(0);
+    //exit(0);
 }
+
+void test_tcp_connection(){
+
+    int sockfd, portno, n;
+    struct sockaddr_in serv_addr;
+    struct hostent *server;
+    int sent_messages = 0;
+    int max_sent_messages = 100;
+    int incomplete_messages_read = 0;
+    long int bytes_sent = 0;
+    long int bytes_read = 0;
+//    clock_t startTime;
+//    startTime = clock();
+    typedef std::chrono::high_resolution_clock Clock;
+
+    auto t1 = Clock::now();
+
+    char buffer[256];
+    portno = 5001;//atoi(argv[2]);
+
+    while (sent_messages<max_sent_messages) {
+        sockfd = socket(AF_INET, SOCK_STREAM, 0);
+        if (sockfd < 0)
+            error("ERROR opening socket");
+        server = gethostbyname("192.168.1.52");//gethostbyname(argv[1]);
+        if (server == NULL) {
+            fprintf(stderr,"ERROR, no such host\n");
+            exit(0);
+        }
+        bzero((char *) &serv_addr, sizeof(serv_addr));
+        serv_addr.sin_family = AF_INET;
+        bcopy((char *)server->h_addr,
+              (char *)&serv_addr.sin_addr.s_addr,
+              server->h_length);
+        serv_addr.sin_port = htons(portno);
+
+        if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
+            error("ERROR connecting");
+            break;
+        }
+//        int index = 0;
+        int message_length = 0;
+        while (sent_messages < max_sent_messages) {
+            bzero(buffer, 256);
+            n = read(sockfd, buffer, 255);
+            if (n < 0) {
+                error("ERROR reading from socket");
+                break;
+            } else if (n > 0) {
+                //printf("Data read: %s\n", buffer);
+                bytes_read += n;
+                if(n<100){incomplete_messages_read++;}
+                bzero(buffer, 256);
+                message_length = sprintf(buffer, "0001020304050607080910111213141516171819202122232425262728293000010203040506070809101112131415161718");
+
+//                message_length = sprintf(buffer, "Message generated in pc nro %d", index);
+                n = write(sockfd, buffer, message_length);
+                if (n == message_length) {
+              //      printf("data sent successfully: %d\n", n);
+                    sent_messages ++;
+                }
+                bytes_sent += n;
+            } else {
+                printf("No data read\n");
+                //sleep(2);
+            }
+            //index ++;
+        }
+        close(sockfd);
+    }
+
+//    clock_t endTime;
+//    endTime = clock();
+//    clock_t clockTicksTaken;
+//    clockTicksTaken = endTime - startTime;
+//    double timeInSeconds = clockTicksTaken / (double) CLOCKS_PER_SEC;
+
+    auto t2 = Clock::now();
+    long int nano_seconds = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count();
+    long double seconds = nano_seconds / (double)1000000000;
+
+    printf("Sent (%d) messages in (%Lf) secconds\nSent (%ld) bytes --- read (%ld) bytes\nIncomplete messages read: %d\n", sent_messages, seconds, bytes_sent, bytes_read, incomplete_messages_read);
+}
+
+
 
 #endif
 //======================================================
