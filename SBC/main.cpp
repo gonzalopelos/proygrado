@@ -78,13 +78,14 @@ void ProcessComands(int command){
 #include <fstream>
 #include <thread>
 
-#include <hdlc_controller.h>
-#include <yahdlc.h>
-#include "frdm_communication.h"
+//#include <hdlc_controller.h>
+//#include <yahdlc.h>
+//#include "frdm_communication.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <chrono>
+#include <Communication.h>
 
 #define MAX_FRAME_PAYLOAD		512
 #define HEADERS_LENGTH			8
@@ -104,15 +105,15 @@ void ProcessComands(int command){
 
 void ReadCommands(int parsed_command);
 void ProcessComands(int command);
-void stringToHex(unsigned char* hexString, const char* string, int stringLenght);
-void hexToString(char* string, unsigned char* hexString, int stringLenght);
+//void stringToHex(unsigned char* hexString, const char* string, int stringLenght);
+//void hexToString(char* string, unsigned char* hexString, int stringLenght);
 
-int frame_data(const char * send_data, char* frame_data, unsigned int* frame_data_length);
-int get_data (char* frame, unsigned int frame_length, char* data, unsigned int* data_length);
+//int frame_data(const char * send_data, char* frame_data, unsigned int* frame_data_length);
+//int get_data (char* frame, unsigned int frame_length, char* data, unsigned int* data_length);
 
-void start_primary_station();
-void start_secondary_station();
-void test_hdlc_frdm();
+//void start_primary_station();
+//void start_secondary_station();
+//void test_hdlc_frdm();
 void frdm_log();
 void error(const char *msg);
 void test_tcp_connection();
@@ -153,45 +154,22 @@ void ReadCommands(int parsed_command){
 }
 
 void ProcessComands(int command){
-    int file_descriptor;
 
     switch(command){
         case 0: // Quit command
             return;
         case 1: //Toggle LEDs command
-            file_descriptor = open_frdm_connection();
-            if(send_to_frdm(file_descriptor, (char *) "1", 1) == 1){
-                printf("Sent: message 1\n");
-            }
-            else{
-                printf("Error sending command\n");
-            }
-            close_frdm_connection(file_descriptor);
             break;
         case 2:
-            char data_exa[256];
-            unsigned int frame_length;
-            yahdlc_control_t control;
-            control.address = 0x2;
-            control.frame = YAHDLC_FRAME_DATA;
-            control.seq_no = 1;
-            data_exa[0] = '\0';
-            yahdlc_frame_data(&control,"test", 4, data_exa, &frame_length);
-            yahdlc_control_t control2;
-            char data[256];
-            data[0] = '\0';
-            unsigned int data_length;
-            yahdlc_get_data(&control2, data_exa, frame_length, data, &data_length);
-            printf("Data: %4s\n", data);
             break;
         case 3:
-            start_primary_station();
+        //    start_primary_station();
             break;
         case 4:
-            start_secondary_station();
+          //  start_secondary_station();
             break;
         case 5:
-            test_hdlc_frdm();
+         //   test_hdlc_frdm();
             break;
         case 6:
             frdm_log();
@@ -223,17 +201,16 @@ void hexToString(char* string, unsigned char* hexString, int stringLenght){
     }
 }
 
-void hdlc_controller_init_primary_station() {
+/*void hdlc_controller_init_primary_station() {
     unsigned char primary_station_address = PRIMARY_STATION_ADDR;
     hdlc_init(primary_station_address);
-}
+}*/
 
-void hdlc_controller_init_secondary_station() {
+/*void hdlc_controller_init_secondary_station() {
     unsigned char secondary_station_address = 0x2;
     hdlc_init(secondary_station_address);
-}
-
-void start_primary_station() {
+}*/
+/*void start_primary_station() {
     FILE * f = fopen("/Users/gonzalopelos/Documents/ProyGrado/HDLC_Test/comunication.txt","w+");
     fclose(f);
     std::thread primary_station_thread(hdlc_controller_init_primary_station);
@@ -251,6 +228,7 @@ void start_primary_station() {
             data_send_length = 4;
             send_result = hdlc_send_data(data_send, data_send_length);
             if(send_result) {
+
                 printf("Data send: %s\nResult: %d\n", data_send, send_result);
             } else {
                 printf("Error send data\n");
@@ -264,9 +242,9 @@ void start_primary_station() {
     } while(primary_station_command != 0);
 
     primary_station_thread.join();
-}
+}*/
 
-void start_secondary_station() {
+/*void start_secondary_station() {
     std::thread secondary_station_thread(hdlc_controller_init_secondary_station);
 
     int primary_station_command;
@@ -296,9 +274,9 @@ void start_secondary_station() {
     } while(primary_station_command != 0);
 
     secondary_station_thread.join();
-}
+}*/
 
-void test_hdlc_frdm() {
+/*void test_hdlc_frdm() {
     char data5[256];
     yahdlc_control_t control4;
     control4.address = 0x2;
@@ -329,7 +307,7 @@ void test_hdlc_frdm() {
         close_frdm_connection(connection_id);
     }
 
-}
+}*/
 
 void frdm_log() {
     int sockfd, portno, n;
@@ -378,49 +356,32 @@ void error(const char *msg)
 }
 
 void test_tcp_connection(){
-
-    int sockfd, portno, n;
-    struct sockaddr_in serv_addr;
-    struct hostent *server;
+    Communication *  communication_instance;
     int sent_messages = 0;
     int max_sent_messages = 100;
     int incomplete_messages_read = 0;
     long int bytes_sent = 0;
     long int bytes_read = 0;
-//    clock_t startTime;
-//    startTime = clock();
+
+    communication_instance = Communication::get_instance();
     typedef std::chrono::high_resolution_clock Clock;
 
     auto t1 = Clock::now();
-
+    int n;
     char buffer[256];
-    portno = 5001;//atoi(argv[2]);
-
     while (sent_messages<max_sent_messages) {
-        sockfd = socket(AF_INET, SOCK_STREAM, 0);
-        if (sockfd < 0)
-            error("ERROR opening socket");
-        server = gethostbyname("192.168.1.52");//gethostbyname(argv[1]);
-        if (server == NULL) {
-            fprintf(stderr,"ERROR, no such host\n");
-            exit(0);
-        }
-        bzero((char *) &serv_addr, sizeof(serv_addr));
-        serv_addr.sin_family = AF_INET;
-        bcopy((char *)server->h_addr,
-              (char *)&serv_addr.sin_addr.s_addr,
-              server->h_length);
-        serv_addr.sin_port = htons(portno);
-
-        if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-            error("ERROR connecting");
-            break;
-        }
-//        int index = 0;
         int message_length = 0;
         while (sent_messages < max_sent_messages) {
             bzero(buffer, 256);
-            n = read(sockfd, buffer, 255);
+            message_length = sprintf(buffer, "0001020304050607080910111213141516171819202122232425262728293000010203040506070809101112131415161718");
+            n = communication_instance->send_all(buffer, message_length);
+            if (n == message_length) {
+                //      printf("data sent successfully: %d\n", n);
+                sent_messages ++;
+            }
+            bytes_sent += n;
+            bzero(buffer, 256);
+            n = communication_instance->receive(buffer, 256);
             if (n < 0) {
                 error("ERROR reading from socket");
                 break;
@@ -428,30 +389,13 @@ void test_tcp_connection(){
                 //printf("Data read: %s\n", buffer);
                 bytes_read += n;
                 if(n<100){incomplete_messages_read++;}
-                bzero(buffer, 256);
-                message_length = sprintf(buffer, "0001020304050607080910111213141516171819202122232425262728293000010203040506070809101112131415161718");
 
-//                message_length = sprintf(buffer, "Message generated in pc nro %d", index);
-                n = write(sockfd, buffer, message_length);
-                if (n == message_length) {
-              //      printf("data sent successfully: %d\n", n);
-                    sent_messages ++;
-                }
-                bytes_sent += n;
             } else {
                 printf("No data read\n");
-                //sleep(2);
             }
-            //index ++;
         }
-        close(sockfd);
-    }
 
-//    clock_t endTime;
-//    endTime = clock();
-//    clock_t clockTicksTaken;
-//    clockTicksTaken = endTime - startTime;
-//    double timeInSeconds = clockTicksTaken / (double) CLOCKS_PER_SEC;
+    }
 
     auto t2 = Clock::now();
     long int nano_seconds = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count();
