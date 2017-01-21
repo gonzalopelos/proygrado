@@ -7,6 +7,7 @@ enum {
 	EMB_ANY, EMB_LEN, EMB_INT, EMB_STR
 };
 
+
 uint8_t EmBdecode::reset() {
 	count = next;
 	level = next = 0;
