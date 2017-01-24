@@ -47,7 +47,7 @@ class Mcc {
 	EmBencode encoder;
 	char* incomming_params_s[MAX_PARAMS];
 	int incomming_params_n[MAX_PARAMS];
-	int incomming_params_count = 0;
+	int incomming_params_count;
 public:
 	Mcc();
 	virtual ~Mcc();
