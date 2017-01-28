@@ -1,0 +1,37 @@
+@startuml
+
+/'
+*******************************************
+States Definitions
+*******************************************
+'/
+State Message
+State Tpid
+State Opcode
+State Data
+State Data_Item
+State End
+State None
+
+/'*******************************************'/
+
+Message --> Tpid : comming\n **token == //T_LIST//**
+Message --> None : comming\n **token != //T_LIST//**
+
+Tpid --> Opcode : comming\n **token == //T_NUMBER//**
+Tpid --> None : comming\n **token != //T_NUMBER//**
+
+Opcode --> Data : comming\n **token == //T_NUMBER//**
+Opcode --> None : comming\n **token != //T_NUMBER//**
+
+Data --> Data_Item : comming\n **token == //T_LIST//**
+Data --> None : comming\n **token != //T_LIST//**
+
+Data_Item --> End : comming\n **token == //T_POP//**
+Data_Item --> None : ((**token == //T_STRING//**\n || **token == //T_NUMBER//**)\n && (**//incomming_params_count == MAX_PARAMS//**)\n || (**token != //T_STRING//**\n && **token != //T_NUMBER//**));
+
+End --> None : **//parse error//**
+End --> Message : if any data\n**restart process**
+None --> None
+
+@enduml

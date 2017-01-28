@@ -39,6 +39,23 @@ void Mcc::send_parse_error_message() {
 }
 
 void Mcc::send_execution_error_message(int tpid, int opcode, int errcode) {
+	encoder.startFrame();
+	encoder.push(ADMIN_PID);
+	encoder.push(OPCODE_REPORT);
+	encoder.startList();
+	encoder.push(exeerror_str, sizeof(exeerror_str)-1);
+	encoder.push(errcode);
+	encoder.push(tpid);
+	encoder.push(opcode);
+	for (int i=0;i<incomming_params_count;++i) {
+		if (incomming_params_s[i] != NULL) {
+			encoder.push(incomming_params_s[i], incomming_params_n[i]);
+		} else {
+			encoder.push(incomming_params_n[i]);
+		}
+	}
+	encoder.endList();
+	encoder.endFrame();
 }
 
 int Mcc::register_poll_callback(PollCallback cb) {
