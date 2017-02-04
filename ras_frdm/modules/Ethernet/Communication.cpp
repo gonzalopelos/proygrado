@@ -24,7 +24,7 @@ int Communication::send_all(char* data, int length) {
 
 int Communication::receive(char* data, int length) {
 	int result = 0;
-
+	bzero(data, sizeof(data));
 	result = getSocketClient()->receive(data, length);
 
 	return result;

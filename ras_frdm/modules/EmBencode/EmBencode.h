@@ -40,6 +40,13 @@ public:
     PushCount(val);
     PushEnd();
   }
+
+  static void startFrame () {
+	  lock(); // definido en mcc :(
+  	  //serial_pkg.lock();
+  	  //serial_pkg.wait();
+  	  startList();
+  }
   /// Start a new new list. Must be matched with a call to endList().
   /// Entries can be nested with more calls to startList(), startDict(), etc.
   static void startList () {
@@ -49,10 +56,15 @@ public:
   static void endList () {
     PushEnd();
   }
-  static void endListAndFrame () {
-    PushEnd();
-    PushChar('\n');
+
+  static void endFrame () {
+	PushEnd();
+	PushChar('\n');
+	//serial_pkg.release();
+	//serial_pkg.unlock();
+	unlock(); // definido en mcc :(
   }
+
   /// Start a new new dictionary. Must be matched with a call to endDict().
   /// Dictionary entries must consist of a string key plus an arbitrary value.
   /// Entries can be nested with more calls to startList(), startDict(), etc.
@@ -80,6 +92,9 @@ protected:
   /// This function is not implemented in the library. It must be supplied by
   /// the caller to implement the actual writing of characters.
   static void PushChar (char ch);
+
+  static void lock ();
+  static void unlock ();
 };
 /// Decoder class, needs an external buffer to collect the incoming data.
 class EmBdecode {
