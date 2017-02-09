@@ -18,11 +18,6 @@
 #define DM3_PID (long int) 2
 #define OPCODE_REPORT (long int)0
 
-char ok_str[] = "OK";
-char error_str[] = "ERROR";
-char parseerror_str[] = "PARSEERROR";
-char exeerror_str[] = "EXEERROR";
-
 
 typedef void (*PollCallback) ();
 typedef int (*OpcodeCallback) (unsigned int pid, unsigned int opcode);

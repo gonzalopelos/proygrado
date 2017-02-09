@@ -56,13 +56,13 @@ int main() {
 
 #include "mbed.h"
 #include "rtos.h"
-
+#include "modules/Mcc/Mcc.h"
 
 //#include "hdlc/frdm_communication.h"
 //#include "modules/Logging/Logger.h"
 //#include "modules/Ethernet/Communication.h"
 DigitalOut led_green(LED_GREEN);
-
+Mcc mcc;
 void heartbeat_task() {
     while (true) {
     	led_green = !led_green;
@@ -81,7 +81,8 @@ int main() {
 	led_red = 1;
 	led_blue = 1;
 	led_green = 1;
-
+	wait(2);
+	mcc.send_message(0,0,"test",4);
 
 	Thread heartbeat(heartbeat_task);
 

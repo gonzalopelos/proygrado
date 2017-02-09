@@ -11,6 +11,11 @@
 
 #include "../Ethernet/Communication.h"
 
+char ok_str[] = "OK";
+char error_str[] = "ERROR";
+char parseerror_str[] = "PARSEERROR";
+char exeerror_str[] = "EXEERROR";
+
 enum ProtocolStates {
 	MESSAGE, TPID, OPCODE, DATA, DATA_ITEM, END, NONE
 };
