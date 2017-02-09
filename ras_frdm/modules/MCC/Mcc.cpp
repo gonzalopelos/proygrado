@@ -1,11 +1,14 @@
 /*
  * Mcc.cpp
  *
- *  Created on: Jan 21, 2017
+ *  Created on: Feb 6, 2017
  *      Author: gonzalopelos
  */
 
+#include "mbed.h"
+#include "rtos.h"
 #include "Mcc.h"
+
 #include "../Ethernet/Communication.h"
 
 enum ProtocolStates {
@@ -16,7 +19,7 @@ enum ProtocolStates protocol_state = MESSAGE;
 char embuf[255];
 char outbuf[255];
 EmBdecode decoder(embuf, sizeof embuf);
-Communication * host = Communication::get_instance();
+Communication * host;
 uint8_t tpid;
 uint8_t opcode;
 Mutex serial_mcc_frame_lock;
@@ -56,6 +59,7 @@ Mcc::Mcc() {
 	n_poll_callbacks = 0;
 	n_opcode_callbacks = 0;
 	bzero(outbuf, 255);
+	host = Communication::get_instance();
 }
 
 Mcc::~Mcc() {

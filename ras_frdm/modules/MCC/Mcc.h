@@ -1,7 +1,7 @@
 /*
  * Mcc.h
  *
- *  Created on: Jan 21, 2017
+ *  Created on: Feb 6, 2017
  *      Author: gonzalopelos
  */
 
@@ -39,18 +39,18 @@ class Mcc {
 	PollCallback poll_callbacks[MAX_POLL_CALLBACKS];
 	int n_poll_callbacks;
 	OpcodesCallbackReg opcode_callbacks[MAX_PIDS];
-	//uint8_t opcode_callbacks_count[MAX_PIDS]; //FIXME merge with previous as an array of structs.
+	uint8_t opcode_callbacks_count[MAX_PIDS]; //FIXME merge with previous as an array of structs.
 	int n_opcode_callbacks;
     void process_incomming();
     void send_parse_error_message();
     void send_execution_error_message(int tpid, int opcode, int errcode);
-	EmBencode encoder;
-	char* incomming_params_s[MAX_PARAMS];
-	int incomming_params_n[MAX_PARAMS];
-	int incomming_params_count;
 public:
 	Mcc();
 	virtual ~Mcc();
+	char* incomming_params_s[MAX_PARAMS];
+	int incomming_params_n[MAX_PARAMS];
+	int incomming_params_count;
+	EmBencode encoder;
 	int register_poll_callback(PollCallback cb);
 	void unregister_poll_callback(int);
 	int register_opcode_callbacks(OpcodeCallback* opcode_callbacks, uint8_t opcodes_count);
@@ -58,5 +58,5 @@ public:
 	void tick();
 };
 
-
 #endif /* MODULES_MCC_MCC_H_ */
+
