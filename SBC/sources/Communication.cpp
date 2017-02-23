@@ -46,7 +46,7 @@ int Communication::receive(char *data, int max_length) {
         }
     } while (result < 0);
 
-    printf("Comm::recievied data: %s\n", data);
+//    printf("Comm::recievied data: %s\n", data);
 
     return result;
 }

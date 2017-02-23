@@ -27,6 +27,7 @@ static int handle_ping(unsigned int  pid, unsigned int  opcode) {
     for (int i=0;i<mcc.incomming_params_count;++i) {
         if (mcc.incomming_params_s[i] != NULL) {
             mcc.encoder.push(mcc.incomming_params_s[i], mcc.incomming_params_n[i]);
+            printf("Mcc :: incomming_params_s received: %s\n", mcc.incomming_params_s[i]);
         } else {
             mcc.encoder.push(mcc.incomming_params_n[i]);
         }

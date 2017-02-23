@@ -99,6 +99,7 @@ void frdm_log();
 void error(const char *msg);
 void test_tcp_connection();
 void test_mcc();
+void ping_frdm_k64f();
 
 Mcc mcc;
 
@@ -122,10 +123,11 @@ void ReadCommands(int parsed_command){
     printf("Comandos:\n");
     printf("\t\"0\"-> Quit\n");
     printf("\t\"1\"-> Toggle LEDs\n");
-    printf("\t\"2\"-> Test encode and decode data with yahdlc\n");
-    printf("\t\"3\"-> Start primary station for HDLC communication\n");
-    printf("\t\"4\"-> Start secondary station for HDLC communication\n");
-    printf("\t\"4\"-> Test HDLC \n");
+    printf("\t\"2\"-> Test string functions\n");
+    printf("\t\"3\"-> Ping function.\n");
+    printf("\t\"6\"-> fdrm log\n");
+    printf("\t\"7\"-> Test TCP connection \n");
+    printf("\t\"8\"-> Test MCC \n");
     printf("\n");
     int command;
     if(parsed_command > 0){
@@ -163,6 +165,7 @@ void ProcessComands(int command){
 
             break;
         case 3:
+            ping_frdm_k64f();
             break;
         case 4:
             break;
@@ -303,6 +306,14 @@ void test_mcc(){
 //    mcc.send_message(0,0,"test", 4);
 
     while(1) {
+        mcc.tick();
+    }
+}
+
+void ping_frdm_k64f(){
+    AdminModule admin_module;
+    mcc.send_message(0, 1, "ping", 4);
+    while (1){
         mcc.tick();
     }
 }

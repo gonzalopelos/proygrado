@@ -57,6 +57,7 @@ int main() {
 #include "mbed.h"
 #include "rtos.h"
 #include "modules/Mcc/Mcc.h"
+#include "modules/Admin/Admin.h"
 
 //#include "hdlc/frdm_communication.h"
 //#include "modules/Logging/Logger.h"
@@ -82,13 +83,12 @@ int main() {
 	led_blue = 1;
 	led_green = 1;
 	wait(2);
-	mcc.send_message(0,0,"test",4);
-
+//	mcc.send_message(0,0,"test",4);
+	Admin admin_module;
 	Thread heartbeat(heartbeat_task);
 
 	while(1){
-		wait(0.4);
-//		led_blue = !led_blue;
+		mcc.tick();
 	}
 
 }

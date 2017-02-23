@@ -11,7 +11,7 @@
 
 #include "../Ethernet/Communication.h"
 
-char ok_str[] = "OK";
+
 char error_str[] = "ERROR";
 char parseerror_str[] = "PARSEERROR";
 char exeerror_str[] = "EXEERROR";
@@ -80,128 +80,125 @@ void Mcc::process_incomming() {
 	data_length = host->receive(data, 1);
 	if(data_length > 0) {
 		ch = data[0];
-		for(int data_index =0;data_index<data_length;data_index++) {
-			if (data[0]=='\n') {
-				decoder.reset();
-				tpid = opcode = -1;
-				incomming_params_count = 0;
-				return;
-			}
-
-			uint8_t bytes = decoder.process(ch);
-			if (bytes > 0) {
-				protocol_state = MESSAGE;
-				for (;;) {
-					uint8_t token = decoder.nextToken();
-					if (token == EmBdecode::T_END) {
-						//decoder.reset();
-						break;
-					}
-
-					switch (protocol_state) {
-					case MESSAGE:
-						if (token == EmBdecode::T_LIST) {
-							//pc.putc('A');
-							protocol_state = TPID;
-						} else {
-							//pc.putc('X');
-							send_parse_error_message();
-							protocol_state = NONE;
-						}
-						break;
-					case TPID:
-						if (token == EmBdecode::T_NUMBER) {
-							//pc.('B');
-							tpid = decoder.asNumber();
-							protocol_state = OPCODE;
-						} else {
-							//pc.putc('X');
-							send_parse_error_message();
-							protocol_state = NONE;
-						}
-						break;
-					case OPCODE:
-						if (token == EmBdecode::T_NUMBER) {
-							//pc.putc('C');
-							opcode = decoder.asNumber();
-							protocol_state = DATA;
-						} else {
-							//pc.putc('X');
-							send_parse_error_message();
-							protocol_state = NONE;
-						}
-						break;
-					case DATA:
-						if (token == EmBdecode::T_LIST) {
-							//pc.putc('I');
-							protocol_state = DATA_ITEM;
-							incomming_params_count = 0;
-						} else {
-							//pc.putc('X');
-							send_parse_error_message();
-							protocol_state = NONE;
-						}
-						break;
-					case DATA_ITEM:
-						if (token == EmBdecode::T_STRING) {
-							//pc.putc('S');
-							uint8_t data_length;
-							incomming_params_s[incomming_params_count] = decoder.asString(&data_length);
-							incomming_params_n[incomming_params_count] = data_length;
-							incomming_params_count++;
-							if (incomming_params_count==MAX_PARAMS) {
-								//pc.putc('X');
-								send_parse_error_message();
-								protocol_state = NONE;
-							}
-						} else if (token == EmBdecode::T_NUMBER) {
-							//pc.putc('N');
-							incomming_params_s[incomming_params_count] = NULL;
-							incomming_params_n[incomming_params_count] = decoder.asNumber();
-							incomming_params_count++;
-							if (incomming_params_count==MAX_PARAMS) {
-								//pc.putc('Y');
-								send_parse_error_message();
-								protocol_state = NONE;
-							}
-						} else if (token == EmBdecode::T_POP) {
-							//pc.putc('H');
-							protocol_state = END;
-						} else {
-							send_parse_error_message();
-							protocol_state = NONE;
-						}
-						break;
-					case END:
-						if (token == EmBdecode::T_POP) {
-							if (tpid < MAX_PIDS
-							&& tpid < Mcc::n_opcode_callbacks
-							&& opcode < (Mcc::opcode_callbacks[tpid]).n_callbacks) {
-								//pc.putc('!');
-								int ret = Mcc::opcode_callbacks[tpid].callbacks[opcode](tpid, opcode);
-								if (ret!=1) {
-									send_execution_error_message(tpid, opcode, ret);
-									//protocol_state = NONE;
-								}
-							}
-							//decoder.reset();
-							protocol_state = NONE;
-							//pc.putc('E');
-						} else {
-							//pc.putc('W');
-							send_parse_error_message();
-							protocol_state = NONE;
-						}
-						break;
-					case NONE:
-						break;
-					}
+		if (ch =='\n') {
+			decoder.reset();
+			tpid = opcode = -1;
+			incomming_params_count = 0;
+			return;
+		}
+		uint8_t bytes = decoder.process(ch);
+		if (bytes > 0) {
+			protocol_state = MESSAGE;
+			for (;;) {
+				uint8_t token = decoder.nextToken();
+				if (token == EmBdecode::T_END) {
+					//decoder.reset();
+					break;
 				}
-				tpid = opcode = -1;
-				incomming_params_count = 0;
 
-				decoder.reset();
+				switch (protocol_state) {
+				case MESSAGE:
+					if (token == EmBdecode::T_LIST) {
+						//pc.putc('A');
+						protocol_state = TPID;
+					} else {
+						//pc.putc('X');
+						send_parse_error_message();
+						protocol_state = NONE;
+					}
+					break;
+				case TPID:
+					if (token == EmBdecode::T_NUMBER) {
+						//pc.('B');
+						tpid = decoder.asNumber();
+						protocol_state = OPCODE;
+					} else {
+						//pc.putc('X');
+						send_parse_error_message();
+						protocol_state = NONE;
+					}
+					break;
+				case OPCODE:
+					if (token == EmBdecode::T_NUMBER) {
+						//pc.putc('C');
+						opcode = decoder.asNumber();
+						protocol_state = DATA;
+					} else {
+						//pc.putc('X');
+						send_parse_error_message();
+						protocol_state = NONE;
+					}
+					break;
+				case DATA:
+					if (token == EmBdecode::T_LIST) {
+						//pc.putc('I');
+						protocol_state = DATA_ITEM;
+						incomming_params_count = 0;
+					} else {
+						//pc.putc('X');
+						send_parse_error_message();
+						protocol_state = NONE;
+					}
+					break;
+				case DATA_ITEM:
+					if (token == EmBdecode::T_STRING) {
+						//pc.putc('S');
+						uint8_t data_length;
+						incomming_params_s[incomming_params_count] = decoder.asString(&data_length);
+						incomming_params_n[incomming_params_count] = data_length;
+						incomming_params_count++;
+						if (incomming_params_count==MAX_PARAMS) {
+							//pc.putc('X');
+							send_parse_error_message();
+							protocol_state = NONE;
+						}
+					} else if (token == EmBdecode::T_NUMBER) {
+						//pc.putc('N');
+						incomming_params_s[incomming_params_count] = NULL;
+						incomming_params_n[incomming_params_count] = decoder.asNumber();
+						incomming_params_count++;
+						if (incomming_params_count==MAX_PARAMS) {
+							//pc.putc('Y');
+							send_parse_error_message();
+							protocol_state = NONE;
+						}
+					} else if (token == EmBdecode::T_POP) {
+						//pc.putc('H');
+						protocol_state = END;
+					} else {
+						send_parse_error_message();
+						protocol_state = NONE;
+					}
+					break;
+				case END:
+					if (token == EmBdecode::T_POP) {
+						if (tpid < MAX_PIDS
+						&& tpid < Mcc::n_opcode_callbacks
+						&& opcode < (Mcc::opcode_callbacks[tpid]).n_callbacks) {
+							//pc.putc('!');
+							int ret = Mcc::opcode_callbacks[tpid].callbacks[opcode](tpid, opcode);
+							if (ret!=1) {
+								send_execution_error_message(tpid, opcode, ret);
+								//protocol_state = NONE;
+							}
+						}
+						//decoder.reset();
+						protocol_state = NONE;
+						//pc.putc('E');
+					} else {
+						//pc.putc('W');
+						send_parse_error_message();
+						protocol_state = NONE;
+					}
+					break;
+				case NONE:
+					break;
+				}
 			}
+			tpid = opcode = -1;
+			incomming_params_count = 0;
+
+			decoder.reset();
 		}
 	}
 }

@@ -17,7 +17,7 @@
 #define MOTOR_PID (long int) 1
 #define DM3_PID (long int) 2
 #define OPCODE_REPORT (long int)0
-
+#define ok_str (char*)"OK"
 
 typedef void (*PollCallback) ();
 typedef int (*OpcodeCallback) (unsigned int pid, unsigned int opcode);
