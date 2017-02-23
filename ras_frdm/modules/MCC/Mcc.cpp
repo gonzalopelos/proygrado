@@ -48,7 +48,7 @@ void EmBencode::PushChar(char ch) {
 	led4 = 0;*/
 	//ToDo: send tcp message.
 	if(strlen(outbuf) < 255){
-		strcat(outbuf, &ch);
+		outbuf[strlen(outbuf)] = ch;
 		if(ch == '\n'){
 			host->send_all(outbuf, strlen(outbuf));
 			bzero(outbuf, 255);

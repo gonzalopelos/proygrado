@@ -84,6 +84,7 @@ void ProcessComands(int command){
 #include <chrono>
 #include <Communication.h>
 #include "includes/Mcc.h"
+#include "strings.h"
 #include "includes/AdminModule.h"
 
 #define MAX_FRAME_PAYLOAD		512
@@ -144,6 +145,22 @@ void ProcessComands(int command){
         case 1: //Toggle LEDs command
             break;
         case 2:
+            char a;
+            a = 't';
+            char pepe[256];
+            bzero(pepe, 256);
+            pepe[strlen(pepe)] = a;
+            printf("pepe: %s - length: %d\n", pepe, (int) strlen(pepe));
+            a = 'e';
+            pepe[strlen(pepe)] = a;
+            printf("pepe: %s - length: %d\n", pepe, (int) strlen(pepe));
+            a = 's';
+            pepe[strlen(pepe)] = a;
+            printf("pepe: %s - length: %d\n", pepe, (int) strlen(pepe));
+            a = 't';
+            pepe[strlen(pepe)] = a;
+            printf("pepe: %s - length: %d\n", pepe, (int) strlen(pepe));
+
             break;
         case 3:
             break;
@@ -283,9 +300,10 @@ void test_tcp_connection(){
 
 void test_mcc(){
     AdminModule admin_module;
+//    mcc.send_message(0,0,"test", 4);
+
     while(1) {
         mcc.tick();
-
     }
 }
 

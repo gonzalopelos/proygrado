@@ -87,7 +87,7 @@ int main() {
 	Thread heartbeat(heartbeat_task);
 
 	while(1){
-//		wait(0.4);
+		wait(0.4);
 //		led_blue = !led_blue;
 	}
 
