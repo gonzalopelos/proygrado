@@ -5,8 +5,10 @@
 #include "../includes/Communication.h"
 #include <cstdio>
 #include <strings.h>
-#include <zconf.h>
+//#include <zconf.h>
 #include <cstdlib>
+#include <unistd.h>
+#include <cstring>
 
 Communication * Communication::_communication_instance = NULL;
 struct hostent * server;
@@ -37,7 +39,9 @@ int Communication::send_all(char *data, int length) {
 int Communication::receive(char *data, int max_length) {
     int result = 0;
     do {
-        bzero(data, sizeof(*data));
+        // 2017.02.28 AM - Cambio bzero por memset.
+        //bzero(data, sizeof(*data));
+        memset(data, 0, sizeof(*data));
         result = (int) read(sockfd, data, (size_t) max_length);
         if (result < 0) {
             perror("ERROR reading from socket");
@@ -69,11 +73,13 @@ void Communication::init_eth_interface() {
         fprintf(stderr,"ERROR, no such host\n");
     }
 
-    bzero((char *) &serv_addr, sizeof(serv_addr));
+    // 2017.02.28 AM - Cambio bzero por memset.
+    //bzero((char *) &serv_addr, sizeof(serv_addr));
+    memset((char *) &serv_addr, 0, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
-    bcopy((char *)server->h_addr,
-          (char *)&serv_addr.sin_addr.s_addr,
-          server->h_length);
+    // 2017.02.28 AM - Cambio bcopy por memcpy.
+    //bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
+    memcpy((char *)&serv_addr.sin_addr.s_addr, (char *)server->h_addr, server->h_length);
     serv_addr.sin_port = htons(ETH_COMMUNICATION_SERVER_PORT);
 
 

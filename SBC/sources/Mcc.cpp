@@ -4,6 +4,7 @@
 
 #include "Mcc.h"
 #include <thread>
+#include <mutex>
 
 #include "../Includes/Communication.h"
 
@@ -51,7 +52,9 @@ void EmBencode::PushChar(char ch) {
         if(ch == '\n'){
             printf("MCC :: Data sent: %s\n", outbuf);
             host->send_all(outbuf, strlen(outbuf));
-            bzero(outbuf, 255);
+            // 2017.02.28 AM - Cambio bzero por memset.
+            //bzero(outbuf, 255);
+            memset(outbuf, 0, 255);
         }
     }
 }
@@ -62,7 +65,9 @@ Mcc::Mcc() {
     incomming_params_count = 0;
     n_poll_callbacks = 0;
     n_opcode_callbacks = 0;
-    bzero(outbuf, 255);
+    // 2017.02.28 AM - Cambio bzero por memset.
+    //bzero(outbuf, 255);
+    memset(outbuf, 0, 255);
     host = Communication::get_instance();
 }
 
