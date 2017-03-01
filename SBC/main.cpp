@@ -150,7 +150,9 @@ void ProcessComands(int command){
             char a;
             a = 't';
             char pepe[256];
-            bzero(pepe, 256);
+            // 2017.02.28 AM - Cambio bzero por memset
+            //bzero(pepe, 256);
+            memset(pepe, 0, 256);
             pepe[strlen(pepe)] = a;
             printf("pepe: %s - length: %d\n", pepe, (int) strlen(pepe));
             a = 'e';
@@ -220,22 +222,26 @@ void frdm_log() {
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0)
         error("ERROR opening socket");
-    server = gethostbyname("192.168.1.52");//gethostbyname(argv[1]);
+    server = gethostbyname("192.168.1.52"); // gethostbyname(argv[1]);
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
     }
-    bzero((char *) &serv_addr, sizeof(serv_addr));
+    // 2017.02.28 AM - Cambio bzero por memset
+    //bzero((char *) &serv_addr, sizeof(serv_addr));
+    memset((char *) &serv_addr, 0, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
-    bcopy((char *)server->h_addr,
-          (char *)&serv_addr.sin_addr.s_addr,
-          server->h_length);
+    // 2017.02.28 AM - Cambio bcopy por memcpy
+    //bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
+    memcpy ((char *)&serv_addr.sin_addr.s_addr, (char *)server->h_addr, server->h_length);
     serv_addr.sin_port = htons(portno);
     if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0){
         error("ERROR connecting");
     }
     while(true) {
-        bzero(buffer,256);
+        // 2017.02.28 AM - Cambio bzero por memset
+        //bzero(buffer, 256);
+        memset(buffer, 0, 256);
         n = read(sockfd,buffer,255);
         if (n < 0){
             error("ERROR reading from socket");
@@ -269,7 +275,9 @@ void test_tcp_connection(){
     while (sent_messages<max_sent_messages) {
         int message_length = 0;
         while (sent_messages < max_sent_messages) {
-            bzero(buffer, 256);
+            // 2017.02.28 AM - bzero Cambio por memset
+            //bzero(buffer, 256);
+            memset(buffer, 0, 256);
             message_length = sprintf(buffer, "0001020304050607080910111213141516171819202122232425262728293000010203040506070809101112131415161718");
             n = communication_instance->send_all(buffer, message_length);
             if (n == message_length) {
@@ -277,7 +285,9 @@ void test_tcp_connection(){
                 sent_messages ++;
             }
             bytes_sent += n;
-            bzero(buffer, 256);
+            // 2017.02.28 AM - Cambio bzero por memset
+            //bzero(buffer, 256);
+            memset(buffer, 0, 256);
             n = communication_instance->receive(buffer, 256);
             if (n < 0) {
                 error("ERROR reading from socket");
