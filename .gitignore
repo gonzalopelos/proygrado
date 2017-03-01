@@ -106,3 +106,4 @@ production/
 # modules.xml
 # **/.idea/misc.xml 
 # *.ipr 
+SBC/cmake-build-debug/
