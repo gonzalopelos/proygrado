@@ -3,6 +3,9 @@
 
 #include "EmBencode.h"
 
+
+using namespace modules;
+
 enum {
 	EMB_ANY, EMB_LEN, EMB_INT, EMB_STR
 };
@@ -104,13 +107,13 @@ uint8_t EmBdecode::process(char ch) {
 	case EMB_ANY:
 		if (ch < '0' || ch > '9') {
 			if (ch == 'i') {
-				AddToBuf(T_NUMBER);
+				AddToBuf (T_NUMBER);
 				state = EMB_INT;
 			} else if (ch == 'd' || ch == 'l') {
 				AddToBuf(ch == 'd' ? T_DICT : T_LIST);
 				++level;
 			} else if (ch == 'e') {
-				AddToBuf(T_POP);
+				AddToBuf (T_POP);
 				--level;
 				break; // end of dict or list
 			}
@@ -150,7 +153,7 @@ uint8_t EmBdecode::process(char ch) {
 		state = EMB_ANY;
 		return 0;
 	}
-	AddToBuf(T_END);
+	AddToBuf (T_END);
 	return reset(); // not in dict or list, data is complete
 }
 

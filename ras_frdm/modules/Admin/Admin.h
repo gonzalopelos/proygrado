@@ -8,9 +8,9 @@
 #ifndef MODULES_ADMIN_ADMIN_H_
 #define MODULES_ADMIN_ADMIN_H_
 
-//namespace modules {
+#include "../Mcc/mcc.h"
 
-	#include "mcc.h"
+namespace modules {
 
 	//#define OPCODE_REPORT 0
 	#define OPCODE_PING 1
@@ -27,6 +27,6 @@
 		virtual ~Admin();
 	};
 
-//} /* namespace modules */
+} /* namespace modules */
 
 #endif /* MODULES_ADMIN_ADMIN_H_ */

@@ -11,6 +11,8 @@
 
 #include "../Ethernet/Communication.h"
 
+using namespace mbed;
+using namespace modules;
 
 char error_str[] = "ERROR";
 char parseerror_str[] = "PARSEERROR";
@@ -43,13 +45,13 @@ void EmBencode::unlock() {
 void EmBencode::PushChar(char ch) {
 	////////Serial.write(ch);
 	/*led4 = 1;
-	while (pc.writeable()==0) {}
-	pc.putc(ch);
-	led4 = 0;*/
+	 while (pc.writeable()==0) {}
+	 pc.putc(ch);
+	 led4 = 0;*/
 	//ToDo: send tcp message.
-	if(strlen(outbuf) < 255){
+	if (strlen(outbuf) < 255) {
 		outbuf[strlen(outbuf)] = ch;
-		if(ch == '\n'){
+		if (ch == '\n') {
 			host->send_all(outbuf, strlen(outbuf));
 			bzero(outbuf, 255);
 		}
@@ -78,9 +80,9 @@ void Mcc::process_incomming() {
 	int data_length = 0;
 
 	data_length = host->receive(data, 1);
-	if(data_length > 0) {
+	if (data_length > 0) {
 		ch = data[0];
-		if (ch =='\n') {
+		if (ch == '\n') {
 			decoder.reset();
 			tpid = opcode = -1;
 			incomming_params_count = 0;
@@ -144,10 +146,12 @@ void Mcc::process_incomming() {
 					if (token == EmBdecode::T_STRING) {
 						//pc.putc('S');
 						uint8_t data_length;
-						incomming_params_s[incomming_params_count] = decoder.asString(&data_length);
-						incomming_params_n[incomming_params_count] = data_length;
+						incomming_params_s[incomming_params_count] =
+								decoder.asString(&data_length);
+						incomming_params_n[incomming_params_count] =
+								data_length;
 						incomming_params_count++;
-						if (incomming_params_count==MAX_PARAMS) {
+						if (incomming_params_count == MAX_PARAMS) {
 							//pc.putc('X');
 							send_parse_error_message();
 							protocol_state = NONE;
@@ -155,9 +159,10 @@ void Mcc::process_incomming() {
 					} else if (token == EmBdecode::T_NUMBER) {
 						//pc.putc('N');
 						incomming_params_s[incomming_params_count] = NULL;
-						incomming_params_n[incomming_params_count] = decoder.asNumber();
+						incomming_params_n[incomming_params_count] =
+								decoder.asNumber();
 						incomming_params_count++;
-						if (incomming_params_count==MAX_PARAMS) {
+						if (incomming_params_count == MAX_PARAMS) {
 							//pc.putc('Y');
 							send_parse_error_message();
 							protocol_state = NONE;
@@ -172,12 +177,14 @@ void Mcc::process_incomming() {
 					break;
 				case END:
 					if (token == EmBdecode::T_POP) {
-						if (tpid < MAX_PIDS
-						&& tpid < Mcc::n_opcode_callbacks
-						&& opcode < (Mcc::opcode_callbacks[tpid]).n_callbacks) {
+						if (tpid < MAX_PIDS && tpid < Mcc::n_opcode_callbacks
+								&& opcode
+										< (Mcc::opcode_callbacks[tpid]).n_callbacks) {
 							//pc.putc('!');
-							int ret = Mcc::opcode_callbacks[tpid].callbacks[opcode](tpid, opcode);
-							if (ret!=1) {
+							int ret =
+									Mcc::opcode_callbacks[tpid].callbacks[opcode](
+											tpid, opcode);
+							if (ret != 1) {
 								send_execution_error_message(tpid, opcode, ret);
 								//protocol_state = NONE;
 							}
@@ -208,13 +215,13 @@ void Mcc::send_parse_error_message() {
 	encoder.push(ADMIN_PID);
 	encoder.push(OPCODE_REPORT);
 	encoder.startList();
-	encoder.push(parseerror_str, sizeof(parseerror_str)-1);
+	encoder.push(parseerror_str, sizeof(parseerror_str) - 1);
 
 	encoder.push(tpid);
 	encoder.push(opcode);
 	encoder.push(protocol_state);
 
-	for (int i=0;i<incomming_params_count;++i) {
+	for (int i = 0; i < incomming_params_count; ++i) {
 		if (incomming_params_s[i] != NULL) {
 			encoder.push(incomming_params_s[i], incomming_params_n[i]);
 		} else {
@@ -231,11 +238,11 @@ void Mcc::send_execution_error_message(int tpid, int opcode, int errcode) {
 	encoder.push(ADMIN_PID);
 	encoder.push(OPCODE_REPORT);
 	encoder.startList();
-	encoder.push(exeerror_str, sizeof(exeerror_str)-1);
+	encoder.push(exeerror_str, sizeof(exeerror_str) - 1);
 	encoder.push(errcode);
 	encoder.push(tpid);
 	encoder.push(opcode);
-	for (int i=0;i<incomming_params_count;++i) {
+	for (int i = 0; i < incomming_params_count; ++i) {
 		if (incomming_params_s[i] != NULL) {
 			encoder.push(incomming_params_s[i], incomming_params_n[i]);
 		} else {
@@ -259,14 +266,15 @@ int Mcc::register_poll_callback(PollCallback cb) {
 }
 
 void Mcc::unregister_poll_callback(int n) {
-	if (n<Mcc::n_poll_callbacks-1){
-		Mcc::poll_callbacks[n] = Mcc::poll_callbacks[Mcc::n_poll_callbacks-1];
+	if (n < Mcc::n_poll_callbacks - 1) {
+		Mcc::poll_callbacks[n] = Mcc::poll_callbacks[Mcc::n_poll_callbacks - 1];
 	}
 }
 
-int Mcc::register_opcode_callbacks(OpcodeCallback* opcode_callbacks, uint8_t opcodes_count) {
+int Mcc::register_opcode_callbacks(OpcodeCallback* opcode_callbacks,
+		uint8_t opcodes_count) {
 	int result = -1;
-	if(Mcc::n_opcode_callbacks < MAX_PIDS){
+	if (Mcc::n_opcode_callbacks < MAX_PIDS) {
 		uint8_t pid = Mcc::n_opcode_callbacks++;
 		Mcc::opcode_callbacks[pid].callbacks = opcode_callbacks;
 		Mcc::opcode_callbacks[pid].n_callbacks = opcodes_count;
@@ -275,12 +283,13 @@ int Mcc::register_opcode_callbacks(OpcodeCallback* opcode_callbacks, uint8_t opc
 	return result;
 }
 
-void Mcc::send_message(int spid, uint8_t opcode, const char* data, uint8_t data_length) {
+void Mcc::send_message(int spid, uint8_t opcode, const char* data,
+		uint8_t data_length) {
 	encoder.startFrame();
 	encoder.push(spid);
 	encoder.push(opcode);
 	encoder.startList();
-	if (data!=NULL) {
+	if (data != NULL) {
 		encoder.push(data, data_length);
 	}
 	encoder.endList();
@@ -289,7 +298,8 @@ void Mcc::send_message(int spid, uint8_t opcode, const char* data, uint8_t data_
 
 void Mcc::tick() {
 	Mcc::process_incomming();
-	for (int i=0; i<Mcc::n_poll_callbacks; ++i){
+	for (int i = 0; i < Mcc::n_poll_callbacks; ++i) {
 		Mcc::poll_callbacks[i]();
 	}
 }
+

@@ -7,6 +7,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+
+
+namespace modules {
 /// Encoder class to generate Bencode on the fly (no buffer storage needed).
 class EmBencode {
 public:
@@ -87,4 +90,5 @@ protected:
 	char level, *bufPtr;
 	uint8_t bufLen, count, next, last, state;
 };
+}
 #endif

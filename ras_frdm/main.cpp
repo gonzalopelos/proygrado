@@ -59,10 +59,12 @@ int main() {
 #include "modules/Mcc/Mcc.h"
 #include "modules/Admin/Admin.h"
 
+
 //#include "hdlc/frdm_communication.h"
 //#include "modules/Logging/Logger.h"
 //#include "modules/Ethernet/Communication.h"
 DigitalOut led_green(LED_GREEN);
+using namespace modules;
 Mcc mcc;
 void heartbeat_task() {
     while (true) {
@@ -72,6 +74,7 @@ void heartbeat_task() {
 }
 
 int main() {
+
 //	Thread _pc_thread;
 //	main_pc.baud(9600);
 //	main_pc.format();
