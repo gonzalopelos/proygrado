@@ -83,6 +83,10 @@ production/
 **/.idea/mongoSettings.xml
 
 **/.idea/*.iml
+**/.idea/misc.xml
+**/.idea/vcs.xml
+**/.idea/modules.xml
+**/cmake_build_debug
 
 ## File-based project format:
 *.iws
