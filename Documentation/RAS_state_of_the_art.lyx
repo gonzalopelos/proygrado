@@ -181,6 +181,126 @@ ISO 10218
 \end_layout
 
 \begin_layout Standard
+“Robots and robotic devices -- Safety requirements for industrial robots”
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ISO10218-1"
+
+\end_inset
+
+: Especifica los requerimientos y directrices para un diseño inherentemente
+ seguro, medidas de protección e información para el uso de robots industriales.
+ En ella se describen peligros básicos asociados con los robots y proporciona
+ los requisitos para eliminar, o reducir de manera adecuada, los riesgos
+ asociados a estos peligros.
+ Aplica solo a los robots industriales, a pesar de esto los principios de
+ seguridad establecidos en la norma se pueden utilizar para otros tipos
+ de robots.
+\end_layout
+
+\begin_layout Subsection
+ISO/TS 15066
+\end_layout
+
+\begin_layout Standard
+“Robots and robotic devices -- Collaborative robots”: Especifica los requerimien
+tos de seguridad para los sistemas de robots industriales colaborativos
+ y el ambiente de trabajo, y complementa los requisitos y la orientación
+ sobre la operación de robots industriales colaborativos dada por las normas
+ ISO 10218-1 e ISO 10218-2.
+ Aplica lo mismo que la norma anterior para el caso de robots no industriales,
+ es útil aunque no especifica para estos.
+\end_layout
+
+\begin_layout Subsection
+ISO 13482
+\end_layout
+
+\begin_layout Standard
+“Robots and robotic devices -- Safety requirements for personal care robots”
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "safetycertificationpractices"
+
+\end_inset
+
+: Especifica los requerimientos y directrices para un diseño inherentemente
+ seguro, medidas de protección e información para el uso de robots para
+ el cuidado personal, en particular, los siguientes tres tipos de robots:
+ Robot sirviente móvil.
+ Robot asistente físico.
+ Robot portador de persona.
+ Ofrece una categorización de robots basada en sus atributos entre la cual
+ se encuentra el tipo 3.2, robots personales móviles de "múltiples pasajeros"
+ o "pasajeros no de pie" o "al aire libre" o "superficies irregulares" o
+ "no lento" o "no liviano" o " autónomo".
+ Este tipo de robots cubriría a los field robots y en particular a los robots
+ de este tipo utilizados para la agricultura.
+\end_layout
+
+\begin_layout Subsection
+ISO 25119
+\end_layout
+
+\begin_layout Standard
+“Tractors and machinery for agriculture and forestry -- Safety-related parts
+ of control systems”: Solo aborda el peligro para los humanos, y no para
+ el robot.
+ Cubre los posibles peligros causados por el comportamiento funcional de
+ los sistemas relacionados con la seguridad, a diferencia de los riesgos
+ que surgen de los propios equipos.
+ Alcance: Establece los principios generales para el diseño y desarrollo
+ de las partes relacionadas con la seguridad de los sistemas de control
+ (SRP / CS) en los tractores utilizados en la agricultura y la silvicultura,
+ máquinas autopropulsadas de montar y máquinas montadas, semi-montadas y
+ arrastradas utilizadas en agricultura.
+\end_layout
+
+\begin_layout Subsection
+ANSI/RIA R15.06
+\end_layout
+
+\begin_layout Standard
+“American National Standard for Industrial Robots and Robot Systems- Safety
+ Requirements”: El estándar ANSI define disposiciones de consenso para la
+ construcción, reconstrucción, modificación, instalación, protección, atención,
+ pruebas y puesta en marcha de robots y sistemas de robótica, así como la
+ formación de operadores de los sistemas de robot y robótica y personal
+ de mantenimiento.
+ Es la adopción nacional (Estados Unidos) del estándar ISO 10218-1 y 10218-2.
+\end_layout
+
+\begin_layout Subsection
+Otras normas
+\end_layout
+
+\begin_layout Itemize
+ISO 26262 - Seguridad funcional, automotriz.
+\end_layout
+
+\begin_layout Itemize
+ISO 13854 - Distancias mínimas para evitar aplastamientos.
+\end_layout
+
+\begin_layout Itemize
+ISO 13855 - Posicionamiento de las protecciones.
+\end_layout
+
+\begin_layout Itemize
+ISO 13857 - Distancias seguras.
+\end_layout
+
+\begin_layout Itemize
+ISO 14120 - Protecciones en posición fija o movibles.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 bibfiles "Bibliografia"
