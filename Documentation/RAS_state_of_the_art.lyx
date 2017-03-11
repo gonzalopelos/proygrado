@@ -75,6 +75,13 @@ RAS - Estado del Arte
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset CommandInset toc
 LatexCommand tableofcontents
 
@@ -84,6 +91,9 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
 
 \end_layout
 
@@ -100,7 +110,15 @@ Si los robots van a ser introducidos en el mundo de los humanos para asistir
  garantizada.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
+Interaccion Persona Robot
+\end_layout
+
+\begin_layout Standard
+ToDo
+\end_layout
+
+\begin_layout Subsection
 Definiciones
 \end_layout
 
@@ -143,8 +161,34 @@ Robot colaborativo: Robot diseñado para la interacción directa con un humano.
 \begin_layout Itemize
 Field Robot: Robot diseñado para operar en ambientes no restringidos, no
  artificiales, normalmente al aire libre y en toda la gama de condiciones
- operativas y ambientales: un robot para el mundo “natural”.
- (https://www.ri.cmu.edu/research_guide/field_robotics.html) 
+ operativas y ambientales: un robot para el mundo “natural”
+\begin_inset CommandInset citation
+LatexCommand cite
+key "fieldrobotics"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Section
+Normas y Estándares de Seguridad
+\end_layout
+
+\begin_layout Subsection
+ISO 10218
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "Bibliografia"
+options "plain"
+
+\end_inset
+
+
 \end_layout
 
 \end_body

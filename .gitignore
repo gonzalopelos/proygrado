@@ -107,3 +107,6 @@ production/
 # **/.idea/misc.xml 
 # *.ipr 
 SBC/cmake-build-debug/
+Documentation/Bibliografia.bib.sav
+Documentation/RAS_state_of_the_art.pdf
+Documentation/RAS_state_of_the_art.lyx~
