@@ -71,16 +71,14 @@
 
 \begin_body
 
-\begin_layout Title
-RAS - Estado del Arte
-\end_layout
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "title_page.tex"
 
-\begin_layout Author
-Alberto Martinucci
-\begin_inset Newline newline
 \end_inset
 
-Gonzalo Pelos
+
 \end_layout
 
 \begin_layout Standard
@@ -769,10 +767,118 @@ key "martin1996robot"
 
 \end_inset
 
- y [paper Hu_OccupancyGrids12 de carpeta 20170106] se describe en mayor
- detalle los fundamentos y construcción de evidence/occupancy grids.
- En [https://interactive.mit.edu/sites/default/files/documents/CASE2014_Lasota.pdf]
+ y 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Hu:2012:RPO:2415754.2415804"
+
+\end_inset
+
+ se describe en mayor detalle los fundamentos y construcción de evidence/occupan
+cy grids.
+ En 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lasota2014toward"
+
+\end_inset
+
  los autores afirman que esta tecnica es promisoria.
+\end_layout
+
+\begin_layout Itemize
+Human Action/Motion Prediction: Bajo este título se engloban varias técnicas
+ cuyo fin es el de, como su nombre lo describe, dotar a los agentes robóticos
+ de la capacidad inferir y predecir los movimientos y acciones humanas.
+ Ya sea con el fin de evitar colisiones, asistir en tareas u otros fines.
+ Esto implica alguna noción de intención conjunta, en la que ambas partes
+ mantienen un conjunto de creencias compartidas sobre el estado del mundo
+ y la tarea que está siendo realizada 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hawkins2013probabilistic"
+
+\end_inset
+
+.
+ La habilidad de un agente dado para adaptarse ‘en línea’ con el fin de
+ interactuar mejor con otro agente es un muy difícil e importante problema.
+ Y este problema se vuelve aún más difícil cuando el agente con el cual
+ se debe interactuar es un humano, dado que los humanos aprenden rápido
+ y se comportan de forma no determinista 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "COIN:COIN266"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Estrategias de Control de Colisiones
+\end_layout
+
+\begin_layout Standard
+El fin que se desea alcanzar con las estrategias de control de colisiones
+ es el de mitigar el daño causado a humanos y al robot mismo en el caso
+ de ocurrir una colisión.
+ Cabe destacar que la decisión de que hacer frente a la ocurrencia de una
+ colisión puede llegar a ser en extremo compleja, como puede ser en el caso
+ de una colisión con un humano en un ambiente exterior y dinámico.
+\end_layout
+
+\begin_layout Itemize
+Torque Control with Gravity Compensation: ToDo
+\end_layout
+
+\begin_layout Subsubsection
+Estrategias de Control
+\end_layout
+
+\begin_layout Standard
+Se presentan algunas estrategias de control orientadas a la seguridad en
+ la interacción humano-robot.
+\end_layout
+
+\begin_layout Itemize
+Kinetostatic Danger Field: Lacevic y Rocco introducen en 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lacevic2010kinetostatic"
+
+\end_inset
+
+ el concepto de Kinetostatic Danger Field, una cantidad que captura el estado
+ completo del robot, su configuracion y velocidad.
+ Este método persigue estimar el peligro en la vecindad del robot.
+ Se trata de una generalización del enfoque del campo de potenciales, con
+ el cual tiene sin embargo dos grandes diferencias; primero, este enfoque
+ captura la postura y velocidad del robot, y segundo, la fuente del campo
+ de potenciales es el robot mismo en lugar de los sujetos/obstáculos.
+ Dada esta similitud con el enfoque del campo de potenciales es posible
+ utilizar la cantidad Kinetostatic Danger Field para abordar el problema
+ de evitar obstáculos.
+\end_layout
+
+\begin_layout Subsubsection
+Códigos de Acceso al Sistema
+\end_layout
+
+\begin_layout Standard
+El acceso a la unidad de control, el arranque, parada y modificación del
+ programa, deben estar limitadas mediante el empleo de algún mecanismo de
+ seguridad (llaves, códigos de seguridad, etc.) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "secRobAragon"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Newpage pagebreak
 \end_inset
 
