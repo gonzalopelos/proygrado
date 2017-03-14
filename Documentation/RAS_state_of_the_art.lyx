@@ -7,7 +7,7 @@
 \textclass article
 \use_default_options true
 \maintain_unincluded_children false
-\language english
+\language spanish
 \language_package default
 \inputencoding auto
 \fontencoding global
@@ -27,6 +27,7 @@
 \bibtex_command default
 \index_command default
 \paperfontsize default
+\spacing single
 \use_hyperref false
 \papersize default
 \use_geometry false
@@ -57,7 +58,7 @@
 \tocdepth 3
 \paragraph_separation indent
 \paragraph_indentation default
-\quotes_language english
+\quotes_language french
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
@@ -72,6 +73,14 @@
 
 \begin_layout Title
 RAS - Estado del Arte
+\end_layout
+
+\begin_layout Author
+Alberto Martinucci
+\begin_inset Newline newline
+\end_inset
+
+Gonzalo Pelos
 \end_layout
 
 \begin_layout Standard
@@ -111,7 +120,7 @@ Si los robots van a ser introducidos en el mundo de los humanos para asistir
 \end_layout
 
 \begin_layout Subsection
-Interaccion Persona Robot
+Interacción Persona Robot
 \end_layout
 
 \begin_layout Standard
@@ -137,7 +146,7 @@ Seguridad funcional: La seguridad funcional es la parte de la seguridad
  respuesta a sus entradas.
  La IEC TR 61508-0 proporciona el siguiente ejemplo para ayudar a aclarar
  el significado de la seguridad funcional.
- “Por ejemplo, un dispositivo de protección contra sobretemperatura que
+ “Por ejemplo, un dispositivo de protección contra sobre-temperatura que
  utiliza un sensor térmico en los bobinados de un motor eléctrico para desactiva
 r el motor antes de que pueda calentarse en exceso, es un caso de seguridad
  funcional.
@@ -149,13 +158,26 @@ r el motor antes de que pueda calentarse en exceso, es un caso de seguridad
 
 \begin_layout Itemize
 Colaboración: Trabajo realizado por robots y humanos juntos para cumplir
- una tarea.
- (Paper sobre vocabulario en standards en mi carpeta).
+ una tarea 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "moon2010recent"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Itemize
-Robot colaborativo: Robot diseñado para la interacción directa con un humano.
- (Paper sobre vocabulario en standards en mi carpeta).
+Robot colaborativo: Robot diseñado para la interacción directa con un humano
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "moon2010recent"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Itemize
@@ -296,15 +318,472 @@ ISO 13857 - Distancias seguras.
 ISO 14120 - Protecciones en posición fija o movibles.
 \end_layout
 
+\begin_layout Section
+Seguridad en Robots Colaborativos
+\end_layout
+
 \begin_layout Standard
+La seguridad en sistemas robotizados contempla dos vertientes, la que se
+ refiere a la seguridad propia del robot que debe ser contemplada desde
+ el diseño del mismo y es responsabilidad del fabricante; y aquella que
+ está relacionada con el diseño e implantación del sistema, su utilización,
+ programación y mantenimiento que requiere de una cuota mayor de responsabilidad
+ del usuario del sistema que opera de forma colaborativa con el robot.
+\end_layout
+
+\begin_layout Standard
+Existen normas (ver Sección 2 de este documento) que proporcionan un marco
+ de trabajo a diseñadores y fabricantes de robots de gran ayuda para lograr
+ productos más seguros en su uso, por ejemplo presentando estrategias de
+ trabajo para el desarrollo y selección de medidas de seguridad que consideran:
+\end_layout
+
+\begin_layout Itemize
+Determinación de los límites del sistema, intención de uso, espacio y tiempos
+ de trabajo considerando:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Aspectos de interacción con personas.
+\end_layout
+
+\begin_layout Itemize
+Manipulación de objetos.
+\end_layout
+
+\begin_layout Itemize
+Transporte de carga.
+\end_layout
+
+\begin_layout Itemize
+Factores de riesgo ambiental.
+\end_layout
+
+\begin_layout Itemize
+Tareas de mantenimiento, cómo y cuándo deberán ser llevadas a cabo.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Identificación de todos los peligros que puede generar el robot durante
+ todas las fases de trabajo.
+ En este punto se deben considerar:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Fallas de hardware (motores, sensores, fuentes de alimentación).
+\end_layout
+
+\begin_layout Itemize
+Fallas de software (sistemas de control).
+\end_layout
+
+\begin_layout Itemize
+Riesgos asociados a un trabajo colaborativo entre el robot y operarios.
+\end_layout
+
+\begin_layout Itemize
+Riesgos vinculados a un mal uso del robot (error humano, no respetar políticas
+ de seguridad, no respetar protocolos).
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Se debe definir el riesgo de que se produzca un accidente, esto es calculado
+ probabilísticamente en función del daño que pueda producir
+\end_layout
+
+\begin_layout Subsection
+Diseño y construcción del robot
+\end_layout
+
+\begin_layout Standard
+En el diseño del robot y de su sistema de control es muy importante considerar
+ siempre el posible accidente, tomándose las acciones oportunas para evitarlo
+ en la medida de lo posible.
+\end_layout
+
+\begin_layout Subsubsection
+Diseño Mecánico
+\end_layout
+
+\begin_layout Standard
+En lo que respecta al diseño mecánico del robot, deberán considerarse las
+ siguientes medidas enfocadas en la prevención del posible accidente.
+\end_layout
+
+\begin_layout Itemize
+Acceso al panel de control principal: El panel de control principal del
+ robot debe estar instalado fuera del área de trabajo del mismo.
+ Para el caso en el que no hay un espacio de trabajo bien definido deberá
+ haber una base de control que esté accesible siempre para los operarios.
+\end_layout
+
+\begin_layout Itemize
+Paradas de emergencia: Deben existir paradas de emergencia con accionadas
+ mediante botones de fácil acceso que deberán estar situados en posiciones
+ fácilmente localizables.
+ Las identificaciones de estas paradas de emergencia son una parte fundamental
+ de la formación del personal.
+ Estos dispositivos tienen prioridad sobre todos los demás controles.
+\end_layout
+
+\begin_layout Itemize
+Identificación de dispositivos de control: Todos los dispositivos de control
+ deberán estar claramente identificados y etiquetados indicando su propósito.
+ Los controles de accionamiento deben estar diseñados para indicar el estado
+ de funcionamiento del robot.
+\end_layout
+
+\begin_layout Itemize
+Controles de accionamiento o alimentación de energía: Los controles de accionami
+ento o alimentación de energía del robot deben estar protegidos contra acciones
+ involuntarias.
+ Cada robot cuenta con un interruptor independiente que se puede bloquear
+ solo en la posición de apagado.
+\end_layout
+
+\begin_layout Itemize
+Interacción robot-operarios: Se utilizan pantallas para brindar indicaciones
+ al usuario de forma de minimizar los errores que éstos pueden cometer,
+ así como también para indicar estados del robot.
+\end_layout
+
+\begin_layout Itemize
+Dispositivos de detección de presencia: Los detectores de presencia que
+ se usan más comúnmente en la seguridad de la robótica son esteras de presión
+ (colocadas en el suelo) y cortinas de luz (similares a las matrices de
+ fotocélulas).
+ Estos dispositivos se pueden utilizar para detectar una persona entrar
+ en un área peligrosa cerca de un robot.
+ Los detectores de proximidad que operan en capacitancia eléctrica, ultrasonido,
+ radiofrecuencia, láser, y los principios de televisión están “actualmente”
+ en fase de pruebas de fiabilidad en laboratorios de investigación, debido
+ a limitaciones reconocidas en su capacidad de detectar la presencia de
+ personal en algunos escenarios, por ejemplo en condiciones climáticas variadas
+ si es que el robot opera al aire libre.
+\end_layout
+
+\begin_layout Itemize
+Sistemas de alerta audible y visible: Los sistemas de alertas audibles y
+ visibles se pueden utilizar para mejorar la eficacia de los métodos de
+ salvaguardia (detectores de proximidad, barreras, etc.).
+ Los efectos de las señales audibles y visibles deben ser fácilmente reconocible
+s por los operarios.
+\end_layout
+
+\begin_layout Itemize
+Movilidad segura del robot: El robot debe estar diseñado para que pueda
+ ser movido en cualquiera de sus ejes sin la necesidad de utilizar la potencia
+ de accionamiento del sistema.
+\end_layout
+
+\begin_layout Itemize
+Frenos mecánicos adicionales: si el robot maneja grandes cargas, debe contar
+ con frenos adicionales que se activen cuando cuando se corte la alimentación
+ de los accionantes.
+ También se debe disponer de mecanismos para desactivar estos frenos de
+ forma manual.
+\end_layout
+
+\begin_layout Subsubsection
+Diseño de Software
+\end_layout
+
+\begin_layout Standard
+En lo que respecta al diseño de software del robot, deberán considerarse
+ las siguientes medidas enfocadas en la prevención del posible accidente.
+\end_layout
+
+\begin_layout Itemize
+Se debe proveer la capacidad de parar el sistema automáticamente ante velocidade
+s anormales de componentes del robot en el desarrollo de tareas.
+\end_layout
+
+\begin_layout Itemize
+Técnicas de prevención de colisiones y para minimizar el impacto del accidente.
+\end_layout
+
+\begin_layout Itemize
+Prevención de colisiones:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Prevención del accidente: Uso de sensores ubicados en puntos estratégicos
+ para considerar el volumen del robot y un área virtual de alto riesgo.
+ Esto acompañado de algoritmos que permiten tomar decisiones frente a posibles
+ colisiones.
+ 
+\begin_inset Newline newline
+\end_inset
+
+En algunos casos se utilizan cámaras para reconocer personas y considerar
+ los riesgos de la interacción.
+\end_layout
+
+\begin_layout Itemize
+En caso de accidente: Existen casos en los que una posible colisión no pudo
+ ser detectada a tiempo para prevenirla, en tales casos el sistema de control
+ deberá estar preparado para actuar de manera de minimizar el impacto (fuerza
+ repulsiva, torque).
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Códigos de Acceso al Sistema: el acceso a la unidad de control, el arranque,
+ parada y modificación del programa, deben estar limitadas mediante el empleo
+ de algún mecanismo de seguridad (llaves, códigos de seguridad, etc.).
+\end_layout
+
+\begin_layout Itemize
+Se debe contemplar mecanismos de recuperación ante fallas, se pueden considerar
+ sistemas de control alternativos, backup.
+\end_layout
+
+\begin_layout Itemize
+El sistema de control debe realizar una continua supervisión del correcto
+ funcionamiento de todos los subsistemas y componentes del robot, incluso
+ debe supervisar el funcionamiento del propio sistema de control para ello
+ existen componentes como el watch-dog.
+ 
+\end_layout
+
+\begin_layout Subsection
+Instalación y Explotación
+\end_layout
+
+\begin_layout Standard
+En el uso del sistema y en especial durante las fases de instalación y puesta
+ en marcha deben respetarse rigurosamente determinadas normas que reducirán
+ el riesgo de accidente.
+ Es importante que los operarios cuenten con información adecuada sobre
+ los posibles riesgos y acciones de contingencia.
+ Algunos de los puntos más relevantes a tener en cuenta son los siguientes:
+\end_layout
+
+\begin_layout Itemize
+Se deben considerar rigurosamente todas las especificaciones del fabricante.
+\end_layout
+
+\begin_layout Itemize
+No permitir que personal no calificado opere con el robot.
+\end_layout
+
+\begin_layout Itemize
+Instalar mecanismos de seguridad para para acceder al sistema del robot
+ (códigos de acceso al sistema, etc.).
+\end_layout
+
+\begin_layout Itemize
+Proporcionar elementos para identificar claramente la zona de trabajo del
+ robot y sus movimientos.
+ Proporcionar sistemas para controlar al robot fuera de su zona de trabajo
+ (por ejemplo para una parada de emergencia).
+ 
+\end_layout
+
+\begin_layout Itemize
+Se debe establecer un control periódico de todos los equipos y conexiones
+ de seguridad que resultan ser críticos.
+ 
+\end_layout
+
+\begin_layout Itemize
+Las señales que indican el movimiento del robot deben ser bien visibles
+ y si es posible deberán indicarse en el suelo y paredes.
+ Se debe contar con señales luminosas y acústicas que indiquen el correcto
+ funcionamiento del robot así como también que llamen la atención cuando
+ haya (o aumente el) riesgo de un potencial accidente.
+ 
+\end_layout
+
+\begin_layout Itemize
+En el proceso de ajuste o reparación de algún componente se deberán neutralizar
+ todos los dispositivos de almacenamiento de energía del robot.
+ 
+\end_layout
+
+\begin_layout Itemize
+Sólo los desarrolladores y personal capacitado tienen el control del robot
+ cuando éste está en la etapa de aprendizaje.
+ 
+\end_layout
+
+\begin_layout Itemize
+Según el estándar ANSI en las etapas de construcción y puesta en marcha
+ el robot no puede superar velocidades de 250 mm/s = 0,9 km/h.
+ Se deben realizar pruebas progresivas, comenzando por velocidades lentas
+ y paso a paso, luego se podrá ejecutar de manera continua y a mayores velocidad
+es.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Operarios
+\end_layout
+
+\begin_layout Standard
+En la fase de instalación y explotación una de las tareas más importantes
+ es capacitar a los operarios considerando los siguientes puntos:
+\end_layout
+
+\begin_layout Itemize
+Deberá existir administradores o supervisores que se encarguen de hacer
+ cumplir las políticas de seguridad.
+ 
+\end_layout
+
+\begin_layout Itemize
+El personal debe entender la tarea completa para la que está programado
+ el robot antes de poder comenzar a operar con él.
+ 
+\end_layout
+
+\begin_layout Itemize
+La empresa que opera con robots tiene que dejar por escrito que asegura
+ que todo el personal es consciente de ello y está capacitado para cumplir
+ con las políticas de seguridad.
+ 
+\end_layout
+
+\begin_layout Itemize
+Los operadores del robot reciben una formación adecuada en el reconocimiento
+ de riesgos/peligros, del equipo y de procedimientos adecuados para operar
+ con el robot.
+ 
+\end_layout
+
+\begin_layout Itemize
+Si es necesario capacitar a un operario colaborando con el robot compartiendo
+ su espacio de trabajo se debe realizar a velocidades lentas y brindando
+ un conocimiento previo de las paradas de las paradas de emergencia y de
+ los componentes que alimentan de energía al robot.
+ 
+\end_layout
+
+\begin_layout Itemize
+Las operaciones de programación y mantenimiento sólo podrán ser efectuadas
+ por personal especializado.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Ambiente
+\end_layout
+
+\begin_layout Standard
+El ambiente es uno de los factores que tiene suma importancia en lo que
+ respecta a consideraciones en las medidas de seguridad que serán implementadas
+ para reducir el riesgo de accidente cuando el robot esté trabajando y sobre
+ todo en las interacciones con los operarios.
+ A continuación algunos de los puntos más relevantes a tener en cuenta:
+ 
+\end_layout
+
+\begin_layout Itemize
+El robot debe estar diseñado para contemplar las condiciones ambientales
+ a las que puede estar sometido al momento de realizar las tareas.
+ En el caso de estar a la intemperie deberá de considerarse factores de
+ humedad, presión atmosférica, lluvia, etc.
+ que podrán variar repentinamente en el proceso de ejecución de las tareas
+ y el robot deberá estar preparado para actuar de buena forma frente a esas
+ eventualidades.
+\end_layout
+
+\begin_layout Itemize
+Es de vital importancia analizar las posibles condiciones ambientales al
+ momento de seleccionar los sensores para el robot de forma de garantizar
+ que estos funcionaran correctamente en todas ellas.
+ De no ser posible esto se deberá disponer sensores redundantes que puedan
+ medir las misma magnitudes físicas en diferentes condiciones y/o técnicas
+ de sensor fusion (ver Seccion 3.3.3).
+\end_layout
+
+\begin_layout Itemize
+En caso de utilizar dispositivos de visualización (cámaras) será de gran
+ importancia contemplar los diferentes niveles de iluminación a los que
+ estará sometido el robot en el desempeño de sus tareas.
+\end_layout
+
+\begin_layout Subsection
+Técnicas Utilizadas
+\end_layout
+
+\begin_layout Subsubsection
+Supervisión de Funciones
+\end_layout
+
+\begin_layout Standard
+ToDo (ver https://drive.google.com/file/d/0B5b9cF_5KTdQTWstTzJTWFVsMFk/view)
+\end_layout
+
+\begin_layout Subsubsection
+Recuperación Frente a Fallas
+\end_layout
+
+\begin_layout Standard
+ToDo
+\end_layout
+
+\begin_layout Subsubsection
+Prevención de Colisiones
+\end_layout
+
+\begin_layout Standard
+Las técnicas detalladas a continuación tienen como propósito evitar que
+ el robot colisione con humanos, otros robots y el ambiente.
+\end_layout
+
+\begin_layout Itemize
+3D Sensor Fusion: Fusión en tiempo real de la información provista por múltiples
+ sensores de imagen tridimensional (range cameras, stereo vision sensors,
+ etc) para crear una representación del espacio a través de una grilla de
+ evidencia volumétrica (volumetric evidence grid).
+ El espacio es segmentado en fondo, robots y personas.
+ Rodeando a cada robot se define una zona de peligro (danger zone) adaptativa
+ basada en la posición de robot y trayectoria.
+ De forma similar cada persona es rodeada por una zona de seguridad (safety
+ zone).
+ Una zona de peligro intersectando una zona de seguridad indica que el robot
+ y la persona se encuentran muy cerca y que una colisión podría ser inminente.
+ En estos casos el robot se detiene o enlentece hasta que la situación se
+ resuelve.
+ En 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Rybski_2012_7263"
+
+\end_inset
+
+ se presenta la técnica en detalle y su aplicación para un robot industrial
+ en una celda de trabajo.
+ En [ver carpeta 20170106 del material, tiene papers de ejemplo de aplicación
+ de la técnica para para robots móviles en interiores y exteriores].
+ En 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "martin1996robot"
+
+\end_inset
+
+ y [paper Hu_OccupancyGrids12 de carpeta 20170106] se describe en mayor
+ detalle los fundamentos y construcción de evidence/occupancy grids.
+ En [https://interactive.mit.edu/sites/default/files/documents/CASE2014_Lasota.pdf]
+ los autores afirman que esta tecnica es promisoria.
 \begin_inset Newpage pagebreak
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 bibfiles "Bibliografia"
-options "plain"
+options "unsrt"
 
 \end_inset
 
