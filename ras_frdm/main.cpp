@@ -1,35 +1,42 @@
-//#define MAIN_AM
+#define MAIN_AM
 
 #ifdef MAIN_AM
 #include "mbed.h"
-#include "PCF8591.h"
 #include "PIDModule.h"
+#include "dm3.h"
 
-I2C i2c(PTE25, PTE24); // SDA, SCL para K64F
-PCF8591 DAC_I2C(&i2c, PCF8591_SA0); // I2C bus, Default PCF8591 Slaveaddress
-Serial pc(USBTX, USBRX);
+#define MOTORS_PER_CHASIS 2
+
+//I2C i2c(PTE25, PTE24); // SDA, SCL para K64F
+//PCF8591 DAC_I2C(&i2c, PCF8591_SA0); // I2C bus, Default PCF8591 Slaveaddress
+//Serial pc(USBTX, USBRX);
 
 DigitalOut led(LED_RED);
 DigitalOut ledGreen(LED_GREEN);
 
 int main()
 {
-	led 		= 0;
-	ledGreen	= 0;
+	led 		= 1;
+	ledGreen	= 1;
+	Dm3 *dm3 = Dm3::Instance();
+	int power = 0;
+	int i2cerror = 0;
+	int chasis = 0;
+	int motor = 0;
     while (true) {
-    	int command = pc.getc();
-    	switch(command){
-			case 1:
-				led 		= !led;
-				ledGreen 	= !led;
-				break;
-			case 6:
+    	dm3->enable(1);
+    	chasis = 0;
+    	motor = 1;
+    	power = 0;
+		i2cerror = dm3->motor_i2c(chasis*MOTORS_PER_CHASIS + motor, power);
+		wait(2.0f);
+    	power = 50;
+    	i2cerror = dm3->motor_i2c(chasis*MOTORS_PER_CHASIS + motor, power);
+    	wait(2.0f);
+    	power = 100;
+    	i2cerror = dm3->motor_i2c(chasis*MOTORS_PER_CHASIS + motor, power);
 
-				break;
-			default:
-				ledGreen = !ledGreen;
-    	}
-        wait(0.4f);
+    	wait(2.0f);
     }
 }
 
