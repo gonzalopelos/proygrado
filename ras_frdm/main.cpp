@@ -1,4 +1,4 @@
-#define MAIN_AM
+//#define MAIN_AM
 
 #ifdef MAIN_AM
 #include "mbed.h"
@@ -65,6 +65,7 @@ int main() {
 #include "rtos.h"
 #include "modules/Mcc/Mcc.h"
 #include "modules/Admin/Admin.h"
+#include "modules/Motor/MotorModule.h"
 
 
 //#include "hdlc/frdm_communication.h"
