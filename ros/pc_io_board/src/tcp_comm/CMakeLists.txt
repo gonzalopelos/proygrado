@@ -188,6 +188,10 @@ include_directories(
 
 
 add_executable(pc2ioboard_server
+  src/Mcc.cpp
+  include/tcp_comm/Mcc.h
+  src/EmBencode.cpp
+  include/tcp_comm/EmBencode.h
   src/Tcp_Controller.cpp
   include/tcp_comm/Tcp_Controller.h
   src/pc2ioboard_server.cpp
