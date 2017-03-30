@@ -251,6 +251,7 @@ void report_set_pid_parameters(float kp, float ki, float kd) {
 }
 
 void report_power(int chasis) {
+	//char i2cwfailure_str[] = "I2CWRITEFAILURE";
 	//if (chasis_msg_dirty[chasis]==1 ) {
 		chasis_msg_dirty[chasis]=0;
 		if (i2cerror == true) {
@@ -646,6 +647,7 @@ static int handle_reverse(unsigned int  pid, unsigned int  opcode) {
 
 
 static int handle_test(unsigned int  pid, unsigned int  opcode) {
+	Thread::wait(2000);
 	dm3->motor_i2c(0, 50);
 	dm3->motor_i2c(1, 50);
 	dm3->motor_i2c(2, 50);
@@ -660,7 +662,6 @@ static int handle_test(unsigned int  pid, unsigned int  opcode) {
 	dm3->motor_i2c(1, 0);
 	dm3->motor_i2c(2, 0);
 	dm3->motor_i2c(3, 0);
-
 	return 1;
 }
 

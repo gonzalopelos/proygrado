@@ -15,7 +15,7 @@ namespace modules {
 #define KILLING_TIME_MS 1000
 
 //#define MODULE_VERSION 1
-char i2cwfailure_str[] = "I2CWRITEFAILURE";
+#define i2cwfailure_str (char*)"I2CWRITEFAILURE"
 
 
 #define MOTOR_OPCODES 12 // Uno mas de los que vienen a continuacion porque incluye a OPCODE_REPORT es global

@@ -100,6 +100,7 @@ void error(const char *msg);
 void test_tcp_connection();
 void test_mcc();
 void ping_frdm_k64f();
+void test_motor();
 
 Mcc mcc;
 
@@ -125,6 +126,7 @@ void ReadCommands(int parsed_command){
     printf("\t\"1\"-> Toggle LEDs\n");
     printf("\t\"2\"-> Test string functions\n");
     printf("\t\"3\"-> Ping function.\n");
+    printf("\t\"4\"-> Test motor.\n");
     printf("\t\"6\"-> fdrm log\n");
     printf("\t\"7\"-> Test TCP connection \n");
     printf("\t\"8\"-> Test MCC \n");
@@ -170,6 +172,7 @@ void ProcessComands(int command){
             ping_frdm_k64f();
             break;
         case 4:
+            test_motor();
             break;
         case 5:
             break;
@@ -328,7 +331,9 @@ void ping_frdm_k64f(){
     }
 }
 
-
+void test_motor() {
+    mcc.send_message(1, 5, "", 0);
+}
 
 #endif
 //======================================================

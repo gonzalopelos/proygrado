@@ -71,6 +71,7 @@ int main() {
 //#include "hdlc/frdm_communication.h"
 //#include "modules/Logging/Logger.h"
 //#include "modules/Ethernet/Communication.h"
+Ticker ticker_msg_rate;
 DigitalOut led_green(LED_GREEN);
 using namespace modules;
 Mcc mcc;
@@ -96,6 +97,9 @@ int main() {
 	wait(2);
 //	mcc.send_message(0,0,"test",4);
 	Admin admin_module;
+	MotorModule motorModule;
+
+	motorModule.init();
 	Thread heartbeat(heartbeat_task);
 
 	while(1){
