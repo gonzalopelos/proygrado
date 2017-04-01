@@ -878,6 +878,260 @@ key "secRobAragon"
 .
 \end_layout
 
+\begin_layout Section
+Evaluación de Placas de E/S
+\end_layout
+
+\begin_layout Standard
+Se presentan las características y aspectos relevantes de un conjunto de
+ placas que se han analizado y podrían ser utilizadas para la implementación
+ de un componente del proyecto de grado Aspectos de Seguridad y HRI Aplicados
+ en un Robot Agropecuario.
+ En particular se desea que la placa seleccionada cumpla con un conjunto
+ de requerimientos que detallaremos a continuación:
+\end_layout
+
+\begin_layout Itemize
+Interfaz con USB.
+\end_layout
+
+\begin_layout Itemize
+Interfaz de comunicación serial síncrona y asíncrona.
+ Soportar I2C.
+\end_layout
+
+\begin_layout Itemize
+Al menos 6 salidas salidas digitales para direcciones de ruedas (4), freno,
+ fabilitación, luz de seguridad y bocina.
+ 
+\end_layout
+
+\begin_layout Itemize
+Entradas para la senal de los sensores hall.
+\end_layout
+
+\begin_layout Itemize
+Servicio de Watch-Dog Timer (WDT).
+\end_layout
+
+\begin_layout Subsection
+Arduino Mega
+\end_layout
+
+\begin_layout Standard
+Es una placa basada en el microcontrolador ATmega1280, compatible con la
+ mayoría de las placas diseñadas para Arduino Duemilanove o Diecimila.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename C:/Users/Alberto/Downloads/Placas Proyecto - Imagenes/Arduino mega 2560 r3.jpg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Especificación Técnica
+\end_layout
+
+\begin_layout Standard
+A continuación se describen los componentes técnicos de la placa y microcontrola
+dor.
+\end_layout
+
+\begin_layout Itemize
+Microcontrolador: ATmega1280 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ATMEGA1280"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Velocidad del reloj: 16 MHz.
+\end_layout
+
+\begin_layout Itemize
+Arquitectura: Cuenta con una arquitectura avanzada RISC de 8 bits.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+135 Instrucciones de gran alcance, la mayoría ejecuta en un solo ciclo de
+ reloj.
+\end_layout
+
+\begin_layout Itemize
+32 × 8 registros para trabajo de propósito general.
+\end_layout
+
+\begin_layout Itemize
+Funcionamiento totalmente estático.
+\end_layout
+
+\begin_layout Itemize
+Hasta 16 MIPS de rendimiento a 16 MHz.
+\end_layout
+
+\begin_layout Itemize
+Multiplicador de 2 ciclos On-Chip.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Memoria: Tiene 128 KB de memoria flash para almacenar código (de los cuales
+ 4 KB se utiliza para el bootloader), 8 KB de SRAM y 4KB de EEPROM (que
+ puede ser leído y escrito con la biblioteca EEPROM 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ArduinoEEPROM"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Itemize
+WDT (Watchdog Timer): El WDT es un temporizador que cuenta ciclos de un
+ oscilador de 128kHz particular para el módulo.
+ Da una interrupción o restablece el sistema cuando el contador alcanza
+ un valor de tiempo de espera determinado.
+ En el modo de funcionamiento normal, se requiere que el sistema utilice
+ la instrucción WDR (Watchdog Timer Reiniciar) para reiniciar el contador
+ antes de que se alcance el valor de tiempo de espera, si el sistema no
+ reinicia el contador, se emitirá un reset o alarma de sistema.
+ El microcontrolador ATmega1280 cuenta con un WDT que presenta las siguientes
+ características:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Ciclos de un oscilador separado al oscilador del chip.
+\end_layout
+
+\begin_layout Itemize
+3 modos de funcionamiento.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Interrupción.
+\end_layout
+
+\begin_layout Itemize
+Restablecimiento del sistema.
+\end_layout
+
+\begin_layout Itemize
+Interrupción y restablecimiento del sistema.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Período de tiempo de espera configurable de 16ms a 8s.
+\end_layout
+
+\begin_layout Itemize
+Fusible para mantener siempre encendido el WDT por hardware en modo de toleranci
+a a fallas.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Energía: La placa puede ser alimentada a través de una conexión USB o con
+ una fuente de alimentación externa.
+ La fuente de alimentación se selecciona automáticamente.
+ La energía externa (no USB) puede venir de un adaptador de CA a CC o se
+ puede conectar a una batería.
+ El adaptador se puede conectar a un enchufe de 2,1 mm de centro-positivo
+ en el conector de alimentación de la placa y los potenciales de una batería
+ se pueden insertar en los cabezales de pin GND y Vin del conector POWER
+ de la placa.
+\begin_inset Newline newline
+\end_inset
+
+La placa puede funcionar con un suministro externo de 6 a 20 volts, sin
+ embargo, si se suministra menos de 7V el pin de 5V puede suministrar menos
+ de cinco voltios y la placa puede ser inestable.
+ Si se utiliza más de 12V, el regulador de voltaje se puede sobrecalentar
+ y dañar la placa.
+ El rango recomendado es de 7 a 12 voltios.
+\end_layout
+
+\begin_layout Itemize
+Entrada y Salida: La placa cuenta con 54 pines digitales que pueden ser
+ utilizado tanto de entrada como de salida.
+ Algunos de estos pines tienen funciones específicas.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Serial: Los pines 0, 1, 19, 18, 17, 16, 15, 14 se utilizan para recibir
+ (RX) y transmitir datos en serie (TX) TTL.
+ Los pines 0 y 1 también están conectados a los pines correspondientes del
+ chips Serial FTDI USB-to-TTL.
+\end_layout
+
+\begin_layout Itemize
+Interrupciones externas: los pines 2,3,18,19,20 y 21 pueden configurarse
+ para activar una interrupción en un valor bajo, un flanco ascendente, descenden
+te o un cambio de valor.
+\end_layout
+
+\begin_layout Itemize
+PWM: los pines comprendidos entre los rangos 2 a 13 y 44 a 46 proporcionan
+ una salida PWM de 8 bits.
+\end_layout
+
+\begin_layout Itemize
+SPI: los pines 50, 51, 52 y 53 soportan la comunicación SPI, que, aunque
+ proporcionada por el hardware subyacente, actualmente no está incluido
+ en el lenguaje de Arduino.
+ Los pines SPI también se desglosan en la cabecera ICSP, que es físicamente
+ compatible con el Duemilanove y Diecimila.
+\end_layout
+
+\begin_layout Itemize
+LED: el pin 13 está conectado a un LED incorporado a la placa.
+ Cuando el valor en ese pin es ALTO el LED está encendido y cuando el valor
+ es BAJO está apagado.
+\end_layout
+
+\begin_layout Itemize
+I
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+
+C: los pines 20 y 21 brindan soporte a la comunicación I2C (TWI) utilizando
+ Wire Library 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "WIRELibrary"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+La placa también cuenta con 16 pines de entradas analógicas, cada una de
+ las cuales proporcionan 10 bits de resolución (1.024 valores diferentes).
+\end_layout
+
+\end_deeper
 \begin_layout Standard
 \begin_inset Newpage pagebreak
 \end_inset
