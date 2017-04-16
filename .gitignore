@@ -43,7 +43,7 @@ production/
 **/nbproject/Makefile-genesis.properties
 
 
-**/.vscode
+/.vscode
 /.project
 
 # Kinetis Studio
