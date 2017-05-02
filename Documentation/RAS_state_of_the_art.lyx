@@ -926,7 +926,7 @@ Es una placa basada en el microcontrolador ATmega1280, compatible con la
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename C:/Users/Alberto/Downloads/Placas Proyecto - Imagenes/Arduino mega 2560 r3.jpg
+	filename Placas Proyecto - Imagenes/Arduino mega 2560 r3.jpg
 
 \end_inset
 
@@ -1132,6 +1132,1493 @@ La placa también cuenta con 16 pines de entradas analógicas, cada una de
 \end_layout
 
 \end_deeper
+\begin_layout Subsubsection
+Herramientas de desarrollo
+\end_layout
+
+\begin_layout Standard
+Es posible desarrollar utilizando el software (IDE) de Arduino 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ArduinoIDE"
+
+\end_inset
+
+ para facilitar la escritura del código y la actualización de este en la
+ placa.
+ El entorno de desarrollo de Arduino está desarrollado en Java respetando
+ las políticas Open Source y puede ejecutar en las plataformas Mac OS X,
+ Linux y Windows.
+ Adicionalmente a las estructuras, variables, constantes, y funciones que
+ vienen en la placa detalladas en 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ArduinoLangRef"
+
+\end_inset
+
+ es posible incorporar nuevas librerías que proporcionan funcionalidad adicional
+ en el uso de programas (sketches en terminología Arduino) para, por ejemplo,
+ trabajar con hardware o manipular datos.
+ El IDE de Arduino cuenta con una componente para importar librerías 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ArduinoLibs"
+
+\end_inset
+
+.
+ Las librerías están escritas en C/C++ y como se describe en 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ArduinoWriteLib"
+
+\end_inset
+
+ es posible escribir librerías propias.
+\end_layout
+
+\begin_layout Subsubsection
+Acceso al producto
+\end_layout
+
+\begin_layout Standard
+La placa Arduino Mega no se encuentra disponible en la tienda de Arduino,
+ en su lugar se comercializa la placa Arduino Mega 2560 que es una actualización
+ de la anterior.
+ La placa Arduino Mega 2560 actualiza respecto a su antecesora:
+\end_layout
+
+\begin_layout Itemize
+Incorpora 128KB de memoria flash.
+\end_layout
+
+\begin_layout Itemize
+Está basada en el microcontrolador ATmega2560 con similares características
+ al del controlador ATmega1280.
+\end_layout
+
+\begin_layout Itemize
+Suplanta el chip convertidor de USB a serial FTDI y en su cuenta con el
+ ATmega16U2 programado como un convertidor de USB a serie.
+\end_layout
+
+\begin_layout Standard
+El precio de la placa Arduino Mega 2560 es de USD 45 + impuestos en Amazon
+ (Estados unidos).
+\end_layout
+
+\begin_layout Subsection
+MBED LPC1768
+\end_layout
+
+\begin_layout Standard
+El mbed NXP LPC1768 está diseñado para la creación de prototipos de todo
+ tipo de dispositivos, sobre todo las que incluyen Ethernet, USB y la flexibilid
+ad de un conjunto amplio de interfaces de periféricos y de una buena cantidad
+ de memoria FLASH.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename Placas Proyecto - Imagenes/LPC1768_enabled3.JPG.250x250_q85.jpg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Especificación Técnica
+\end_layout
+
+\begin_layout Standard
+A continuación se describen los componentes técnicos de la placa y microcontrola
+dor.
+\end_layout
+
+\begin_layout Itemize
+Microcontrolador: mbed NXP LPC1768[8] basado en el procesador ARM ® Cortex®-M3
+ [9] que se promociona como líder en la industria para aplicaciones en tiempo
+ real altamente deterministas, desarrollado específicamente para permitir
+ desarrollar plataformas de bajo costo y de alto rendimiento para una amplia
+ gama de dispositivos.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Velocidad de reloj: 96MHz
+\end_layout
+
+\begin_layout Itemize
+Arquitectura: El ARM Cortex-M3 es un microprocesador de 32 bits que ofrece
+ alto rendimiento y muy bajo consumo de energía.
+ Ofrece un conjunto de instrucciones Thumb-2 de baja latencia de interrupción,
+ división de hardware, múltiples instrucciones interrumpibles/continuables
+ de carga y almacenamiento, interrupciones con estado salvado y restaurado
+ automático.
+ Se emplean técnicas de canalización para que todas las partes de los sistemas
+ de procesamiento y de memoria pueden funcionar de forma continua.
+ La ARM Cortex-M3 incluye tres buses AHB-Lite:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Bus del sistema.
+\end_layout
+
+\begin_layout Enumerate
+Bus de I-código
+\end_layout
+
+\begin_layout Enumerate
+Bus D-código
+\end_layout
+
+\begin_layout Standard
+Los buses I-código y D-código centrales son más rápidos que el bus de sistema
+ y se utilizan teniendo un bus dedicado para la instrucción fetch (I-código)
+ y un bus para el acceso a datos (D-código).
+ El uso de dos buses de núcleo permite operaciones simultáneas si las operacione
+s concurrentes aplican a diferentes dispositivos.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Memoria: Cuenta con 512KB de memoria flash en el chip y un acelerador en
+ el puerto que maximiza la performance en el uso con los puertos rápidos
+ AHB-Lite.
+ El LPC1768 contiene un total de 64 kB RAM estática (SRAM), eso incluye
+ a la SRAM principal de 32 kB, accesible por la CPU y el controlador de
+ DMA en un bus de alta velocidad, y dos bloques de 16 KB de SRAM cada uno
+ situados en un puerto esclavo separado en la matriz multicapa AHB.
+ Esta arquitectura permite al CPU y DMA acceso separado sobre tres RAMs
+ diferentes que pueden acceder de forma simultánea.
+ También cuenta con 4KB de EEPROM.
+\end_layout
+
+\begin_layout Itemize
+WDT (Watchdog Timer): El módulo WDT presenta las siguientes características:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Modo de depuración.
+\end_layout
+
+\begin_layout Itemize
+Habilitado por software pero requiere un restablecimiento por hardware o
+ una interrupción específica para deshabilitarlo.
+\end_layout
+
+\begin_layout Itemize
+Una secuencia de alimentación incorrecta o incompleta provoca una interrupción
+ o restablecimiento si el WDT está activo.
+\end_layout
+
+\begin_layout Itemize
+Bandera para indicar un reinicio del watchdog.
+\end_layout
+
+\begin_layout Itemize
+Períodos de tiempo configurables.
+\end_layout
+
+\begin_layout Itemize
+El reloj del Watchdog (WDCLK) puede ser seleccionado de osciladores internos
+ (IRC), del oscilador de RTC, o del reloj periférico APB.
+ Esto da una amplia gama de posibles opciones de sincronización de la operación
+ watchdog en diferentes condiciones de reducción de potencia.
+ También proporciona la capacidad de ejecutar el WDT desde una fuente totalmente
+ interna que no depende de un cristal externo para una mayor fiabilidad.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Energía: La placa puede ser alimentada a través de una conexión USB o con
+ una fuente de alimentación externa, obteniendo 5V por la conexión USB y
+ soportando de 4.5V a 9V por medio de una fuente de alimentación externa.
+\end_layout
+
+\begin_layout Itemize
+Entrada y salida: La placa cuenta con 40 pines de 0.1 pulgadas.
+ El siguiente esquema muestra la distribución de los mismos junto con las
+ características particulares de cada uno.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename Placas Proyecto - Imagenes/LPC1768_pinout.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Como se puede ver en la imagen la placa cuenta con pines que presentan caracterí
+sticas particulares, es de interés mencionar los siguientes:
+\end_layout
+
+\begin_layout Itemize
+Entradas analógicas: la placa cuenta con 6 pines (p15-p20) para entradas
+ analógicas de 12 bits de resolución.
+\end_layout
+
+\begin_layout Itemize
+Serial: los pines 9, 10, 13, 14, 27, 28 se utilizan para recibir (RX) y
+ transmitir datos en serie (TX) TTL.
+\end_layout
+
+\begin_layout Itemize
+PWM: los pines comprendidos entre el rango p21-p26 proporcionan salidas
+ PWM.
+\end_layout
+
+\begin_layout Itemize
+SPI: los pines 5, 6, 7, 11, 12 y 13 soportan la comunicación SPI.
+\end_layout
+
+\begin_layout Itemize
+I2C: los pines 9, 10, 27 y 28 brindan soporte a la comunicación I
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+
+C.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Herramientas de desarrollo
+\end_layout
+
+\begin_layout Standard
+La companía mbed ofrece un conjunto de herramientas online para desarrolladores
+ que facilitan el uso y programación de sus productos.
+ En el sitio web [10] se encuentra información sobre cómo desarrollar utilizando
+ productos mbed así como también apoyo técnico de una comunidad que promueve
+ el trabajo en conjunto, pudiendo intercambiar código o respondiendo a preguntas
+ para brindar soluciones a problemas.
+ También se puede acceder a un entorno de desarrollo (IDE) online de C/C++
+ [11] que está diseñado para poder escribir programas, compilarlos y descargarlo
+s para ejecutarlos en el microcontrolador mbed de forma simple y ágil.
+ Cabe mencionar que también es posible escribir el código del programa en
+ un editor particular y generar el binario a ejecutar con GCC por ejemplo.
+\end_layout
+
+\begin_layout Subsubsection
+Acceso al producto
+\end_layout
+
+\begin_layout Standard
+El producto se puede adquirir a través de varios distribuidores recomendados
+ por el fabricante [12] y el precio es de USD 49.
+\end_layout
+
+\begin_layout Subsection
+USB IO BOARD
+\end_layout
+
+\begin_layout Standard
+Este es un producto de la serie ODROID de la empresa surcoreana Hardkernel,
+ dedicada al open hardware.
+ Según se indica en [13] es una placa de expansión de IO a USB que provee
+ interfaces GPIO, PWM, SPI, UART, I2C y ADC.
+ Utiliza el microcontrolador USB PIC18F45K50-QFN compatible con 3.3V/5V.
+ Incluye una cabecera de 28 pines que hacen que sea simple de conectar con
+ otra breadbord o circuito.
+ Tiene un bootloader para descargar/cargar el firmware.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename Placas Proyecto - Imagenes/USBIOBOARD.jpg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Especificación Técnica
+\end_layout
+
+\begin_layout Standard
+A continuación se describen los componentes técnicos de la placa y microcontrola
+dor.
+\end_layout
+
+\begin_layout Itemize
+Microcontrolador: PIC18F45K50-QFN de 8 bits de la empresa Microchip [14],
+ líderes del mercado de microcontroladores [15].
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Velocidad de reloj: Entre 31Khz y 48Mhz, configurable según necesidad.
+ Esta configuración tiene impacto en el consumo de energía.
+\end_layout
+
+\begin_layout Itemize
+Arquitectura: Microcontrolador de la familia PIC18 de 8 bits, arquitectura
+ Harvard modificada.
+ Las instrucciones tienen un largo de 16 bits, se puede ver el set de instruccio
+nes en [16].
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+77 Instrucciones divididas en 4 grupos:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+31 instrucciones orientadas a bytes que manipulan registros.
+\end_layout
+
+\begin_layout Itemize
+5 instrucciones orientadas a bits que manipulación registros.
+\end_layout
+
+\begin_layout Itemize
+23 instrucciones de control.
+\end_layout
+
+\begin_layout Itemize
+10 instrucciones que manipulan inmediatos.
+\end_layout
+
+\begin_layout Itemize
+8 instrucciones leer/escribir entre la memoria de datos y programa.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Hasta 12 MIPS de rendimiento a 48Mhz.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Memoria: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Memoria de programa: 32KB Flash.
+\end_layout
+
+\begin_layout Itemize
+Memoria de datos: 2KB SRAM y 256 bytes EEPROM.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+WDT (Watchdog Timer): El módulo WDT presenta las siguientes características:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Impulsado por el oscilador interno INTRC (31 Khz)
+\end_layout
+
+\begin_layout Itemize
+Período nominal de 4ms.
+\end_layout
+
+\begin_layout Itemize
+Utilizando un postscaler cuyas salidas pueden ser seleccionadas por un multiplex
+or el período puede ser configurado entre 4ms y 131,072s (2,18m).
+\end_layout
+
+\begin_layout Itemize
+El WDT y el postscaler serán restablecidos durante estos eventos:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Se ejecuta la instrucción SLEEP.
+\end_layout
+
+\begin_layout Itemize
+Se ejecuta la instrucción CLRWDT.
+\end_layout
+
+\begin_layout Itemize
+Los bits IRCF del registro OSCCON son cambiados.
+\end_layout
+
+\begin_layout Itemize
+Ha ocurrido una falla de reloj.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Diagrama de bloques del WDT [14]:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename Placas Proyecto - Imagenes/USBIOBOARD_WDT.PNG
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Energía: La placa puede ser alimentada a través de una conexión USB o con
+ una fuente de alimentación externa, el rango de operación es entre 3.3V
+ y 5V.
+ El microcontrolador posee varias opciones para la gestión de la energía,
+ esto permite su funcionamiento con un consumo de energía extremadamente
+ bajo.
+\end_layout
+
+\begin_layout Itemize
+Entrada y salida: La placa cuenta con 2 cabeceras de 14 pines cada una,
+ adicionalmente cuenta con una cabecera de 5 pines que puede ser utilizada
+ para debug o actualización del boot loader, todos los pins son de 0,1 pulgadas.
+ El siguiente esquema muestra la distribución de los mismos:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename Placas Proyecto - Imagenes/USBIOBOARD_pinout.png
+	scale 50
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Como se puede ver en la imagen la placa cuenta con pines que presentan caracterí
+sticas particulares, es de interés mencionar los siguientes:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Entradas/Salidas digitales: Todos los pines menos VDD, GND y 3V3.
+\end_layout
+
+\begin_layout Itemize
+Entradas analógicas: 25 canales (AN01 - AN25).
+\end_layout
+
+\begin_layout Itemize
+Salidas analógicas: Cuenta con un módulo DAC con 32 niveles de voltaje de
+ salida seleccionables dependiendo de la configuración de los bits DACR<4:0>
+ del registro VREFCON2.
+ La fórmula para determinar el voltaje de salida se puede ver en la sección
+ 23.0 de [14].
+\end_layout
+
+\begin_layout Itemize
+Serial: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Asíncrona/Síncrona (módulo EUSART): Los pines RX/DT y TX/CK se utilizan
+ para recibir y transmitir datos en serie.
+\end_layout
+
+\begin_layout Itemize
+Sólo Síncrona (módulo MSSP): 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+SPI: utilizando los pines SDO, SDI y SCK.
+\end_layout
+
+\begin_layout Itemize
+I2C: utilizando los pines SDA y SCL.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+PWM: Pins P1B, P1C, P1D, FLT0, CCP2.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Herramientas de desarrollo
+\end_layout
+
+\begin_layout Standard
+Microchip provee un cross compiler para este PIC en [18] así como el IDE
+ de desarrollo MPLAB X en [19].
+ Adicionalmente en [13], la wiki de la placa, se encuentran ejemplos de
+ firmware y de como actualizarlo.
+ En el foro de ODROID para este producto, [21], se puede encontrar bastante
+ referencia con respecto a cómo interactuar con la placa, se proveen muchos
+ ejemplos y código para acceder a la placa tanto en C como en Python.
+\end_layout
+
+\begin_layout Subsubsection
+Acceso al producto
+\end_layout
+
+\begin_layout Standard
+Es posible comprar esta placa en la tienda de ODROID o en la tienda AmeriDroid
+ a un precio de USD 15 [19] y [20].
+\end_layout
+
+\begin_layout Subsection
+FRDM-K64F
+\end_layout
+
+\begin_layout Standard
+La placa FROM-K64F [22] ha sido diseñado por Freescale en colaboración con
+ mbed para prototipos de todo tipo dispositivos.
+ Se basa en el Freescale K64F, con un núcleo ARM Cortex-M4F de 32 bits que
+ funciona a 120MHz de frecuencia.
+ Incluye 1MB de memoria FLASH, 256 KB de RAM y varias interfaces como ser
+ Ethernet, SPI, I2C, ADC, DAC, PWM, UART.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename Placas Proyecto - Imagenes/FRDM-K64F_400x300_WO6GnVU.png.250x250_q85.jpg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Especificación técnica
+\end_layout
+
+\begin_layout Standard
+A continuación se describen los componentes técnicos de la placa y microcontrola
+dor.
+\end_layout
+
+\begin_layout Itemize
+Microcontrolador: Freescale K64F Kinetis K64 MCU[23] basado en el proces
+ ador ARM® Cortex™-M4 [24] diseñado para procesar señales con gran eficiencia
+ y bajo consumo de energía.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Velocidad del reloj: 120MHz.
+\end_layout
+
+\begin_layout Itemize
+Arquitectura: El ARM® Cortex®-M4 es uno de los miembros más reciente de
+ procesadores de la serie Cortex-M de ARM dirigidos a núcleos microprocesadores
+ basados en bajo costo, ambientes con impulsados por interrupciones, determinist
+as.
+ El procesador Cortex M4 se basa en la arquitectura ARMv7 y Thumb®-2 ISA
+ y es compatible con las arquitecturas de Cortex M3, Cortex M1 y Cortex
+ M0; proporciona instrucciones de 32 bits con SIMD (single instruction multiple
+ data) estilo DSP.
+\end_layout
+
+\begin_layout Itemize
+Memoria: Cuenta con 1MB de memoria flash en el chip y 256 KB RAM estática
+ (SRAM).
+ De EEPROM 32KB.
+\end_layout
+
+\begin_layout Itemize
+WDT (Watchdog Timer): Cuenta con un monitor externo de Watchdog (EMW) y
+ un componente de software para el módulo con los siguientes modos de operación:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Modo de Parada: Cuando el componente funciona en este modo y los servicios
+ del CPU no invocan al componente EMW.
+ Al entrar al modo de Parada se congelan los contadores del EMW y las únicas
+ formas posibles de salir de dicho modos son, restableciendo el sistema
+ o generando una interrupción.
+\end_layout
+
+\begin_layout Itemize
+Modo espera: Se genera una interrupción que es manejada por el propio componente
+ que podrá esperar por otros módulos.
+ Modo debug.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Energía: La placa puede ser alimentada a través de una conexión USB o con
+ una fuente de alimentación externa, obteniendo 5V por la conexión USB y
+ soportando de 4.5V a 9V por medio de una fuente de alimentación externa.
+ La salida VOUT a los periféricos de energía es regulada a 3.3v y los pines
+ de entrada/salida digitales son de 3.3v y 4mA cada uno.
+\end_layout
+
+\begin_layout Itemize
+Entrada y salida: La placa cuenta con 86 pines de 0.1 pulgadas.
+ Los siguientes esquemas muestran la distribución de los mismos junto con
+ las características particulares de cada uno.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename Placas Proyecto - Imagenes/frdm_k64f_reve4_header_pinout.jpg
+	scale 40
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename Placas Proyecto - Imagenes/frdm-k64f_peripherals.png
+	scale 30
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Como se puede ver en la imagen la placa cuenta con pines que presentan caracterí
+sticas particulares, es de interés mencionar los siguientes:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Entradas analógicas: la placa cuenta con 6 pines (PTB2, PTB3, PTB10, PTB11,
+ PTC10, PTC11) para entradas analógicas de 12 bits de resolución.
+\end_layout
+
+\begin_layout Itemize
+Serial: los pines comprendidos entre PTC14-PTC17 se utilizan para recibir
+ (RX) y transmitir datos en serie (TX) TTL.
+\end_layout
+
+\begin_layout Itemize
+PWM: los pines {PTC10, PTC11, PTD0, PTD1, PTD2, PTD3, PTC0, PTC2, PTC3,
+ PTC4, PTA1, PTA2} proporcionan salidas PWM.
+\end_layout
+
+\begin_layout Itemize
+SPI: los pines comprendidos entre PTD1-PTD3 soportan la comunicación SPI.
+\end_layout
+
+\begin_layout Itemize
+I
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+
+C: los pines PTE24 y PTE25 brindan soporte a la comunicación I
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+
+C.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Herramientas de desarrollo
+\end_layout
+
+\begin_layout Standard
+Dado que esta placa es un producto habilitado por mbed goza del HDK y SDK
+ proporcionado por la compañía ya descrito en la sección 4.2.2 de este documento.
+\end_layout
+
+\begin_layout Subsubsection
+Acceso al producto
+\end_layout
+
+\begin_layout Standard
+El producto se puede adquirir a través de distribuidores [25] que facilitan
+ el acceso desde Uruguay y el precio es de USD 58 más impuestos.
+\end_layout
+
+\begin_layout Subsection
+LeoLivre
+\end_layout
+
+\begin_layout Standard
+La placa LeoLivre 1.2 fue concebida para ser utilizada en el ámbito de la
+ robótica educacional y se diseñó tomando como inspiración tres placas preexiste
+ntes, la Arduino Leonardo [26], la USB4Butia [27] y la vinciDuino [28].
+ Es una placa de dimensiones pequeñas que posee grandes funcionalidades
+ con la cual es posible explorar el mundo de la robótica.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename Placas Proyecto - Imagenes/LeoLivre.PNG
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Especificación técnica
+\end_layout
+
+\begin_layout Standard
+Al construir la LeoLivre se tomó de la Arduino Leonardo su microcontrolador
+ y de la USB4Butía la conexión con periféricos vía RJ45.
+ A continuación se describen los componentes técnicos de la placa y microcontrol
+ador.
+\end_layout
+
+\begin_layout Itemize
+Microcontrolador: Microcontrolador de 8 bits ATmega32u4 de la empresa Atmel
+ [29].
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Velocidad del reloj: 16 MHz.
+\end_layout
+
+\begin_layout Itemize
+Arquitectura: Harvard modificada RISC de 8 bits.
+ Cuenta con un set de 135 instrucciones, la mayoría ejecuta en un único
+ ciclo de reloj.
+\end_layout
+
+\begin_layout Itemize
+Memoria:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Memoria de programa: 32KB Flash.
+\end_layout
+
+\begin_layout Itemize
+Memoria de datos: 2.5KB SRAM y 1024 bytes EEPROM.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+WDT (Watchdog Timer): El módulo WDT presenta las siguientes características:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Impulsado por un oscilador independiente de 128 Khz.
+\end_layout
+
+\begin_layout Itemize
+Timeout configurable dentro del rango de los 16ms y los 8s.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Energía: La placa puede ser alimentada a través de una conexión USB o con
+ una fuente de alimentación externa, el rango de operación es entre 2.7V
+ y 5.5V.
+\end_layout
+
+\begin_layout Itemize
+Entrada y salida: La placa cuenta con 20 pines digitales y 6 pines de comunicaci
+ón analógica y 4 conectores RJ45 para comunicación instantánea con periféricos
+ que son reconocidos reconocidos rápidamente por la IDE.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename Placas Proyecto - Imagenes/LeoLivre_pinout.PNG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Entradas analógicas: 6 canales de 10bits.
+\end_layout
+
+\begin_layout Itemize
+Serial: Cuenta con un puerto de comunicación serial.
+\end_layout
+
+\begin_layout Itemize
+SPI: Cuenta con bus SPI.
+\end_layout
+
+\begin_layout Itemize
+PWM: 7 de los pines digitales pueden ser utilizados para PWM.
+\end_layout
+
+\begin_layout Itemize
+I
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+
+C: Cuenta con 1 bus I
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+
+C.
+\end_layout
+
+\begin_layout Itemize
+JTAG: Tiene este bus para debug.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Herramientas de desarrollo
+\end_layout
+
+\begin_layout Standard
+Dado que esta placa es un producto híbrido cuyas principales inspiraciones
+ son la Arduino Leonardo y la USB4Butia es posible desarrollar en ella utilizand
+o el Eclipse, Arduino IDE y turtlebots [30].
+ Es posible desarrollar en C/C++ y compilar con avr-gcc.
+\end_layout
+
+\begin_layout Subsubsection
+Acceso al producto
+\end_layout
+
+\begin_layout Standard
+La placa debe ser construida ya que es un proyecto abierto, los componentes
+ tienen un precio accesible y se consiguen en el mercado.
+ Se estima que su costo de construcción ronda los US$20.
+\end_layout
+
+\begin_layout Subsection
+USB4Butía
+\end_layout
+
+\begin_layout Standard
+Es una interfaz de entrada/salida USB, derivada de la USB4All, y está especializ
+ada en el uso con el robot butiá 2.0 intentando simplificar su uso y aumentar
+ su capacidad sensorial, además de actuar de manera robusta.
+ Se busca que el diseño de la placa sea abierto y que la construcción pueda
+ ser realizada manualmente.
+ Permitiendo así su accesibilidad.
+ [31] Su objetivos principales es ser económica, con componentes de facil
+ acceso en el mercado local.
+ También tener puertos conectores para dispositivos que soporten plug and
+ play, bus para motors AX12, PWM para manejar de servomotores y pines para
+ acceder al bajo nivel [32].
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename Placas Proyecto - Imagenes/USB4butia.png.jpg
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Especificación Técnica
+\end_layout
+
+\begin_layout Standard
+A continuación se describen los componentes técnicos de la placa y microcontrola
+dor.
+\end_layout
+
+\begin_layout Itemize
+Microcontrolador: Microcontrolador de 8 bit PIC18F4550 de la empresa Microchip
+ [33].
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Velocidad del reloj: 48 MHz
+\end_layout
+
+\begin_layout Itemize
+Arquitectura: Arquitectura RISC avanzada Harvard de 8 bits.
+ Tiene un set de 77 instrucciones.
+ 
+\end_layout
+
+\begin_layout Itemize
+Memoria:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Memoria de programa: 32KB Flash
+\end_layout
+
+\begin_layout Itemize
+Memoria de datos: 2KB SRAM y 256 bytes EEPROM.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+WDT (Watchdog Timer): Presenta la siguientes características:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Timeout configurable dentro del rango de los 41ms y los 131s.
+\end_layout
+
+\begin_layout Itemize
+Impulsado por un oscilador interno y compartido de 31 Khz.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Energía: Puede ser alimentada a través del conector USB B y puede operar
+ entre 2v a 5.5v.
+\end_layout
+
+\begin_layout Itemize
+Entrada y salida: La placa cuenta con 6 puertos RJ45 de entrada salida para
+ conectar sensores y actuadores analogicos.
+ Por otro lado cuenta con 8 pines digitales de entrada/salida para uso general.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Serial: Cuenta con un puerto de comunicación serial.
+\end_layout
+
+\begin_layout Itemize
+SPI: Cuenta con bus SPI.
+\end_layout
+
+\begin_layout Itemize
+PWM: Tiene 2 modulos, uno de ellos mejorado.
+\end_layout
+
+\begin_layout Itemize
+I
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+
+C: Cuenta con 1 bus I
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+
+C.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Herramientas de desarrollo
+\end_layout
+
+\begin_layout Standard
+Es posible desarrollar en ella utilizando el Eclipse como IDE y turtlebots.
+\end_layout
+
+\begin_layout Subsubsection
+Acceso al producto
+\end_layout
+
+\begin_layout Standard
+La placas se construye manualmente porque es un proyecto abierto.
+ Se propone un diseño de la misma, pero solo a modo de sugerencia.
+ Los componentes se encuentran en el mercado local y son económicos.
+ El costo de todos los componentes necesarios ronda los US$15.
+\end_layout
+
+\begin_layout Subsection
+ODROID-SHOW
+\end_layout
+
+\begin_layout Standard
+Otro producto de la serie ODROID de la empresa surcoreana Hardkernel, dedicada
+ al open hardware.
+ Según se indica en [35] es una placa compatible con Arduino cuyo propósito
+ principal es mostrar información sobre el estado interno, de una PC o SBC
+ a la que esté conectada vía USB, y para esto cuenta con una pantalla TFT
+ LCD de 2.2”.
+ De todas formas ofrece posibilidades de extensión proveyendo interfaz GPIO,
+ I2C y ADC.
+ Diseñada, considerando sus dimensiones, para ser apilada sobre la ODROID
+ U3 utiliza el microcontrolador ATmega328 compatible con 3.7V/5.5V.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename Placas Proyecto - Imagenes/ODROIDSHOW.jpg
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Especificación Técnica
+\end_layout
+
+\begin_layout Standard
+A continuación se describen los componentes técnicos de la placa y microcontrola
+dor extraída de [35] y [37].
+\end_layout
+
+\begin_layout Itemize
+Microcontrolador: Microcontrolador de 8 bits ATmega328 de la empresa ATMel
+ [36].
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Velocidad de reloj: Hasta 20 MHz.
+\end_layout
+
+\begin_layout Itemize
+Arquitectura: Harvard modificada RISC de 8 bits.
+ Cuenta con un set de 131 instrucciones, la mayoría ejecuta en un único
+ ciclo de reloj.
+\end_layout
+
+\begin_layout Itemize
+Memoria: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Memoria de programa: 32KB Flash.
+\end_layout
+
+\begin_layout Itemize
+Memoria de datos: 2KB SRAM y 1024 bytes EEPROM.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+WDT (Watchdog Timer): El módulo WDT presenta las siguientes características:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Impulsado por un oscilador independiente de 128 Khz.
+\end_layout
+
+\begin_layout Itemize
+Período nominal de 16ms.
+\end_layout
+
+\begin_layout Itemize
+Puede ser configurado entre 16ms y 8s.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Energía: La placa puede ser alimentada a través de una conexión USB o con
+ una fuente de alimentación externa, el rango de operación es entre 3.7V
+ y 5.5V.
+\end_layout
+
+\begin_layout Itemize
+Entrada y salida: La placa cuenta con 1 cabeceras de 6 pines para IO:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename Placas Proyecto - Imagenes/ODROIDSHOW_boarddetail.jpg
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Entradas/Salidas digitales: Todos los 6 pines.
+\end_layout
+
+\begin_layout Itemize
+Entradas analógicas: Los canales ADC5, ADC4 y ADC6 que se observan en el
+ esquema [38].
+\end_layout
+
+\begin_layout Itemize
+Serial: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Asíncrona/Síncrona: NO.
+ Si bien el microcontrolador posee un módulo USART este está ocupado en
+ la placa para comunicarse con el chip CP2104 que provee conversión UART
+ a USB para conectarse con la PC o placa host (el microcontrolador no posee
+ tiene interfaz USB).
+\end_layout
+
+\begin_layout Itemize
+Sólo Síncrona: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+SPI: NO.
+ Si bien el microcontrolador provee SPI este está ocupado en la placa para
+ con la pantalla TFT LCD.
+\end_layout
+
+\begin_layout Itemize
+I
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+
+C: Los puertos PC4 y PC5 que se observan en [38] se utilizan como pines
+ SDA y SCL respectivamente.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+PWM: NO.
+ Si bien el microcontrolador posee 6 canales PWM, los puertos PB3-PB1; PD6-PD5
+ y PD3 que se observan en [38], estos no se exponen en los 6 puertos de
+ IO o estan conectados a la pantalla LCD, esto último también es visible
+ en [38] así como en el diagrama de bloques a continuación extraído de [39].
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename Placas Proyecto - Imagenes/ODROIDSHOW_block.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Herramientas de desarrollo
+\end_layout
+
+\begin_layout Standard
+Dado que esta placa es un producto compatible con Arduino Leonardo es posible
+ desarrollar en ella utilizando el Arduino IDE.
+ Es posible desarrollar en C/C++ y compilar con avr-gcc.
+ En el foro de ODROID, para este producto [40], se puede encontrar bastante
+ referencia con respecto a cómo interactuar con la placa y se proveen ejemplos
+ en Python.
+\end_layout
+
+\begin_layout Subsubsection
+Acceso al producto
+\end_layout
+
+\begin_layout Standard
+Es posible comprar esta placa en la tienda de ODROID o en la tienda AmeriDroid
+ a un precio de USD 25 [41].
+\end_layout
+
+\begin_layout Subsection
+Conclusiones
+\end_layout
+
+\begin_layout Standard
+Comenzaremos las conclusiones presentando una tabla donde se muestra, para
+ cada placa, si cumple o no con los requerimientos planteados en la introducción
+ a este documento.
+ Luego, haremos mención de aquellas placas que tengan alguna característica
+ notable que valga destacar.
+ Por último, se presenta una conclusión respecto de cuál es la placa que
+ a nuestro juicio se debería usar en este proyecto.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Placa
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cumple con los requisitos?
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Arduino Mega
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SI
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MBED LPC1768
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SI
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+USB IO BOARD
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SI
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FRDM-K64F
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SI
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LeoLivre
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SI
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+USB4Butía
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SI
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ODROID-SHOW
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+NO
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Salvo las placas mbed, en general las vistas poseen características similares,
+ diferenciándose sobre todo en aspectos que no parecen relevantes para este
+ proyecto.
+ A continuación se describen características que consideramos destacables
+ de algunas de las placas.
+\end_layout
+
+\begin_layout Standard
+Con respecto a la placa USB4Butiá se destaca el gran conocimiento acumulado
+ del grupo MINA ya fué creada por miembros de dicho grupo y se le ha dado
+ una gran variedad de usos en distintos proyectos.
+ Igualmente tiene una notoria limitante en cuanto a su hardware, debido
+ a una capacidad de procesamiento y de almacenamiento acotado.
+\end_layout
+
+\begin_layout Standard
+La placa Leo Livre tiene características similares a la USB4Butiá y la Arduino
+ Leonardo, y si bien la capacidad de su hardware no es de las mejores al
+ compararla con otras (e.g.: mbed) puede ser una buena opción.
+ Se destacan sus buenas capacidades de extensión ya que cuenta con un alto
+ número de pines y varios conectores RJ45.
+ La principal desventaja que encontramos es que, pese a tratarse de un proyecto
+ de hardware libre, no parece tener una comunidad pujante detrás como para
+ encontrar referencia y apoyo al utilizarla.
+ Además, la información disponible sobre la misma es escasa.
+\end_layout
+
+\begin_layout Standard
+Si bien la placa ODROID-SHOW no cumple con los requerimientos puede ser
+ una adición interesante al proyecto, en la etapa de desarrollo para facilitar
+ el debug haciendo que esta despliegue el estado de las placas (SBC y/o
+ entrada/salida) y en etapas posteriores como herramienta para diagnóstico.
+\end_layout
+
+\begin_layout Standard
+Las placas mbed claramente son las más potentes en cuanto a características
+ de hardware, estando por encima del resto en capacidad de procesamiento,
+ memoria y componentes de entrada/salida.
+ Otras de las cosas que vale la pena mencionar son las facilidades de desarrollo
+ que proporciona la compañía contando con herramientas para el desarrollo
+ propiamente como también compartiendo información y brindando soporte mediante
+ un sitio web para desarrolladores.
+ Considerando las facilidades de acceso y en particular el precio, no existen
+ mayores diferencias entre las características de las placas analizadas
+ por lo que no es un factor determinante en la elección de la placa que
+ resulta más conveniente para el desarrollo del proyecto.
+ Finalmente, consideramos la placa mbed FRDM-K64F proporciona las mejores
+ características de hardware y facilidades al desarrollo frente al resto
+ de las placas analizadas.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage pagebreak
 \end_inset
