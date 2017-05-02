@@ -3,7 +3,7 @@
 using namespace mbed;
 using namespace modules;
 
-#define VERSION "2.9"
+#define VERSION "3.1"
 
 Dm3 *dm3;
 
@@ -12,10 +12,12 @@ extern "C" void mbed_reset();
 //extern "C" Ticker ticker_pot;
 extern "C" Ticker ticker_msg_rate;
 
+char i2cwfailure_str[] = "I2CWRITEFAILURE";
+
 #define MSG_RATE 1.0
 
 #define NUMBER_CHASIS 2
-#define MOTORS_PER_CHASIS 2 
+#define MOTORS_PER_CHASIS 2
 #define NUMBER_MOTORS (NUMBER_CHASIS*MOTORS_PER_CHASIS)
 
 float calibration[3][2] = {{0.492, -0.87}, {0.715, 0}, {0.949, 0.7}};
@@ -24,12 +26,13 @@ float d_p = 0.81/0.88; //width / length TODO
 #define MODE_SETVEL 0
 #define MODE_SETANGLE 1
 #define MODE_RAW 2
-int control_mode = MODE_SETVEL;
+#define MODE_TWIST 3
+int control_mode = MODE_TWIST;
 
 #define UNSENSORED_CONTROLLER_TYPE 0
-#define PID_CONTROLLER_TYPE 1	
-#define PP_CONTROLLER_TYPE 2	
-int controller_type = UNSENSORED_CONTROLLER_TYPE;
+#define PID_CONTROLLER_TYPE 1
+#define PP_CONTROLLER_TYPE 2
+int controller_type = PP_CONTROLLER_TYPE;
 
 uint8_t chasis_msg_dirty[] = {0, 0};
 float vels_target[2][2] = {{0.0,0.0}, {0.0,0.0}}; //velocidad deseada
@@ -64,7 +67,7 @@ Mutex dirty_target_vel_mutex;
 
 //AnalogIn halls[NUMBER_CHASIS][MOTORS_PER_CHASIS] = {{ENCODER0_IN, ENCODER1_IN}, {ENCODER2_IN, ENCODER3_IN}};
 
-/* halls pooling 
+/* halls pooling
 AnalogIn halls0(ENCODER0_IN);
 AnalogIn halls1(ENCODER1_IN);
 AnalogIn halls2(ENCODER2_IN);
@@ -85,13 +88,15 @@ DigitalIn halls[NUMBER_CHASIS][MOTORS_PER_CHASIS] = {{halls0, halls1}, {halls2, 
 
 int hall_sensor_state[NUMBER_CHASIS][MOTORS_PER_CHASIS] = {{HALL_OFF,HALL_OFF}, {HALL_OFF,HALL_OFF}};
 Timer time_hall[NUMBER_CHASIS][MOTORS_PER_CHASIS];
-#define ALPHA 1.0
+#define ALPHA 1
 #define WIN_LEN 10
 #define MAX_VEL 5.0 // metros por segundo
 #define MIN_VEL 0.1 // metros por segundo
 
 #define MAX_POW 100.0
 #define MIN_POW 20.0
+#define MIN_POW_MOVE 28.0
+
 
 float vel_win[NUMBER_CHASIS][MOTORS_PER_CHASIS][WIN_LEN];
 int motor_stop[NUMBER_CHASIS][MOTORS_PER_CHASIS]={{1, 1}, {1, 1}};
@@ -122,6 +127,7 @@ float lineal_X = (18.0*2*M_PI*RADIO_RUEDA)/360.0; // X para regla de 3 de veloci
 
 #define STRING_BUFF_SIZE 40
 char stringbuff[STRING_BUFF_SIZE];
+
 
 PIDModule pidModules[NUMBER_CHASIS][MOTORS_PER_CHASIS];
 
@@ -165,7 +171,7 @@ float pot_angle_calibrator ( float x ) {
 float median(int n, float x[]) {
     float temp;
     int i, j;
-    // los siguientes dos loops ordenan en orden ascendente 
+    // los siguientes dos loops ordenan en orden ascendente
     for(i=0; i<n-1; i++) {
         for(j=i+1; j<n; j++) {
             if(x[j] < x[i]) {
@@ -193,25 +199,25 @@ float median(int n, float x[]) {
 		prom = prom + x[i];
 		cant_sumas ++;
 	}
-    
-    
+
+
 
 	return prom/(float)cant_sumas;
  }
 
 void compute_actuals_vels(int chasis, int motor) {
 	long time_elapsed = time_hall[chasis][motor].read_ms();
-	float current_vel = time2vel(time_elapsed);	
+	float current_vel = time2vel(time_elapsed);
 	if (current_vel < MIN_VEL){
 		//vel_win[chasis][motor][(cursor_vel_win[chasis][motor])] = 0;
         //cursor_vel_win[chasis][motor] = (cursor_vel_win[chasis][motor] + 1)%WIN_LEN;
         zero_vel_win(chasis, motor);
 		vels_lineal_actual[chasis][motor] = 0;
-		motor_stop[chasis][motor] = 1; 
-		//motor_stop[chasis][iter_motor] = 1; 
+		motor_stop[chasis][motor] = 1;
+		//motor_stop[chasis][iter_motor] = 1;
 	} else
-		vels_lineal_actual[chasis][motor] = median(WIN_LEN, vel_win[chasis][motor]);	 
-	
+		vels_lineal_actual[chasis][motor] = median(WIN_LEN, vel_win[chasis][motor]);
+
 	//strncpy(msg_debug, "cav proc!", sizeof(msg_debug));
 	//snprintf(msg_debug, sizeof(msg_debug), "%s", "cav proc!");
     //report_debug(msg_debug, strlen(msg_debug));
@@ -251,7 +257,6 @@ void report_set_pid_parameters(float kp, float ki, float kd) {
 }
 
 void report_power(int chasis) {
-	//char i2cwfailure_str[] = "I2CWRITEFAILURE";
 	//if (chasis_msg_dirty[chasis]==1 ) {
 		chasis_msg_dirty[chasis]=0;
 		if (i2cerror == true) {
@@ -280,7 +285,7 @@ void zero_vel_win(int chasis, int motor) {
 	memset(vel_win[chasis][motor], 0, sizeof(vel_win[chasis][motor]));
 	//for (int iter_win = 0; iter_win < WIN_LEN; iter_win ++)
 	//	vel_win[chasis][motor][iter_win] = 0;
-	//char * msg = "ZERO_VELS proc!"; 
+	//char * msg = "ZERO_VELS proc!";
 	//report_debug(msg, strlen(msg));
 	//snprintf(msg_debug, sizeof(msg_debug), "%s", "ZERO_VELS proc!");
 	//report_debug(msg_debug, strlen(msg_debug));
@@ -308,7 +313,7 @@ int set_motors_power(int chasis, int motor, float power) {
 	} else {
 		expected_pows[chasis][motor] = 0;
 		last_expected_pows[chasis][motor] = 0;
-	}	
+	}
 		// FIX: podría hacerse algo mas con las potencias cuando hay error?
 
 	return i2cerror;
@@ -335,6 +340,26 @@ void compute_motors(unsigned int chasis, float fangle_local) {
 */
 	vels_target[chasis][0] = out_l;
 	vels_target[chasis][1] = out_r;
+}
+
+void compute_motors_vel_twist(unsigned int chasis, float control_modulo, float fangle_local) {
+	float new_vels_target[MOTORS_PER_CHASIS];
+	new_vels_target[0] = control_modulo - P_MITAD_ANCHO * fangle_local;
+	new_vels_target[1] = control_modulo + P_MITAD_ANCHO * fangle_local;
+
+	// elimina oscilaciones en el arranque ... extender a otros controladores
+	for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor ++){
+		if (vels_target[chasis][iter_motor]==0) {
+			if (new_vels_target[iter_motor] > 0)
+				last_expected_pows[chasis][iter_motor] = MIN_POW_MOVE;
+			else if (new_vels_target[iter_motor] < 0)
+				last_expected_pows[chasis][iter_motor] = -MIN_POW_MOVE;
+		}
+
+		vels_target[chasis][iter_motor] = new_vels_target[iter_motor];
+
+	}
+
 }
 
 //pancho ecuations
@@ -384,7 +409,7 @@ void pid_controller() {
 			// rampa de velocidad con aceleracion maxima
 			if (vels_target_int[iter_chasis][iter_motor] >= vels_target[iter_chasis][iter_motor])
 				vels_target_int[iter_chasis][iter_motor] = vels_target[iter_chasis][iter_motor];
-			else 
+			else
 				vels_target_int[iter_chasis][iter_motor] = MAX_ACC * UPDATE_FREQ_CONTROLLER_ON_MS/1000 + vels_target_int[iter_chasis][iter_motor];
 
 			expected_pows[iter_chasis][iter_motor] = pidModules[iter_chasis][iter_motor].compute(vels_lineal_actual[iter_chasis][iter_motor], vels_target_int[iter_chasis][iter_motor]);
@@ -398,12 +423,14 @@ void pid_controller() {
 		}
 }
 
-float sign(float x) {	
+float sign(float x) {
     return (x >= 0) - (x < 0);
 }
 
 // proportional power controller
 void pp_controller() {
+	//snprintf(msg_debug, sizeof(msg_debug), "Version:%s.", VERSION);
+    //report_debug(msg_debug, strlen(msg_debug));
 	float vel_error;
 	for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS; iter_chasis ++)
 		for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor ++) {
@@ -414,13 +441,13 @@ void pp_controller() {
 				if (vels_target_int[iter_chasis][iter_motor] >= vels_target[iter_chasis][iter_motor]) {
 					vels_target_int[iter_chasis][iter_motor] = vels_target[iter_chasis][iter_motor];
 					acc_state [iter_chasis][iter_motor] = NEUTRAL_STATE;
-				} else 
+				} else
 					vels_target_int[iter_chasis][iter_motor] = MAX_ACC * UPDATE_FREQ_CONTROLLER_ON_MS/1000 + vels_target_int[iter_chasis][iter_motor];
 			} else if (acc_state[iter_chasis][iter_motor] == DE_ACC_STATE) {
 				if (vels_target_int[iter_chasis][iter_motor] <= vels_target[iter_chasis][iter_motor]) {
 					vels_target_int[iter_chasis][iter_motor] = vels_target[iter_chasis][iter_motor];
 					acc_state [iter_chasis][iter_motor] = NEUTRAL_STATE;
-				} else 
+				} else
 					vels_target_int[iter_chasis][iter_motor] = -MAX_ACC * UPDATE_FREQ_CONTROLLER_ON_MS/1000 + vels_target_int[iter_chasis][iter_motor];
 			}
 */
@@ -428,7 +455,7 @@ void pp_controller() {
 			vel_error = vels_target[iter_chasis][iter_motor] - vels_lineal_actual[iter_chasis][iter_motor];
 			//FIXME: determinar signo con los halls
 			expected_pows[iter_chasis][iter_motor] = last_expected_pows[iter_chasis][iter_motor] + ALPHA * vel_error;
-			if (vels_target[iter_chasis][iter_motor]==0 && vel_error==0)
+			if (vels_target[iter_chasis][iter_motor]==0) //mientras las ruedas no puedan frenar
 				expected_pows[iter_chasis][iter_motor] = 0;
 			else if (vels_target[iter_chasis][iter_motor]>=0 && expected_pows[iter_chasis][iter_motor]<=0) //capaz no va
 				expected_pows[iter_chasis][iter_motor] = 0;
@@ -436,7 +463,7 @@ void pp_controller() {
 				expected_pows[iter_chasis][iter_motor] = MAX_POW;
 			else if(expected_pows[iter_chasis][iter_motor] < -MAX_POW)
 				expected_pows[iter_chasis][iter_motor] = -MAX_POW;
-			
+
 			//if(iter_chasis == 0 && iter_motor == 0){
 				//snprintf(msg_debug, sizeof(msg_debug), "pid ver-%s %f %f %f input: %f setPoint: %f", VERSION, pidModules[iter_chasis][iter_motor].getITerm(), pidModules[iter_chasis][iter_motor].getError(), pidModules[iter_chasis][iter_motor].getDInput(),pidModules[iter_chasis][iter_motor].getInputDeb(),pidModules[iter_chasis][iter_motor].getSetPointDeb());//expected_pows[iter_chasis][iter_motor], vels_lineal_actual[iter_chasis][iter_motor]);
     			//snprintf(msg_debug, sizeof(msg_debug), "pid ver-%s state: %i", VERSION, acc_state [iter_chasis][iter_motor]);
@@ -454,10 +481,10 @@ void flip_msg() {
 static int handle_set_target_vel(unsigned int  pid, unsigned int  opcode) {
 	//mcc.send_message(pid, OPCODE_PING, data, data_length);
 	if (mcc.incomming_params_count!=2) return -1;
-	if (control_mode!=MODE_SETVEL && control_mode!=MODE_SETANGLE) return -2;
+	if (control_mode!=MODE_SETVEL && control_mode!=MODE_SETANGLE && control_mode!=MODE_TWIST) return -2;
 
 	new_target_vel = true;
-	
+
 	memcpy(stringbuff, mcc.incomming_params_s[0], mcc.incomming_params_n[0]);
 	stringbuff[mcc.incomming_params_n[0]] = 0;
 	control_modulo = atof(stringbuff);
@@ -471,18 +498,24 @@ static int handle_set_target_vel(unsigned int  pid, unsigned int  opcode) {
     	compute_motors(1, pot_angle-control_angle);
 	} else if (control_mode == MODE_SETANGLE) {
 		compute_motors_angle(control_angle, pot_angle);
+	} else if (control_mode == MODE_TWIST) {
+		compute_motors_vel_twist(0, control_modulo, control_angle);
+	} else {
+		snprintf(msg_debug, sizeof(msg_debug), "ERROR: Set control mode to %i .", control_mode);
+		report_debug(msg_debug, strlen(msg_debug));
 	}
+
 	/*
 	if(controller_type == PID_CONTROLLER_TYPE){
 		for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS; iter_chasis ++) {
 			for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor ++)	{
 				pidModules[iter_chasis][iter_motor].new_set_vel();
 			}
-		}	
+		}
 	}
 	*/
-	
-	
+
+
 	dirty_target_vel_mutex.lock();
 	dirty_target_vel[0]=false;
 	dirty_target_vel_mutex.unlock();
@@ -593,7 +626,7 @@ static int handle_enable(unsigned int  pid, unsigned int  opcode) {
 	report_enable();
 
 	for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS; iter_chasis ++){
-		for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor ++) {			
+		for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor ++) {
 			int ret = set_motors_power(iter_chasis, iter_motor, 0.0);
 			i2cerror = (ret!=0) || i2cerror;
 			vels_target[iter_chasis][iter_motor] = 0;
@@ -647,7 +680,6 @@ static int handle_reverse(unsigned int  pid, unsigned int  opcode) {
 
 
 static int handle_test(unsigned int  pid, unsigned int  opcode) {
-	Thread::wait(2000);
 	dm3->motor_i2c(0, 50);
 	dm3->motor_i2c(1, 50);
 	dm3->motor_i2c(2, 50);
@@ -662,6 +694,7 @@ static int handle_test(unsigned int  pid, unsigned int  opcode) {
 	dm3->motor_i2c(1, 0);
 	dm3->motor_i2c(2, 0);
 	dm3->motor_i2c(3, 0);
+
 	return 1;
 }
 
@@ -685,13 +718,17 @@ static int handle_report(unsigned int  pid, unsigned int  opcode) {
 	report_pid_parameters();
 	report_set_controller();
 
+	// fixme: ubucar este debug en otro lugar
+	snprintf(msg_debug, sizeof(msg_debug), "Motor module version: %s .@.", VERSION);
+	report_debug(msg_debug, strlen(msg_debug));
+
 	for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS; iter_chasis ++) {
 		report_power(iter_chasis);
 		report_set_target_vel(iter_chasis);
 	}
 	// FIX: New operarions
 
-	
+
 	/*if (dm3->horn()==1) {
 		mcc.encoder.push(hornon_str, sizeof(hornon_str)-1);
 	} else {
@@ -731,9 +768,9 @@ void int_hall_rise(int chasis, int motor) {
         hall_value=halls2.read();
     } else if ((chasis==1) && (motor==1)) {
         hall_value=halls3.read();
-    } else {  
+    } else {
 		hall_value=0;
-	} 
+	}
     if ((time_elapsed>0) && (hall_value == 1)){ // para no dividir entre cero y asegurarse que no fue ruido
     	time_hall[chasis][motor].reset();
         if (motor_stop[chasis][motor]) {
@@ -742,7 +779,7 @@ void int_hall_rise(int chasis, int motor) {
             current_vel = time2vel(time_elapsed);
             if ((current_vel > MIN_VEL) && (current_vel < MAX_VEL)) {
                 vel_win[chasis][motor][(cursor_vel_win[chasis][motor])]=current_vel;
-                cursor_vel_win[chasis][motor] = (cursor_vel_win[chasis][motor] + 1)%WIN_LEN;                
+                cursor_vel_win[chasis][motor] = (cursor_vel_win[chasis][motor] + 1)%WIN_LEN;
             } //else {
               //  char * msg = "vel err!"; report_debug(msg, strlen(msg)); //TODO
             //}
@@ -772,20 +809,20 @@ void check_halls() {
 	long time_elapsed;
 	int chasis = 0; // por ahora para un solo chasis
 	float current_vel;
-    bool update;   
+    bool update;
     for(int motor = 0; motor < MOTORS_PER_CHASIS; motor++){
 
 	    if (motor == 0)
 			hall_value[0] = (halls2.read()<<2) + (halls1.read()<<1) + halls0.read();
 		else
 			hall_value[1] = (halls5.read()<<2) + (halls4.read()<<1) + halls3.read();
-		
+
 		update = false;
-		if(last_hall_value[motor] == hall_value[motor]){			
+		if(last_hall_value[motor] == hall_value[motor]){
 			switch(hall_sec_state[motor]){
 				case 0:
 					if (hall_value[motor]==HALL_SEC[1]){
-						hall_sec_state[motor] = 1;					
+						hall_sec_state[motor] = 1;
 					}
 					else if (hall_value[motor]==HALL_SEC[5]){
 						hall_sec_state[motor] = 11;
@@ -804,7 +841,7 @@ void check_halls() {
 					else{
 						hall_sec_state[motor] = 0;
 					}
-					break;	
+					break;
 				case 2:
 					if (hall_value[motor]==HALL_SEC[3]){
 						hall_sec_state[motor] = 3;
@@ -815,7 +852,7 @@ void check_halls() {
 					else {
 						hall_sec_state[motor] = 0;
 					}
-					break;	
+					break;
 				case 3:
 					if (hall_value[motor]==HALL_SEC[4]){
 						hall_sec_state[motor] = 4;
@@ -825,7 +862,7 @@ void check_halls() {
 					}
 					else {
 						hall_sec_state[motor] = 0;
-					}	
+					}
 					break;
 				case 4:
 					if (hall_value[motor]==HALL_SEC[5]){
@@ -836,10 +873,10 @@ void check_halls() {
 					}
 					else {
 						hall_sec_state[motor] = 0;
-					}	
-					break;				
+					}
+					break;
 				case 5:
-					if (hall_value[motor]==HALL_SEC[0]){				
+					if (hall_value[motor]==HALL_SEC[0]){
 						update = true;
 						hall_sec_state[motor] = 0;
 						direction[motor] = -1;
@@ -850,7 +887,7 @@ void check_halls() {
 					else {
 						hall_sec_state[motor] = 0;
 					}
-					break;	
+					break;
 				case 11:
 					if (hall_value[motor]==HALL_SEC[4]){
 						hall_sec_state[motor] = 12;
@@ -860,7 +897,7 @@ void check_halls() {
 					}
 					else {
 						hall_sec_state[motor] = 0;
-					}	
+					}
 					break;
 				case 12:
 					if (hall_value[motor]==HALL_SEC[3]){
@@ -871,7 +908,7 @@ void check_halls() {
 					}
 					else {
 						hall_sec_state[motor] = 0;
-					}	
+					}
 					break;
 				case 13:
 					if (hall_value[motor]==HALL_SEC[2]){
@@ -893,11 +930,11 @@ void check_halls() {
 					}
 					else {
 						hall_sec_state[motor] = 0;
-					}	
+					}
 					break;
-				case 15:			
+				case 15:
 					if (hall_value[motor]==HALL_SEC[0]){
-						hall_sec_state[motor] = 0;				
+						hall_sec_state[motor] = 0;
 						update = true;
 						direction[motor] = 1;
 					}
@@ -919,7 +956,7 @@ void check_halls() {
 				        current_vel = time2vel(time_elapsed);
 				        if ((current_vel > MIN_VEL) && (current_vel < MAX_VEL)) {
 				            vel_win[chasis][motor][(cursor_vel_win[chasis][motor])]=current_vel*direction[motor]*sign(dm3->motor_mult[chasis*MOTORS_PER_CHASIS+motor]);
-				           // vel_win[chasis][motor][(cursor_vel_win[chasis][motor])]=current_vel*sign(pows[0][motor]); 
+				           // vel_win[chasis][motor][(cursor_vel_win[chasis][motor])]=current_vel*sign(pows[0][motor]);
 				            cursor_vel_win[chasis][motor] = (cursor_vel_win[chasis][motor] + 1)%WIN_LEN;
 			            //	snprintf(msg_debug, sizeof(msg_debug), "hc(%s) new vel: %f . fin", VERSION, vel_win[chasis][motor][(cursor_vel_win[chasis][motor])]);
 					//		report_debug(msg_debug, strlen(msg_debug));
@@ -934,7 +971,7 @@ void check_halls() {
 			snprintf(msg_debug, sizeof(msg_debug), "hc(%s) hall_v: %i - state: %i . fin", VERSION, hall_value[1],hall_sec_state[1]);
 			report_debug(msg_debug, strlen(msg_debug));
 		}*/
-	 	
+
 	}
 
 }
@@ -943,7 +980,7 @@ Ticker ticker;
 
 //Inicia temporizadores
 void MotorModule::init(){
-	for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS; iter_chasis ++) 
+	for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS; iter_chasis ++)
 		for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor ++)	{
 			time_hall[iter_chasis][iter_motor].reset();
 			time_hall[iter_chasis][iter_motor].start();
@@ -953,14 +990,14 @@ void MotorModule::init(){
 		}
 
 	// si se hace con el array no anda
-	halls0.mode(PullUp); 
-	halls1.mode(PullUp); 
+	halls0.mode(PullUp);
+	halls1.mode(PullUp);
 	halls2.mode(PullUp);
-	halls3.mode(PullUp); 
-	halls4.mode(PullUp); 
-	halls5.mode(PullUp); 
+	halls3.mode(PullUp);
+	halls4.mode(PullUp);
+	halls5.mode(PullUp);
 
-	ticker.attach(&check_halls, 0.0005); 
+	ticker.attach(&check_halls, 0.0005);
 }
 
 static int handle_set_pid_parameters(unsigned int  pid, unsigned int  opcode) {
@@ -980,7 +1017,7 @@ static int handle_set_pid_parameters(unsigned int  pid, unsigned int  opcode) {
 
 	for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS; iter_chasis ++){
 		for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor ++) {
-			pidModules[iter_chasis][iter_motor].setTunings(kp, ki, kd);	
+			pidModules[iter_chasis][iter_motor].setTunings(kp, ki, kd);
 		}
     }
 	report_set_pid_parameters(kp, ki, kd);
@@ -1011,7 +1048,7 @@ static int handle_set_controller(unsigned int  pid, unsigned int  opcode) {
 	if (!((controller_type == UNSENSORED_CONTROLLER_TYPE) or (controller_type == PID_CONTROLLER_TYPE) or (controller_type == PP_CONTROLLER_TYPE))) return -2;
 
 	report_set_controller();
-	return 1;	
+	return 1;
 }
 
 
@@ -1025,14 +1062,14 @@ void MotorModule::compute_speed_task(void const *argument) {
 	    		for (iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor ++) {
 		    		time_elapsed = time_hall[iter_chasis][iter_motor].read_ms();
 		    		/*
-		    		if(time_elapsed > KILLING_TIME_MS){ //Si paso un tiempo en ms sin recibir velocidad 
+		    		if(time_elapsed > KILLING_TIME_MS){ //Si paso un tiempo en ms sin recibir velocidad
 		    			vel_win[iter_chasis][iter_motor][(cursor_vel_win[iter_chasis][iter_motor])]=0.0;
 		    			cursor_vel_win[iter_chasis][iter_motor] = (cursor_vel_win[iter_chasis][iter_motor] + 1)%WIN_LEN;
 		    		}*/
-		    		if ((hall_sensor_state[iter_chasis][iter_motor]==HALL_OFF) && (get_hall(iter_chasis, iter_motor).read() >= UMBRAL_ON)) {	
+		    		if ((hall_sensor_state[iter_chasis][iter_motor]==HALL_OFF) && (get_hall(iter_chasis, iter_motor).read() >= UMBRAL_ON)) {
 		    			time_hall[iter_chasis][iter_motor].reset();
 		    			vels_lineal_actual[iter_chasis][iter_motor]  = (lineal_X/(float)time_elapsed)*1000;
-		    			hall_sensor_state[iter_chasis][iter_motor] = HALL_ON;		    			
+		    			hall_sensor_state[iter_chasis][iter_motor] = HALL_ON;
 	   				    vel_win[iter_chasis][iter_motor][(cursor_vel_win[iter_chasis][iter_motor])]=vels_lineal_actual[iter_chasis][iter_motor];
 	    				cursor_vel_win[iter_chasis][iter_motor] = (cursor_vel_win[iter_chasis][iter_motor] + 1)%WIN_LEN;
 		    		} else if ((hall_sensor_state[iter_chasis][iter_motor] == HALL_ON) && (get_hall(iter_chasis, iter_motor).read() <= UMBRAL_OFF)) {
@@ -1064,6 +1101,7 @@ void MotorModule::potpoll_task(void const *argument) {
 				pid_controller();
 			else if (controller_type == PP_CONTROLLER_TYPE)
 				pp_controller();
+			// fixme else report error
 
 	    	for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS; iter_chasis ++){
 				for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor ++) {
@@ -1100,10 +1138,10 @@ void MotorModule::security_stop_task(void const *argument) {
 		    		report_set_target_vel(iter_chasis);
 		    		report_get_vel_change(iter_chasis);
 	    			dirty_power[iter_chasis]=false;
-					report_power(iter_chasis);		    	
+					report_power(iter_chasis);
 	    		}
 			}else{
-				new_target_vel = false;			
+				new_target_vel = false;
 			}
 		}
 		Thread::wait(TIMEOUT_VEL_MOTORS);
@@ -1119,13 +1157,12 @@ void MotorModule::rated_report_vel_task(void const *argument) {
     		dirty_target_vel_mutex.lock();
     		if (dirty_target_vel[iter_chasis]) {
 	    		report_set_target_vel(iter_chasis); //se comento porque ya reporta en handle_target_vel
-	    		
-    		} else
-   				dirty_target_vel[iter_chasis]=true;
-   			dirty_target_vel_mutex.unlock();		
-   			report_get_vel_change(iter_chasis); //va afuera del if para que siempre reporte 
-			
-			Thread::wait(RATED_REPORT_MS/2);
+
+    		} else dirty_target_vel[iter_chasis]=true;
+   			dirty_target_vel_mutex.unlock();
+   			report_get_vel_change(iter_chasis); //va afuera del if para que siempre reporte
+
+				Thread::wait(RATED_REPORT_MS/10);
     	}
 	}
 
@@ -1189,3 +1226,4 @@ MotorModule::MotorModule() {
 
 	handle_report(MOTOR_PID, OPCODE_REPORT);
 }
+

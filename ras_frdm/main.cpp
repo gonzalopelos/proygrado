@@ -105,7 +105,6 @@ int main() {
 	while(1){
 		mcc.tick();
 	}
-
 }
 
 

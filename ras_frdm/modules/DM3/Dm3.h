@@ -25,6 +25,7 @@
 #define POT_IN PTB2	   // 2017.03.18 AM
 #define BATT_IN PTB3	// 2017.03.18 AM
 
+// Esto pines no se utilizan para hall, se pueden utilizar para otra cosa.
 #define HALL0_IO PTC5	// 2017.03.18 AM - Pin nro 1 fila interior de J1
 #define HALL1_IO PTC7	// 2017.03.18 AM - Pin nro 2 fila interior de J1
 #define HALL2_IO PTC0	// 2017.03.18 AM - Pin nro 3 fila interior de J1
@@ -32,7 +33,7 @@
 
 #define HALL0_INT PTD2	// 2017.03.18 AM - Pin nro 7 fila exterior de J2
 #define HALL1_INT PTD0	// 2017.03.18 AM - Pin nro 8 fila exterior de J2
-#define HALL2_INT PTD4	// 2017.03.18 AM - Pin nro 9 fila exterior de J2
+#define HALL2_INT PTC4	// 2017.03.18 AM - Pin nro 9 fila exterior de J2
 #define HALL3_INT PTC12	// 2017.03.18 AM - Pin nro 10 fila exterior de J2
 #define HALL4_INT PTC3	// 2017.03.18 AM - Pin nro 1 fila exterior de J1
 #define HALL5_INT PTC2	// 2017.03.18 AM - Pin nro 2 fila exterior de J1
