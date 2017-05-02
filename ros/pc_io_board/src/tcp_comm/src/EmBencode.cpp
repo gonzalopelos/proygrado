@@ -7,6 +7,15 @@
 enum {
     EMB_ANY, EMB_LEN, EMB_INT, EMB_STR
 };
+enum operation_param_type{
+    string, integer, boolean, date_time
+};
+
+typedef struct operation_param{
+    char* value;
+    operation_param_type param_type;
+} operation_param_t;
+
 
 
 uint8_t EmBdecode::reset() {

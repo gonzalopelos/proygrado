@@ -76,6 +76,17 @@ public:
     static void endDict () {
         PushEnd();
     }
+
+    static int append_data(const char * data){
+        int result = -1;
+        if((data[0] == 'l' || data[0] == 'd') && data[strlen(data) -1] == 'e'){
+            PushData(&data[0u], strlen(data));
+            result = strlen(data);
+        }
+        return result;
+    }
+
+
 protected:
     static void PushCount (uint32_t num) {
         char buf[11];

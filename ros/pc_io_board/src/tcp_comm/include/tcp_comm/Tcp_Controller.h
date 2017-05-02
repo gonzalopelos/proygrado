@@ -22,7 +22,7 @@ protected:
     static Tcp_Controller * _Tcp_Controller_instance;
     Tcp_Controller();
     void init_eth_interface();
-
+    int recv_to(int fd, char *buffer, int len, int flags, int to);
 };
 
 #endif //TCP_COMM_TCP_CONTROLLER
