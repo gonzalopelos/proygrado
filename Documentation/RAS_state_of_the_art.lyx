@@ -118,14 +118,6 @@ Si los robots van a ser introducidos en el mundo de los humanos para asistir
 \end_layout
 
 \begin_layout Subsection
-Interacción Persona Robot
-\end_layout
-
-\begin_layout Standard
-ToDo
-\end_layout
-
-\begin_layout Subsection
 Definiciones
 \end_layout
 
@@ -711,22 +703,6 @@ Técnicas Utilizadas
 \end_layout
 
 \begin_layout Subsubsection
-Supervisión de Funciones
-\end_layout
-
-\begin_layout Standard
-ToDo (ver https://drive.google.com/file/d/0B5b9cF_5KTdQTWstTzJTWFVsMFk/view)
-\end_layout
-
-\begin_layout Subsubsection
-Recuperación Frente a Fallas
-\end_layout
-
-\begin_layout Standard
-ToDo
-\end_layout
-
-\begin_layout Subsubsection
 Prevención de Colisiones
 \end_layout
 
@@ -826,10 +802,6 @@ El fin que se desea alcanzar con las estrategias de control de colisiones
  Cabe destacar que la decisión de que hacer frente a la ocurrencia de una
  colisión puede llegar a ser en extremo compleja, como puede ser en el caso
  de una colisión con un humano en un ambiente exterior y dinámico.
-\end_layout
-
-\begin_layout Itemize
-Torque Control with Gravity Compensation: ToDo
 \end_layout
 
 \begin_layout Subsubsection
@@ -1239,8 +1211,21 @@ dor.
 \end_layout
 
 \begin_layout Itemize
-Microcontrolador: mbed NXP LPC1768[8] basado en el procesador ARM ® Cortex®-M3
- [9] que se promociona como líder en la industria para aplicaciones en tiempo
+Microcontrolador: mbed NXP LPC1768 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "LPC1769"
+
+\end_inset
+
+ basado en el procesador ARM ® Cortex®-M3 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "CortexM3"
+
+\end_inset
+
+ que se promociona como líder en la industria para aplicaciones en tiempo
  real altamente deterministas, desarrollado específicamente para permitir
  desarrollar plataformas de bajo costo y de alto rendimiento para una amplia
  gama de dispositivos.
@@ -1404,13 +1389,27 @@ Herramientas de desarrollo
 \begin_layout Standard
 La companía mbed ofrece un conjunto de herramientas online para desarrolladores
  que facilitan el uso y programación de sus productos.
- En el sitio web [10] se encuentra información sobre cómo desarrollar utilizando
- productos mbed así como también apoyo técnico de una comunidad que promueve
- el trabajo en conjunto, pudiendo intercambiar código o respondiendo a preguntas
- para brindar soluciones a problemas.
+ En el sitio web 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mbedTools"
+
+\end_inset
+
+ se encuentra información sobre cómo desarrollar utilizando productos mbed
+ así como también apoyo técnico de una comunidad que promueve el trabajo
+ en conjunto, pudiendo intercambiar código o respondiendo a preguntas para
+ brindar soluciones a problemas.
  También se puede acceder a un entorno de desarrollo (IDE) online de C/C++
- [11] que está diseñado para poder escribir programas, compilarlos y descargarlo
-s para ejecutarlos en el microcontrolador mbed de forma simple y ágil.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mbedCompiler"
+
+\end_inset
+
+ que está diseñado para poder escribir programas, compilarlos y descargarlos
+ para ejecutarlos en el microcontrolador mbed de forma simple y ágil.
  Cabe mencionar que también es posible escribir el código del programa en
  un editor particular y generar el binario a ejecutar con GCC por ejemplo.
 \end_layout
@@ -1421,7 +1420,14 @@ Acceso al producto
 
 \begin_layout Standard
 El producto se puede adquirir a través de varios distribuidores recomendados
- por el fabricante [12] y el precio es de USD 49.
+ por el fabricante 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "LPC1768Order"
+
+\end_inset
+
+ y el precio es de USD 49.
 \end_layout
 
 \begin_layout Subsection
@@ -1431,8 +1437,15 @@ USB IO BOARD
 \begin_layout Standard
 Este es un producto de la serie ODROID de la empresa surcoreana Hardkernel,
  dedicada al open hardware.
- Según se indica en [13] es una placa de expansión de IO a USB que provee
- interfaces GPIO, PWM, SPI, UART, I2C y ADC.
+ Según se indica en 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "USBIOBOARDWiki"
+
+\end_inset
+
+ es una placa de expansión de IO a USB que provee interfaces GPIO, PWM,
+ SPI, UART, I2C y ADC.
  Utiliza el microcontrolador USB PIC18F45K50-QFN compatible con 3.3V/5V.
  Incluye una cabecera de 28 pines que hacen que sea simple de conectar con
  otra breadbord o circuito.
@@ -1459,8 +1472,21 @@ dor.
 \end_layout
 
 \begin_layout Itemize
-Microcontrolador: PIC18F45K50-QFN de 8 bits de la empresa Microchip [14],
- líderes del mercado de microcontroladores [15].
+Microcontrolador: PIC18F45K50-QFN de 8 bits de la empresa Microchip 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "PIC18F45K50"
+
+\end_inset
+
+, líderes del mercado de microcontroladores 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "MicrochipWiki"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_deeper
@@ -1473,7 +1499,14 @@ Velocidad de reloj: Entre 31Khz y 48Mhz, configurable según necesidad.
 Arquitectura: Microcontrolador de la familia PIC18 de 8 bits, arquitectura
  Harvard modificada.
  Las instrucciones tienen un largo de 16 bits, se puede ver el set de instruccio
-nes en [16].
+nes en 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "PICInstructionSet"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_deeper
@@ -1563,7 +1596,14 @@ Ha ocurrido una falla de reloj.
 
 \end_deeper
 \begin_layout Itemize
-Diagrama de bloques del WDT [14]:
+Diagrama de bloques del WDT 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "PIC18F45K50"
+
+\end_inset
+
+:
 \begin_inset Newline newline
 \end_inset
 
@@ -1625,7 +1665,14 @@ Salidas analógicas: Cuenta con un módulo DAC con 32 niveles de voltaje de
  salida seleccionables dependiendo de la configuración de los bits DACR<4:0>
  del registro VREFCON2.
  La fórmula para determinar el voltaje de salida se puede ver en la sección
- 23.0 de [14].
+ 23.0 de 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "PIC18F45K50"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Itemize
@@ -1663,13 +1710,39 @@ Herramientas de desarrollo
 \end_layout
 
 \begin_layout Standard
-Microchip provee un cross compiler para este PIC en [18] así como el IDE
- de desarrollo MPLAB X en [19].
- Adicionalmente en [13], la wiki de la placa, se encuentran ejemplos de
- firmware y de como actualizarlo.
- En el foro de ODROID para este producto, [21], se puede encontrar bastante
- referencia con respecto a cómo interactuar con la placa, se proveen muchos
- ejemplos y código para acceder a la placa tanto en C como en Python.
+Microchip provee un cross compiler para este PIC en 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "PIC18CCompiler"
+
+\end_inset
+
+ así como el IDE de desarrollo MPLAB X en 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "MPLABIDE"
+
+\end_inset
+
+.
+ Adicionalmente en 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "USBIOBOARDWiki"
+
+\end_inset
+
+, la wiki de la placa, se encuentran ejemplos de firmware y de como actualizarlo.
+ En el foro de ODROID para este producto, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "USBIOBOARDForum"
+
+\end_inset
+
+, se puede encontrar bastante referencia con respecto a cómo interactuar
+ con la placa, se proveen muchos ejemplos y código para acceder a la placa
+ tanto en C como en Python.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1678,7 +1751,21 @@ Acceso al producto
 
 \begin_layout Standard
 Es posible comprar esta placa en la tienda de ODROID o en la tienda AmeriDroid
- a un precio de USD 15 [19] y [20].
+ a un precio de USD 15 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "USBIOBOARDStore"
+
+\end_inset
+
+ y 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Ameridroid"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsection
@@ -1686,8 +1773,15 @@ FRDM-K64F
 \end_layout
 
 \begin_layout Standard
-La placa FROM-K64F [22] ha sido diseñado por Freescale en colaboración con
- mbed para prototipos de todo tipo dispositivos.
+La placa FROM-K64F 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "K64F"
+
+\end_inset
+
+ ha sido diseñado por Freescale en colaboración con mbed para prototipos
+ de todo tipo dispositivos.
  Se basa en el Freescale K64F, con un núcleo ARM Cortex-M4F de 32 bits que
  funciona a 120MHz de frecuencia.
  Incluye 1MB de memoria FLASH, 256 KB de RAM y varias interfaces como ser
@@ -1714,9 +1808,21 @@ dor.
 \end_layout
 
 \begin_layout Itemize
-Microcontrolador: Freescale K64F Kinetis K64 MCU[23] basado en el proces
- ador ARM® Cortex™-M4 [24] diseñado para procesar señales con gran eficiencia
- y bajo consumo de energía.
+Microcontrolador: Freescale K64F Kinetis K64 MCU 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "K64FDatasheet"
+
+\end_inset
+
+ basado en el proces ador ARM® Cortex™-M4 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "CortexM4"
+
+\end_inset
+
+ diseñado para procesar señales con gran eficiencia y bajo consumo de energía.
 \end_layout
 
 \begin_deeper
@@ -1861,8 +1967,14 @@ Acceso al producto
 \end_layout
 
 \begin_layout Standard
-El producto se puede adquirir a través de distribuidores [25] que facilitan
- el acceso desde Uruguay y el precio es de USD 58 más impuestos.
+El producto se puede adquirir a través de distribuidores 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "K64FAmazon"
+
+\end_inset
+
+ que facilitan el acceso desde Uruguay y el precio es de USD 58 más impuestos.
 \end_layout
 
 \begin_layout Subsection
@@ -1872,7 +1984,28 @@ LeoLivre
 \begin_layout Standard
 La placa LeoLivre 1.2 fue concebida para ser utilizada en el ámbito de la
  robótica educacional y se diseñó tomando como inspiración tres placas preexiste
-ntes, la Arduino Leonardo [26], la USB4Butia [27] y la vinciDuino [28].
+ntes, la Arduino Leonardo 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ArduinoLeonardo"
+
+\end_inset
+
+, la USB4Butia 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "USB4Butia"
+
+\end_inset
+
+ y la vinciDuino 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "VinciDuino"
+
+\end_inset
+
+.
  Es una placa de dimensiones pequeñas que posee grandes funcionalidades
  con la cual es posible explorar el mundo de la robótica.
 \end_layout
@@ -1900,7 +2033,14 @@ ador.
 
 \begin_layout Itemize
 Microcontrolador: Microcontrolador de 8 bits ATmega32u4 de la empresa Atmel
- [29].
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ATmega32U4"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_deeper
@@ -2017,7 +2157,14 @@ Herramientas de desarrollo
 \begin_layout Standard
 Dado que esta placa es un producto híbrido cuyas principales inspiraciones
  son la Arduino Leonardo y la USB4Butia es posible desarrollar en ella utilizand
-o el Eclipse, Arduino IDE y turtlebots [30].
+o el Eclipse, Arduino IDE y turtlebots 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "LeoLivreCPBR7"
+
+\end_inset
+
+.
  Es posible desarrollar en C/C++ y compilar con avr-gcc.
 \end_layout
 
@@ -2040,13 +2187,26 @@ Es una interfaz de entrada/salida USB, derivada de la USB4All, y está especiali
 ada en el uso con el robot butiá 2.0 intentando simplificar su uso y aumentar
  su capacidad sensorial, además de actuar de manera robusta.
  Se busca que el diseño de la placa sea abierto y que la construcción pueda
- ser realizada manualmente.
- Permitiendo así su accesibilidad.
- [31] Su objetivos principales es ser económica, con componentes de facil
- acceso en el mercado local.
+ ser realizada manualmente, facibilitando así la accesibilidad.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "USB4ButiaWiki"
+
+\end_inset
+
+ Su objetivos principales es ser económica, con componentes de facil acceso
+ en el mercado local.
  También tener puertos conectores para dispositivos que soporten plug and
  play, bus para motors AX12, PWM para manejar de servomotores y pines para
- acceder al bajo nivel [32].
+ acceder al bajo nivel 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "USB4ButiaHackpoints"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -2071,7 +2231,14 @@ dor.
 
 \begin_layout Itemize
 Microcontrolador: Microcontrolador de 8 bit PIC18F4550 de la empresa Microchip
- [33].
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "PIC18F4550"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_deeper
@@ -2187,10 +2354,16 @@ ODROID-SHOW
 \begin_layout Standard
 Otro producto de la serie ODROID de la empresa surcoreana Hardkernel, dedicada
  al open hardware.
- Según se indica en [35] es una placa compatible con Arduino cuyo propósito
- principal es mostrar información sobre el estado interno, de una PC o SBC
- a la que esté conectada vía USB, y para esto cuenta con una pantalla TFT
- LCD de 2.2”.
+ Según se indica en 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ODROIDShowWiki"
+
+\end_inset
+
+ es una placa compatible con Arduino cuyo propósito principal es mostrar
+ información sobre el estado interno, de una PC o SBC a la que esté conectada
+ vía USB, y para esto cuenta con una pantalla TFT LCD de 2.2”.
  De todas formas ofrece posibilidades de extensión proveyendo interfaz GPIO,
  I2C y ADC.
  Diseñada, considerando sus dimensiones, para ser apilada sobre la ODROID
@@ -2214,12 +2387,33 @@ Especificación Técnica
 
 \begin_layout Standard
 A continuación se describen los componentes técnicos de la placa y microcontrola
-dor extraída de [35] y [37].
+dor extraída de 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ODROIDShowWiki"
+
+\end_inset
+
+ y 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ATmega328DataSheet"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Itemize
 Microcontrolador: Microcontrolador de 8 bits ATmega328 de la empresa ATMel
- [36].
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ATmega328"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_deeper
@@ -2294,7 +2488,14 @@ Entradas/Salidas digitales: Todos los 6 pines.
 
 \begin_layout Itemize
 Entradas analógicas: Los canales ADC5, ADC4 y ADC6 que se observan en el
- esquema [38].
+ esquema 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ODROIDShowSchematics"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Itemize
@@ -2331,8 +2532,14 @@ I
 
 \end_inset
 
-C: Los puertos PC4 y PC5 que se observan en [38] se utilizan como pines
- SDA y SCL respectivamente.
+C: Los puertos PC4 y PC5 que se observan en 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ODROIDShowSchematics"
+
+\end_inset
+
+ se utilizan como pines SDA y SCL respectivamente.
 \end_layout
 
 \end_deeper
@@ -2340,9 +2547,29 @@ C: Los puertos PC4 y PC5 que se observan en [38] se utilizan como pines
 \begin_layout Itemize
 PWM: NO.
  Si bien el microcontrolador posee 6 canales PWM, los puertos PB3-PB1; PD6-PD5
- y PD3 que se observan en [38], estos no se exponen en los 6 puertos de
- IO o estan conectados a la pantalla LCD, esto último también es visible
- en [38] así como en el diagrama de bloques a continuación extraído de [39].
+ y PD3 que se observan en 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ODROIDShowSchematics"
+
+\end_inset
+
+, estos no se exponen en los 6 puertos de IO o estan conectados a la pantalla
+ LCD, esto último también es visible en 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ODROIDShowSchematics"
+
+\end_inset
+
+ así como en el diagrama de bloques a continuación extraído de 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ODROIDShowHW"
+
+\end_inset
+
+.
 \begin_inset Newline newline
 \end_inset
 
@@ -2365,9 +2592,15 @@ Herramientas de desarrollo
 Dado que esta placa es un producto compatible con Arduino Leonardo es posible
  desarrollar en ella utilizando el Arduino IDE.
  Es posible desarrollar en C/C++ y compilar con avr-gcc.
- En el foro de ODROID, para este producto [40], se puede encontrar bastante
- referencia con respecto a cómo interactuar con la placa y se proveen ejemplos
- en Python.
+ En el foro de ODROID, para este producto 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ODROIDShowForum"
+
+\end_inset
+
+, se puede encontrar bastante referencia con respecto a cómo interactuar
+ con la placa y se proveen ejemplos en Python.
 \end_layout
 
 \begin_layout Subsubsection
@@ -2376,7 +2609,14 @@ Acceso al producto
 
 \begin_layout Standard
 Es posible comprar esta placa en la tienda de ODROID o en la tienda AmeriDroid
- a un precio de USD 25 [41].
+ a un precio de USD 25 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ODROIDShowStore"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsection
