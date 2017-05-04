@@ -62,11 +62,11 @@ int main()
 
 #include "mbed.h"
 #include "rtos.h"
-#include <Ultrasonic/Ultrasonic.h>
-//#include "modules/Mcc/Mcc.h"
-//#include "modules/Admin/Admin.h"
-//#include "modules/Motor/MotorModule.h"
-
+//#include <Ultrasonic/Ultrasonic.h>
+#include "modules/Mcc/Mcc.h"
+#include "modules/Admin/Admin.h"
+#include "modules/Motor/MotorModule.h"
+#include "modules/DM3/Dm3Module.h"
 //#include "hdlc/frdm_communication.h"
 //#include "modules/Logging/Logger.h"
 //#include "modules/Ethernet/Communication.h"
@@ -74,8 +74,10 @@ Ticker ticker_msg_rate;
 DigitalOut led_green(LED_GREEN);
 DigitalOut led_red(LED_RED);
 DigitalOut led_blue(LED_BLUE);
+
 using namespace modules;
-//Mock mcc;
+Mcc mcc;
+
 void heartbeat_task() {
 	while (true) {
 		led_green = !led_green;
@@ -85,25 +87,18 @@ void heartbeat_task() {
 
 //================================================
 // TEST ULTRASONIC VARIABLES
-
-DigitalOut trigger(PTC17);
-
-DigitalIn echo(PTC16);
-int distance = 0;
-int correction = 0;
-Timer sonar;
-
-
-void dist(int distance)
-{
+//DigitalOut trigger(PTC17);
+//DigitalIn echo(PTC16);
+//int distance = 0;
+//int correction = 0;
+//Timer sonar;
+//void dist(int distance)
+//{
    //put code here to happen when the distance is changed
-	led_red = 0;
-	printf("Distance changed to %d\r\n", distance);
-}
-
-Ultrasonic mu(PTC17, PTC16, .1, 1, &dist);
-
-
+//	led_red = 0;
+//	printf("Distance changed to %d\r\n", distance);
+//}
+//Ultrasonic mu(PTC17, PTC16, .1, 1, &dist);
 //================================================
 
 int main() {
@@ -115,22 +110,26 @@ int main() {
 
 //	wait(2);
 //	mcc.send_message(0,0,"test",4);
-	//Admin admin_module;
-	//MotorModule motorModule;
-
-	//motorModule.init();
-	//Thread heartbeat(heartbeat_task);
+	Admin admin_module;
+	MotorModule motorModule;
+	Dm3Module dm3Module;
+	motorModule.init();
+	Thread heartbeat(heartbeat_task);
+	while(1){
+		mcc.tick();
+	}
 
 //==================================================
 // ULTRASONIC LOGIC
-	mu.startUpdates();//start mesuring the distance
-	while(1)
-	{
+//	mu.startUpdates();//start mesuring the distance
+//	while(1)
+//	{
 //  	Do something else here
-		mu.checkDistance();     //call checkDistance() as much as possible, as this is where
+//		mu.checkDistance();     //call checkDistance() as much as possible, as this is where
 //		the class checks if dist needs to be called.
 
-	}
+//	}
+
 }
 
 #endif

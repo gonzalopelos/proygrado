@@ -1,10 +1,3 @@
-/*
- * Dm3a.cpp
- *
- *  Created on: Oct 27, 2015
- *      Author: jvisca
- */
-
 #include "../modules/DM3/Dm3.h"
 
 
@@ -17,6 +10,9 @@
 //#include "DACInterface.h" 
 //#include "dev_interface_def.h"
 #include "../libs_I2C/mcp4728.h"
+#include "../Ultrasonic/Ultrasonic.h"
+
+using namespace modules;
 
 //MBEDI2CInterface mbedi2c(p28,p27);
 MBEDI2CInterface mbedi2c(PTE25, PTE24);	   // 2017.03.18 AM - PTE25 = SDA y PTE24 = SDL en FRDM K64F
@@ -44,8 +40,12 @@ DigitalOut pio_enable(PTC16);							// 2017.03.18 AM - Pin nro 2 fila exterior d
 //Serial serial(p13, p14); // tx, rx
 Serial serial(USBTX, USBRX);	// 2017.03.18 AM
 
+void update_front_dist(int distance);
+
+Ultrasonic ultrasonic_front(PTC17, PTC16, .1, 1, &update_front_dist);
 
 char i2c_cmd[2];
+int front_distance;
 
 Dm3* Dm3::m_pInstance = NULL;
 
@@ -72,6 +72,7 @@ Dm3::Dm3() {
 	pio_enable = 0;
 	pio_brake = 0;
 	//pio_horn = 0;
+	ultrasonic_front.startUpdates();
 }
 
 Dm3 *Dm3::Instance() {
@@ -146,3 +147,14 @@ int Dm3::horn(int mode) {
 int Dm3::horn() {
 	return 0;
 }
+
+int Dm3::check_front_distances() {
+	return ultrasonic_front.getCurrentDistance();
+}
+
+void update_front_dist(int distance)
+{
+   front_distance = distance;
+   //ToDo Logic to check distance ranges
+}
+
