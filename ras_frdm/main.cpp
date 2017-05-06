@@ -62,7 +62,7 @@ int main()
 
 #include "mbed.h"
 #include "rtos.h"
-//#include <Ultrasonic/Ultrasonic.h>
+//#include "modules/Ultrasonic/Ultrasonic.h"
 #include "modules/Mcc/Mcc.h"
 #include "modules/Admin/Admin.h"
 #include "modules/Motor/MotorModule.h"
@@ -94,7 +94,7 @@ void heartbeat_task() {
 //Timer sonar;
 //void dist(int distance)
 //{
-   //put code here to happen when the distance is changed
+//   put code here to happen when the distance is changed
 //	led_red = 0;
 //	printf("Distance changed to %d\r\n", distance);
 //}
@@ -108,13 +108,15 @@ int main() {
 	led_green = 1;
 
 
-//	wait(2);
+	wait(2);
 //	mcc.send_message(0,0,"test",4);
 	Admin admin_module;
 	MotorModule motorModule;
-	Dm3Module dm3Module;
 	motorModule.init();
+	Dm3Module dm3Module;
+
 	Thread heartbeat(heartbeat_task);
+
 	while(1){
 		mcc.tick();
 	}
@@ -124,12 +126,12 @@ int main() {
 //	mu.startUpdates();//start mesuring the distance
 //	while(1)
 //	{
-//  	Do something else here
+////  	Do something else here
 //		mu.checkDistance();     //call checkDistance() as much as possible, as this is where
-//		the class checks if dist needs to be called.
-
+//		wait(4);
+////		the class checks if dist needs to be called.
+//
 //	}
-
 }
 
 #endif

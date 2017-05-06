@@ -10,16 +10,17 @@
 #include "../EmBencode/EmBencode.h"
 #include "rtos.h"
 
-extern modules::Mcc mcc;
+using namespace modules;
 
-namespace modules {
+extern Mcc mcc;
+
 
 Dm3 * dm3_instance;
 
 
 #define BATT_SENSE_PERIOD 1000*4
 #define STRING_BUFF_SIZE 40
-char stringbuff[STRING_BUFF_SIZE];
+char stringbuffer[STRING_BUFF_SIZE];
 
 int siren_count = 0;
 int siren_on = 0;
@@ -75,8 +76,8 @@ static int handle_batterylevel(unsigned int  pid, unsigned int  opcode) {
 	mcc.encoder.push(DM3_PID);
 	mcc.encoder.push(OPCODE_BATTERY);
 	mcc.encoder.startList();
-	int len = snprintf(stringbuff, STRING_BUFF_SIZE, "%.2f", 100.0*dm3_instance->get_batt());
-	mcc.encoder.push(stringbuff, len);
+	int len = snprintf(stringbuffer, STRING_BUFF_SIZE, "%.2f", 100.0*dm3_instance->get_batt());
+	mcc.encoder.push(stringbuffer, len);
 	mcc.encoder.endList();
 	mcc.encoder.endFrame();
 	return 1;
@@ -87,10 +88,11 @@ static int report_ultrasonic_sensors(unsigned int  pid, unsigned int  opcode){
 	mcc.encoder.push(DM3_PID);
 	mcc.encoder.push(OPCODE_ULTRASONICS_REPORT);
 	mcc.encoder.startList();
-	mcc.encoder.push(dm3_instance->check_front_distances());
+	int len = snprintf(stringbuffer, STRING_BUFF_SIZE, "distances: [%d, %d, %d, %d]", dm3_instance->check_front_distances(), 0, 0, 0);
+	mcc.encoder.push(stringbuffer, len);
 	mcc.encoder.endList();
 	mcc.encoder.endFrame();
-
+	return 1;
 }
 
 void Dm3Module::battery_report_task(void const *argument) {
@@ -105,11 +107,10 @@ Dm3Module::Dm3Module() {
 	for (unsigned int i=0; i<DM3_OPCODES; ++i) {
 			Dm3Module::opcode_callbacks[i]=NULL;
 	}
+	dm3_instance = Dm3::Instance();
 	Dm3Module::opcode_callbacks[OPCODE_REPORT] = &handle_report;
 	Dm3Module::opcode_callbacks[OPCODE_SIREN] = &handle_siren;
 	Dm3Module::opcode_callbacks[OPCODE_BATTERY] = &handle_batterylevel;
 	Dm3Module::opcode_callbacks[OPCODE_ULTRASONICS_REPORT] = &report_ultrasonic_sensors;
 	Dm3Module::pid = mcc.register_opcode_callbacks(Dm3Module::opcode_callbacks, DM3_OPCODES);
 }
-
-} /* namespace modules */

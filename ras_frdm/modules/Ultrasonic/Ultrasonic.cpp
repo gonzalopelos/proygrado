@@ -58,7 +58,9 @@ using namespace modules;
     }
     void Ultrasonic::startUpdates(void)
     {
+    	printf("start::startUpdates\n");
         _startTrig();
+        printf("end::startUpdates\n");
     }
     void Ultrasonic::attachOnUpdate(void method(int))
     {
@@ -80,8 +82,14 @@ using namespace modules;
     }
     void Ultrasonic::checkDistance(void)
     {
+    	printf("checkDistance\n");
         if(isUpdated())
         {
+        	printf("start::checkDistance isUpdated\n");
             (*_onUpdateMethod)(_distance);
+            printf("end::checkDistance isUpdated\n");
+        }
+        else{
+        	printf("checkDistance isUpdated return false\n");
         }
     }

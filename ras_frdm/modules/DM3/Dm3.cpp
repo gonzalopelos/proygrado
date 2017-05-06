@@ -38,14 +38,19 @@ DigitalOut pio_enable(PTC16);							// 2017.03.18 AM - Pin nro 2 fila exterior d
 //DigitalOut pio_horn(p11);
 
 //Serial serial(p13, p14); // tx, rx
-Serial serial(USBTX, USBRX);	// 2017.03.18 AM
+//Serial serial(USBTX, USBRX);	// 2017.03.18 AM
+int front_distance;
 
-void update_front_dist(int distance);
+static void update_front_dist(int distance)
+{
+   front_distance = distance;
+   printf("Distance changed to %d\r\n", front_distance);
+   //ToDo Logic to check distance ranges
+}
 
-Ultrasonic ultrasonic_front(PTC17, PTC16, .1, 1, &update_front_dist);
+Ultrasonic ultrasonic_front(PTA1, PTA2, .1, 1, &update_front_dist);
 
 char i2c_cmd[2];
-int front_distance;
 
 Dm3* Dm3::m_pInstance = NULL;
 
@@ -149,12 +154,9 @@ int Dm3::horn() {
 }
 
 int Dm3::check_front_distances() {
+	DigitalInOut led_red = LED_RED;
+	ultrasonic_front.checkDistance();
+	led_red = 1;
 	return ultrasonic_front.getCurrentDistance();
-}
-
-void update_front_dist(int distance)
-{
-   front_distance = distance;
-   //ToDo Logic to check distance ranges
 }
 
