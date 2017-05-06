@@ -68,7 +68,7 @@ void Tcp_Controller::init_eth_interface() {
     if (sockfd < 0){
         perror("ERROR opening socket");
     }
-    server = gethostbyname("192.168.1.52");//gethostbyname(argv[1]);
+    server = gethostbyname(ETH_Tcp_Controller_IP);//gethostbyname(argv[1]);
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
     }

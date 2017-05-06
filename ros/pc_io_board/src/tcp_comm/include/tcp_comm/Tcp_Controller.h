@@ -6,8 +6,8 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 
-#define ETH_Tcp_Controller_IP       		"192.168.1.52"
-#define ETH_Tcp_Controller_SERVER_PORT   5001
+#define ETH_Tcp_Controller_IP       	"192.168.1.52"
+#define ETH_Tcp_Controller_SERVER_PORT  5001
 
 class Tcp_Controller {
 public:
