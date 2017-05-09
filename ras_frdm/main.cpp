@@ -1,9 +1,10 @@
-//#define MAIN_AM
+#define MAIN_AM
 
 #ifdef MAIN_AM
 #include "mbed.h"
-#include "PIDModule.h"
-#include "dm3.h"
+//#include "PIDModule.h"
+//#include "dm3.h"
+#include "Ultrasonic.h"
 
 #define MOTORS_PER_CHASIS 2
 
@@ -13,10 +14,28 @@
 
 DigitalOut led(LED_RED);
 DigitalOut ledGreen(LED_GREEN);
+DigitalOut ledBlue(LED_BLUE);
+
+using namespace modules;
+
+//================================================
+// TEST ULTRASONIC VARIABLES
+DigitalOut trigger(PTC17);
+DigitalIn echo(PTC16);
+int distance = 0;
+int correction = 0;
+Timer sonar;
+void dist(int distance)	{
+	//put code here to happen when the distance is changed
+	led = 0;
+	printf("Distance changed to %d\r\n", distance);
+}
+Ultrasonic mu(PTC17, PTC16, .1, 1, &dist);
+//================================================
 
 int main()
 {
-	led = 1;
+/*	led = 1;
 	ledGreen = 1;
 	Dm3 *dm3 = Dm3::Instance();
 	int power = 0;
@@ -37,6 +56,17 @@ int main()
 		i2cerror = dm3->motor_i2c(chasis*MOTORS_PER_CHASIS + motor, power);
 
 		wait(2.0f);
+	}*/
+	//==================================================
+	// ULTRASONIC LOGIC
+	led = 1;
+	ledBlue = 1;
+	ledGreen = 1;
+	mu.startUpdates();//start mesuring the distance
+	while(1)
+	{
+	//  	Do something else here
+		mu.checkDistance();     //call checkDistance() as much as possible, as this is where the class checks if dist needs to be called.
 	}
 }
 
