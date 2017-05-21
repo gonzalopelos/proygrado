@@ -62,7 +62,7 @@ int main()
 
 #include "mbed.h"
 #include "rtos.h"
-//#include "modules/Ultrasonic/Ultrasonic.h"
+#include "modules/Ultrasonic/Ultrasonic.h"
 #include "modules/Mcc/Mcc.h"
 #include "modules/Admin/Admin.h"
 #include "modules/Motor/MotorModule.h"
@@ -87,51 +87,47 @@ void heartbeat_task() {
 
 //================================================
 // TEST ULTRASONIC VARIABLES
-//DigitalOut trigger(PTC17);
-//DigitalIn echo(PTC16);
-//int distance = 0;
-//int correction = 0;
-//Timer sonar;
-//void dist(int distance)
-//{
-//   put code here to happen when the distance is changed
-//	led_red = 0;
-//	printf("Distance changed to %d\r\n", distance);
-//}
-//Ultrasonic mu(PTC17, PTC16, .1, 1, &dist);
+DigitalOut trigger(PTA1);
+DigitalIn echo(PTA2);
+int distance = 0;
+int correction = 0;
+Timer sonar;
+void dist(int distance)
+{
+	led_red = 0;
+	printf("Distance changed to %d\r\n", distance);
+}
+Ultrasonic mu(PTA1, PTA2, .1, 1, &dist);
 //================================================
 
 int main() {
 
-	led_red = 1;
-	led_blue = 1;
-	led_green = 1;
-
-
-	wait(2);
-//	mcc.send_message(0,0,"test",4);
-	Admin admin_module;
-	MotorModule motorModule;
-	motorModule.init();
-	Dm3Module dm3Module;
-
-	Thread heartbeat(heartbeat_task);
-
-	while(1){
-		mcc.tick();
-	}
+//	led_red = 1;
+//	led_blue = 1;
+//	led_green = 1;
+//
+//
+//	wait(2);
+////	mcc.send_message(0,0,"test",4);
+//	Admin admin_module;
+//	MotorModule motorModule;
+//	motorModule.init();
+//	Dm3Module dm3Module;
+//
+//	Thread heartbeat(heartbeat_task);
+//
+//	while(1){
+//		mcc.tick();
+//	}
 
 //==================================================
 // ULTRASONIC LOGIC
-//	mu.startUpdates();//start mesuring the distance
-//	while(1)
-//	{
-////  	Do something else here
-//		mu.checkDistance();     //call checkDistance() as much as possible, as this is where
-//		wait(4);
-////		the class checks if dist needs to be called.
-//
-//	}
+	mu.startUpdates();//start mesuring the distance
+	while(1)
+	{
+		mu.checkDistance();     //call checkDistance() as much as possible, as this is where
+		wait(1);
+	}
 }
 
 #endif
