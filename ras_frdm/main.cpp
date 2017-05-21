@@ -62,20 +62,12 @@ int main()
 
 #include "mbed.h"
 #include "rtos.h"
-<<<<<<< HEAD
-#include "modules/Ultrasonic/Ultrasonic.h"
-#include "modules/Mcc/Mcc.h"
-#include "modules/Admin/Admin.h"
-#include "modules/Motor/MotorModule.h"
-#include "modules/DM3/Dm3Module.h"
-=======
 #include "modules/DM3/Dm3Security.h"
 //#include "modules/Ultrasonic/Ultrasonic.h"
 //#include "modules/Mcc/Mcc.h"
 //#include "modules/Admin/Admin.h"
 //#include "modules/Motor/MotorModule.h"
 //#include "modules/DM3/Dm3Module.h"
->>>>>>> 96ebfe4c11b362ca11cb2d3187114ebd01ee2c9e
 //#include "hdlc/frdm_communication.h"
 //#include "modules/Logging/Logger.h"
 //#include "modules/Ethernet/Communication.h"
@@ -96,39 +88,16 @@ void heartbeat_task() {
 
 //================================================
 // TEST ULTRASONIC VARIABLES
-<<<<<<< HEAD
-DigitalOut trigger(PTA1);
-DigitalIn echo(PTA2);
-int distance = 0;
-int correction = 0;
-Timer sonar;
-void dist(int distance)
-{
-	led_red = 0;
-	printf("Distance changed to %d\r\n", distance);
-}
-Ultrasonic mu(PTA1, PTA2, .1, 1, &dist);
-=======
 //int _distance = 0;
 //void dist(int distance)
 //{
 //	_distance = distance;
 //}
 //Ultrasonic mu(PTA1, PTA2, .1, 1, &dist);
->>>>>>> 96ebfe4c11b362ca11cb2d3187114ebd01ee2c9e
 //================================================
 
 int main() {
 
-<<<<<<< HEAD
-//	led_red = 1;
-//	led_blue = 1;
-//	led_green = 1;
-//
-//
-//	wait(2);
-////	mcc.send_message(0,0,"test",4);
-=======
 	led_red = 1;
 	led_blue = 1;
 	led_green = 1;
@@ -136,7 +105,6 @@ int main() {
 	Thread heartbeat(heartbeat_task);
 
 //	wait(2);
->>>>>>> 96ebfe4c11b362ca11cb2d3187114ebd01ee2c9e
 //	Admin admin_module;
 //	MotorModule motorModule;
 //	motorModule.init();
@@ -145,25 +113,13 @@ int main() {
 //	Thread heartbeat(heartbeat_task);
 //
 //	while(1){
-<<<<<<< HEAD
-=======
 //		mcc.send_message(0,1,"test",4);
 //		wait(1);
->>>>>>> 96ebfe4c11b362ca11cb2d3187114ebd01ee2c9e
 //		mcc.tick();
 //	}
 
 //==================================================
 // ULTRASONIC LOGIC
-<<<<<<< HEAD
-	mu.startUpdates();//start mesuring the distance
-	while(1)
-	{
-		mu.checkDistance();     //call checkDistance() as much as possible, as this is where
-		wait(1);
-	}
-}
-=======
 //	mu.startUpdates();//start mesuring the distance
 //	while(1)
 //	{
@@ -207,7 +163,6 @@ int main() {
 //==================================================
 //	Interruptions POC - END
 //==================================================
->>>>>>> 96ebfe4c11b362ca11cb2d3187114ebd01ee2c9e
 
 }
 #endif
