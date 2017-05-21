@@ -17,8 +17,7 @@ namespace modules {
 //#define OPCODE_REPORT 0
 #define OPCODE_SIREN 1
 #define OPCODE_BATTERY 2
-#define OPCODE_ULTRASONICS_REPORT 3
-#define DM3_OPCODES 4
+#define DM3_OPCODES 3
 
 class Dm3Module {
 private:

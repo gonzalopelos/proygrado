@@ -83,17 +83,17 @@ static int handle_batterylevel(unsigned int  pid, unsigned int  opcode) {
 	return 1;
 }
 
-static int report_ultrasonic_sensors(unsigned int  pid, unsigned int  opcode){
-	mcc.encoder.startFrame();
-	mcc.encoder.push(DM3_PID);
-	mcc.encoder.push(OPCODE_ULTRASONICS_REPORT);
-	mcc.encoder.startList();
-	int len = snprintf(stringbuffer, STRING_BUFF_SIZE, "distances: [%d, %d, %d, %d]", dm3_instance->check_front_distances(), 0, 0, 0);
-	mcc.encoder.push(stringbuffer, len);
-	mcc.encoder.endList();
-	mcc.encoder.endFrame();
-	return 1;
-}
+//static int report_ultrasonic_sensors(unsigned int  pid, unsigned int  opcode){
+//	mcc.encoder.startFrame();
+//	mcc.encoder.push(DM3_PID);
+//	mcc.encoder.push(OPCODE_ULTRASONICS_REPORT);
+//	mcc.encoder.startList();
+//	int len = snprintf(stringbuffer, STRING_BUFF_SIZE, "distances: [%d, %d, %d, %d]", dm3_instance->check_front_distances(), 0, 0, 0);
+//	mcc.encoder.push(stringbuffer, len);
+//	mcc.encoder.endList();
+//	mcc.encoder.endFrame();
+//	return 1;
+//}
 
 void Dm3Module::battery_report_task(void const *argument) {
 	while(true){
@@ -111,6 +111,6 @@ Dm3Module::Dm3Module() {
 	Dm3Module::opcode_callbacks[OPCODE_REPORT] = &handle_report;
 	Dm3Module::opcode_callbacks[OPCODE_SIREN] = &handle_siren;
 	Dm3Module::opcode_callbacks[OPCODE_BATTERY] = &handle_batterylevel;
-	Dm3Module::opcode_callbacks[OPCODE_ULTRASONICS_REPORT] = &report_ultrasonic_sensors;
+//	Dm3Module::opcode_callbacks[OPCODE_ULTRASONICS_REPORT] = &report_ultrasonic_sensors;
 	Dm3Module::pid = mcc.register_opcode_callbacks(Dm3Module::opcode_callbacks, DM3_OPCODES);
 }

@@ -62,21 +62,30 @@ int main()
 
 #include "mbed.h"
 #include "rtos.h"
+<<<<<<< HEAD
 #include "modules/Ultrasonic/Ultrasonic.h"
 #include "modules/Mcc/Mcc.h"
 #include "modules/Admin/Admin.h"
 #include "modules/Motor/MotorModule.h"
 #include "modules/DM3/Dm3Module.h"
+=======
+#include "modules/DM3/Dm3Security.h"
+//#include "modules/Ultrasonic/Ultrasonic.h"
+//#include "modules/Mcc/Mcc.h"
+//#include "modules/Admin/Admin.h"
+//#include "modules/Motor/MotorModule.h"
+//#include "modules/DM3/Dm3Module.h"
+>>>>>>> 96ebfe4c11b362ca11cb2d3187114ebd01ee2c9e
 //#include "hdlc/frdm_communication.h"
 //#include "modules/Logging/Logger.h"
 //#include "modules/Ethernet/Communication.h"
-Ticker ticker_msg_rate;
+//Ticker ticker_msg_rate;
 DigitalOut led_green(LED_GREEN);
 DigitalOut led_red(LED_RED);
 DigitalOut led_blue(LED_BLUE);
 
 using namespace modules;
-Mcc mcc;
+//Mcc mcc;
 
 void heartbeat_task() {
 	while (true) {
@@ -87,6 +96,7 @@ void heartbeat_task() {
 
 //================================================
 // TEST ULTRASONIC VARIABLES
+<<<<<<< HEAD
 DigitalOut trigger(PTA1);
 DigitalIn echo(PTA2);
 int distance = 0;
@@ -98,10 +108,19 @@ void dist(int distance)
 	printf("Distance changed to %d\r\n", distance);
 }
 Ultrasonic mu(PTA1, PTA2, .1, 1, &dist);
+=======
+//int _distance = 0;
+//void dist(int distance)
+//{
+//	_distance = distance;
+//}
+//Ultrasonic mu(PTA1, PTA2, .1, 1, &dist);
+>>>>>>> 96ebfe4c11b362ca11cb2d3187114ebd01ee2c9e
 //================================================
 
 int main() {
 
+<<<<<<< HEAD
 //	led_red = 1;
 //	led_blue = 1;
 //	led_green = 1;
@@ -109,6 +128,15 @@ int main() {
 //
 //	wait(2);
 ////	mcc.send_message(0,0,"test",4);
+=======
+	led_red = 1;
+	led_blue = 1;
+	led_green = 1;
+	Dm3Security dm3_security;
+	Thread heartbeat(heartbeat_task);
+
+//	wait(2);
+>>>>>>> 96ebfe4c11b362ca11cb2d3187114ebd01ee2c9e
 //	Admin admin_module;
 //	MotorModule motorModule;
 //	motorModule.init();
@@ -117,11 +145,17 @@ int main() {
 //	Thread heartbeat(heartbeat_task);
 //
 //	while(1){
+<<<<<<< HEAD
+=======
+//		mcc.send_message(0,1,"test",4);
+//		wait(1);
+>>>>>>> 96ebfe4c11b362ca11cb2d3187114ebd01ee2c9e
 //		mcc.tick();
 //	}
 
 //==================================================
 // ULTRASONIC LOGIC
+<<<<<<< HEAD
 	mu.startUpdates();//start mesuring the distance
 	while(1)
 	{
@@ -129,6 +163,52 @@ int main() {
 		wait(1);
 	}
 }
+=======
+//	mu.startUpdates();//start mesuring the distance
+//	while(1)
+//	{
+////  	Do something else here
+//		printf("the distance is: %dmm\n", _distance);
+//		wait(1);
+////		the class checks if dist needs to be called.
+//	}
+//}
 
+
+//==================================================
+//	Interruptions POC - START
+//==================================================
+//InterruptIn Interrupt(PTA1);
+//
+//
+//void blink()
+//{
+//    wait(.4);
+//    led_red=1;
+//    led_blue=0;
+//    wait(.4);
+//    led_blue=1;
+//    wait(.4);
+//}
+//
+//int main()
+//{
+//	led_red = 1;
+//	led_blue = 1;
+//	led_green = 1;
+//    Interrupt.fall(&blink);
+//    led_blue=1;
+//    while (1)
+//    {
+//        led_red=!led_red;
+//        wait(.2);
+//    }
+//}
+//==================================================
+//	Interruptions POC - END
+//==================================================
+>>>>>>> 96ebfe4c11b362ca11cb2d3187114ebd01ee2c9e
+
+}
 #endif
 
