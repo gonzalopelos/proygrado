@@ -63,8 +63,6 @@ public:
    int horn(int);
    int horn();
 
-   int check_front_distances();
-
 private:
    Dm3();
    static Dm3* m_pInstance;
