@@ -1,19 +1,51 @@
-//#define MAIN_AM
+#define MAIN_AM
 
 #ifdef MAIN_AM
 #include "mbed.h"
-#include "PIDModule.h"
-#include "dm3.h"
+#include "Bumper.h"
+//#include "PIDModule.h"
+//#include "dm3.h"
 
-#define MOTORS_PER_CHASIS 2
+using namespace modules;
+
+//#define MOTORS_PER_CHASIS 2
 
 //I2C i2c(PTE25, PTE24); // SDA, SCL para K64F
 //PCF8591 DAC_I2C(&i2c, PCF8591_SA0); // I2C bus, Default PCF8591 Slaveaddress
 //Serial pc(USBTX, USBRX);
 
 DigitalOut led(LED_RED);
-DigitalOut ledGreen(LED_GREEN);
+Bumper bump(SW2);
+//InterruptIn sw2(SW2);
+//DigitalOut ledGreen(LED_GREEN);
+volatile int flag = 0;
 
+void sw2_isr();	// Prototipo de la funcion
+
+int main(){
+	bump.attach(&sw2_isr);
+	led = 1;
+
+    while (1) {
+		if (flag == 1){
+			printf("ENTRO\n");
+			flag = 0;
+			led = 0;
+			wait(1);
+		}
+		else{
+			printf("AFUERA\n");
+			led = 1;
+		}
+    }
+}
+
+void sw2_isr()
+{
+	flag = 1;
+}
+
+/*
 int main()
 {
 	led = 1;
@@ -39,7 +71,7 @@ int main()
 		wait(2.0f);
 	}
 }
-
+*/
 /*
  int main() {
  PIDModule pid[1];
@@ -54,7 +86,7 @@ int main()
  DAC_I2C.write(count);
  }
  }
- */
+*/
 
 #endif
 
