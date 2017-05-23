@@ -12,19 +12,36 @@
 
 namespace modules {
 
-Thread _ultrasonic_alert_thread;
-int _ultrasonic_front_distance;
+
+// Front-left ultrasonic sensor variables =========================
+Thread _ultrasonic_fl_alert_thread;
+int _ultrasonic_fl_distance;
+
+void update_fl_dist(int distance);
+void handle_ultrasonic_fl_distance_alert();
+
+Ultrasonic ultrasonic_fl(PTA1, PTA2, .1, 1, &update_fl_dist);
+// ================================================================
 
 
-void update_front_dist(int distance);
-void handle_ultrasonic_distance_alert();
+// Front-right ultrasonic sensor variables =========================
+Thread _ultrasonic_fr_alert_thread;
+int _ultrasonic_fr_distance;
 
-Ultrasonic ultrasonic_front(PTA1, PTA2, .1, 1, &update_front_dist);
+void update_fr_dist(int distance);
+void handle_ultrasonic_fr_distance_alert();
+
+Ultrasonic ultrasonic_fr(PTD1, PTD3, .1, 1, &update_fr_dist);
+// ================================================================
+
+
 
 Dm3Security::Dm3Security() {
 	// TODO Auto-generated constructor stub
-	ultrasonic_front.startUpdates();
-	_ultrasonic_alert_thread.start(&handle_ultrasonic_distance_alert);
+	ultrasonic_fl.startUpdates();
+	_ultrasonic_fl_alert_thread.start(&handle_ultrasonic_fl_distance_alert);
+	ultrasonic_fr.startUpdates();
+	_ultrasonic_fr_alert_thread.start(&handle_ultrasonic_fr_distance_alert);
 }
 
 //ToDo: Agregar filtro por software para sacar ruido leer diapo de FRA diapositiva 1 hay formula, aplicar filtro de ventana o ponderaciones.
@@ -36,27 +53,50 @@ Dm3Security::~Dm3Security() {
 
 }
 
-void update_front_dist(int distance)
+void update_fl_dist(int distance)
 {
-	_ultrasonic_front_distance = distance;
+	_ultrasonic_fl_distance = distance;
    //ToDo Logic to check distance ranges
-	_ultrasonic_alert_thread.signal_set(0x1);
+	_ultrasonic_fl_alert_thread.signal_set(0x1);
 }
 
-void handle_ultrasonic_distance_alert(){
+void handle_ultrasonic_fl_distance_alert(){
 //	int risk_state = 0;
 	DigitalOut led_blue(LED_BLUE);
 	led_blue = 1;
 	while(true) {
-		_ultrasonic_alert_thread.signal_wait(0x1, 0);
+		_ultrasonic_fl_alert_thread.signal_wait(0x1, 0);
 
-		if(_ultrasonic_front_distance < ULTRASONIC_MIN_FRONT_DIST){
+		if(_ultrasonic_fl_distance < ULTRASONIC_MIN_FRONT_DIST){
 			led_blue = 0;
 		} else {
 			led_blue = 1;
 		}
 	}
 }
+
+void update_fr_dist(int distance)
+{
+	_ultrasonic_fr_distance = distance;
+   //ToDo Logic to check distance ranges
+	_ultrasonic_fr_alert_thread.signal_set(0x1);
+}
+
+void handle_ultrasonic_fr_distance_alert(){
+//	int risk_state = 0;
+	DigitalOut led_red(LED_RED);
+	led_red = 1;
+	while(true) {
+		_ultrasonic_fr_alert_thread.signal_wait(0x1, 0);
+
+		if(_ultrasonic_fr_distance < ULTRASONIC_MIN_FRONT_DIST){
+			led_red = 0;
+		} else {
+			led_red = 1;
+		}
+	}
+}
+
 
 
 } /* namespace modules */
