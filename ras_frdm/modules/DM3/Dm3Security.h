@@ -11,7 +11,8 @@
 namespace modules {
 
 class Dm3Security {
-#define ULTRASONIC_MIN_FRONT_DIST (int) 300
+private:
+	#define	ULTRASONIC_MIN_FRONT_DIST (int) 300
 public:
 	Dm3Security();
 	virtual ~Dm3Security();
