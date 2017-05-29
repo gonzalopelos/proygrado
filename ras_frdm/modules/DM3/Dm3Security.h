@@ -12,6 +12,7 @@ namespace modules {
 
 class Dm3Security {
 private:
+	#define BUMPER_DEBOUNCING_TIMEOUT (int) 200
 	#define	ULTRASONIC_MIN_FRONT_DIST (int) 300
 public:
 	Dm3Security();

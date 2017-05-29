@@ -9,10 +9,17 @@
 #include <mbed.h>
 #include <rtos.h>
 #include "../Ultrasonic/Ultrasonic.h"
+#include "Bumper.h"
 
 namespace modules {
+// Sensor de contacto =============================================
+Thread _bumper_alert_thread;
 
+void handle_bumper();
+void handle_bumper_alert();
 
+Bumper bumper(SW2);
+// ================================================================
 // Front-left ultrasonic sensor variables =========================
 Thread _ultrasonic_fl_alert_thread;
 int _ultrasonic_fl_distance;
@@ -40,6 +47,12 @@ int filter_distance(int distance, int last_distance);
 
 Dm3Security::Dm3Security() {
 	// TODO Auto-generated constructor stub
+	// Sensores de contacto
+	bumper.timeout = BUMPER_DEBOUNCING_TIMEOUT;
+	bumper.attach(&handle_bumper);
+	_bumper_alert_thread.start(&handle_bumper_alert);
+
+	// Sensores ultrasonicos
 	ultrasonic_fl.startUpdates();
 	_ultrasonic_fl_last_distance = -1;
 	_ultrasonic_fl_alert_thread.start(&handle_ultrasonic_fl_distance_alert);
@@ -55,6 +68,16 @@ Dm3Security::Dm3Security() {
 Dm3Security::~Dm3Security() {
 	// TODO Auto-generated destructor stub
 
+}
+
+void handle_bumper(){
+	_bumper_alert_thread.signal_set(0x1);
+}
+
+void handle_bumper_alert(){
+	while(true){
+		_bumper_alert_thread.signal_wait(0x1, osWaitForever);
+	}
 }
 
 void update_fl_dist(int distance)
