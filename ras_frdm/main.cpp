@@ -2,12 +2,13 @@
 
 #ifdef MAIN_AM
 #include "mbed.h"
-#include "rtos.h"
-#include "Dm3Security.h"
+//#include "rtos.h"
+//#include "Dm3Security.h"
 //#include "Mcc.h"
 //#include "Bumper.h"
 //#include "PIDModule.h"
 //#include "dm3.h"
+#include "Watchdog.h"
 
 using namespace modules;
 //Mcc mcc;
@@ -28,6 +29,27 @@ void heartbeat_task() {
 
 //void sw2_isr();	// Prototipo de la funcion
 
+Watchdog wdt;
+int main() {
+	led_red 	= 1;
+	led_blue 	= 1;
+	led_green 	= 1;
+	printf("INICIO\n");
+	int i = 0;
+	wdt.kick(10.0);	// 10 segundos sin kick resetea la placa.
+
+	while(1) {
+		printf("Loop.....\n");
+		wait(0.1);
+		if (i == 20){
+			while(1);	//Trancar, debe dar timeout el WDT, resetear la placa y comenzar nuevamente por inicio.
+		}
+		wdt.kick();
+		i++;
+	}
+}
+
+/*
 int main(){
 	led_red 	= 1;
 	led_blue 	= 1;
@@ -39,7 +61,7 @@ int main(){
 
 	}
 }
-
+*/
 /*
 int main(){
 	bump.attach(&sw2_isr);
