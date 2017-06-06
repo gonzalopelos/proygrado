@@ -8,6 +8,7 @@
 #include <Dm3Module.h>
 #include "Dm3.h"
 #include "../EmBencode/EmBencode.h"
+#include "Dm3Security.h"
 #include "rtos.h"
 
 using namespace modules;
@@ -16,7 +17,7 @@ extern Mcc mcc;
 
 
 Dm3 * dm3_instance;
-
+Dm3Security* dm3_security_instance;
 
 #define BATT_SENSE_PERIOD 1000*4
 #define STRING_BUFF_SIZE 40
@@ -83,17 +84,18 @@ static int handle_batterylevel(unsigned int  pid, unsigned int  opcode) {
 	return 1;
 }
 
-//static int report_ultrasonic_sensors(unsigned int  pid, unsigned int  opcode){
-//	mcc.encoder.startFrame();
-//	mcc.encoder.push(DM3_PID);
-//	mcc.encoder.push(OPCODE_ULTRASONICS_REPORT);
-//	mcc.encoder.startList();
-//	int len = snprintf(stringbuffer, STRING_BUFF_SIZE, "distances: [%d, %d, %d, %d]", dm3_instance->check_front_distances(), 0, 0, 0);
-//	mcc.encoder.push(stringbuffer, len);
-//	mcc.encoder.endList();
-//	mcc.encoder.endFrame();
-//	return 1;
-//}
+static int report_dm3_security_state(unsigned int pid, unsigned int opcode){
+	mcc.encoder.startFrame();
+	mcc.encoder.push(DM3_PID);
+	mcc.encoder.push(OPCODE_SECURITY);
+	mcc.encoder.startList();
+//	int len = snprintf(stringbuffer, STRING_BUFF_SIZE, "SECURITY STATE: %d", Dm3Security::get_instance()->get_state());
+//	smcc.encoder.push(stringbuffer, len);
+	mcc.encoder.endList();
+	mcc.encoder.endFrame();
+
+	return 1;
+}
 
 void Dm3Module::battery_report_task(void const *argument) {
 	while(true){
@@ -103,14 +105,21 @@ void Dm3Module::battery_report_task(void const *argument) {
 
 }
 
+static void test_ultrasonic_distance_alert(Dm3Security::alert_data_t * data){
+
+}
+
 Dm3Module::Dm3Module() {
 	for (unsigned int i=0; i<DM3_OPCODES; ++i) {
 			Dm3Module::opcode_callbacks[i]=NULL;
 	}
 	dm3_instance = Dm3::Instance();
+	dm3_security_instance = Dm3Security::get_instance();
+	dm3_security_instance->attach(Dm3Security::US_DIST_ALERT_EVENT,&test_ultrasonic_distance_alert);
+
 	Dm3Module::opcode_callbacks[OPCODE_REPORT] = &handle_report;
 	Dm3Module::opcode_callbacks[OPCODE_SIREN] = &handle_siren;
 	Dm3Module::opcode_callbacks[OPCODE_BATTERY] = &handle_batterylevel;
-//	Dm3Module::opcode_callbacks[OPCODE_ULTRASONICS_REPORT] = &report_ultrasonic_sensors;
+	Dm3Module::opcode_callbacks[OPCODE_SECURITY] = &report_dm3_security_state;
 	Dm3Module::pid = mcc.register_opcode_callbacks(Dm3Module::opcode_callbacks, DM3_OPCODES);
 }

@@ -9,7 +9,7 @@
 #include "rtos.h"
 #include "Mcc.h"
 
-#include "../Ethernet/Communication.h"
+//#include "../Ethernet/Communication.h"
 
 using namespace mbed;
 using namespace modules;
@@ -26,7 +26,7 @@ enum ProtocolStates protocol_state = MESSAGE;
 char embuf[255];
 char outbuf[255];
 EmBdecode decoder(embuf, sizeof embuf);
-Communication * host;
+//Communication * host;
 uint8_t tpid;
 uint8_t opcode;
 Mutex serial_mcc_frame_lock;
@@ -52,7 +52,8 @@ void EmBencode::PushChar(char ch) {
 	if (strlen(outbuf) < 255) {
 		outbuf[strlen(outbuf)] = ch;
 		if (ch == '\n') {
-			host->send_all(outbuf, strlen(outbuf));
+//			host->send_all(outbuf, strlen(outbuf));
+			printf(outbuf);
 			bzero(outbuf, 255);
 		}
 	}
@@ -66,7 +67,7 @@ Mcc::Mcc() {
 	n_poll_callbacks = 0;
 	n_opcode_callbacks = 0;
 	bzero(outbuf, 255);
-	host = Communication::get_instance();
+//	host = Communication::get_instance();
 }
 
 Mcc::~Mcc() {
@@ -79,7 +80,7 @@ void Mcc::process_incomming() {
 	char ch;
 	int data_length = 0;
 
-	data_length = host->receive(data, 1);
+//	data_length = host->receive(data, 1);
 	if (data_length > 0) {
 		ch = data[0];
 		if (ch == '\n') {
