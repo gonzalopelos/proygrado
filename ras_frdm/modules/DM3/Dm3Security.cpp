@@ -13,19 +13,7 @@
 #include "Bumper.h"
 
 namespace modules {
-// Sensor de contacto =============================================
-Thread _bumper_alert_thread;
 
-void handle_bumper();
-void handle_bumper_alert();
-Bumper bumper(SW2);
-// ================================================================
-    
-typedef enum dm3_security_state{
-	ENABLED, DISABLED_BUMPER, DISABLED_FRONT_DISTANCE, DISABLED_RIGHT_DISTANCE, DISABLED_BACK_DISTANCE, DISABLED_LEFT_DISTANCE
-} dm3_security_state_t;
-
-dm3_security_state_t _dm3_swcurity_state = ENABLED;
 Mutex _dm3_security_state_mutex;
 Dm3 * _dm3_instance = NULL;
 MotorModule* _motor_module_instance = NULL;
@@ -48,6 +36,12 @@ void update_fl_dist(int distance);
 Ultrasonic ultrasonic_fl(PTA1, PTA2, .1, 1, &update_fl_dist);
 // ================================================================
 
+// Bamper =========================================================
+void handle_bumper();
+void handle_bumper_alert();
+Thread _bumper_alert_thread;
+Bumper bumper(SW2);
+// ================================================================
 
 
 
@@ -64,14 +58,14 @@ Dm3Security::Dm3Security() {
 	// Sensores de contacto
 	bumper.timeout = BUMPER_DEBOUNCING_TIMEOUT;
 	bumper.attach(&handle_bumper);
-	_bumper_alert_thread.start(&handle_bumper_alert);
+	_bumper_alert_thread.start(callback(this, &Dm3Security::handle_bumper_alert));
 
 	// Sensores ultrasonicos
 	ultrasonic_fl.startUpdates();
 	_ultrasonic_fl_last_distance = -1;
 	_ultrasonic_fl_alert_thread.start(callback(this, &Dm3Security::handle_ultrasonic_fl_distance_alert));
-	ultrasonic_fr.startUpdates();
-	_ultrasonic_fr_last_distance = -1;
+//	ultrasonic_fr.startUpdates();
+	_ultrasonic_fr_last_distance = 9999999;
 	_ultrasonic_fr_alert_thread.start(callback(this, &Dm3Security::handle_ultrasonic_fr_distance_alert));
 	_dm3_instance = Dm3::Instance();
 	_motor_module_instance = MotorModule::get_instance();
@@ -86,15 +80,15 @@ Dm3Security::~Dm3Security() {
 	free(_dm3_security_instance);
 }
     
-    void handle_bumper(){
-        _bumper_alert_thread.signal_set(0x1);
-    }
-    
-    void handle_bumper_alert(){
-        while(true){
-            _bumper_alert_thread.signal_wait(0x1, osWaitForever);
-        }
-    }
+void handle_bumper(){
+	_bumper_alert_thread.signal_set(0x1);
+}
+
+void Dm3Security::handle_bumper_alert(){
+	while(true){
+		_bumper_alert_thread.signal_wait(0x1, osWaitForever);
+	}
+}
 
 inline void update_fl_dist(int distance)
 {
@@ -155,19 +149,20 @@ void Dm3Security::handle_ultrasonic_distance_action(dm3_direction_t direction) {
 				alert_data.distance = distance_min;
 				alert_data.direction = FRONT;
 				if(disable){
-//					update_dm3_security_state(DISABLED_FRONT_DISTANCE);
 					led_red = 0;
 					alert_data.alert_type = DANGER;
-					_ultrasonic_distance_alert_callback.call(&alert_data);
+					if(_ultrasonic_distance_alert_callback){
+						_ultrasonic_distance_alert_callback.call(&alert_data);
+					}
 				}else{
 					led_red = 1;
-//					update_dm3_security_state(ENABLED);
-					alert_data.alert_type = OK;
-					_ultrasonic_distance_alert_callback.call(&alert_data);
+					alert_data.alert_type = WARNING;
+					if(_ultrasonic_distance_alert_callback){
+						_ultrasonic_distance_alert_callback.call(&alert_data);
+					}
 				}
 			}else{
 				led_red = 1;
-//				update_dm3_security_state(ENABLED);
 			}
 			break;
 		case RIGHT:

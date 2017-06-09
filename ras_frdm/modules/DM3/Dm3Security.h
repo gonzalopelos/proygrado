@@ -44,7 +44,7 @@ public:
 	void attach(event_type_t event, T *object, void (T::*member)(alert_data_t*)) {
 		switch(event){
 		case US_DIST_ALERT_EVENT:
-			_ultrasonic_distance_alert_callback.attach(object, member);
+			_ultrasonic_distance_alert_callback.attach(callback(object, member));
 			break;
 		case BUMPER_ALERT_EVENT:
 			//ToDo attach to event handler function to callback
@@ -53,19 +53,21 @@ public:
 	}
 
 protected:
-	typedef FunctionPointerArg1<void, alert_data_t*> alert_event_t;
+	typedef Callback<void(alert_data_t*)> alert_event_t;
 	alert_event_t _ultrasonic_distance_alert_callback;
 	int filter_ultrasonic_distance(int distance, int last_distance);
 	void handle_ultrasonic_distance_action(dm3_direction_t direction);
 //	dm3_security_state_t get_dm3_security_state();
-
 	// Front-left ultrasonic sensor ===================================
 	void handle_ultrasonic_fl_distance_alert();
 	// ================================================================
 
-
 	// Front-right ultrasonic sensor ==================================
 	void handle_ultrasonic_fr_distance_alert();
+	// ================================================================
+
+	// Bamper =========================================================
+	void handle_bumper_alert();
 	// ================================================================
 
 private:

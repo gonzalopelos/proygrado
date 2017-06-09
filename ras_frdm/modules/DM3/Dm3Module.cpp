@@ -26,6 +26,11 @@ char stringbuffer[STRING_BUFF_SIZE];
 int siren_count = 0;
 int siren_on = 0;
 
+typedef enum dm3_security_state{
+	ENABLED, DISABLED_BUMPER, DISABLED_FRONT_DISTANCE, DISABLED_RIGHT_DISTANCE, DISABLED_BACK_DISTANCE, DISABLED_LEFT_DISTANCE
+} dm3_security_state_t;
+
+
 Dm3Module::~Dm3Module() {
 	// TODO Auto-generated destructor stub
 }
@@ -106,6 +111,7 @@ void Dm3Module::battery_report_task(void const *argument) {
 }
 
 static void test_ultrasonic_distance_alert(Dm3Security::alert_data_t * data){
+	printf("ultrasonic_distance_alert: %d, %d, %d\n", data->alert_type, data->direction, data->distance);
 
 }
 
