@@ -57,7 +57,7 @@ protected:
 	alert_event_t _ultrasonic_distance_alert_callback;
 	int filter_ultrasonic_distance(int distance, int last_distance);
 	void handle_ultrasonic_distance_action(dm3_direction_t direction);
-//	dm3_security_state_t get_dm3_security_state();
+	static void self_alert_call(const alert_event_t& alert_callback, alert_data_t& alert_data);
 	// Front-left ultrasonic sensor ===================================
 	void handle_ultrasonic_fl_distance_alert();
 	// ================================================================

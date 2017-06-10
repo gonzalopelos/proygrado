@@ -134,9 +134,12 @@ void Dm3Security::handle_ultrasonic_distance_action(dm3_direction_t direction) {
 	DigitalOut led_red(LED_RED);
 	led_red = 1;
 	bool disable = false;
+	alert_data_t alert_data;
 	switch (direction) {
 		case FRONT:
 			distance_min = _ultrasonic_fl_last_distance < _ultrasonic_fr_last_distance ? _ultrasonic_fl_last_distance : _ultrasonic_fr_last_distance;
+			alert_data.distance = distance_min;
+			alert_data.direction = FRONT;
 			if(distance_min < ULTRASONIC_MIN_FRONT_DIST){
 				float** vels = _motor_module_instance->get_current_vels();
 				for (int motor = 0; motor < MOTORS_PER_CHASIS; ++motor) {
@@ -145,24 +148,17 @@ void Dm3Security::handle_ultrasonic_distance_action(dm3_direction_t direction) {
 						break;
 					}
 				}
-				alert_data_t alert_data;
-				alert_data.distance = distance_min;
-				alert_data.direction = FRONT;
 				if(disable){
 					led_red = 0;
 					alert_data.alert_type = DANGER;
-					if(_ultrasonic_distance_alert_callback){
-						_ultrasonic_distance_alert_callback.call(&alert_data);
-					}
 				}else{
 					led_red = 1;
 					alert_data.alert_type = WARNING;
-					if(_ultrasonic_distance_alert_callback){
-						_ultrasonic_distance_alert_callback.call(&alert_data);
-					}
 				}
+				self_alert_call(_ultrasonic_distance_alert_callback, alert_data);
 			}else{
 				led_red = 1;
+
 			}
 			break;
 		case RIGHT:
@@ -173,6 +169,12 @@ void Dm3Security::handle_ultrasonic_distance_action(dm3_direction_t direction) {
 			break;
 	}
 
+}
+
+void Dm3Security::self_alert_call(const alert_event_t& alert_callback, alert_data_t& alert_data) {
+	if(alert_callback){
+		alert_callback.call(&alert_data);
+	}
 }
 
 /*dm3_security_state_t Dm3Security::get_dm3_security_state() {
@@ -210,4 +212,5 @@ void Dm3Security::update_dm3_security_state(dm3_security_state_t state) {
 }*/
 
 } /* namespace modules */
+
 
