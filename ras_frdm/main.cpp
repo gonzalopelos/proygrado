@@ -1,8 +1,23 @@
-//#define MAIN_AM
+#define MAIN_AM
 
 #ifdef MAIN_AM
 #include "mbed.h"
-//#include "rtos.h"
+#include "USBSerial.h"
+
+//Virtual serial port over USB
+USBSerial serial;
+
+int main(void) {
+
+    while(1)
+    {
+        serial.printf("I am a virtual serial port\r\n");
+        wait(1);
+    }
+}
+/*
+#include "mbed.h"
+#include "rtos.h"
 //#include "Dm3Security.h"
 //#include "Mcc.h"
 //#include "Bumper.h"
@@ -18,14 +33,13 @@ DigitalOut led_green(LED_GREEN);
 //Bumper bump(SW2);
 //InterruptIn sw2(SW2);
 //volatile int flag = 0;
-/*
+
 void heartbeat_task() {
-	while (true) {
-		led_green = !led_green;
-		Thread::wait(500);
+	while (1) {
+		printf("HILO\n");
+		Thread::wait(2000);
 	}
 }
-*/
 
 //void sw2_isr();	// Prototipo de la funcion
 
@@ -35,20 +49,16 @@ int main() {
 	led_blue 	= 1;
 	led_green 	= 1;
 	printf("INICIO\n");
-	int i = 0;
-	wdt.kick(10.0);	// 10 segundos sin kick resetea la placa.
+	wait(1.0);
 
+	wdt.kick(1.0);	// 10 segundos sin kick resetea la placa.
+	Thread heartbeat(heartbeat_task);
 	while(1) {
-		printf("Loop.....\n");
-		wait(0.1);
-		if (i == 20){
-			while(1);	//Trancar, debe dar timeout el WDT, resetear la placa y comenzar nuevamente por inicio.
-		}
+		printf("MAIN\n");
 		wdt.kick();
-		i++;
 	}
 }
-
+*/
 /*
 int main(){
 	led_red 	= 1;
