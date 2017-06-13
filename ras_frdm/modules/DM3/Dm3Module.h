@@ -9,9 +9,10 @@
 #define MODULES_DM3_DM3MODULE_H_
 
 #include "../Mcc/Mcc.h"
+#include "Dm3Security.h"
+#include "../../utilities/linkedlist.h"
 
-
-
+using namespace utilities;
 namespace modules {
 
 //#define OPCODE_REPORT 0
@@ -22,6 +23,31 @@ namespace modules {
 
 class Dm3Module {
 private:
+	typedef enum e_dm3_security_status{
+		ENABLED = 0, WARNING = 1, DISABLED = 2
+	} dm3_security_status;
+
+	typedef struct s_dm3_security_device{
+		Dm3Security::security_device_type type;
+		dm3_security_status status;
+		Dm3Security::alert_data data;
+	}dm3_security_device;
+
+//	typedef struct s_dm3_sd_by_status{
+//		dm3_security_status status;
+//		linked_list<node> dm3_security_devices;
+//	}dm3_sd_by_status;
+
+	typedef struct s_dm3_security_information{
+		dm3_security_status status;
+		linked_list<node> devices;
+	}dm3_security_information;
+
+	dm3_security_information dm3_security_info;
+
+	void update_sd_status(dm3_security_device& sd);
+
+	void report_dm3_security_status();
 	int pid;
 	OpcodeCallback opcode_callbacks[DM3_OPCODES];
 	void report_siren();
@@ -31,6 +57,7 @@ public:
 	virtual ~Dm3Module();
 	static void siren_task(void const *argument);
 	static void battery_report_task(void const *argument);
+	void ultrasonic_distance_alert(Dm3Security::alert_data * data);
 };
 
 } /* namespace modules */

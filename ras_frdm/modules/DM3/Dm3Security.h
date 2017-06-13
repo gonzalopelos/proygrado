@@ -21,43 +21,45 @@ public:
 	} dm3_direction_t;
 
 	/*Event handlers definitions*/
-	typedef enum event_type { US_DIST_ALERT_EVENT = 0, BUMPER_ALERT_EVENT } event_type_t;
-	typedef enum alert_type { OK, WARNING, DANGER } alert_type_t;
-	typedef struct{
+	typedef enum e_security_device_type{
+		ULTRASONIC, BUMPER
+	}security_device_type;
+	typedef enum e_alert_level { OK, WARNING, DANGER } alert_level;
+	typedef struct s_alert_data{
 		int distance;
 		dm3_direction_t direction;
-		alert_type_t alert_type;
-	}alert_data_t;
+		alert_level level;
+	}alert_data;
 
-	void attach(event_type_t event, void (*function)(alert_data_t*)) {
-		switch(event){
-		case US_DIST_ALERT_EVENT:
+	void attach(security_device_type sd_type, void (*function)(alert_data*)) {
+		switch(sd_type){
+		case ULTRASONIC:
 			_ultrasonic_distance_alert_callback.attach(callback(function));
 			break;
-		case BUMPER_ALERT_EVENT:
+		case BUMPER:
 			//ToDo attach to event handler function to callback
 			break;
 		}
 	}
 
 	template<typename T>
-	void attach(event_type_t event, T *object, void (T::*member)(alert_data_t*)) {
-		switch(event){
-		case US_DIST_ALERT_EVENT:
+	void attach(security_device_type sd_type, T *object, void (T::*member)(alert_data*)) {
+		switch(sd_type){
+		case ULTRASONIC:
 			_ultrasonic_distance_alert_callback.attach(callback(object, member));
 			break;
-		case BUMPER_ALERT_EVENT:
+		case BUMPER:
 			//ToDo attach to event handler function to callback
 			break;
 		}
 	}
 
 protected:
-	typedef Callback<void(alert_data_t*)> alert_event_t;
+	typedef Callback<void(alert_data*)> alert_event_t;
 	alert_event_t _ultrasonic_distance_alert_callback;
 	int filter_ultrasonic_distance(int distance, int last_distance);
 	void handle_ultrasonic_distance_action(dm3_direction_t direction);
-	static void self_alert_call(const alert_event_t& alert_callback, alert_data_t& alert_data);
+	static void self_alert_call(const alert_event_t& alert_callback, alert_data& alert_data);
 	// Front-left ultrasonic sensor ===================================
 	void handle_ultrasonic_fl_distance_alert();
 	// ================================================================

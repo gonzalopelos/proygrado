@@ -134,7 +134,7 @@ void Dm3Security::handle_ultrasonic_distance_action(dm3_direction_t direction) {
 	DigitalOut led_red(LED_RED);
 	led_red = 1;
 	bool disable = false;
-	alert_data_t alert_data;
+	alert_data alert_data;
 	switch (direction) {
 		case FRONT:
 			distance_min = _ultrasonic_fl_last_distance < _ultrasonic_fr_last_distance ? _ultrasonic_fl_last_distance : _ultrasonic_fr_last_distance;
@@ -150,16 +150,16 @@ void Dm3Security::handle_ultrasonic_distance_action(dm3_direction_t direction) {
 				}
 				if(disable){
 					led_red = 0;
-					alert_data.alert_type = DANGER;
+					alert_data.level = DANGER;
 				}else{
 					led_red = 1;
-					alert_data.alert_type = WARNING;
+					alert_data.level = WARNING;
 				}
-				self_alert_call(_ultrasonic_distance_alert_callback, alert_data);
 			}else{
 				led_red = 1;
-
+				alert_data.level = OK;
 			}
+			self_alert_call(_ultrasonic_distance_alert_callback, alert_data);
 			break;
 		case RIGHT:
 			break;
@@ -171,7 +171,7 @@ void Dm3Security::handle_ultrasonic_distance_action(dm3_direction_t direction) {
 
 }
 
-void Dm3Security::self_alert_call(const alert_event_t& alert_callback, alert_data_t& alert_data) {
+void Dm3Security::self_alert_call(const alert_event_t& alert_callback, alert_data& alert_data) {
 	if(alert_callback){
 		alert_callback.call(&alert_data);
 	}
