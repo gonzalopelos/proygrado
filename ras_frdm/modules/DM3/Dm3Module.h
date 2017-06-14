@@ -33,11 +33,6 @@ private:
 		Dm3Security::alert_data data;
 	}dm3_security_device;
 
-//	typedef struct s_dm3_sd_by_status{
-//		dm3_security_status status;
-//		linked_list<node> dm3_security_devices;
-//	}dm3_sd_by_status;
-
 	typedef struct s_dm3_security_information{
 		dm3_security_status status;
 		linked_list<node> devices;
@@ -55,7 +50,7 @@ private:
 public:
 	Dm3Module();
 	virtual ~Dm3Module();
-	static void siren_task(void const *argument);
+	void siren_task();
 	static void battery_report_task(void const *argument);
 	void ultrasonic_distance_alert(Dm3Security::alert_data * data);
 };

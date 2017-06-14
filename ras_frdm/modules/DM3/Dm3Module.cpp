@@ -41,22 +41,27 @@ static int handle_siren(unsigned int  pid, unsigned int  opcode) {
 	return 1;
 }
 
-void Dm3Module::siren_task(void const *argument) {
+void Dm3Module::siren_task() {
     while (true) {
-        if (siren_count==0) {
+        if (siren_count==0 && dm3_security_info.status == ENABLED) {
     		siren_on = 0;
     		dm3_instance->horn(siren_on);
     	} else {
-    		if (siren_count>0) siren_count--;
-    		siren_on = 1-siren_on;
-    		dm3_instance->horn(siren_on);
-    		mcc.encoder.startFrame();
-    		mcc.encoder.push(DM3_PID);
-    		mcc.encoder.push(OPCODE_SIREN);
-    		mcc.encoder.startList();
-    		mcc.encoder.push(siren_count);
-    		mcc.encoder.endList();
-    		mcc.encoder.endFrame();
+    		if(siren_count > 0 || dm3_security_info.status == WARNING || dm3_security_info.status == DISABLED){
+    			siren_on = 1-siren_on;
+    			dm3_instance->horn(siren_on);
+    		}
+    		if (siren_count > 0 && dm3_security_info.status == ENABLED){
+    			siren_count--;
+				mcc.encoder.startFrame();
+				mcc.encoder.push(DM3_PID);
+				mcc.encoder.push(OPCODE_SIREN);
+				mcc.encoder.startList();
+				mcc.encoder.push(siren_count);
+				mcc.encoder.endList();
+				mcc.encoder.endFrame();
+    		}
+
     	}
         Thread::wait(500);
     }
@@ -115,6 +120,7 @@ void Dm3Module::update_sd_status(dm3_security_device& sd) {
 		if(dm3_security_info.status == ENABLED){
 			dm3_security_info.status = WARNING;
 			//ToDo throw warning
+
 			report_dm3_security_status();
 		}
 	}else if(sd.status == ENABLED){

@@ -1,4 +1,4 @@
-#define MAIN_AM
+//#define MAIN_AM
 
 #ifdef MAIN_AM
 #include "mbed.h"
@@ -138,8 +138,6 @@ int main() {
 	led_blue = 1;
 	led_green = 1;
 
-	Dm3Security* dm3_security = Dm3Security::get_instance();
-
 //	wait(2);
 	Admin admin_module;
 	MotorModule* motorModule_instance = MotorModule::get_instance();
@@ -151,7 +149,7 @@ int main() {
 	Thread potpoll; // polling de potenciometro
 //	potpoll.start(callback(&MotorModule::potpoll_task, &motorModule));
 	Thread siren; // controlador de sirena
-//	siren.start(callback(&Dm3Module::siren_task, &dm3Module));
+	siren.start(callback(&dm3Module, &Dm3Module::siren_task));
 	Thread report_vel;
 //	report_vel.start(callback(&MotorModule::rated_report_vel_task, &motorModule));
 	Thread report_pow;

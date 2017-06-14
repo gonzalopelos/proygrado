@@ -32,10 +32,10 @@ AnalogIn batt(BATT_IN);
 //DigitalOut pio_reverse[4]={p9, p6, p7, p8};
 DigitalOut pio_reverse[4]={PTC8, PTC1, PTB19, PTB18};	// 2017.03.18 AM - Ultimos 4 pines fila interior de J1
 //DigitalOut pio_brake(p29);
-DigitalOut pio_brake(PTC17);								// 2017.03.18 AM - Pin nro 1 fila exterior de J1
+DigitalOut pio_brake(PTC17);							// 2017.03.18 AM - Pin nro 1 fila exterior de J1
 //DigitalOut pio_enable(p30);
 DigitalOut pio_enable(PTC16);							// 2017.03.18 AM - Pin nro 2 fila exterior de J1
-//DigitalOut pio_horn(p11);
+DigitalOut pio_horn(PTB20);								// 2017.06.13 GP - Pin nro 9 fila interior de J4
 
 //Serial serial(p13, p14); // tx, rx
 //Serial serial(USBTX, USBRX);	// 2017.03.18 AM
@@ -133,12 +133,11 @@ int Dm3::enable() {
 }
 
 int Dm3::horn(int mode) {
-	//pio_horn = mode;
-	//return pio_horn;
-	return 0;
+	pio_horn = mode;
+	return pio_horn;
 }
 
 int Dm3::horn() {
-	return 0;
+	return pio_horn;
 }
 
