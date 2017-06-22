@@ -1,0 +1,25 @@
+@startuml
+
+title Package - Use Case Diagram
+
+rectangle SBC {
+    (pc2ioboard_server) as pc2io
+}
+
+rectangle IO_Board_FRDM_K64F {
+    (Dm3Module) --> (MCC)
+    (Dm3Module) --> (Dm3)
+    (Dm3Module) --> (Dm3Security)
+    (Dm3Security) --> (Ultrasonic)
+    (Dm3Security) --> (MotorModule)
+    (MotorModule) --> (MCC)
+    (MotorModule) --> (Dm3)
+    (MCC) --> (Ethernet)
+    (Admin) --> (MCC)
+    (Dm3Security) --> (Bumper)
+    (MotorModule) --> (PIDModule)
+}
+
+pc2io <--> (Ethernet) : MCC sobre TCP
+
+@enduml
