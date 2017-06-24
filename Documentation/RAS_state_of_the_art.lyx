@@ -902,7 +902,7 @@ Interfaz de comunicación serial síncrona y asíncrona.
 
 \begin_layout Itemize
 Al menos 6 salidas salidas digitales para direcciones de ruedas (4), freno,
- fabilitación, luz de seguridad y bocina.
+ habilitación, luz de seguridad y bocina.
  
 \end_layout
 
@@ -2224,7 +2224,7 @@ La placa debe ser construida ya que es un proyecto abierto, los componentes
 \end_layout
 
 \begin_layout Subsection
-USB4Butía
+USB4Butia
 \end_layout
 
 \begin_layout Standard
