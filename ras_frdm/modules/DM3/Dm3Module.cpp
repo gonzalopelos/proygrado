@@ -30,7 +30,6 @@ char stringbuffer[STRING_BUFF_SIZE];
 int siren_count = 0;
 int siren_on = 0;
 
-
 Dm3Module::~Dm3Module() {
 	// TODO Auto-generated destructor stub
 }
@@ -91,19 +90,6 @@ static int handle_batterylevel(unsigned int  pid, unsigned int  opcode) {
 	mcc.encoder.push(stringbuffer, len);
 	mcc.encoder.endList();
 	mcc.encoder.endFrame();
-	return 1;
-}
-
-static int report_dm3_security_state(unsigned int pid, unsigned int opcode){
-	mcc.encoder.startFrame();
-	mcc.encoder.push(DM3_PID);
-	mcc.encoder.push(OPCODE_SECURITY);
-	mcc.encoder.startList();
-//	int len = snprintf(stringbuffer, STRING_BUFF_SIZE, "SECURITY STATE: %d", Dm3Security::get_instance()->get_state());
-//	smcc.encoder.push(stringbuffer, len);
-	mcc.encoder.endList();
-	mcc.encoder.endFrame();
-
 	return 1;
 }
 
@@ -192,6 +178,10 @@ void Dm3Module::ultrasonic_distance_alert(Dm3Security::alert_data * data){
 	update_sd_status(sd);
 }
 
+void Dm3Module::tcp_connection_alert(Dm3Security::alert_data* data) {
+
+}
+
 Dm3Module::Dm3Module() {
 	for (unsigned int i=0; i<DM3_OPCODES; ++i) {
 			Dm3Module::opcode_callbacks[i]=NULL;
@@ -201,10 +191,13 @@ Dm3Module::Dm3Module() {
 	dm3_security_instance = Dm3Security::get_instance();
 
 	dm3_security_instance->attach(Dm3Security::ULTRASONIC, this, &Dm3Module::ultrasonic_distance_alert);
+	dm3_security_instance->attach(Dm3Security::TCP_CONNECTION, this, &Dm3Module::tcp_connection_alert);
 
 	Dm3Module::opcode_callbacks[OPCODE_REPORT] = &handle_report;
 	Dm3Module::opcode_callbacks[OPCODE_SIREN] = &handle_siren;
 	Dm3Module::opcode_callbacks[OPCODE_BATTERY] = &handle_batterylevel;
-	Dm3Module::opcode_callbacks[OPCODE_SECURITY] = &report_dm3_security_state;
+//	Dm3Module::opcode_callbacks[OPCODE_SECURITY] = &report_dm3_security_status;
 	Dm3Module::pid = mcc.register_opcode_callbacks(Dm3Module::opcode_callbacks, DM3_OPCODES);
 }
+
+

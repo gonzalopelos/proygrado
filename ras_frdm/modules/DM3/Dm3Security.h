@@ -9,7 +9,6 @@
 #define MODULES_DM3_DM3SECURITY_H_
 
 #include "mbed.h"
-
 namespace modules {
 
 class Dm3Security {
@@ -22,7 +21,7 @@ public:
 
 	/*Event handlers definitions*/
 	typedef enum e_security_device_type{
-		ULTRASONIC, BUMPER
+		ULTRASONIC, BUMPER, TCP_CONNECTION
 	}security_device_type;
 	typedef enum e_alert_level { OK, WARNING, DANGER } alert_level;
 	typedef struct s_alert_data{
@@ -39,6 +38,9 @@ public:
 		case BUMPER:
 			//ToDo attach to event handler function to callback
 			break;
+		case TCP_CONNECTION:
+			_tcp_connection_alert_callback.attach(callback(function));
+			break;
 		}
 	}
 
@@ -51,12 +53,16 @@ public:
 		case BUMPER:
 			//ToDo attach to event handler function to callback
 			break;
+		case TCP_CONNECTION:
+			_tcp_connection_alert_callback.attach(callback(object, member));
+			break;
 		}
 	}
 
 protected:
 	typedef Callback<void(alert_data*)> alert_event_t;
 	alert_event_t _ultrasonic_distance_alert_callback;
+	alert_event_t _tcp_connection_alert_callback;
 	int filter_ultrasonic_distance(int distance, int last_distance);
 	void handle_ultrasonic_distance_action(dm3_direction_t direction);
 	static void self_alert_call(const alert_event_t& alert_callback, alert_data& alert_data);
@@ -70,6 +76,10 @@ protected:
 
 	// Bamper =========================================================
 	void handle_bumper_alert();
+	// ================================================================
+
+	// TCP Connection =================================================
+	void handle_tcp_connection_alert();
 	// ================================================================
 
 private:

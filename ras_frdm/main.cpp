@@ -139,7 +139,7 @@ int main() {
 	led_green = 1;
 
 //	wait(2);
-	Admin admin_module;
+	Admin* admin_module = Admin::get_instance();
 	MotorModule* motorModule_instance = MotorModule::get_instance();
 	motorModule_instance->init();
 	Dm3Module dm3Module;

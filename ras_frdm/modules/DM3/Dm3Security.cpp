@@ -10,6 +10,7 @@
 #include <rtos.h>
 #include "../Ultrasonic/Ultrasonic.h"
 #include "../Motor/MotorModule.h"
+#include "../Ethernet/Communication.h"
 #include "Bumper.h"
 
 namespace modules {
@@ -43,6 +44,8 @@ Thread _bumper_alert_thread;
 Bumper bumper(SW2);
 // ================================================================
 
+// TCP Connection =================================================
+Thread _tcp_connection_checks_thread;
 
 
 Dm3Security* Dm3Security::get_instance(){
@@ -69,6 +72,9 @@ Dm3Security::Dm3Security() {
 	_ultrasonic_fr_alert_thread.start(callback(this, &Dm3Security::handle_ultrasonic_fr_distance_alert));
 	_dm3_instance = Dm3::Instance();
 	_motor_module_instance = MotorModule::get_instance();
+
+	//TCP connection alerts
+	_tcp_connection_checks_thread.start(callback(this, &Dm3Security::handle_tcp_connection_alert));
 }
 
 //ToDo: Agregar filtro por software para sacar ruido leer diapo de FRA diapositiva 1 hay formula, aplicar filtro de ventana o ponderaciones.
@@ -211,6 +217,21 @@ void Dm3Security::update_dm3_security_state(dm3_security_state_t state) {
 	_dm3_security_state_mutex.unlock();
 }*/
 
-} /* namespace modules */
+void Dm3Security::handle_tcp_connection_alert() {
+	Communication * tcp_comm;
+	tcp_comm = Communication::get_instance();
+	alert_data data;
+	while(true){
+		if(!tcp_comm->is_client_connected()){
+			data.level = DANGER;
+		}else{
+			data.level = OK;
+		}
+		self_alert_call(_tcp_connection_alert_callback, data);
+		Thread::wait(1000);
+	}
 
+}
+
+} /* namespace modules */
 

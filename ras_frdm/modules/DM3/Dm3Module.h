@@ -19,7 +19,7 @@ namespace modules {
 #define OPCODE_SIREN 1
 #define OPCODE_BATTERY 2
 #define OPCODE_SECURITY 3
-#define DM3_OPCODES 4
+#define DM3_OPCODES 3
 
 class Dm3Module {
 private:
@@ -53,6 +53,7 @@ public:
 	void siren_task();
 	static void battery_report_task(void const *argument);
 	void ultrasonic_distance_alert(Dm3Security::alert_data * data);
+	void tcp_connection_alert(Dm3Security::alert_data * data);
 };
 
 } /* namespace modules */

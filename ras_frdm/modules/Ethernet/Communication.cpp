@@ -49,6 +49,10 @@ void Communication::init_eth_interface() {
 
 }
 
+bool Communication::is_client_connected() {
+	return _socket_client.is_connected();
+}
+
 TCPSocketConnection* Communication::getSocketClient() {
 	if(!_socket_client.is_connected()){
 		_socket_client.close();
