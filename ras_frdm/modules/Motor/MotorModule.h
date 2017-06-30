@@ -2,9 +2,9 @@
 #define __task_motor_h
 
 #include "EmBencode.h"
-#include "dm3.h"
+#include "Dm3.h"
 #include "PIDModule.h"
-#include "../Mcc/Mcc.h"
+#include "Mcc.h"
 #include "rtos.h"
 
 namespace modules {

@@ -8,7 +8,7 @@
 #ifndef MODULES_ADMIN_ADMIN_H_
 #define MODULES_ADMIN_ADMIN_H_
 
-#include "../Mcc/mcc.h"
+#include "Mcc.h"
 
 namespace modules {
 
