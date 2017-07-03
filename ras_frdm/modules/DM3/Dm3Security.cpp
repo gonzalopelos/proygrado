@@ -221,14 +221,18 @@ void Dm3Security::handle_tcp_connection_alert() {
 	Communication * tcp_comm;
 	tcp_comm = Communication::get_instance();
 	alert_data data;
+	data.distance = 0;
+	data.direction = FRONT;
 	while(true){
 		if(!tcp_comm->is_client_connected()){
 			data.level = DANGER;
+			printf("TCP CONNECTION: DSICONECTED\n");
 		}else{
 			data.level = OK;
+			printf("TCP CONNECTION: CONECTED\n");
 		}
 		self_alert_call(_tcp_connection_alert_callback, data);
-		Thread::wait(1000);
+		Thread::wait(500);
 	}
 
 }

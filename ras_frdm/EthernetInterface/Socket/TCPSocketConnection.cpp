@@ -42,6 +42,11 @@ int TCPSocketConnection::connect(const char* host, const int port) {
 }
 
 bool TCPSocketConnection::is_connected(void) {
+	if ((_sock_fd < 0) || !_is_connected) return false;
+
+//	char buffer[32];
+//	_is_connected = lwip_recv(_sock_fd, buffer, sizeof(buffer), MSG_PEEK | MSG_DONTWAIT) == 0; // if recv returns zero, that means the connection has been closed
+
     return _is_connected;
 }
 

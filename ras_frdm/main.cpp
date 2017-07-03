@@ -149,7 +149,7 @@ int main() {
 	Thread potpoll; // polling de potenciometro
 //	potpoll.start(callback(&MotorModule::potpoll_task, &motorModule));
 	Thread siren; // controlador de sirena
-	siren.start(callback(&dm3Module, &Dm3Module::siren_task));
+//	siren.start(callback(&dm3Module, &Dm3Module::siren_task));
 	Thread report_vel;
 //	report_vel.start(callback(&MotorModule::rated_report_vel_task, &motorModule));
 	Thread report_pow;
@@ -163,7 +163,7 @@ int main() {
 
 //	mcc.send_message(0,1,"test",4);
 	while(1){
-		wait(1);
+//		wait(1);
 		mcc.tick();
 	}
 

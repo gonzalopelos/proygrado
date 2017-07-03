@@ -100,7 +100,9 @@ void Dm3Module::update_sd_status(dm3_security_device& sd) {
 			//ToDo report disabel dm3
 			dm3_instance->enable(0);
 			dm3_security_info.status = DISABLED;
-			report_dm3_security_status();
+			if(sd.type != Dm3Security::TCP_CONNECTION){
+				report_dm3_security_status();
+			}
 		}
 	}else if(sd.status == WARNING){
 		if(dm3_security_info.status == ENABLED){
@@ -152,7 +154,7 @@ void Dm3Module::report_dm3_security_status() {
 
 	for(uint32_t dev_index = 1; dev_index <= dm3_security_info.devices.length(); ++dev_index){
 		device = (dm3_security_device *)dm3_security_info.devices.pop(dev_index)->data;
-		len = snprintf(stringbuffer, STRING_BUFF_SIZE, "[DEVICE,STATUS]: [%s, %s]", device->type == Dm3Security::ULTRASONIC ? "ULTRASONIC" : "BUMPER", device->status == ENABLED ? "ENABLED" : device->status == WARNING ? "WARNING" : "DISABLED");
+		len = snprintf(stringbuffer, STRING_BUFF_SIZE, "[DEVICE,STATUS]: [%s, %s]", device->type == Dm3Security::ULTRASONIC ? "ULTRASONIC" : device->type == Dm3Security::BUMPER ? "BUMPER" : "IOB_CONN", device->status == ENABLED ? "ENABLED" : device->status == WARNING ? "WARNING" : "DISABLED");
 		mcc.encoder.push(stringbuffer, len);
 	}
 	mcc.encoder.endList();
@@ -179,7 +181,13 @@ void Dm3Module::ultrasonic_distance_alert(Dm3Security::alert_data * data){
 }
 
 void Dm3Module::tcp_connection_alert(Dm3Security::alert_data* data) {
-
+	dm3_security_device sd;
+	sd.data.direction = data->direction;
+	sd.data.distance = data->distance;
+	sd.data.level = data->level;
+	sd.status = data->level == Dm3Security::OK ? ENABLED : data->level == Dm3Security::WARNING ? WARNING : DISABLED;
+	sd.type = Dm3Security::TCP_CONNECTION;
+	update_sd_status(sd);
 }
 
 Dm3Module::Dm3Module() {
