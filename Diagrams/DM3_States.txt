@@ -1,0 +1,17 @@
+@startuml
+
+title Diagrama de estados DM3
+
+(Enabled) --> (Warning) : * alerta de proximidad\n* alerta de velocidad
+(Enabled) --> (Disabled) : * alerta de proximidad crítica\n* alerta de velocidad crítica\n* perdida de conexión
+(Disabled) --> (Enabled) : * cancelación de alertas
+(Warning)  --> (Enabled) : * cancelación de alertas
+(Warning)  --> (Disabled) : * aumento de criticidad de alertas
+
+
+
+@enduml
+
+/'
+URL Diagram: https://www.planttext.com/plantuml/svg/fL4x3i8m3Drp2eyKgHCR0-fGHcOM5fDObQN4gT8KzL9C7A4Nema8IgLEUFEptyTorKKCiNTMgSZH4jICJK27O0Xe6XhVGNtQARKv2bujcGBAyW2RCmPXQGhOmnRGKeYPqWO_i6E3vY9p_4RMwmGlTMhktksQ4EWmtYDhN57ycRSKp0Ic1Us51XuVecOcsVEJ85bg54qMTTfCj9T3fxuN_a5QNDSxakXpkC1Jv1n_Hf-g8Z7f7Ky0
+'/
