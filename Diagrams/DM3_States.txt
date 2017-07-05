@@ -3,15 +3,17 @@
 title Diagrama de estados DM3
 
 (Enabled) --> (Warning) : * alerta de proximidad\n* alerta de velocidad
-(Enabled) --> (Disabled) : * alerta de proximidad crítica\n* alerta de velocidad crítica\n* perdida de conexión
-(Disabled) --> (Enabled) : * cancelación de alertas
-(Warning)  --> (Enabled) : * cancelación de alertas
-(Warning)  --> (Disabled) : * aumento de criticidad de alertas
-
+(Enabled) --> (Disabled) : * alerta de proximidad crítica\n* alerta de velocidad crítica\n* alerta de perdida de conexión
+(Disabled) --> (Enabled) : * cancelación de todas las alertas
+(Warning)  --> (Enabled) : * cancelación de todas las alertas
+(Warning)  --> (Disabled) : * aumento de criticidad en alguna alertas
+(Enabled) --> (Enabled) : * no hay alertas
+(Warning) --> (Warning) : * hay alertas, ninguna crítica
+(Disabled) --> (Disabled) : * hay alertas críticas
 
 
 @enduml
 
 /'
-URL Diagram: https://www.planttext.com/plantuml/svg/fL4x3i8m3Drp2eyKgHCR0-fGHcOM5fDObQN4gT8KzL9C7A4Nema8IgLEUFEptyTorKKCiNTMgSZH4jICJK27O0Xe6XhVGNtQARKv2bujcGBAyW2RCmPXQGhOmnRGKeYPqWO_i6E3vY9p_4RMwmGlTMhktksQ4EWmtYDhN57ycRSKp0Ic1Us51XuVecOcsVEJ85bg54qMTTfCj9T3fxuN_a5QNDSxakXpkC1Jv1n_Hf-g8Z7f7Ky0
+URL Diagram: https://www.planttext.com/plantuml/svg/hLBBSfim5Dtp5TebwTJ13uWVYqvSeDZ6u1ZZLwOp7ba8a0s2WB2X_zHLFo4_Lg1DOYVrhWlDwDwhSyuzL_S-OJ1cQU1p72FCnq0cq8rX086D0IwATfW0MMzntBL2uTR7zWserRw0woMCAQ7k3UY1Jm3wE6OL98h3Z0J4XlPtUfe_O3z4PVezZqoIl-4b8e3Yvv-C87Y1yK8zmh5TbCih2YdEoFCloft8LUgllPJY25A4VOZAboMCXJPCW5-SFwm9z-Rwly3VUKy3J5bODHoJmb1b3jC2xgOKlh6S3_2i1ne23-R_4FpuPoVlFeCoNMgyZFB3eCvRFS6-GXAEu-unjQjTug-ukJb-MQOUy1YBaXxF7u_7syY7b36SiLiK1dmL5HW-ERYyCnQo5ka4BJcEcZZNt85arckEEa0JNNJaoNPg2AxLqNwCkrAxBnWuW9sXErRctvI8vLOOQvf434jtPuy3OJUKHbgpFQclyDtAMwW6c_PDxT3SfZkaVktdowOf1G-hgUfD0cgg6bu_F2qd6tAdj0xhRhGHJFqOgBwbUtksJwQ2iWpOMlOCiPqZSwP5zI5gp1EniKeN64rGib167N7hYiAJRbcEjEjQBITBZGqKfuOyo-1-5UsbnkZGe9k1KtCxZssdhULrxeh_3G00
 '/
