@@ -47,6 +47,7 @@ void Communication::init_eth_interface() {
 	_eth_interface.connect(100);
 	_socket_server.bind(ETH_COMMUNICATION_SERVER_PORT);
 	_socket_server.listen(1);
+	_socket_server.set_blocking(false, 1000);
 
 }
 
@@ -57,7 +58,7 @@ bool Communication::is_client_connected() {
 TCPSocketConnection* Communication::getSocketClient() {
 	if(!_socket_client.is_connected()){
 		_socket_client.close();
-		printf("_socket_client.is_connected = false\n");
+//		printf("_socket_client.is_connected = false\n");
 //		communication_led_red = !communication_led_red;
 		if(_socket_server.accept(_socket_client) == 0)
 		{
@@ -65,6 +66,8 @@ TCPSocketConnection* Communication::getSocketClient() {
 		}else{
 			printf("socket_server.accept ERROR\n");
 		}
+//		printf("sale del getSocketClient()\n");
 	}
+
 	return &_socket_client;
 }
