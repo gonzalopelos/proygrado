@@ -30,6 +30,9 @@ char stringbuffer[STRING_BUFF_SIZE];
 int siren_count = 0;
 int siren_on = 0;
 
+Mutex _update_status_mutex;
+
+
 Dm3Module::~Dm3Module() {
 	// TODO Auto-generated destructor stub
 }
@@ -93,51 +96,77 @@ static int handle_batterylevel(unsigned int  pid, unsigned int  opcode) {
 	return 1;
 }
 
-void Dm3Module::update_sd_status(dm3_security_device& sd) {
+void Dm3Module::update_sd_status(dm3_security_device* sd) {
+	_update_status_mutex.lock();
+
 	bool enable = false;
-	if(sd.status == DISABLED){
+	bool warning = false;
+	bool report_status = false;
+	bool new_sd = true;
+
+	if(sd->status == DISABLED){
 		if(dm3_security_info.status != DISABLED){
 			//ToDo report disabel dm3
 			dm3_instance->enable(0);
 			dm3_security_info.status = DISABLED;
-			if(sd.type != Dm3Security::TCP_CONNECTION){
-				report_dm3_security_status();
+			if(sd->type != Dm3Security::TCP_CONNECTION){
+//				report_dm3_security_status();
+				report_status = true;
 			}
 		}
-	}else if(sd.status == WARNING){
+	}else if(sd->status == WARNING){
+		warning = true;
 		if(dm3_security_info.status == ENABLED){
 			dm3_security_info.status = WARNING;
 			//ToDo throw warning
 
-			report_dm3_security_status();
+//			report_dm3_security_status();
+			report_status = true;
 		}
-	}else if(sd.status == ENABLED){
+	}else if(sd->status == ENABLED){
 		enable = true;
+		warning = true;
 	}
 	node * list_node;
 	dm3_security_device * device;
 	uint32_t index = 1;
-	for (index = 1; index <= dm3_security_info.devices.length(); ++index) {
+	for (index = 1; index <= dm3_security_info.devices.length(); index++) {
 		list_node = dm3_security_info.devices.pop(index);
 		device = (dm3_security_device*)list_node->data;
 		enable &= device->status == ENABLED;
-		if(device->type == sd.type && device->data.direction == sd.data.direction){
-			dm3_security_info.devices.remove(index);
-			dm3_security_info.devices.append(&sd);
-			break;
+		warning &= device->status != DISABLED;
+		if((int)device->type == (int)sd->type && (int)device->data.direction == (int)sd->data.direction){
+			update_sd_info(device, *sd);
+			new_sd = false;
 		}
+//			else {
+////			printf("device.type = %d, sd.type = %d - device.data.direction = %d, sd.data.direction = %d\n", device->type, sd->type, device->data.direction, sd->data.direction);
+//		}
 	}
 
-	if(index > dm3_security_info.devices.length()){
-		dm3_security_info.devices.append(&sd);
+	if(new_sd){
+//		printf("append sd: type %d, direction %d, status %d\n", sd->type, sd->data.direction, sd->status);
+		dm3_security_info.devices.append(sd);
 	}
-
 	if(enable && dm3_security_info.status != ENABLED){
 		//ToDo enable dm3;
 		dm3_instance->enable(1);
 		dm3_security_info.status = ENABLED;
+//		report_dm3_security_status();
+		report_status = true;
+	} else if(warning && !enable && dm3_security_info.status != WARNING) {
+		bool toEnable = dm3_security_info.status == DISABLED;
+		dm3_security_info.status = WARNING;
+		if(toEnable){
+			dm3_instance->enable(1);
+		}
+//		report_dm3_security_status();
+		report_status = true;
+	}
+	if(report_status){
 		report_dm3_security_status();
 	}
+	_update_status_mutex.unlock();
 }
 
 void Dm3Module::report_dm3_security_status() {
@@ -171,22 +200,31 @@ void Dm3Module::battery_report_task(void const *argument) {
 
 void Dm3Module::ultrasonic_distance_alert(Dm3Security::alert_data * data){
 //	printf("ultrasonic_distance_alert: %d, %d, %d\n", data->level, data->direction, data->distance);
-	dm3_security_device sd;
-	sd.data.direction = data->direction;
-	sd.data.distance = data->distance;
-	sd.data.level = data->level;
-	sd.status = data->level == Dm3Security::OK ? ENABLED : data->level == Dm3Security::WARNING ? WARNING : DISABLED;
-	sd.type = Dm3Security::ULTRASONIC;
+	dm3_security_device* sd = new dm3_security_device();
+	sd->data.direction = data->direction;
+	sd->data.distance = data->distance;
+	sd->data.level = data->level;
+	sd->status = data->level == Dm3Security::OK ? ENABLED : data->level == Dm3Security::WARNING ? WARNING : DISABLED;
+	sd->type = Dm3Security::ULTRASONIC;
+
 	update_sd_status(sd);
 }
 
+void Dm3Module::update_sd_info(dm3_security_device* sd_dest, const dm3_security_device& sd_source) {
+	sd_dest->data.direction = sd_source.data.direction;
+	sd_dest->data.distance = sd_source.data.distance;
+	sd_dest->data.level = sd_source.data.level;
+	sd_dest->status = sd_source.status;
+	sd_dest->type = sd_source.type;
+}
+
 void Dm3Module::tcp_connection_alert(Dm3Security::alert_data* data) {
-	dm3_security_device sd;
-	sd.data.direction = data->direction;
-	sd.data.distance = data->distance;
-	sd.data.level = data->level;
-	sd.status = data->level == Dm3Security::OK ? ENABLED : data->level == Dm3Security::WARNING ? WARNING : DISABLED;
-	sd.type = Dm3Security::TCP_CONNECTION;
+	dm3_security_device* sd = new dm3_security_device();
+	sd->data.direction = data->direction;
+	sd->data.distance = data->distance;
+	sd->data.level = data->level;
+	sd->status = data->level == Dm3Security::OK ? ENABLED : data->level == Dm3Security::WARNING ? WARNING : DISABLED;
+	sd->type = Dm3Security::TCP_CONNECTION;
 	update_sd_status(sd);
 }
 

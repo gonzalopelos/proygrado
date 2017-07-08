@@ -16,14 +16,14 @@ public:
 	static Dm3Security * get_instance();
 
 	typedef enum dm3_direction{
-		FRONT, RIGHT, BACK, LEFT
+		FRONT = 0, RIGHT = 1, BACK = 2, LEFT = 3
 	} dm3_direction_t;
 
 	/*Event handlers definitions*/
 	typedef enum e_security_device_type{
-		ULTRASONIC, BUMPER, TCP_CONNECTION
+		ULTRASONIC = 0, BUMPER = 1, TCP_CONNECTION = 2
 	}security_device_type;
-	typedef enum e_alert_level { OK, WARNING, DANGER } alert_level;
+	typedef enum e_alert_level { OK = 0, WARNING = 1, DANGER = 2 } alert_level;
 	typedef struct s_alert_data{
 		int distance;
 		dm3_direction_t direction;

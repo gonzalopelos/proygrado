@@ -40,9 +40,11 @@ private:
 
 	dm3_security_information dm3_security_info;
 
-	void update_sd_status(dm3_security_device& sd);
+	void update_sd_status(dm3_security_device* sd);
 
 	void report_dm3_security_status();
+
+	void update_sd_info(dm3_security_device* sd_dest, dm3_security_device const& sd_source);
 	int pid;
 	OpcodeCallback opcode_callbacks[DM3_OPCODES];
 	void report_siren();
