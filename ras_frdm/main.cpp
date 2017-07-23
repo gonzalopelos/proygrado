@@ -175,8 +175,15 @@ int FreeMem(void) {
 
 Thread memory_monitor_thread;
 void memory_monitor(){
+	int last_free_memory;
+	int actual_free_memory;
+	last_free_memory = FreeMem();
 	while(true){
-		printf("FREE MEMORY: %dB\n",FreeMem());
+		actual_free_memory = FreeMem();
+		if(actual_free_memory < last_free_memory){
+			printf("FREE MEMORY: %dB\n", actual_free_memory);
+		}
+		last_free_memory = actual_free_memory;
 		Thread::wait(1000);
 	}
 }

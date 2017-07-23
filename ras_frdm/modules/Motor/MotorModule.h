@@ -56,6 +56,7 @@ public:
 	static void rated_report_pot_task(void const *argument);
 	static void security_stop_task(void const *argument);
 	float** get_current_vels();
+	static void stop();
 };
 
 }

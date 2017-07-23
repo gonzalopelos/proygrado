@@ -1160,26 +1160,7 @@ void MotorModule::security_stop_task(void const *argument) {
 	while (true) {
 		if (control_mode != MODE_RAW) {
 			if (!new_target_vel && dm3->enable()) {
-				for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS;
-						iter_chasis++) {
-					for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS;
-							iter_motor++) {
-						int ret = set_motors_power(iter_chasis, iter_motor, 0);
-						i2cerror = (ret != 0) || i2cerror;
-						if (!ret) {
-							dm3->enable(0);
-							report_enable();
-							vels_target[iter_chasis][iter_motor] = 0;
-						}
-					}
-					dirty_target_vel_mutex.lock();
-					dirty_target_vel[iter_chasis] = false;
-					dirty_target_vel_mutex.unlock();
-					report_set_target_vel(iter_chasis);
-					report_get_vel_change(iter_chasis);
-					dirty_power[iter_chasis] = false;
-					report_power(iter_chasis);
-				}
+				stop();
 			} else {
 				new_target_vel = false;
 			}
@@ -1291,4 +1272,27 @@ float** MotorModule::get_current_vels() {
 MotorModule::~MotorModule() {
 	free(dm3);
 	free(_instance);
+}
+
+void MotorModule::stop() {
+	for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS;
+			iter_chasis++) {
+		for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS;
+				iter_motor++) {
+			int ret = set_motors_power(iter_chasis, iter_motor, 0);
+			i2cerror = (ret != 0) || i2cerror;
+			if (!ret) {
+				dm3->enable(0);
+				report_enable();
+				vels_target[iter_chasis][iter_motor] = 0;
+			}
+		}
+		dirty_target_vel_mutex.lock();
+		dirty_target_vel[iter_chasis] = false;
+		dirty_target_vel_mutex.unlock();
+		report_set_target_vel(iter_chasis);
+		report_get_vel_change(iter_chasis);
+		dirty_power[iter_chasis] = false;
+		report_power(iter_chasis);
+	}
 }

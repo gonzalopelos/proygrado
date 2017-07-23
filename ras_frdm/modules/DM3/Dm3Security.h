@@ -58,7 +58,8 @@ public:
 			break;
 		}
 	}
-
+	void disable_dm3();
+	void enable_dm3();
 protected:
 	typedef Callback<void(alert_data*)> alert_event_t;
 	alert_event_t _ultrasonic_distance_alert_callback;

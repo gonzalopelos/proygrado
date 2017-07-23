@@ -107,10 +107,9 @@ void Dm3Module::update_sd_status(dm3_security_device* sd) {
 	if(sd->status == DISABLED){
 		if(dm3_security_info.status != DISABLED){
 			//ToDo report disabel dm3
-			dm3_instance->enable(0);
+			dm3_security_instance->disable_dm3();
 			dm3_security_info.status = DISABLED;
 			if(sd->type != Dm3Security::TCP_CONNECTION){
-//				report_dm3_security_status();
 				report_status = true;
 			}
 		}
@@ -151,14 +150,14 @@ void Dm3Module::update_sd_status(dm3_security_device* sd) {
 
 	if(update_to_enable && dm3_security_info.status != ENABLED){
 		//ToDo enable dm3;
-		dm3_instance->enable(1);
+		dm3_security_instance->enable_dm3();
 		dm3_security_info.status = ENABLED;
 		report_status = true;
 	} else if(update_to_warning && !update_to_enable && dm3_security_info.status != WARNING) {
 		bool toEnable = dm3_security_info.status == DISABLED;
 		dm3_security_info.status = WARNING;
 		if(toEnable){
-			dm3_instance->enable(1);
+			dm3_security_instance->enable_dm3();
 		}
 		report_status = true;
 	}
@@ -245,5 +244,3 @@ Dm3Module::Dm3Module() {
 //	Dm3Module::opcode_callbacks[OPCODE_SECURITY] = &report_dm3_security_status;
 	Dm3Module::pid = mcc.register_opcode_callbacks(Dm3Module::opcode_callbacks, DM3_OPCODES);
 }
-
-
