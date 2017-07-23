@@ -154,6 +154,12 @@ void Dm3Security::handle_ultrasonic_distance_action(dm3_direction_t direction) {
 						break;
 					}
 				}
+				//delete aux data
+				for (int chasis = 0; chasis < (int)NUMBER_CHASIS; ++chasis) {
+					delete[] vels[chasis];
+				}
+				delete[] vels;
+
 				if(disable){
 					led_red = 0;
 					alert_data.level = DANGER;

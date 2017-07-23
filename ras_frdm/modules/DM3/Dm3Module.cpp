@@ -99,8 +99,8 @@ static int handle_batterylevel(unsigned int  pid, unsigned int  opcode) {
 void Dm3Module::update_sd_status(dm3_security_device* sd) {
 	_update_status_mutex.lock();
 
-	bool enable = false;
-	bool warning = false;
+	bool update_to_enable = false;
+	bool update_to_warning = false;
 	bool report_status = false;
 	bool new_sd = true;
 
@@ -115,57 +115,57 @@ void Dm3Module::update_sd_status(dm3_security_device* sd) {
 			}
 		}
 	}else if(sd->status == WARNING){
-		warning = true;
+		update_to_warning = true;
 		if(dm3_security_info.status == ENABLED){
 			dm3_security_info.status = WARNING;
-			//ToDo throw warning
-
-//			report_dm3_security_status();
 			report_status = true;
+			update_to_warning = false;
 		}
 	}else if(sd->status == ENABLED){
-		enable = true;
-		warning = true;
+		update_to_enable = true;
+		update_to_warning = true;
 	}
 	node * list_node;
 	dm3_security_device * device;
 	uint32_t index = 1;
+
 	for (index = 1; index <= dm3_security_info.devices.length(); index++) {
 		list_node = dm3_security_info.devices.pop(index);
 		device = (dm3_security_device*)list_node->data;
-		enable &= device->status == ENABLED;
-		warning &= device->status != DISABLED;
+		update_to_enable &= device->status == ENABLED;
+		update_to_warning &= device->status != DISABLED;
 		if((int)device->type == (int)sd->type && (int)device->data.direction == (int)sd->data.direction){
 			update_sd_info(device, *sd);
 			new_sd = false;
 		}
-//			else {
-////			printf("device.type = %d, sd.type = %d - device.data.direction = %d, sd.data.direction = %d\n", device->type, sd->type, device->data.direction, sd->data.direction);
-//		}
 	}
 
 	if(new_sd){
-//		printf("append sd: type %d, direction %d, status %d\n", sd->type, sd->data.direction, sd->status);
+		printf("append sd: type %d, direction %d, status %d\n", sd->type, sd->data.direction, sd->status);
 		dm3_security_info.devices.append(sd);
 	}
-	if(enable && dm3_security_info.status != ENABLED){
+	else{
+		delete sd;
+	}
+
+
+	if(update_to_enable && dm3_security_info.status != ENABLED){
 		//ToDo enable dm3;
 		dm3_instance->enable(1);
 		dm3_security_info.status = ENABLED;
-//		report_dm3_security_status();
 		report_status = true;
-	} else if(warning && !enable && dm3_security_info.status != WARNING) {
+	} else if(update_to_warning && !update_to_enable && dm3_security_info.status != WARNING) {
 		bool toEnable = dm3_security_info.status == DISABLED;
 		dm3_security_info.status = WARNING;
 		if(toEnable){
 			dm3_instance->enable(1);
 		}
-//		report_dm3_security_status();
 		report_status = true;
 	}
 	if(report_status){
 		report_dm3_security_status();
 	}
+
 	_update_status_mutex.unlock();
 }
 
