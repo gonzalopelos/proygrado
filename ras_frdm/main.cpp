@@ -1,21 +1,42 @@
-//#define MAIN_AM
+#define MAIN_AM
 
 #ifdef MAIN_AM
-#include "mbed.h"
-#include "USBSerial.h"
-
-//Virtual serial port over USB
-USBSerial serial;
-
-int main(void) {
-
-    while(1)
-    {
-        serial.printf("I am a virtual serial port\r\n");
-        wait(1);
-    }
-}
 /*
+#include "mbed.h"
+#include "USBHostSerial.h"
+
+DigitalOut led(LED_RED);
+Serial pc(USBTX, USBRX);
+
+int main() {
+	pc.printf("ARRANCO");
+	led = 0;
+	USBHostSerial serial;
+	while(1) {
+		led = !led;
+		// try to connect a serial device
+		pc.printf("INTENDANDO CONECTAR\n");
+		while(!serial.connect()){
+			wait(0.5);
+			pc.printf("INTENDANDO CONECTAR\n");
+		}
+
+		// in a loop, print all characters received
+		// if the device is disconnected, we try to connect it again
+		pc.printf("CONECTO\n");
+		while (1) {
+			// if device disconnected, try to connect it again
+			if (!serial.connected())
+				break;
+
+			pc.printf("IMPRIMIENDO\n");
+			serial.putc('A');
+			wait(0.5);
+		}
+	}
+}
+*/
+
 #include "mbed.h"
 #include "rtos.h"
 //#include "Dm3Security.h"
@@ -24,6 +45,7 @@ int main(void) {
 //#include "PIDModule.h"
 //#include "dm3.h"
 #include "Watchdog.h"
+#include "fsl_rcm.h"
 
 using namespace modules;
 //Mcc mcc;
@@ -34,31 +56,45 @@ DigitalOut led_green(LED_GREEN);
 //InterruptIn sw2(SW2);
 //volatile int flag = 0;
 
-void heartbeat_task() {
-	while (1) {
-		printf("HILO\n");
-		Thread::wait(2000);
+Watchdog wdt;
+
+void reportResetStatus(){
+	uint32_t resetStatus = RCM_GetPreviousResetSources(RCM) & (kRCM_SourceWdog | kRCM_SourcePin | kRCM_SourcePor);
+	switch(resetStatus){
+		case kRCM_SourceWdog:
+			printf("WATCHDOG TIMEOUT RESET\r\n");
+			break;
+		case kRCM_SourcePin:
+			printf("EXTERNAL PIN RESET\r\n");
+			break;
+		case kRCM_SourcePor:
+			printf("POWER ON RESET\r\n");
+			break;
+		default:
+			printf("OTHER SOURCE RESET\r\n");
+			break;
 	}
 }
 
-//void sw2_isr();	// Prototipo de la funcion
-
-Watchdog wdt;
 int main() {
+	reportResetStatus();
+	wait(1.0);
+
 	led_red 	= 1;
 	led_blue 	= 1;
 	led_green 	= 1;
-	printf("INICIO\n");
+	printf("INICIO\r\n");
 	wait(1.0);
 
-	wdt.kick(1.0);	// 10 segundos sin kick resetea la placa.
-	Thread heartbeat(heartbeat_task);
+	wdt.kick(1.0);	// 1 segundos sin kick resetea la placa.
+
 	while(1) {
-		printf("MAIN\n");
+		printf("MAIN\r\n");
 		wdt.kick();
+		wait(2.0);
 	}
 }
-*/
+
 /*
 int main(){
 	led_red 	= 1;
