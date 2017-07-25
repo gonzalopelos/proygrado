@@ -10,8 +10,8 @@
 #include <unistd.h>
 #include <cstring>
 #include <cerrno>
-#include <fcntl.h>
-// #include <fcntl.h> /* Added for the nonblocking socket */
+#include <fcntl.h>/* Added for the nonblocking socket */
+#include "../include/tcp_comm/Logger.h"
 
 Tcp_Controller * Tcp_Controller::_Tcp_Controller_instance = NULL;
 struct hostent * server;
@@ -30,7 +30,7 @@ int Tcp_Controller::send_all(char *data, int length) {
     do{
         result += (int) write(sockfd, data, (size_t) length);
         if(result < 0) {
-            perror("ERROR writing data in socket");
+            Logger::log_error((char*)"ERROR writing data in socket");
             close(sockfd);
             init_eth_interface();
         }
@@ -46,7 +46,7 @@ int Tcp_Controller::receive(char *data, int max_length) {
     result = recv_to(sockfd, data, 1, 0, 2);
     if (result < 0) {
         if (result == -1){
-            perror("ERROR reading from socket");
+            Logger::log_error("ERROR reading from socket");
             close(sockfd);
             init_eth_interface();
         }
@@ -56,6 +56,9 @@ int Tcp_Controller::receive(char *data, int max_length) {
 }
 
 Tcp_Controller::~Tcp_Controller() {
+    if(sockfd>0){
+        close(sockfd);
+    }
     free(_Tcp_Controller_instance);
 }
 
@@ -66,7 +69,7 @@ Tcp_Controller::Tcp_Controller() {
 void Tcp_Controller::init_eth_interface() {
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0){
-        perror("ERROR opening socket");
+        Logger::log_error("ERROR opening socket");
     }
     server = gethostbyname(ETH_Tcp_Controller_IP);//gethostbyname(argv[1]);
     if (server == NULL) {
@@ -82,15 +85,15 @@ void Tcp_Controller::init_eth_interface() {
     memcpy((char *)&serv_addr.sin_addr.s_addr, (char *)server->h_addr, server->h_length);
     serv_addr.sin_port = htons(ETH_Tcp_Controller_SERVER_PORT);
 
+    fcntl(sockfd, F_SETFL, O_NONBLOCK);
 
     if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-        perror("ERROR connecting");
+        Logger::log_error("ERROR connecting");
     }
     // struct timeval timeout;
     // timeout.tv_sec = 1;
     // timeout.tv_usec = 0;
     // setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
-    // fcntl(sockfd, F_SETFL, O_NONBLOCK);
 }
 
 /*
