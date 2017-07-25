@@ -27,10 +27,22 @@ bool sendmcc(tcp_comm::mcc2ioboard::Request &req,
 void mcc2ioboard_callback(const tcp_comm::mcc::ConstPtr& msg)
 {
   ROS_INFO("I heard: [%ld] [%ld] [%s]", msg->pid, msg->opcode, msg->params.c_str());
-  char * mcc_message = mcc_instance.create_mcc_message(msg->pid, msg->opcode, msg->params.c_str());
-  if(strlen(mcc_message) > 3){
-    // tcp_controller_instance->send_all((char*)"li0ei1e4:pinge\n", 15);
-    tcp_controller_instance->send_all(mcc_message, strlen(mcc_message));
+  if(msg->pid == 1 && msg->opcode == 2){
+    for(int index = 0; index < 60; index++){
+      char * mcc_message = mcc_instance.create_mcc_message(msg->pid, msg->opcode, msg->params.c_str());
+      if(strlen(mcc_message) > 3){
+        // tcp_controller_instance->send_all((char*)"li0ei1e4:pinge\n", 15);
+        tcp_controller_instance->send_all(mcc_message, strlen(mcc_message));
+      }
+      sleep(1);
+    }
+  }
+  else{
+    char * mcc_message = mcc_instance.create_mcc_message(msg->pid, msg->opcode, msg->params.c_str());
+    if(strlen(mcc_message) > 3){
+      // tcp_controller_instance->send_all((char*)"li0ei1e4:pinge\n", 15);
+      tcp_controller_instance->send_all(mcc_message, strlen(mcc_message));
+    }
   }
 }
 
