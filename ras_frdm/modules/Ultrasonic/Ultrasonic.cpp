@@ -30,8 +30,10 @@ using namespace modules;
         end = _t.read_us ();
         done = 1;
         _distance = (end - start)/6;
+        //Notify updated distance
+        (*_onUpdateMethod)(_distance);
         _tout.detach();
-        _tout.attach(callback(this,&Ultrasonic::_startTrig), _updateSpeed);
+        _tout.attach(callback(this, &Ultrasonic::_startTrig), _updateSpeed);
     }
     void Ultrasonic::_startTrig(void)
     {
@@ -58,7 +60,9 @@ using namespace modules;
     }
     void Ultrasonic::startUpdates(void)
     {
+//    	printf("start::startUpdates\n");
         _startTrig();
+//        printf("end::startUpdates\n");
     }
     void Ultrasonic::attachOnUpdate(void method(int))
     {
@@ -80,8 +84,14 @@ using namespace modules;
     }
     void Ultrasonic::checkDistance(void)
     {
+//    	printf("checkDistance\n");
         if(isUpdated())
         {
+//        	printf("start::checkDistance isUpdated\n");
             (*_onUpdateMethod)(_distance);
+//            printf("end::checkDistance isUpdated\n");
+        }
+        else{
+//        	printf("checkDistance isUpdated return false\n");
         }
     }

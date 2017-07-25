@@ -32,20 +32,15 @@ AnalogIn batt(BATT_IN);
 //DigitalOut pio_reverse[4]={p9, p6, p7, p8};
 DigitalOut pio_reverse[4]={PTC8, PTC1, PTB19, PTB18};	// 2017.03.18 AM - Ultimos 4 pines fila interior de J1
 //DigitalOut pio_brake(p29);
-DigitalOut pio_brake(PTC17);								// 2017.03.18 AM - Pin nro 1 fila exterior de J1
+DigitalOut pio_brake(PTC17);							// 2017.03.18 AM - Pin nro 1 fila exterior de J1
 //DigitalOut pio_enable(p30);
 DigitalOut pio_enable(PTC16);							// 2017.03.18 AM - Pin nro 2 fila exterior de J1
-//DigitalOut pio_horn(p11);
+DigitalOut pio_horn(PTB20);								// 2017.06.13 GP - Pin nro 9 fila interior de J4
 
 //Serial serial(p13, p14); // tx, rx
-Serial serial(USBTX, USBRX);	// 2017.03.18 AM
-
-void update_front_dist(int distance);
-
-Ultrasonic ultrasonic_front(PTC17, PTC16, .1, 1, &update_front_dist);
+//Serial serial(USBTX, USBRX);	// 2017.03.18 AM
 
 char i2c_cmd[2];
-int front_distance;
 
 Dm3* Dm3::m_pInstance = NULL;
 
@@ -72,7 +67,6 @@ Dm3::Dm3() {
 	pio_enable = 0;
 	pio_brake = 0;
 	//pio_horn = 0;
-	ultrasonic_front.startUpdates();
 }
 
 Dm3 *Dm3::Instance() {
@@ -139,22 +133,11 @@ int Dm3::enable() {
 }
 
 int Dm3::horn(int mode) {
-	//pio_horn = mode;
-	//return pio_horn;
-	return 0;
+	pio_horn = mode;
+	return pio_horn;
 }
 
 int Dm3::horn() {
-	return 0;
-}
-
-int Dm3::check_front_distances() {
-	return ultrasonic_front.getCurrentDistance();
-}
-
-void update_front_dist(int distance)
-{
-   front_distance = distance;
-   //ToDo Logic to check distance ranges
+	return pio_horn;
 }
 

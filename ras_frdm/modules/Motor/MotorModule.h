@@ -2,9 +2,9 @@
 #define __task_motor_h
 
 #include "EmBencode.h"
-#include "dm3.h"
+#include "Dm3.h"
 #include "PIDModule.h"
-#include "../Mcc/Mcc.h"
+#include "Mcc.h"
 #include "rtos.h"
 
 namespace modules {
@@ -34,12 +34,18 @@ namespace modules {
 
 class MotorModule
 {
+private:
+	#define NUMBER_MOTORS (NUMBER_CHASIS*MOTORS_PER_CHASIS)
 	int pid;
 	OpcodeCallback opcode_callbacks[MOTOR_OPCODES];
 	void hall_raised_n(int);
-
-public:
 	MotorModule ();
+	~MotorModule();
+	static MotorModule* _instance;
+public:
+	#define NUMBER_CHASIS 2
+	#define MOTORS_PER_CHASIS 2
+	static MotorModule* get_instance();
 	//void potpoll();
 	static void init();
 	static void potpoll_task(void const *argument);
@@ -49,6 +55,8 @@ public:
 	static void rated_report_pow_task(void const *argument);
 	static void rated_report_pot_task(void const *argument);
 	static void security_stop_task(void const *argument);
+	float** get_current_vels();
+	static void stop();
 };
 
 }

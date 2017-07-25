@@ -8,7 +8,7 @@
 #ifndef MODULES_ADMIN_ADMIN_H_
 #define MODULES_ADMIN_ADMIN_H_
 
-#include "../Mcc/mcc.h"
+#include "Mcc.h"
 
 namespace modules {
 
@@ -19,12 +19,15 @@ namespace modules {
 
 
 	class Admin {
+	private:
 		int pid;
 		OpcodeCallback opcode_callbacks[ADMIN_OPCODES];
-	public:
+		static Admin * admin_instance;
 		Admin();
-		static void report_status(char * str, int len);
 		virtual ~Admin();
+	public:
+		static void report_status(char * str, int len);
+		static Admin* get_instance();
 	};
 
 } /* namespace modules */

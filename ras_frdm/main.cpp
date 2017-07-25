@@ -2,74 +2,111 @@
 
 #ifdef MAIN_AM
 #include "mbed.h"
-#include "PIDModule.h"
-#include "dm3.h"
+#include "USBSerial.h"
 
-#define MOTORS_PER_CHASIS 2
+//Virtual serial port over USB
+USBSerial serial;
 
-//I2C i2c(PTE25, PTE24); // SDA, SCL para K64F
-//PCF8591 DAC_I2C(&i2c, PCF8591_SA0); // I2C bus, Default PCF8591 Slaveaddress
-//Serial pc(USBTX, USBRX);
+int main(void) {
 
-DigitalOut led(LED_RED);
-DigitalOut ledGreen(LED_GREEN);
+    while(1)
+    {
+        serial.printf("I am a virtual serial port\r\n");
+        wait(1);
+    }
+}
+/*
+#include "mbed.h"
+#include "rtos.h"
+//#include "Dm3Security.h"
+//#include "Mcc.h"
+//#include "Bumper.h"
+//#include "PIDModule.h"
+//#include "dm3.h"
+#include "Watchdog.h"
 
-int main()
-{
-	led = 1;
-	ledGreen = 1;
-	Dm3 *dm3 = Dm3::Instance();
-	int power = 0;
-	int i2cerror = 0;
-	int chasis = 0;
-	int motor = 0;
-	while (true) {
-		dm3->enable(1);
-		chasis = 0;
-		motor = 1;
-		power = 0;
-		i2cerror = dm3->motor_i2c(chasis*MOTORS_PER_CHASIS + motor, power);
-		wait(2.0f);
-		power = 50;
-		i2cerror = dm3->motor_i2c(chasis*MOTORS_PER_CHASIS + motor, power);
-		wait(2.0f);
-		power = 100;
-		i2cerror = dm3->motor_i2c(chasis*MOTORS_PER_CHASIS + motor, power);
+using namespace modules;
+//Mcc mcc;
+DigitalOut led_red(LED_RED);
+DigitalOut led_blue(LED_BLUE);
+DigitalOut led_green(LED_GREEN);
+//Bumper bump(SW2);
+//InterruptIn sw2(SW2);
+//volatile int flag = 0;
 
-		wait(2.0f);
+void heartbeat_task() {
+	while (1) {
+		printf("HILO\n");
+		Thread::wait(2000);
 	}
 }
 
+//void sw2_isr();	// Prototipo de la funcion
+
+Watchdog wdt;
+int main() {
+	led_red 	= 1;
+	led_blue 	= 1;
+	led_green 	= 1;
+	printf("INICIO\n");
+	wait(1.0);
+
+	wdt.kick(1.0);	// 10 segundos sin kick resetea la placa.
+	Thread heartbeat(heartbeat_task);
+	while(1) {
+		printf("MAIN\n");
+		wdt.kick();
+	}
+}
+*/
 /*
- int main() {
- PIDModule pid[1];
- uint8_t count = 0;
- float vel = 0;
- while(1) {
- wait(0.1);
- count++;
+int main(){
+	led_red 	= 1;
+	led_blue 	= 1;
+	led_green 	= 0;
+	Dm3Security dm3_security;
+	//Thread heartbeat(heartbeat_task);
 
- vel = pid[1].compute(0, 10);
+	while (1){
 
- DAC_I2C.write(count);
- }
- }
- */
+	}
+}
+*/
+/*
+int main(){
+	bump.attach(&sw2_isr);
+	led = 1;
 
+    while (1) {
+		if (flag == 1){
+			printf("ENTRO\n");
+			flag = 0;
+			led = 0;
+			wait(1);
+		}
+		else{
+			printf("AFUERA\n");
+			led = 1;
+		}
+    }
+}
+
+void sw2_isr()
+{
+	flag = 1;
+}
+*/
 #endif
 
 #ifndef MAIN_AM
 
 #include "mbed.h"
 #include "rtos.h"
-//#include <Ultrasonic/Ultrasonic.h>
+#include "modules/DM3/Dm3Security.h"
 #include "modules/Mcc/Mcc.h"
 #include "modules/Admin/Admin.h"
 #include "modules/Motor/MotorModule.h"
 #include "modules/DM3/Dm3Module.h"
-//#include "hdlc/frdm_communication.h"
-//#include "modules/Logging/Logger.h"
-//#include "modules/Ethernet/Communication.h"
 Ticker ticker_msg_rate;
 DigitalOut led_green(LED_GREEN);
 DigitalOut led_red(LED_RED);
@@ -87,18 +124,69 @@ void heartbeat_task() {
 
 //================================================
 // TEST ULTRASONIC VARIABLES
-//DigitalOut trigger(PTC17);
-//DigitalIn echo(PTC16);
-//int distance = 0;
-//int correction = 0;
-//Timer sonar;
+//int _distance = 0;
 //void dist(int distance)
 //{
-   //put code here to happen when the distance is changed
-//	led_red = 0;
-//	printf("Distance changed to %d\r\n", distance);
+//	_distance = distance;
 //}
-//Ultrasonic mu(PTC17, PTC16, .1, 1, &dist);
+//Ultrasonic mu(PTA1, PTA2, .1, 1, &dist);
+//================================================
+
+//================================================
+/*
+ * MEMORY MONITOR
+ */
+/* Using malloc() to determine free memory.*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#define FREEMEM_CELL 100
+struct elem { /* Definition of a structure that is FREEMEM_CELL bytes  in size.) */
+    struct elem *next;
+    char dummy[FREEMEM_CELL-2];
+};
+
+int FreeMem(void) {
+    int counter;
+    struct elem *head, *current, *nextone;
+    current = head = (struct elem*) malloc(sizeof(struct elem));
+    if (head == NULL)
+        return 0;      /*No memory available.*/
+    counter = 0;
+   // __disable_irq();
+    do {
+        counter++;
+        current->next = (struct elem*) malloc(sizeof(struct elem));
+        current = current->next;
+    } while (current != NULL);
+    /* Now counter holds the number of type elem
+       structures we were able to allocate. We
+       must free them all before returning. */
+    current = head;
+    do {
+        nextone = current->next;
+        free(current);
+        current = nextone;
+    } while (nextone != NULL);
+   // __enable_irq();
+
+    return counter*FREEMEM_CELL;
+}
+
+Thread memory_monitor_thread;
+void memory_monitor(){
+	int last_free_memory;
+	int actual_free_memory;
+	last_free_memory = FreeMem();
+	while(true){
+		actual_free_memory = FreeMem();
+		if(actual_free_memory < last_free_memory){
+			printf("FREE MEMORY: %dB\n", actual_free_memory);
+		}
+		last_free_memory = actual_free_memory;
+		Thread::wait(1000);
+	}
+}
 //================================================
 
 int main() {
@@ -107,15 +195,33 @@ int main() {
 	led_blue = 1;
 	led_green = 1;
 
-
 //	wait(2);
-//	mcc.send_message(0,0,"test",4);
-	Admin admin_module;
-	MotorModule motorModule;
+	Admin* admin_module = Admin::get_instance();
+	MotorModule* motorModule_instance = MotorModule::get_instance();
+	motorModule_instance->init();
 	Dm3Module dm3Module;
-	motorModule.init();
-	Thread heartbeat(heartbeat_task);
+
+	Thread heartbeat;
+	heartbeat.start(&heartbeat_task);
+	memory_monitor_thread.start(&memory_monitor);
+	Thread potpoll; // polling de potenciometro
+//	potpoll.start(callback(&MotorModule::potpoll_task, &motorModule));
+	Thread siren; // controlador de sirena
+	siren.start(callback(&dm3Module, &Dm3Module::siren_task));
+	Thread report_vel;
+//	report_vel.start(callback(&MotorModule::rated_report_vel_task, &motorModule));
+	Thread report_pow;
+//	report_pow.start(callback(&MotorModule::rated_report_pow_task, &motorModule));
+	Thread report_pot;
+//	report_pot.start(callback(&MotorModule::rated_report_pot_task, &motorModule));
+	  //Thread security_stop_task(motorModule.security_stop_task);
+	Thread battery_report_task;
+//	battery_report_task.start(callback(&Dm3Module::battery_report_task, &dm3Module));
+
+
+//	mcc.send_message(0,1,"test",4);
 	while(1){
+//		wait(1);
 		mcc.tick();
 	}
 
@@ -124,13 +230,47 @@ int main() {
 //	mu.startUpdates();//start mesuring the distance
 //	while(1)
 //	{
-//  	Do something else here
-//		mu.checkDistance();     //call checkDistance() as much as possible, as this is where
-//		the class checks if dist needs to be called.
-
+////  	Do something else here
+//		printf("the distance is: %dmm\n", _distance);
+//		wait(1);
+////		the class checks if dist needs to be called.
 //	}
+//}
+
+
+//==================================================
+//	Interruptions POC - START
+//==================================================
+//InterruptIn Interrupt(PTA1);
+//
+//
+//void blink()
+//{
+//    wait(.4);
+//    led_red=1;
+//    led_blue=0;
+//    wait(.4);
+//    led_blue=1;
+//    wait(.4);
+//}
+//
+//int main()
+//{
+//	led_red = 1;
+//	led_blue = 1;
+//	led_green = 1;
+//    Interrupt.fall(&blink);
+//    led_blue=1;
+//    while (1)
+//    {
+//        led_red=!led_red;
+//        wait(.2);
+//    }
+//}
+//==================================================
+//	Interruptions POC - END
+//==================================================
 
 }
-
 #endif
 

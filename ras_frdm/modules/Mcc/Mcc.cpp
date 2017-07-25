@@ -52,6 +52,7 @@ void EmBencode::PushChar(char ch) {
 	if (strlen(outbuf) < 255) {
 		outbuf[strlen(outbuf)] = ch;
 		if (ch == '\n') {
+			printf(outbuf);
 			host->send_all(outbuf, strlen(outbuf));
 			bzero(outbuf, 255);
 		}

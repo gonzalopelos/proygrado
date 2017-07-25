@@ -1,0 +1,26 @@
+@startuml
+
+title DM3 classs
+
+/'
+*******************************************
+Calasses Definitions
+*******************************************
+'/
+class Dm3
+class Dm3Module
+class MotorModule
+class MCC
+class Dm3Security
+class Ultrasonic
+/'*******************************************'/
+
+Dm3Module --> MCC
+Dm3Module --> Dm3
+Dm3Module --> Dm3Security
+Dm3Security --> Ultrasonic
+Dm3Security --> MotorModule
+MotorModule --> MCC
+MotorModule --> Dm3
+
+@enduml

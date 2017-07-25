@@ -118,6 +118,14 @@ Si los robots van a ser introducidos en el mundo de los humanos para asistir
 \end_layout
 
 \begin_layout Subsection
+Interacción Persona Robot
+\end_layout
+
+\begin_layout Standard
+ToDo
+\end_layout
+
+\begin_layout Subsection
 Definiciones
 \end_layout
 
@@ -703,6 +711,22 @@ Técnicas Utilizadas
 \end_layout
 
 \begin_layout Subsubsection
+Supervisión de Funciones
+\end_layout
+
+\begin_layout Standard
+ToDo (ver https://drive.google.com/file/d/0B5b9cF_5KTdQTWstTzJTWFVsMFk/view)
+\end_layout
+
+\begin_layout Subsubsection
+Recuperación Frente a Fallas
+\end_layout
+
+\begin_layout Standard
+ToDo
+\end_layout
+
+\begin_layout Subsubsection
 Prevención de Colisiones
 \end_layout
 
@@ -804,6 +828,10 @@ El fin que se desea alcanzar con las estrategias de control de colisiones
  de una colisión con un humano en un ambiente exterior y dinámico.
 \end_layout
 
+\begin_layout Itemize
+Torque Control with Gravity Compensation: ToDo
+\end_layout
+
 \begin_layout Subsubsection
 Estrategias de Control
 \end_layout
@@ -874,7 +902,7 @@ Interfaz de comunicación serial síncrona y asíncrona.
 
 \begin_layout Itemize
 Al menos 6 salidas salidas digitales para direcciones de ruedas (4), freno,
- fabilitación, luz de seguridad y bocina.
+ habilitación, luz de seguridad y bocina.
  
 \end_layout
 
@@ -899,6 +927,8 @@ Es una placa basada en el microcontrolador ATmega1280, compatible con la
 \align center
 \begin_inset Graphics
 	filename Placas Proyecto - Imagenes/Arduino mega 2560 r3.jpg
+	width 50line%
+	groupId imgs
 
 \end_inset
 
@@ -1195,6 +1225,8 @@ ad de un conjunto amplio de interfaces de periféricos y de una buena cantidad
 \align center
 \begin_inset Graphics
 	filename Placas Proyecto - Imagenes/LPC1768_enabled3.JPG.250x250_q85.jpg
+	width 50line%
+	groupId imgs
 
 \end_inset
 
@@ -1337,6 +1369,8 @@ Entrada y salida: La placa cuenta con 40 pines de 0.1 pulgadas.
 
 \begin_inset Graphics
 	filename Placas Proyecto - Imagenes/LPC1768_pinout.png
+	width 50line%
+	groupId imgs
 
 \end_inset
 
@@ -1456,6 +1490,8 @@ key "USBIOBOARDWiki"
 \align center
 \begin_inset Graphics
 	filename Placas Proyecto - Imagenes/USBIOBOARD.jpg
+	width 50line%
+	groupId imgs
 
 \end_inset
 
@@ -1610,7 +1646,8 @@ key "PIC18F45K50"
 
 \begin_inset Graphics
 	filename Placas Proyecto - Imagenes/USBIOBOARD_WDT.PNG
-	scale 40
+	width 50line%
+	groupId imgs
 
 \end_inset
 
@@ -1639,7 +1676,8 @@ Entrada y salida: La placa cuenta con 2 cabeceras de 14 pines cada una,
 
 \begin_inset Graphics
 	filename Placas Proyecto - Imagenes/USBIOBOARD_pinout.png
-	scale 50
+	width 50line%
+	groupId imgs
 
 \end_inset
 
@@ -1792,6 +1830,8 @@ key "K64F"
 \align center
 \begin_inset Graphics
 	filename Placas Proyecto - Imagenes/FRDM-K64F_400x300_WO6GnVU.png.250x250_q85.jpg
+	width 50line%
+	groupId imgs
 
 \end_inset
 
@@ -1887,7 +1927,8 @@ Entrada y salida: La placa cuenta con 86 pines de 0.1 pulgadas.
 
 \begin_inset Graphics
 	filename Placas Proyecto - Imagenes/frdm_k64f_reve4_header_pinout.jpg
-	scale 40
+	width 50line%
+	groupId imgs
 
 \end_inset
 
@@ -1898,7 +1939,8 @@ Entrada y salida: La placa cuenta con 86 pines de 0.1 pulgadas.
 
 \begin_inset Graphics
 	filename Placas Proyecto - Imagenes/frdm-k64f_peripherals.png
-	scale 30
+	width 50line%
+	groupId imgs
 
 \end_inset
 
@@ -2014,6 +2056,8 @@ key "VinciDuino"
 \align center
 \begin_inset Graphics
 	filename Placas Proyecto - Imagenes/LeoLivre.PNG
+	width 50line%
+	groupId imgs
 
 \end_inset
 
@@ -2099,7 +2143,8 @@ Entrada y salida: La placa cuenta con 20 pines digitales y 6 pines de comunicaci
 
 \begin_inset Graphics
 	filename Placas Proyecto - Imagenes/LeoLivre_pinout.PNG
-	scale 50
+	width 50line%
+	groupId imgs
 
 \end_inset
 
@@ -2179,7 +2224,7 @@ La placa debe ser construida ya que es un proyecto abierto, los componentes
 \end_layout
 
 \begin_layout Subsection
-USB4Butía
+USB4Butia
 \end_layout
 
 \begin_layout Standard
@@ -2213,7 +2258,8 @@ key "USB4ButiaHackpoints"
 \align center
 \begin_inset Graphics
 	filename Placas Proyecto - Imagenes/USB4butia.png.jpg
-	scale 50
+	width 50line%
+	groupId imgs
 
 \end_inset
 
@@ -2374,7 +2420,8 @@ key "ODROIDShowWiki"
 \align center
 \begin_inset Graphics
 	filename Placas Proyecto - Imagenes/ODROIDSHOW.jpg
-	scale 20
+	width 50line%
+	groupId imgs
 
 \end_inset
 
@@ -2474,7 +2521,8 @@ Entrada y salida: La placa cuenta con 1 cabeceras de 6 pines para IO:
 
 \begin_inset Graphics
 	filename Placas Proyecto - Imagenes/ODROIDSHOW_boarddetail.jpg
-	scale 50
+	width 50line%
+	groupId imgs
 
 \end_inset
 
@@ -2576,7 +2624,8 @@ key "ODROIDShowHW"
 
 \begin_inset Graphics
 	filename Placas Proyecto - Imagenes/ODROIDSHOW_block.png
-	scale 30
+	width 50line%
+	groupId imgs
 
 \end_inset
 

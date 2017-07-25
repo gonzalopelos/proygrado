@@ -20,7 +20,7 @@ public:
 
 	int send_all(char* data, int length);
 	int receive(char* data, int length);
-
+	bool is_client_connected();
 
 protected:
 	static Communication* _communication_instance;

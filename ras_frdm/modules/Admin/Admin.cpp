@@ -14,7 +14,8 @@ using namespace mbed;
 using namespace modules;
 
 extern Mcc mcc;
-//	using namespace modules::Admin;
+
+Admin* Admin::admin_instance = NULL;
 
 static int handle_report(unsigned int  pid, unsigned int  opcode) {
 	//report_status(ok_str, sizeof(ok_str)-1);
@@ -86,4 +87,11 @@ Admin::Admin() {
 Admin::~Admin() {
 	bzero(Admin::opcode_callbacks, ADMIN_OPCODES);
 	Admin::pid = -1;
+}
+
+Admin* Admin::get_instance() {
+	if(admin_instance == NULL){
+		admin_instance = new Admin();
+	}
+	return admin_instance;
 }
