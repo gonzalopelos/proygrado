@@ -1,0 +1,17 @@
+<launch>
+  <!-- Levanta el nodo joystick -->
+  <node name="white_joy" pkg="joy" type="joy_node">
+    <param name="coalesce_interval" type="double" value="0.1"/>
+    <!--param name="coalesce_interval" value="0.5"/-->
+  </node>
+
+  <!-- Levanta el control remoto con joystick -->
+  <node name="control_remoto_joy" pkg="dm3_core" type="joy_tele_operation.py"/>
+
+  <remap from="mux" to="mux_cmd_vel"/>
+  <!-- Levanta un nodo para multiplexar cmd_vel de varias fuentes 
+  rosrun topic_tools mux /dm3/cmd_vel laser_cmd_vel joy_cmd_vel mux:=mux_cmd_vel
+  -->
+  <!-- el primero de los topicos de entrada es el que se toma al inicio para mux en la salida, joy -->
+  <node name="mux_cmd_vel" pkg="topic_tools" type="mux" args="/dm3/cmd_vel joy_cmd_vel laser_cmd_vel"/>
+</launch>

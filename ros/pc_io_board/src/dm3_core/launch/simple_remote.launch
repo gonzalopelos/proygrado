@@ -1,0 +1,8 @@
+<launch>
+  <env name="ROS_MASTER_URI" value="http://salame.local:11311"/>
+
+  <!-- Levanta nodos driver con la IO board-->
+  <include file="$(find dm3_core)/launch/ioboard.launch"/>
+  <machine name="odroid.local" address="odroid.local" env-loader="/opt/ros/jade/env.sh" user="odroid" password="robot.1001"/>
+  <node machine="odroid.local" name="rosbag_record_cmd_vel" pkg="rosbag" type="record" args="-o /home/odroid/bagfiles/dm3_core /dm3/cmd_vel"/>
+</launch>

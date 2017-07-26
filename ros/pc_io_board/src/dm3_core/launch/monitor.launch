@@ -1,0 +1,19 @@
+<launch>
+  <!-- Levanta el nodo agregador para mensajes de diagnostico -->
+  <include file="$(find dm3_core)/launch/aggregator.launch"/>
+
+  <!-- Levanta los nodos del paquete monitor del sistema -->
+  <include file="$(find system_monitor)/launch/system_monitor.launch"/>
+ 
+  <!-- Levanta los nodo ping_alive -->
+  <node name="io_board_ping" pkg="dm3_core" type="io_board_ping.py"/>
+
+  <!-- Levanta los nodo io_board_modules_alive -->
+  <node name="io_board_modules_alive" pkg="dm3_core" type="io_board_modules_alive.py"/>
+
+  <!-- Levanta los nodo diagnostic_updater_myahrs -->
+  <node name="diagnostic_updater_myahrs" pkg="dm3_core" type="diagnostic_updater_myahrs.py"/>
+  
+  <!-- Levanta los nodo diagnostic_updater_zed -->
+  <node name="diagnostic_updater_zed" pkg="dm3_core" type="diagnostic_updater_zed.py"/>
+</launch>

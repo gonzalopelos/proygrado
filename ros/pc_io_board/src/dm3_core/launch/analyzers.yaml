@@ -1,0 +1,77 @@
+# http://wiki.ros.org/diagnostics/Tutorials/Configuring%20Diagnostic%20Aggregators
+
+pub_rate: 1.0 # Optional
+base_path: '' # Optional, prepended to all diagnostic output
+analyzers:
+  io_board:
+      type: AnalyzerGroup
+      path: IO Board
+      analyzers:
+        serial_comm:
+          type: GenericAnalyzer
+          path: Serial Comm
+          startswith: 'serial_mcc'
+          discard_stale: true
+        motor:
+          type: GenericAnalyzer
+          path: Motor
+          startswith: 'Motor Module'
+        misc:
+          type: GenericAnalyzer
+          path: DM3
+          startswith: 'DM3 Module'
+        admin:
+          type: GenericAnalyzer
+          path: Admin
+          startswith: 'Admin Module'
+          timeout: 2.0
+          num_items: 1 # por ahora solo recibe pings
+
+  sensors:
+      type: AnalyzerGroup
+      path: Sensors
+      analyzers:
+        joy:
+          type: GenericAnalyzer
+          path: Joystick
+          timeout: 5.0
+          find_and_remove_prefix: white_joy
+          num_items: 1
+        imu:
+          type: GenericAnalyzer
+          path: IMU
+          timeout: 1.0
+          find_and_remove_prefix: diagnostic_updater_myahrs
+          num_items: 1
+        zed:
+          type: GenericAnalyzer
+          path: ZED
+          timeout: 5.0
+          find_and_remove_prefix: diagnostic_updater_zed
+          num_items: 1
+
+  computers:
+    type: GenericAnalyzer
+    path: Computers
+    contains: [
+      'HD Temp',
+      'CPU Usage',
+      'CPU Temperature',
+      'HDD Usage',
+      'Memory Usage',
+      'Network Usage',
+      'NTP']
+    timeout: 10.0
+
+#        base_hk:
+#          type: GenericAnalyzer
+#          path: Base Hokuyo
+#          timeout: 5.0
+#          find_and_remove_prefix: hokuyo_node
+#          num_items: 2
+#        tilt_hk:
+#          type: GenericAnalyzer
+#          path: Tilt Hokuyo
+#          timeout: 5.0
+#          find_and_remove_prefix: tilt_hokuyo_node
+#          num_items: 3

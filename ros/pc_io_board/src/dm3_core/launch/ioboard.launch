@@ -1,0 +1,12 @@
+<launch>
+  <!-- Levanta el nodo base para la comunicacion MCC <--> Serial -->
+  <node name="serial_mcc" pkg="dm3_core" type="serial_mcc.py"/>
+ 
+  <!-- Levanta los modulos -->
+  <node name="io_admin_module" pkg="dm3_core" type="io_admin_module.py"/>
+  <node name="io_motor_module" pkg="dm3_core" type="io_motor_module.py">
+      <param name="rated_state" type="bool" value="False" />
+  </node>
+
+  <node name="io_dm3_module"   pkg="dm3_core" type="io_dm3_module.py"/>
+</launch>

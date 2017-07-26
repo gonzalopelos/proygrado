@@ -1,0 +1,14 @@
+<launch>
+  <!--levanta el nodo que calcula la odometria a partir de la velocidad de las ruedas -->
+  <node name="io_motor_vel2odom" pkg="dm3_core" type="io_motor_vel2odom.py"/>
+
+  <!-- Levanta el nodo que convierte el topico del gps a uno de tipo odom-->
+   <include file="$(find dm3_core)/launch/gps_to_odom.launch"/>
+
+  <!-- Levanta el nodo que une los odoms-->
+  <include file="$(find dm3_core)/launch/pose_ekf.launch"/>
+
+  <!-- Levanta el nodo de navegacion-->
+  <include file="$(find dm3_core)/launch/navigation.launch"/>
+
+</launch>

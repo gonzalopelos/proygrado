@@ -1,0 +1,17 @@
+obstacle_range: 3 #actualiza info con obstaculos hasta 2.5 m
+raytrace_range: 2.5 
+footprint: [[0.67, 0.51], [0.67, -0.51], [-0.67, -0.51], [-0.67,0.51]] #tamaño del robot dm3
+inflation_radius: 1
+#footprint: [[0.16, 0.16], [0.16, -0.16 ], [-0.16, -0.16], [-0.16,0.16]] #tamaño del robot mini dm3
+#inflation_radius: 0.2
+
+#robot_radius: ir_of_robot
+
+
+NavfnROS:
+    allow_unknown: true
+
+recovery_behaviors: [
+    {name: conservative_clear, type: clear_costmap_recovery/ClearCostmapRecovery},
+    {name: aggressive_clear, type: clear_costmap_recovery/ClearCostmapRecovery} # este limpia fuera de un radio de 4*circum_radius
+]

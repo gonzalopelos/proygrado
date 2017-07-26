@@ -1,0 +1,26 @@
+<launch>
+  <!-- Levanta el Laser -->
+  <node name="hokuyo_node" pkg="hokuyo_node" type="hokuyo_node">
+    <param name="port" type="str" value="/dev/dm3/sensors/hokuyo_H1204634"/>
+    <!--remap from="scan" to="base_scan" />
+    <param name="frame_id" type="string" value="base_laser_link" />
+    <param name="min_ang" type="double" value="-2.35619449019234492883" />
+    <param name="max_ang" type="double" value="2.35619449019234492883" />
+    <param name="skip" type="int" value="0" />
+    <param name="intensity" value="false" /-->
+  </node>
+ 
+  <!-- Levanta el GPS -->
+  <node name="nmea_gps" pkg="nmea_navsat_driver" type="nmea_serial_driver" output="screen" respawn="true">
+    <param name="port" type="str" value="/dev/dm3/sensors/gps"/>
+    <param name="baud" type="int" value="38400"/>
+  </node>
+
+  <node pkg="myahrs_driver" type="myahrs_driver" name="myahrs_driver">
+    <param name="port" value="/dev/dm3/sensors/myahrs" />
+    <param name="baud_rate" value="115200" />
+  </node>
+
+  <!-- Realiza el log de algunos topicos -->
+  <node pkg="rosbag" type="record" name="rosbag_record_follow_me_laser" args="-o /home/odroid/bagfiles/followMeLaser /scan /fix"/> 
+</launch>

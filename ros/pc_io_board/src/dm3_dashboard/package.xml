@@ -1,0 +1,27 @@
+<package>
+  <name>dm3_dashboard</name>
+  <version>0.4.2</version>
+  <description>
+    The DM3 dashboard is a RQT-based plug-in for visualising data from DM3 and giving easy access
+    to basic functionalities.
+  </description>
+  <maintainer email="gtejera@fing.edu.uy">Gonzalo Tejera</maintainer>
+  <license>BSD</license>
+  <url type="website">http://ros.org/wiki/dm3_dashboard</url>
+  <url type="repository">https://github.com/dm3/dm3_desktop</url>
+  <url type="bugtracker">https://github.com/dm3/dm3_desktop/issues</url>
+  
+  <author>Gonzalo Tejera</author>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>rospy</build_depend>
+  <build_depend>rqt_robot_dashboard</build_depend>
+
+  <run_depend>rospy</run_depend>
+  <run_depend>rqt_robot_dashboard</run_depend>
+  
+  <export>
+    <rqt_gui plugin="${prefix}/plugins/plugin.xml"/>
+  </export>
+</package>

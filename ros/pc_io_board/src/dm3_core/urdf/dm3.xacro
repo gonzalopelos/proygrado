@@ -1,0 +1,230 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="dm3">
+
+<xacro:property name="robotname" value="dm3" />
+
+<xacro:property name="pi_2" value="1.570795" />
+
+<!-- links names -->
+<xacro:property name="front_chasis_link" value="base_link" />
+<xacro:property name="back_chasis_link" value="back_chasis_link" />
+<xacro:property name="f_l_wheel_link" value="f_l_wheel" />
+<xacro:property name="f_r_wheel_link" value="f_r_wheel" />
+<xacro:property name="b_l_wheel_link" value="b_l_wheel" />
+<xacro:property name="b_r_wheel_link" value="b_r_wheel" />
+<xacro:property name="front_chasis_arm_link" value="front_chasis_arm" />
+<xacro:property name="back_chasis_arm_link" value="back_chasis_arm" />
+<xacro:property name="articulation" value="articulation" />
+
+<!-- links dimentions -->
+<xacro:property name="chasis_width" value=".5" />
+<xacro:property name="chasis_length" value=".5" />
+<xacro:property name="chasis_height" value=".1" />
+<xacro:property name="arm_width" value=".15" />
+<xacro:property name="arm_length" value=".1" />
+<xacro:property name="arm_height" value=".1" />
+<xacro:property name="wheel_diam" value=".24" />
+<xacro:property name="wheel_width" value=".05" />
+<xacro:property name="art_diam" value=".1" />
+<xacro:property name="art_width" value=".1" />
+
+<!-- materiasl definition-->
+<xacro:macro name="green_material">
+  <material name="green">
+    <color rgba="0 1 0 1"/>
+  </material>
+</xacro:macro>
+
+<xacro:macro name="red_material">
+  <material name="red">
+    <color rgba="1 0 0 1"/>
+  </material>
+</xacro:macro>
+
+<xacro:macro name="black_material">
+  <material name="black">
+    <color rgba="0.05 0.05 0.05 1"/>
+  </material>
+</xacro:macro>
+
+<xacro:macro name="yellow_material">
+  <material name="yellow">
+    <color rgba="0.8 0.8 0 1"/>
+  </material>
+</xacro:macro>
+
+<!-- links macros -->
+<xacro:macro name="make_chasis" params="chasis_name">
+  <link name="${chasis_name}">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+          <box size="${chasis_width} ${chasis_length} ${chasis_height}"/>
+      </geometry>
+      <xacro:yellow_material />
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${chasis_height/2}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${chasis_width} ${chasis_length} ${chasis_height}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 1" rpy="0 0 0"/>
+      <mass value="5"/>
+      <inertia
+        ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0"
+        izz="1.0"/>
+    </inertial>
+  </link>
+</xacro:macro>
+
+<xacro:macro name="make_arm" params="arm_name">
+  <link name="${arm_name}">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+          <box size="${arm_width} ${arm_length} ${arm_height}"/>
+      </geometry>
+      <xacro:red_material />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <box size="${arm_width} ${arm_length} ${arm_height}"/>
+      </geometry>
+    </collision>    
+    <inertial>
+      <origin xyz="0 0 1" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+        ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0"
+        izz="1.0"/>
+    </inertial>
+  </link>
+</xacro:macro>
+
+<xacro:macro name="make_wheel" params="wheel_name">
+  <link name="${wheel_name}">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.570795 0 0" />
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_diam/2}" />
+      </geometry>
+      <xacro:black_material />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.570795 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_diam/2}" />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 1" rpy="0 0 0"/>
+      <mass value="10"/>
+      <inertia
+        ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0"
+        izz="1.0"/>
+    </inertial>
+  </link>
+</xacro:macro>
+
+<!-- without colision -->
+<xacro:macro name="make_art" params="art_name">
+  <link name="${art_name}">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+          <cylinder length="${art_width}" radius="${art_diam/2}" />
+      </geometry>
+      <xacro:green_material />
+    </visual>
+    <inertial>
+      <origin xyz="0 0 1" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0"
+        izz="1.0"/>
+    </inertial>
+  </link>
+</xacro:macro>
+
+<!-- joints macros -->
+<xacro:macro name="chasis_wheel_joint" params="chasis_link wheel_link sign">
+  <joint name="${wheel_link}_joint" type="continuous">
+    <parent link="${chasis_link}"/>
+    <child link="${wheel_link}"/>
+    <origin xyz="0 ${sign*(chasis_width + wheel_width)/2} 0" rpy="0 0 0" /> 
+    <axis xyz="0 1 0" rpy="0 0 0" />
+  </joint>
+</xacro:macro>
+
+<xacro:macro name="chasis_arm_joint" params="parent child">
+  <joint name="joint_${parent}_${child}" type="fixed">
+    <parent link="${parent}"/>
+    <child link="${child}"/>
+    <origin xyz="${(chasis_width + arm_width)/2} 0 0" rpy="0 0 0" /> 
+    <axis xyz="0 1 0" rpy="0 0 0" />
+  </joint>
+</xacro:macro>
+
+<xacro:macro name="arm_art_joint" params="parent child type">
+  <joint name="joint_${parent}_${child}" type="${type}">
+    <parent link="${parent}"/>
+    <child link="${child}"/>
+    <origin xyz="${art_diam} 0 0" rpy="0 0 0" /> 
+    <axis xyz="0 0 1" rpy="0 0 0" />
+    <limit lower="-0.7" upper="0.7" effort="100" velocity="100" />
+  </joint>
+</xacro:macro>
+
+  <!-- chasis links -->
+  <xacro:make_chasis chasis_name="${front_chasis_link}"/>
+  <xacro:make_chasis chasis_name="${back_chasis_link}"/>
+
+  <!-- wheels links -->
+  <xacro:make_wheel wheel_name="${f_r_wheel_link}"/>
+  <xacro:make_wheel wheel_name="${f_l_wheel_link}"/>
+  <xacro:make_wheel wheel_name="${b_l_wheel_link}"/>
+  <xacro:make_wheel wheel_name="${b_r_wheel_link}"/>
+
+  <!-- arms links -->
+  <xacro:make_arm arm_name="${front_chasis_arm_link}"/>
+  <xacro:make_arm arm_name="${back_chasis_arm_link}"/>
+
+  <!-- articulation -->
+  <xacro:make_art art_name="${articulation}"/>
+
+  <!-- joint chasis and wheel -->
+  <xacro:chasis_wheel_joint chasis_link="${front_chasis_link}" wheel_link="${f_l_wheel_link}" sign="1"/>
+  <xacro:chasis_wheel_joint chasis_link="${front_chasis_link}" wheel_link="${f_r_wheel_link}" sign="-1"/>
+  <xacro:chasis_wheel_joint chasis_link="${back_chasis_link}" wheel_link="${b_l_wheel_link}" sign="1"/>
+  <xacro:chasis_wheel_joint chasis_link="${back_chasis_link}" wheel_link="${b_r_wheel_link}" sign="-1"/>
+
+  <!-- joint articulation and arm -->
+  <xacro:arm_art_joint parent="${front_chasis_arm_link}" child="${articulation}" type="revolute"/>
+  <xacro:arm_art_joint parent="${articulation}" child="${back_chasis_arm_link}" type="fixed"/>
+
+  <!-- joint chasis and arm -->
+  <xacro:chasis_arm_joint parent="${front_chasis_link}" child="${front_chasis_arm_link}"/>
+  <xacro:chasis_arm_joint parent="${back_chasis_arm_link}" child="${back_chasis_link}"/>
+
+  <!-- Transmission is important to link the joints and the controller -->
+  <!-- chasis: {f, b} -->
+  <!-- wheel: {l, r} -->
+  <xacro:macro name="make_transmossion" params="chasis wheel">
+    <transmission name="${chasis}_${wheel}_wheel_joint_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${chasis}_${wheel}_wheel_joint" />
+      <actuator name="${chasis}_${wheel}_wheel_joint_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission> 
+  </xacro:macro>
+</robot>

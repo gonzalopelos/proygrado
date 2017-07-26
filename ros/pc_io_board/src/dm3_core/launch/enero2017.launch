@@ -1,0 +1,53 @@
+<launch> 
+
+
+  <!--levanta el nodo que calcula la odometria a partir de la velocidad de las ruedas -->
+  <node name="io_motor_vel2odom" pkg="dm3_core" type="io_motor_vel2odom.py"/>
+
+  <!-- Levanta el nodo que agrega covarianza a vo-->
+  <node name="add_covariance" pkg="dm3_core" type="add_covariance.py"/>
+
+  <!-- Levanta el nodo que une los odoms-->
+  <include file="$(find dm3_core)/launch/pose_ekf.launch"/>
+
+  <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" />
+  <node pkg="nodelet" type="nodelet" name="stereo_nodelet"  args="manager"/>
+
+ <node pkg="nodelet" type="nodelet" name="obstacles_detection" args="load rtabmap_ros/obstacles_detection pcl_manager" output="screen">
+      <remap from="cloud"     to="/rtabmap/cloud_map"/>
+      <remap from="obstacles" to="/obstacles_cloud"/>
+      <remap from="ground"    to="/ground_cloud"/>
+
+      <param name="frame_id"             type="string" value="base_footprint"/>     
+      <param name="map_frame_id"         type="string" value="map"/>
+      <param name="wait_for_transform"   type="bool" value="true"/>
+      <param name="Grid/MinClusterSize"     type="int" value="40"/>      
+      <param name="Grid/MaxObstacleHeight" type="double" value="1"/>
+      <param name="Grid/MaxGroundAngle"  type="double" value="1.0"/>
+  </node>  
+
+<group ns="planner">
+        <remap from="map" to="/rtabmap/proj_map"/>
+        <remap from="move_base_simple/goal" to="/planner_goal"/>
+        
+
+      <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+         <param name="controller_frequency" value="1" />  
+         <remap from="cmd_vel" to="/dm3/cmd_vel/zed" />
+         <rosparam file="$(find dm3_core)/launch/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+         <rosparam file="$(find dm3_core)/launch/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+         <rosparam file="$(find dm3_core)/launch/config/local_costmap_params.yaml" command="load" />
+         <rosparam file="$(find dm3_core)/launch/config/global_costmap_params.yaml" command="load" />
+         <rosparam file="$(find dm3_core)/launch/config/base_local_planner_params.yaml" command="load" />  
+
+      </node>
+    </group>
+
+
+
+
+  
+
+</launch>
+
+   

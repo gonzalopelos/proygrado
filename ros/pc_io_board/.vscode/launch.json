@@ -5,7 +5,7 @@
             "name": "C++ Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/home/proygrado/Documents/git/proygrado/ros/pc_io_board/devel/lib/tcp_comm/pc2ioboard_server",
+            "program": "/home/proygrado/Documents/git/proygrado/ros/pc_io_board/devel/lib/dm3_core/pc2ioboard",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceRoot}",

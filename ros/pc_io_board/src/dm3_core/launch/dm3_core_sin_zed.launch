@@ -1,0 +1,42 @@
+<launch>
+  <!-- env name="ROS_MASTER_URI" value="http://odroid.local:11311"/ -->
+
+  <!-- Levanta el nodo remoto driver del ZED-->
+<!--  <include file="$(find dm3_core)/launch/remote-zed.launch"/>-->
+
+  <!-- Levanta los modulos utilizados para monitorear-->
+  <include file="$(find dm3_core)/launch/monitor.launch"/>
+
+  <!-- Levanta nodos driver con la IO board-->
+  <include file="$(find dm3_core)/launch/ioboard.launch"/>
+ 
+  <!-- Levanta el GPS -->
+  <node name="nmea_gps" pkg="nmea_navsat_driver" type="nmea_serial_driver" output="screen" respawn="true">
+    <param name="port" type="str" value="/dev/dm3/sensors/gps"/>
+    <param name="baud" type="int" value="38400"/>
+  </node>
+
+  <node pkg="myahrs_driver" type="myahrs_driver" name="myahrs_driver" respawn="true">
+    <param name="port" type="str" value="/dev/dm3/sensors/myahrs" />
+    <param name="baud_rate" type="int" value="115200" />
+  </node>
+
+  <!-- Levanta el nodo joystick -->
+  <node name="white_joy" pkg="joy" type="joy_node">
+    <param name="coalesce_interval" type="double" value="0.1"/>
+    <!--param name="coalesce_interval" value="0.5"/-->
+  </node>
+
+  <!-- Levanta el control remoto con joystick -->
+  <node name="control_remoto_joy" pkg="dm3_core" type="joy_tele_operation.py"/>
+
+  <remap from="mux" to="mux_cmd_vel"/>
+  <!-- Levanta un nodo para multiplexar cmd_vel de varias fuentes 
+  rosrun topic_tools mux /dm3/cmd_vel /dm3/cmd_vel/zed /dm3/cmd_vel/joy mux:=mux_cmd_vel
+  -->
+  <!-- el primero de los topicos de entrada es el que se toma al inicio para mux en la salida, joy -->
+  <node name="mux_cmd_vel" pkg="topic_tools" type="mux" args="/dm3/cmd_vel /dm3/cmd_vel/joy /dm3/cmd_vel/zed"/>
+
+  <!-- Realiza el log de algunos topicos -->
+  <node pkg="rosbag" type="record" name="rosbag_record_follow_me_laser" args="-o /home/odroid/bagfiles/dm3_core /fix /imu/data /imu/data_raw /imu/mag /imu/temperature /tf"/> 
+</launch>

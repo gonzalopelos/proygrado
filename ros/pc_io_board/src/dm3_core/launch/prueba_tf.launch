@@ -1,0 +1,62 @@
+<launch>
+
+	<!-- Solo de prueba para verlos en RVIZ-->
+	<node pkg="tf" type="static_transform_publisher" name="rviz_zed" 
+  args="0.0 0.0 0.0 0.0 0.0 0 base_footprint zed_initial_frame 100" />
+  	<node pkg="tf" type="static_transform_publisher" name="rviz_wheel" 
+  args="0.0 0.0 0.0 0.0 0.0 0 base_footprint odom_wheel 100" /> 
+
+	<!--levanta el nodo que calcula la odometria a partir de la velocidad de las ruedas -->
+	<node name="io_motor_vel2odom" pkg="dm3_core" type="io_motor_vel2odom.py"/>
+
+	<node name="add_covariance" pkg="dm3_core" type="add_covariance.py"/>
+
+	<!-- Levanta el nodo que une los odoms-->
+    <include file="$(find dm3_core)/launch/pose_ekf.launch"/>
+
+
+	<!--node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" /-->
+	<node pkg="nodelet" type="nodelet" name="stereo_nodelet"  args="manager"/>
+
+	<node pkg="nodelet" type="nodelet" name="obstacles_detection" args="load rtabmap_ros/obstacles_detection pcl_manager" output="screen">
+		<remap from="cloud"     to="/voxel_grid/output"/> <!-- Revisar -->
+		<remap from="obstacles" to="/obstacles_cloud"/>
+		<remap from="ground"    to="/ground_cloud"/>
+
+		<param name="frame_id"             type="string" value="base_footprint"/>     
+		<param name="map_frame_id"         type="string" value="map"/>
+		<param name="wait_for_transform"   type="bool" value="true"/>
+		<param name="Grid/MinClusterSize"     type="int" value="40"/>      
+		<param name="Grid/MaxObstacleHeight" type="double" value="1"/>
+		<param name="Grid/MaxGroundAngle"  type="double" value="45"/> <!--1.0-->
+	</node>  
+
+	<group ns="planner">
+		<remap from="map" to="/rtabmap/grid_map"/>
+		<remap from="move_base_simple/goal" to="/planner_goal"/>
+
+
+		<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+			 <param name="controller_frequency" value="4" /> <!-- Probar aumentar! -->
+			 <param name="clearing_rotation_allowed" value="false" />  
+
+			 <!-- nuevos -->
+ 			 <param name="planner_patience" value="15" /> <!-- default: 20 -->
+			 <param name="max_planning_retries" value="3" /> <!-- dice que por defecto es -1 y significa que hace infinitos reintentos antes de los comp. de rec., pero en ese caso no se ejecutarin los comp. y si lo hacen-->
+			 <param name="rotate_recovery/sim_granularity" value="0.785" /> <!-- 45 grados --> 
+			 <param name="rotate_recovery/frequency" value="20" /> <!-- default: 20 -->
+
+
+			 <remap from="cmd_vel" to="/dm3/cmd_vel/zed" />
+
+			 <rosparam file="$(find dm3_core)/launch/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+			 <rosparam file="$(find dm3_core)/launch/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+			 <rosparam file="$(find dm3_core)/launch/config/local_costmap_params.yaml" command="load" />
+			 <rosparam file="$(find dm3_core)/launch/config/global_costmap_params.yaml" command="load" />
+			 <rosparam file="$(find dm3_core)/launch/config/base_local_planner_params.yaml" command="load" />  
+		</node>
+	</group>
+
+
+
+</launch>

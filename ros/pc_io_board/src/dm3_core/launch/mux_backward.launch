@@ -1,0 +1,5 @@
+<launch>
+	<node name="mux_not_backward" pkg="topic_tools" type="mux" args="/dm3/cmd_vel_io_board /dm3/cmd_vel /dm3/cmd_vel/backward_control"/>
+
+	 <node name="backward_control" pkg="dm3_core" type="backward_control.py"/>
+</launch>

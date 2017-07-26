@@ -1,0 +1,251 @@
+diff --git a/dm3_core/launch/dm3_core.launch b/dm3_core/launch/dm3_core.launch
+index 34bd9da..eb2c66f 100644
+--- a/dm3_core/launch/dm3_core.launch
++++ b/dm3_core/launch/dm3_core.launch
+@@ -2,7 +2,8 @@
+   <!-- env name="ROS_MASTER_URI" value="http://odroid.local:11311"/ -->
+ 
+   <!-- Levanta el nodo remoto driver del ZED-->
+-  <include file="$(find dm3_core)/launch/remote-zed.launch"/>
++  <!--include file="$(find dm3_core)/launch/remote-zed.launch"/-->
++  <include file="$(find dm3_core)/launch/prueba.launch"/>
+ 
+   <!-- Levanta los modulos utilizados para monitorear-->
+   <include file="$(find dm3_core)/launch/monitor.launch"/>
+diff --git a/dm3_core/launch/dm3_core_sin_zed.launch b/dm3_core/launch/dm3_core_sin_zed.launch
+new file mode 100644
+index 0000000..0957c2d
+--- /dev/null
++++ b/dm3_core/launch/dm3_core_sin_zed.launch
+@@ -0,0 +1,42 @@
++<launch>
++  <!-- env name="ROS_MASTER_URI" value="http://odroid.local:11311"/ -->
++
++  <!-- Levanta el nodo remoto driver del ZED-->
++<!--  <include file="$(find dm3_core)/launch/remote-zed.launch"/>-->
++
++  <!-- Levanta los modulos utilizados para monitorear-->
++  <include file="$(find dm3_core)/launch/monitor.launch"/>
++
++  <!-- Levanta nodos driver con la IO board-->
++  <include file="$(find dm3_core)/launch/ioboard.launch"/>
++ 
++  <!-- Levanta el GPS -->
++  <node name="nmea_gps" pkg="nmea_navsat_driver" type="nmea_serial_driver" output="screen" respawn="true">
++    <param name="port" type="str" value="/dev/dm3/sensors/gps"/>
++    <param name="baud" type="int" value="38400"/>
++  </node>
++
++  <node pkg="myahrs_driver" type="myahrs_driver" name="myahrs_driver" respawn="true">
++    <param name="port" type="str" value="/dev/dm3/sensors/myahrs" />
++    <param name="baud_rate" type="int" value="115200" />
++  </node>
++
++  <!-- Levanta el nodo joystick -->
++  <node name="white_joy" pkg="joy" type="joy_node">
++    <param name="coalesce_interval" type="double" value="0.1"/>
++    <!--param name="coalesce_interval" value="0.5"/-->
++  </node>
++
++  <!-- Levanta el control remoto con joystick -->
++  <node name="control_remoto_joy" pkg="dm3_core" type="joy_tele_operation.py"/>
++
++  <remap from="mux" to="mux_cmd_vel"/>
++  <!-- Levanta un nodo para multiplexar cmd_vel de varias fuentes 
++  rosrun topic_tools mux /dm3/cmd_vel /dm3/cmd_vel/zed /dm3/cmd_vel/joy mux:=mux_cmd_vel
++  -->
++  <!-- el primero de los topicos de entrada es el que se toma al inicio para mux en la salida, joy -->
++  <node name="mux_cmd_vel" pkg="topic_tools" type="mux" args="/dm3/cmd_vel /dm3/cmd_vel/joy /dm3/cmd_vel/zed"/>
++
++  <!-- Realiza el log de algunos topicos -->
++  <node pkg="rosbag" type="record" name="rosbag_record_follow_me_laser" args="-o /home/odroid/bagfiles/dm3_core /fix /imu/data /imu/data_raw /imu/mag /imu/temperature /tf"/> 
++</launch>
+diff --git a/dm3_core/launch/prueba.launch b/dm3_core/launch/prueba.launch
+new file mode 100644
+index 0000000..d88ce48
+--- /dev/null
++++ b/dm3_core/launch/prueba.launch
+@@ -0,0 +1,132 @@
++<launch>
++  <env name="ROS_MASTER_URI" value="http://odroid.local:11311"/>
++
++  <machine name="jetson" address="tegra-ubuntu" env-loader="/home/ubuntu/catkin_ws/devel/env-loader.sh" user="ubuntu" password="ubuntu"/>
++
++  <arg name="camera" default="zed"/>
++  <arg name="tf_prefix" default="" />
++  <arg name="pi/2" value="1.5707963267948966" />
++  <arg name="optical_rotate" value="0 0 0 -$(arg pi/2) 0 -$(arg pi/2)" />
++  <node machine="jetson" pkg="tf2_ros" type="static_transform_publisher" name="$(arg camera)_base_link1"   args="0 0 0 0 0 0 1 camera_link $(arg tf_prefix)/$(arg camera)_frame" respawn="true"/>
++  <node machine="jetson" pkg="tf2_ros" type="static_transform_publisher" name="$(arg camera)_base_link2"  args="$(arg optical_rotate) $(arg tf_prefix)/$(arg camera)_frame $(arg tf_prefix)/$(arg camera)_optical_frame" respawn="true"/>
++  
++  <node machine="jetson" name="zed_driver" pkg="zed" type="zed_driver" args="" respawn="true">
++
++      <param name="resolution"            value="2" />
++      <param name="quality"               value="2" />
++      <param name="sensing_mode"          value="1" />
++      <param name="frame_rate"            value="30" />
++
++      <param name="left_frame_id"         value="/zed_optical_frame" />
++      <param name="right_frame_id"         value="/zed_optical_frame" />
++      <param name="rgb_frame_id"         value="/zed_optical_frame" />
++      <param name="point_cloud_topic"     value="/zed/point_cloud/cloud" />
++      <param name="cloud_frame_id"        value="/zed_optical_frame" />
++      <param name="depth_mm_frame_id"        value="/zed_optical_frame" />
++      <param name="depth_gray_frame_id"        value="/zed_optical_frame" />
++
++    </node>  
++
++   <node machine="jetson" pkg="tf" type="static_transform_publisher" name="camera_base_link"  args="0 0 0 -1.5707963267948966 0 -1.5707963267948966 / camera_link zed_initial_frame  100" respawn="true"/>
++
++    <!-- Odometry: Run the viso2_ros package -->
++    <node machine="jetson" pkg="viso2_ros" type="stereo_odometer" name="stereo_odometer" output="screen" respawn="true">
++        <remap from="stereo" to="zed"/>
++        <remap from="image" to="image_rect"/>
++        <param name="base_link_frame_id" value="/camera_link"/>
++        <param name="odom_frame_id" value="/odom"/>
++        <param name="ref_frame_change_method" value="1"/>
++    </node>
++
++   
++  <arg name="rviz"                    default="false" />
++  <arg name="rtabmapviz"              default="false" /> 
++  <arg name="localization"            default="false"/>
++  <arg name="frame_id"                default="camera_link"/>   <!-- Fixed frame id, you may set "base_link" or "base_footprint" if they are published -->
++  <arg name="time_threshold"          default="0"/>             <!-- (ms) If not 0 ms, memory management is used to keep processing time on this fixed limit. -->
++  <arg name="optimize_from_last_node" default="false"/>         <!-- Optimize the map from the last node. Should be true on multi-session mapping and when time threshold is set -->
++  <arg name="database_path"           default="~/.ros/rtabmap.db"/>
++  <arg name="rtabmap_args"            default="--delete_db_on_start"/>              <!-- delete_db_on_start, udebug -->
++  <arg name="launch_prefix"           default=""/>              <!-- for debugging purpose, it fills launch-prefix tag of the nodes -->
++   
++  <arg name="rgb_topic"               default="/zed/rgb/image_rect" />
++  <arg name="depth_registered_topic"  default="/zed/depth/image_raw" />
++  <arg name="camera_info_topic"       default="/zed/rgb/camera_info" />
++  <arg name="compressed"              default="false"/>
++  <arg name="convert_depth_to_mm"     default="true"/>
++   
++  <arg name="subscribe_scan"          default="false"/>         <!-- Assuming 2D scan if set, rtabmap will do 3DoF mapping instead of 6DoF -->
++  <arg name="scan_topic"              default="/scan"/>
++  
++  <arg name="subscribe_scan_cloud"    default="false"/>         <!-- Assuming 3D scan if set -->
++  <arg name="scan_cloud_topic"        default="/scan_cloud"/>
++  
++  <arg name="visual_odometry"         default="true"/>          <!-- Generate visual odometry -->
++  <arg name="odom_topic"              default="/stereo_odometer/odometry"/>         <!-- Odometry topic used if visual_odometry is false -->
++   
++  <arg name="namespace"               default="rtabmap"/>
++  <arg name="wait_for_transform"      default="0.2"/>
++  
++  <!-- Nodes -->
++  <group ns="$(arg namespace)">
++  
++    <node machine="jetson"  if="$(arg compressed)" name="republish_rgb"   type="republish" pkg="image_transport" args="compressed in:=$(arg rgb_topic) raw out:=$(arg rgb_topic)" respawn="true" />
++    <node machine="jetson" if="$(arg compressed)" name="republish_depth" type="republish" pkg="image_transport" args="compressedDepth in:=$(arg depth_registered_topic) raw out:=$(arg depth_registered_topic)" respawn="true"/>
++  
++    <!-- Odometry -->
++    <node machine="jetson" if="$(arg visual_odometry)" pkg="rtabmap_ros" type="rgbd_odometry" name="rgbd_odometry" output="screen" args="$(arg rtabmap_args)" launch-prefix="$(arg launch_prefix)" respawn="true">
++      <remap from="rgb/image"       to="$(arg rgb_topic)"/>
++      <remap from="depth/image"     to="$(arg depth_registered_topic)"/>
++      <remap from="rgb/camera_info" to="$(arg camera_info_topic)"/>
++	  
++	  <param name="frame_id"                    type="string" value="$(arg frame_id)"/>
++	  <param name="wait_for_transform_duration" type="double"   value="$(arg wait_for_transform)"/>
++	  
++      <param name="Odom/FillInfoData"           type="string" value="true"/> 
++    </node>
++  
++    <!-- Visual SLAM (robot side) -->
++    <node machine="jetson"  name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="$(arg rtabmap_args)" launch-prefix="$(arg launch_prefix)" respawn="true">
++      <param name="subscribe_depth"             type="bool"   value="true"/>
++      <param name="subscribe_scan"              type="bool"   value="$(arg subscribe_scan)"/>
++      <param name="subscribe_scan_cloud"        type="bool"   value="$(arg subscribe_scan_cloud)"/>
++	  <param name="frame_id"                    type="string" value="$(arg frame_id)"/>
++	  <param name="wait_for_transform_duration" type="double" value="$(arg wait_for_transform)"/>
++	  <param name="database_path"               type="string" value="$(arg database_path)"/>
++	
++      <remap from="rgb/image"       to="$(arg rgb_topic)"/>
++      <remap from="depth/image"     to="$(arg depth_registered_topic)"/>
++      <remap from="rgb/camera_info" to="$(arg camera_info_topic)"/>
++      <remap from="scan"            to="$(arg scan_topic)"/>
++      <remap from="scan_cloud"      to="$(arg scan_cloud_topic)"/>
++      <remap unless="$(arg visual_odometry)" from="odom"  to="$(arg odom_topic)"/>
++      
++      <param name="Rtabmap/TimeThr"              type="string" value="$(arg time_threshold)"/>
++      <param name="RGBD/OptimizeFromGraphEnd"    type="string" value="$(arg optimize_from_last_node)"/>
++      <param name="Mem/SaveDepth16Format"        type="string" value="$(arg convert_depth_to_mm)"/>
++      
++      <!-- localization mode -->
++	  <param     if="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="false"/>
++	  <param unless="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="true"/>
++	  <param name="Mem/InitWMWithAllNodes" type="string" value="$(arg localization)"/>
++
++      <!-- when 2D scan is set -->
++      <param if="$(arg subscribe_scan)" name="Optimizer/Slam2D"        type="string" value="true"/>
++	  <param if="$(arg subscribe_scan)" name="Icp/CorrespondenceRatio" type="string" value="0.25"/>
++	  <param if="$(arg subscribe_scan)" name="Reg/Strategy"            type="string" value="1"/> 
++	  <param if="$(arg subscribe_scan)" name="Reg/Force3DoF"           type="string" value="true"/>
++
++	  <!-- when 3D scan is set -->
++	  <param if="$(arg subscribe_scan_cloud)" name="Reg/Strategy"      type="string" value="1"/>
++    </node>
++  
++   
++  
++  </group>
++  
++
++  
++  <node machine="jetson" name="follow_me_zed" pkg="zed" type="follow_me_zed" respawn="true"  />
++  <node machine="jetson" name="secure_distance" pkg="zed" type="secure_distance" respawn="true" />
++</launch>
++
+diff --git a/dm3_core/launch/remote-zed.launch b/dm3_core/launch/remote-zed.launch
+index 62c330f..bc0b17a 100644
+--- a/dm3_core/launch/remote-zed.launch
++++ b/dm3_core/launch/remote-zed.launch
+@@ -5,4 +5,4 @@
+   <node machine="jetson" name="zed_driver" pkg="zed" type="zed_driver" respawn="true"  />
+   <node machine="jetson" name="follow_me_zed" pkg="zed" type="follow_me_zed" respawn="true"  />
+   <node machine="jetson" name="secure_distance" pkg="zed" type="secure_distance" respawn="true" />
+-</launch>
+\ No newline at end of file
++</launch>
+diff --git a/dm3_core/src/dynamixel/motor_tt.py b/dm3_core/src/dynamixel/motor_tt.py
+index b3adf26..dafa700 100755
+--- a/dm3_core/src/dynamixel/motor_tt.py
++++ b/dm3_core/src/dynamixel/motor_tt.py
+@@ -9,7 +9,7 @@ from diagnostic_msgs.msg import DiagnosticArray, DiagnosticStatus, KeyValue
+ 
+ from dynamixel_hr_ros.msg import CommandSpeed
+ 
+-d_p = 0.81/0.88 # width / length TODO
++d_p = 0.17/0.16 # width / length TODO
+ 
+ dxl_speed_pub = None
+ 
+@@ -22,7 +22,7 @@ ID_MOTOR2_CHASIS2 = 3
+ MAX_VEL = 5.0 # metros por segundo
+ MIN_VEL = 0.2 # metros por segundo
+ 
+-MAX_POW = 11 # potencia maxima
++MAX_POW = 17 # potencia maxima
+ MIN_POW = 1
+ 
+ def setVel(twist):
+@@ -38,11 +38,14 @@ def setVel(twist):
+         rs = MAX_VEL
+         rospy.loginfo("Velocidad derecha muy alta")
+ 
+-    lp = int(ls / MAX_VEL * MAX_POW) # potencia izquierda
+-    rp = int(rs / MAX_VEL * MAX_POW)
+-
++    lp = int((ls / MAX_VEL) * MAX_POW) # potencia izquierda
++    rp = int((rs / MAX_VEL) * MAX_POW)
++#    print("lp: ")
++#    print(lp)
++#    print("/n")
+     #speed_cmd = CommandSpeed([ID_MOTOR1_CHASIS1, ID_MOTOR2_CHASIS1], [lp, -rp])
+     speed_cmd = CommandSpeed([ID_MOTOR1_CHASIS1, ID_MOTOR2_CHASIS1, ID_MOTOR1_CHASIS2, ID_MOTOR2_CHASIS2], [lp, -rp, lp, -rp])
++  #  speed_cmd = CommandSpeed([ID_MOTOR1_CHASIS1, ID_MOTOR2_CHASIS1, ID_MOTOR1_CHASIS2, ID_MOTOR2_CHASIS2], [0, 0, lp, 0])
+ 
+     dxl_speed_pub.publish(speed_cmd)
+ 

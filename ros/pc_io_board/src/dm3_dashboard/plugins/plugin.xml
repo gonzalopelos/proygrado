@@ -1,0 +1,22 @@
+<library path="src">
+  <class name="DM3Dashboard" type="dm3_dashboard.dashboard.DM3Dashboard" base_class_type="rqt_gui_py::Plugin">
+    <description>
+      Dashboard for DM3
+    </description>
+    <qtgui>
+      <group>
+        <label>Robot</label>
+        <icon type="theme">folder</icon>
+        <statustip>Plugins related to specific robots.</statustip>
+      </group>
+      <group>
+        <label>DM3</label>
+        <icon type="file">images/dm3_icon.png</icon>
+        <statustip>Plugins related to the DM3 robot.</statustip>
+      </group>
+      <label>DM3 Dashboard</label>
+      <icon type="file">images/dm3_icon.png</icon>
+      <statustip>Check what's going on with DM3</statustip>
+    </qtgui>
+  </class>
+</library>

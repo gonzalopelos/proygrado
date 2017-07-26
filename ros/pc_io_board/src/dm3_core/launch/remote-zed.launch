@@ -1,0 +1,8 @@
+<launch>
+  <env name="ROS_MASTER_URI" value="http://odroid.local:11311"/>
+
+  <machine name="jetson" address="tegra-ubuntu" env-loader="/home/ubuntu/catkin_ws/devel/env-loader.sh" user="ubuntu" password="ubuntu"/>
+  <node machine="jetson" name="zed_driver" pkg="zed" type="zed_driver" respawn="true"  />
+  <node machine="jetson" name="follow_me_zed" pkg="zed" type="follow_me_zed" respawn="true"  />
+  <node machine="jetson" name="secure_distance" pkg="zed" type="secure_distance" respawn="true" />
+</launch>
