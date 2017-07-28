@@ -252,16 +252,29 @@ void Dm3Security::handle_tcp_connection_alert() {
 	alert_data data;
 	data.distance = 0;
 	data.direction = FRONT;
+	bool throw_alert = false;
+	int lost_conn_count = 0;
+	float time_to_sleep_rate = 0.5; //in secconds
+	float time_to_sleep = 1000 * time_to_sleep_rate;
+
 	while(true){
 		if(!tcp_comm->is_client_connected()){
-			data.level = DANGER;
+			lost_conn_count++;
+			if(lost_conn_count >= TCP_CONN_RESET_TO / time_to_sleep_rate){ /**TCP_CONN_RESET_TO is in seconds**/
+				data.level = DANGER;
+				throw_alert = true;
+			}
 //			printf("TCP CONNECTION: DSICONECTED\n");
 		}else{
 			data.level = OK;
 //			printf("TCP CONNECTION: CONECTED\n");
 		}
-		self_alert_call(_tcp_connection_alert_callback, data);
-		Thread::wait(500);
+		if(throw_alert){
+			throw_alert = false;
+			lost_conn_count = 0;
+			self_alert_call(_tcp_connection_alert_callback, data);
+		}
+		Thread::wait(time_to_sleep);
 	}
 
 }

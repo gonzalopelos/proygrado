@@ -91,6 +91,7 @@ private:
 #define	ULTRASONIC_MIN_FRONT_DIST 300
 #define BUMPER_DEBOUNCING_TIMEOUT (int) 200
 #define ULTRASONIC_FILTER_ALPHA .2
+#define TCP_CONN_RESET_TO (int) 4 //time out in seconds
 	static Dm3Security * _dm3_security_instance;
 	Dm3Security();
 	virtual ~Dm3Security();
