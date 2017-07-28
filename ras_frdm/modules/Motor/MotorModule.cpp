@@ -722,9 +722,12 @@ static int handle_reverse(unsigned int pid, unsigned int opcode) {
 	if (mcc.incomming_params_count != 1)
 		return -1;
 
-	uint8_t ret = dm3->enable(mcc.incomming_params_n[0]);
+	uint8_t enable_reverse = dm3->enable(mcc.incomming_params_n[0]);
 
-	if ((ret != 0 && reversed == 0) || (ret == 0 && reversed == 1)) {
+	if ((enable_reverse != 0 && reversed == 0) || (enable_reverse == 0 && reversed == 1)) {
+		//disable motors before change reverse mode
+		handle_enable_motors(0);
+
 		reversed = 1 - reversed;
 		int swap;
 		swap = dm3->motor_i2c_address[0];
@@ -737,6 +740,9 @@ static int handle_reverse(unsigned int pid, unsigned int opcode) {
 		dm3->motor_mult[1] = -dm3->motor_mult[1];
 		dm3->motor_mult[2] = -dm3->motor_mult[2];
 		dm3->motor_mult[3] = -dm3->motor_mult[3];
+
+		//enable motors again. Motors speed is zero.
+		handle_enable_motors(1);
 
 		report_reversed();
 	}
