@@ -36,7 +36,7 @@ public:
 			_ultrasonic_distance_alert_callback.attach(callback(function));
 			break;
 		case BUMPER:
-			//ToDo attach to event handler function to callback
+			_bumper_pressed_alert_callback.attach(callback(function));
 			break;
 		case TCP_CONNECTION:
 			_tcp_connection_alert_callback.attach(callback(function));
@@ -51,7 +51,7 @@ public:
 			_ultrasonic_distance_alert_callback.attach(callback(object, member));
 			break;
 		case BUMPER:
-			//ToDo attach to event handler function to callback
+			_bumper_pressed_alert_callback.attach(callback(object, member));
 			break;
 		case TCP_CONNECTION:
 			_tcp_connection_alert_callback.attach(callback(object, member));
@@ -64,9 +64,12 @@ protected:
 	typedef Callback<void(alert_data*)> alert_event_t;
 	alert_event_t _ultrasonic_distance_alert_callback;
 	alert_event_t _tcp_connection_alert_callback;
+	alert_event_t _bumper_pressed_alert_callback;
+	alert_event_t _bumper_unpressed_alert_callback;
 	int filter_ultrasonic_distance(int distance, int last_distance);
 	void handle_ultrasonic_distance_action(dm3_direction_t direction);
 	static void self_alert_call(const alert_event_t& alert_callback, alert_data& alert_data);
+
 	// Front-left ultrasonic sensor ===================================
 	void handle_ultrasonic_fl_distance_alert();
 	// ================================================================
@@ -75,8 +78,9 @@ protected:
 	void handle_ultrasonic_fr_distance_alert();
 	// ================================================================
 
-	// Bamper =========================================================
-	void handle_bumper_alert();
+	// Bumper =========================================================
+	void handle_bumper_down_alert();
+	void handle_bumper_up_alert();
 	// ================================================================
 
 	// TCP Connection =================================================

@@ -10,12 +10,17 @@ class Bumper {
 private:
     InterruptIn _bumper;
     Timeout     _bumperDownTimeout;
+    Timeout		_bumperUpTimeout;
     
     volatile bool _bumperCanPress;
-    void (*_callback)(void);
+    volatile bool _bumperCanUnpress;
+    void (*_callbackDown)(void);
+    void (*_callbackUp)(void);
 
     void click();
-    void call();
+    void unclick();
+    void callDown();
+    void callUp();
     void reset();
 
 
@@ -32,7 +37,14 @@ public:
     // *
     // * @param method      A reference to the method to be called.
     // ********************************************************************************
-    void attach(void (*method)(void) = 0);
+    void attachUp(void (*method)(void) = 0);
+
+    // ********************************************************************************
+        // * Attaches the method to be called when the bumper is unpressed.
+        // *
+        // * @param method      A reference to the method to be called.
+        // ********************************************************************************
+    void attachDown(void (*method)(void) = 0);
 
     // ********************************************************************************
     // * The time in milliseconds in which the bumper can not be pressed again.

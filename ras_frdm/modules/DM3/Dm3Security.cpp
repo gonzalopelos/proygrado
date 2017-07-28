@@ -37,10 +37,13 @@ void update_fl_dist(int distance);
 Ultrasonic ultrasonic_fl(PTA1, PTA2, .1, 1, &update_fl_dist);
 // ================================================================
 
-// Bamper =========================================================
-void handle_bumper();
-void handle_bumper_alert();
-Thread _bumper_alert_thread;
+// Bumper =========================================================
+void handle_bumper_down();
+void handle_bumper_up();
+void handle_bumper_down_alert();
+void handle_bumper_up_alert();
+Thread _bumper_down_alert_thread;
+Thread _bumper_up_alert_thread;
 Bumper bumper(SW2);
 // ================================================================
 
@@ -60,8 +63,10 @@ Dm3Security::Dm3Security() {
 	// TODO Auto-generated constructor stub
 	// Sensores de contacto
 	bumper.timeout = BUMPER_DEBOUNCING_TIMEOUT;
-	bumper.attach(&handle_bumper);
-	_bumper_alert_thread.start(callback(this, &Dm3Security::handle_bumper_alert));
+	bumper.attachDown(&handle_bumper_down);
+	bumper.attachUp(&handle_bumper_up);
+	_bumper_down_alert_thread.start(callback(this, &Dm3Security::handle_bumper_down_alert));
+	_bumper_up_alert_thread.start(callback(this, &Dm3Security::handle_bumper_up_alert));
 
 	// Sensores ultrasonicos
 	ultrasonic_fl.startUpdates();
@@ -86,13 +91,31 @@ Dm3Security::~Dm3Security() {
 	free(_dm3_security_instance);
 }
     
-void handle_bumper(){
-	_bumper_alert_thread.signal_set(0x1);
+void handle_bumper_down(){
+	_bumper_down_alert_thread.signal_set(0x1);
 }
 
-void Dm3Security::handle_bumper_alert(){
+void handle_bumper_up(){
+	_bumper_up_alert_thread.signal_set(0x1);
+}
+
+void Dm3Security::handle_bumper_down_alert(){
+	alert_data alert_data;
 	while(true){
-		_bumper_alert_thread.signal_wait(0x1, osWaitForever);
+		_bumper_down_alert_thread.signal_wait(0x1, osWaitForever);
+		alert_data.direction 	= FRONT;
+		alert_data.level 		= DANGER;
+		self_alert_call(_bumper_pressed_alert_callback, alert_data);
+	}
+}
+
+void Dm3Security::handle_bumper_up_alert(){
+	alert_data alert_data;
+	while(true){
+		_bumper_up_alert_thread.signal_wait(0x1, osWaitForever);
+		alert_data.direction 	= FRONT;
+		alert_data.level 		= OK;
+		self_alert_call(_bumper_unpressed_alert_callback, alert_data);
 	}
 }
 
