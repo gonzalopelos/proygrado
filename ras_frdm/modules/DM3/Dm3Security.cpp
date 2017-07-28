@@ -264,10 +264,10 @@ void Dm3Security::handle_tcp_connection_alert() {
 				data.level = DANGER;
 				throw_alert = true;
 			}
-//			printf("TCP CONNECTION: DSICONECTED\n");
+//			//printf("TCP CONNECTION: DSICONECTED\n");
 		}else{
 			data.level = OK;
-//			printf("TCP CONNECTION: CONECTED\n");
+//			//printf("TCP CONNECTION: CONECTED\n");
 		}
 		if(throw_alert){
 			throw_alert = false;

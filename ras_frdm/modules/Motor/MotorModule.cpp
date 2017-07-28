@@ -311,13 +311,13 @@ void report_get_pot_change(int chasis) {
 }
 
 int set_motors_power(int chasis, int motor, float power) {
-//	printf("set_motors_power: chasis - %d, motor - %d, power - %d\n", chasis, motor, power);
+//	//printf("set_motors_power: chasis - %d, motor - %d, power - %d\n", chasis, motor, power);
 	int i2cerror = dm3->motor_i2c(chasis * MOTORS_PER_CHASIS + motor, power);
-	printf("set_motors_power, chasis: %d, motor: %d, power: %f\n", chasis, motor, power);
+	//printf("set_motors_power, chasis: %d, motor: %d, power: %f\n", chasis, motor, power);
 	if (i2cerror == 0) {
 		pows[chasis][motor] = power;
 	} else {
-		printf("set_motors_power ERROR\n");
+		//printf("set_motors_power ERROR\n");
 		expected_pows[chasis][motor] = 0;
 		last_expected_pows[chasis][motor] = 0;
 	}
@@ -354,7 +354,7 @@ void compute_motors_vel_twist(unsigned int chasis, float control_modulo,
 	float new_vels_target[MOTORS_PER_CHASIS];
 	new_vels_target[0] = control_modulo - P_MITAD_ANCHO * fangle_local;
 	new_vels_target[1] = control_modulo + P_MITAD_ANCHO * fangle_local;
-	printf("compute_motors_vel_twist, control_modulo: %f, fangle_local: %f\n", control_modulo, fangle_local);
+	//printf("compute_motors_vel_twist, control_modulo: %f, fangle_local: %f\n", control_modulo, fangle_local);
 	// elimina oscilaciones en el arranque ... extender a otros controladores
 	for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor++) {
 		if (vels_target[chasis][iter_motor] == 0) {
@@ -365,7 +365,7 @@ void compute_motors_vel_twist(unsigned int chasis, float control_modulo,
 		}
 
 		vels_target[chasis][iter_motor] = new_vels_target[iter_motor];
-		printf("vels_target[chasis][iter_motor], [%d][%d]->%f\n", chasis, iter_motor, new_vels_target[iter_motor]);
+		//printf("vels_target[chasis][iter_motor], [%d][%d]->%f\n", chasis, iter_motor, new_vels_target[iter_motor]);
 	}
 
 }
@@ -694,14 +694,14 @@ static int  handle_enable_motors(int mode) {
 				report_set_target_vel(iter_chasis);
 			}
 		}else{
-			printf("ERROR to handle enabled: %d\n", mode);
+			//printf("ERROR to handle enabled: %d\n", mode);
 		}
 	}
 	return result;
 }
 static int handle_enable(unsigned int pid, unsigned int opcode) {
 	if (mcc.incomming_params_count != 1){
-//		printf("params error, count: %d\n", mcc.incomming_params_count);
+//		//printf("params error, count: %d\n", mcc.incomming_params_count);
 		return -1;
 	}
 	int mode = mcc.incomming_params_n[0];
@@ -750,7 +750,7 @@ static int handle_reverse(unsigned int pid, unsigned int opcode) {
 }
 
 static int handle_test(unsigned int pid, unsigned int opcode) {
-	printf("lega a la operación de test\n");
+	//printf("lega a la operación de test\n");
 	dm3->motor_i2c(0, 50);
 	dm3->motor_i2c(1, 50);
 	dm3->motor_i2c(2, 50);
@@ -1159,7 +1159,7 @@ void MotorModule::potpoll_task(void const *argument) {
 		pot_angle = pot_angle_calibrator(pot_reading);
 
 		if (dm3->enable() && (control_mode != MODE_RAW)) { //si esta enabled y no en modo raw
-//			printf("potpoll_task, entra al if\n");
+//			//printf("potpoll_task, entra al if\n");
 			if (control_mode == MODE_SETVEL) {
 				compute_motors(1, control_angle + pot_angle);
 			} else if (control_mode == MODE_SETANGLE) {
@@ -1173,7 +1173,7 @@ void MotorModule::potpoll_task(void const *argument) {
 				pid_controller();
 			}
 			else if (controller_type == PP_CONTROLLER_TYPE){
-//				printf("controller_type == PP_CONTROLLER_TYPE\n");
+//				//printf("controller_type == PP_CONTROLLER_TYPE\n");
 				pp_controller();
 			}
 			// fixme else report error
@@ -1189,7 +1189,7 @@ void MotorModule::potpoll_task(void const *argument) {
 			}
 			Thread::wait(UPDATE_FREQ_CONTROLLER_ON_MS);
 		} else{
-			printf("potpoll_task, dm3_enable -> %d, control_mode -> %d\n", dm3->enable(), control_mode);
+			//printf("potpoll_task, dm3_enable -> %d, control_mode -> %d\n", dm3->enable(), control_mode);
 			Thread::wait(UPDATE_FREQ_CONTROLLER_OFF_MS);
 		}
 		//Thread::wait(POT_POLL);

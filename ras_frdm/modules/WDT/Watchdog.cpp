@@ -54,16 +54,16 @@ void Watchdog::reportResetStatus(){
 	uint32_t resetStatus = RCM_GetPreviousResetSources(RCM) & (kRCM_SourceWdog | kRCM_SourcePin | kRCM_SourcePor);
 	switch(resetStatus){
 		case kRCM_SourceWdog:
-			printf("WATCHDOG TIMEOUT RESET\r\n");
+			//printf("WATCHDOG TIMEOUT RESET\r\n");
 			break;
 		case kRCM_SourcePin:
-			printf("EXTERNAL PIN RESET\r\n");
+			//printf("EXTERNAL PIN RESET\r\n");
 			break;
 		case kRCM_SourcePor:
-			printf("POWER ON RESET\r\n");
+			//printf("POWER ON RESET\r\n");
 			break;
 		default:
-			printf("OTHER SOURCE RESET\r\n");
+			//printf("OTHER SOURCE RESET\r\n");
 			break;
 	}
 }

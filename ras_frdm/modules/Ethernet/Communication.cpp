@@ -59,15 +59,15 @@ bool Communication::is_client_connected() {
 TCPSocketConnection* Communication::getSocketClient() {
 	if(!_socket_client.is_connected()){
 		_socket_client.close();
-//		printf("_socket_client.is_connected = false\n");
+//		//printf("_socket_client.is_connected = false\n");
 //		communication_led_red = !communication_led_red;
 		if(_socket_server.accept(_socket_client) == 0)
 		{
 			_socket_client.set_blocking(false, 1000);
 		}else{
-			printf("socket_server.accept ERROR\n");
+			//printf("socket_server.accept ERROR\n");
 		}
-//		printf("sale del getSocketClient()\n");
+//		//printf("sale del getSocketClient()\n");
 	}
 
 	return &_socket_client;

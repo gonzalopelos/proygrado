@@ -101,7 +101,7 @@ void PCF8591::write(uint8_t analogOut) {
   */  
 #if(0)
 // I2C block operations test
-// Causes problems with Ticker and printf on LPC812. No issues found on LPC1768
+// Causes problems with Ticker and //printf on LPC812. No issues found on LPC1768
 uint8_t PCF8591::read(uint8_t channel) {
 //  uint8_t data[6];
   uint8_t data[6] = {123,123,123,123,123,123}; //test to check failed read

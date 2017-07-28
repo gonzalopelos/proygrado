@@ -140,7 +140,7 @@ void Dm3Module::update_sd_status(dm3_security_device* sd) {
 	}
 
 	if(new_sd){
-		printf("append sd: type %d, direction %d, status %d\n", sd->type, sd->data.direction, sd->status);
+		//printf("append sd: type %d, direction %d, status %d\n", sd->type, sd->data.direction, sd->status);
 		dm3_security_info.devices.append(sd);
 	}
 	else{
@@ -199,7 +199,7 @@ void Dm3Module::battery_report_task(void const *argument) {
 }
 
 void Dm3Module::ultrasonic_distance_alert(Dm3Security::alert_data * data){
-//	printf("ultrasonic_distance_alert: %d, %d, %d\n", data->level, data->direction, data->distance);
+//	//printf("ultrasonic_distance_alert: %d, %d, %d\n", data->level, data->direction, data->distance);
 	dm3_security_device* sd = new dm3_security_device();
 	sd->data.direction = data->direction;
 	sd->data.distance = data->distance;
