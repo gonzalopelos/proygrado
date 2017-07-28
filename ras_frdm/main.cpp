@@ -94,18 +94,20 @@ int main() {
 
 	memory_monitor_thread.start(&memory_monitor);
 	Thread potpoll; // polling de potenciometro
-	potpoll.start(callback(&motorModule_instance, &MotorModule::potpoll_task));
+	potpoll.start(callback(&MotorModule::potpoll_task, motorModule_instance));
 	Thread siren; // controlador de sirena
 	siren.start(callback(&dm3Module, &Dm3Module::siren_task));
 	Thread report_vel;
-	report_vel.start(callback(&motorModule_instance, &MotorModule::rated_report_vel_task));
+	report_vel.start(callback(&MotorModule::rated_report_vel_task, &motorModule_instance));
 	Thread report_pow;
-	report_pow.start(callback(&motorModule_instance, &MotorModule::rated_report_pow_task));
+	report_pow.start(callback(&MotorModule::rated_report_pow_task, &motorModule_instance));
 	Thread report_pot;
-	report_pot.start(callback(&motorModule_instance, &MotorModule::rated_report_pot_task));
+	report_pot.start(callback(&MotorModule::rated_report_pot_task, &motorModule_instance));
+	Thread update_current_vels;
+	update_current_vels.start(callback(&MotorModule::compute_speed_task, motorModule_instance));
 	//Thread security_stop_task(motorModule.security_stop_task);
-	Thread battery_report_task;
-	battery_report_task.start(callback(&dm3Module, &Dm3Module::battery_report_task));
+//	Thread battery_report_task;
+//	battery_report_task.start(callback(&Dm3Module::battery_report_task, &dm3Module));
 
 	while(1){
 		mcc.tick();

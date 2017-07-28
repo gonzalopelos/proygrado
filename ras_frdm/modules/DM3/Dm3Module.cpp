@@ -149,8 +149,9 @@ void Dm3Module::update_sd_status(dm3_security_device* sd) {
 
 
 	if(update_to_enable && dm3_security_info.status != ENABLED){
-		//ToDo enable dm3;
-		dm3_security_instance->enable_dm3();
+		if(dm3_security_info.status == DISABLED){
+			dm3_security_instance->enable_dm3();
+		}
 		dm3_security_info.status = ENABLED;
 		report_status = true;
 	} else if(update_to_warning && !update_to_enable && dm3_security_info.status != WARNING) {

@@ -228,10 +228,8 @@ void compute_actuals_vels(int chasis, int motor) {
 	//report_debug(msg_debug, strlen(msg_debug));
 }
 
-unsigned int len;
-
-void report_chasis_opcode(int opcode, int chasis,
-		float info[NUMBER_CHASIS][MOTORS_PER_CHASIS]) {
+void report_chasis_opcode(int opcode, int chasis, float info[NUMBER_CHASIS][MOTORS_PER_CHASIS]) {
+	unsigned int len;
 	mcc.encoder.startFrame();
 	mcc.encoder.push((unsigned int) (MOTOR_PID ));
 	mcc.encoder.push(opcode);
@@ -313,15 +311,17 @@ void report_get_pot_change(int chasis) {
 }
 
 int set_motors_power(int chasis, int motor, float power) {
+//	printf("set_motors_power: chasis - %d, motor - %d, power - %d\n", chasis, motor, power);
 	int i2cerror = dm3->motor_i2c(chasis * MOTORS_PER_CHASIS + motor, power);
-
+	printf("set_motors_power, chasis: %d, motor: %d, power: %f\n", chasis, motor, power);
 	if (i2cerror == 0) {
 		pows[chasis][motor] = power;
 	} else {
+		printf("set_motors_power ERROR\n");
 		expected_pows[chasis][motor] = 0;
 		last_expected_pows[chasis][motor] = 0;
 	}
-	// FIX: podría hacerse algo mas con las potencias cuando hay error?
+	// FIXME: podría hacerse algo mas con las potencias cuando hay error?
 
 	return i2cerror;
 }
@@ -354,7 +354,7 @@ void compute_motors_vel_twist(unsigned int chasis, float control_modulo,
 	float new_vels_target[MOTORS_PER_CHASIS];
 	new_vels_target[0] = control_modulo - P_MITAD_ANCHO * fangle_local;
 	new_vels_target[1] = control_modulo + P_MITAD_ANCHO * fangle_local;
-
+	printf("compute_motors_vel_twist, control_modulo: %f, fangle_local: %f\n", control_modulo, fangle_local);
 	// elimina oscilaciones en el arranque ... extender a otros controladores
 	for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor++) {
 		if (vels_target[chasis][iter_motor] == 0) {
@@ -365,7 +365,7 @@ void compute_motors_vel_twist(unsigned int chasis, float control_modulo,
 		}
 
 		vels_target[chasis][iter_motor] = new_vels_target[iter_motor];
-
+		printf("vels_target[chasis][iter_motor], [%d][%d]->%f\n", chasis, iter_motor, new_vels_target[iter_motor]);
 	}
 
 }
@@ -652,31 +652,60 @@ static void report_enable() {
 	mcc.encoder.endList();
 	mcc.encoder.endFrame();
 }
-
-static int handle_enable(unsigned int pid, unsigned int opcode) {
-	if (mcc.incomming_params_count != 1)
-		return -1;
-
-	int enabled = dm3->enable(mcc.incomming_params_n[0]);
-	report_enable();
-
-	for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS; iter_chasis++) {
-		for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor++) {
-			int ret = set_motors_power(iter_chasis, iter_motor, 0.0);
-			i2cerror = (ret != 0) || i2cerror;
-			vels_target[iter_chasis][iter_motor] = 0;
+static int  handle_enable_motors(int mode) {
+	int result = 0;
+	if(mode == 0){
+		for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS; iter_chasis++) {
+			for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor++) {
+				int ret = set_motors_power(iter_chasis, iter_motor, 0);
+				i2cerror = (ret != 0) || i2cerror;
+				if (!ret) {
+					result = dm3->enable(0) == 0;
+					report_enable();
+					vels_target[iter_chasis][iter_motor] = 0;
+					result = result && dm3->brake(1) == 1;
+				}
+			}
+			dirty_target_vel_mutex.lock();
+			dirty_target_vel[iter_chasis] = false;
+			dirty_target_vel_mutex.unlock();
+			report_set_target_vel(iter_chasis);
+			report_get_vel_change(iter_chasis);
+			dirty_power[iter_chasis] = false;
+			report_power(iter_chasis);
 		}
-		dirty_power[iter_chasis] = false;
-		report_power(iter_chasis);
+	}else if (mode == 1){
+		result = dm3->enable(mode);
+		if(result){
+			report_enable();
 
-		dirty_target_vel_mutex.lock();
-		dirty_target_vel[iter_chasis] = false;
-		dirty_target_vel_mutex.unlock();
-		report_set_target_vel(iter_chasis);
+			for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS; iter_chasis++) {
+				for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor++) {
+					int ret = set_motors_power(iter_chasis, iter_motor, 0.0);
+					i2cerror = (ret != 0) || i2cerror;
+					vels_target[iter_chasis][iter_motor] = 0;
+				}
+				dirty_power[iter_chasis] = false;
+				report_power(iter_chasis);
 
+				dirty_target_vel_mutex.lock();
+				dirty_target_vel[iter_chasis] = false;
+				dirty_target_vel_mutex.unlock();
+				report_set_target_vel(iter_chasis);
+			}
+		}else{
+			printf("ERROR to handle enabled: %d\n", mode);
+		}
 	}
-
-	return enabled == mcc.incomming_params_n[0];
+	return result;
+}
+static int handle_enable(unsigned int pid, unsigned int opcode) {
+	if (mcc.incomming_params_count != 1){
+//		printf("params error, count: %d\n", mcc.incomming_params_count);
+		return -1;
+	}
+	int mode = mcc.incomming_params_n[0];
+	return handle_enable_motors(mode);
 }
 
 void report_reversed() {
@@ -715,11 +744,12 @@ static int handle_reverse(unsigned int pid, unsigned int opcode) {
 }
 
 static int handle_test(unsigned int pid, unsigned int opcode) {
+	printf("lega a la operación de test\n");
 	dm3->motor_i2c(0, 50);
 	dm3->motor_i2c(1, 50);
 	dm3->motor_i2c(2, 50);
 	dm3->motor_i2c(3, 50);
-	Thread::wait(1000);
+	Thread::wait(20000);
 	dm3->motor_i2c(0, -50);
 	dm3->motor_i2c(1, -50);
 	dm3->motor_i2c(2, -50);
@@ -1123,19 +1153,23 @@ void MotorModule::potpoll_task(void const *argument) {
 		pot_angle = pot_angle_calibrator(pot_reading);
 
 		if (dm3->enable() && (control_mode != MODE_RAW)) { //si esta enabled y no en modo raw
-
+//			printf("potpoll_task, entra al if\n");
 			if (control_mode == MODE_SETVEL) {
 				compute_motors(1, control_angle + pot_angle);
 			} else if (control_mode == MODE_SETANGLE) {
 				compute_motors_angle(control_angle, pot_angle);
 			}
 
-			if (controller_type == UNSENSORED_CONTROLLER_TYPE)
+			if (controller_type == UNSENSORED_CONTROLLER_TYPE){
 				unsensored_controller();
-			else if (controller_type == PID_CONTROLLER_TYPE)
+			}
+			else if (controller_type == PID_CONTROLLER_TYPE){
 				pid_controller();
-			else if (controller_type == PP_CONTROLLER_TYPE)
+			}
+			else if (controller_type == PP_CONTROLLER_TYPE){
+//				printf("controller_type == PP_CONTROLLER_TYPE\n");
 				pp_controller();
+			}
 			// fixme else report error
 
 			for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS;
@@ -1148,9 +1182,10 @@ void MotorModule::potpoll_task(void const *argument) {
 				}
 			}
 			Thread::wait(UPDATE_FREQ_CONTROLLER_ON_MS);
-		} else
+		} else{
+			printf("potpoll_task, dm3_enable -> %d, control_mode -> %d\n", dm3->enable(), control_mode);
 			Thread::wait(UPDATE_FREQ_CONTROLLER_OFF_MS);
-
+		}
 		//Thread::wait(POT_POLL);
 	}
 
@@ -1160,7 +1195,7 @@ void MotorModule::security_stop_task(void const *argument) {
 	while (true) {
 		if (control_mode != MODE_RAW) {
 			if (!new_target_vel && dm3->enable()) {
-				stop();
+				handle_enable_motors(0);
 			} else {
 				new_target_vel = false;
 			}
@@ -1231,34 +1266,27 @@ MotorModule::MotorModule() {
 	}
 	MotorModule::opcode_callbacks[OPCODE_REPORT ] = &handle_report;
 	MotorModule::opcode_callbacks[OPCODE_ENABLE] = &handle_enable;
-	MotorModule::opcode_callbacks[OPCODE_SET_TARGET_VEL] =
-			&handle_set_target_vel;
+	MotorModule::opcode_callbacks[OPCODE_SET_TARGET_VEL] = &handle_set_target_vel;
 	MotorModule::opcode_callbacks[OPCODE_BRAKE] = &handle_brake;
 	MotorModule::opcode_callbacks[OPCODE_REVERSE] = &handle_reverse;
 	MotorModule::opcode_callbacks[OPCODE_TEST] = &handle_test;
 	MotorModule::opcode_callbacks[OPCODE_SET_DRIVE_MODE] = &handle_setdrivemode;
-	MotorModule::opcode_callbacks[OPCODE_SET_POWER_MOTOR] =
-			&handle_motor_power_write;
-	MotorModule::opcode_callbacks[OPCODE_SET_CONTROLLER] =
-			&handle_set_controller;
-	MotorModule::opcode_callbacks[OPCODE_SET_PID_PARAMETERS] =
-			&handle_set_pid_parameters;
-	MotorModule::opcode_callbacks[OPCODE_GET_VEL_CHANGE] =
-			&handle_get_vel_change;
-	MotorModule::opcode_callbacks[OPCODE_GET_POT_CHANGE] =
-			&handle_get_pot_change;
+	MotorModule::opcode_callbacks[OPCODE_SET_POWER_MOTOR] =	&handle_motor_power_write;
+	MotorModule::opcode_callbacks[OPCODE_SET_CONTROLLER] = &handle_set_controller;
+	MotorModule::opcode_callbacks[OPCODE_SET_PID_PARAMETERS] = &handle_set_pid_parameters;
+	MotorModule::opcode_callbacks[OPCODE_GET_VEL_CHANGE] = &handle_get_vel_change;
+	MotorModule::opcode_callbacks[OPCODE_GET_POT_CHANGE] = &handle_get_pot_change;
 
-	MotorModule::pid = mcc.register_opcode_callbacks(
-			MotorModule::opcode_callbacks, MOTOR_OPCODES);
+	MotorModule::pid = mcc.register_opcode_callbacks(MotorModule::opcode_callbacks, MOTOR_OPCODES);
 
 	mcc.register_poll_callback(&tick);
 
 	handle_report(MOTOR_PID, OPCODE_REPORT);
 }
 
+
 float** MotorModule::get_current_vels() {
 	float** result = new float* [NUMBER_CHASIS];
-
 	for (int chasis = 0; chasis < NUMBER_CHASIS; ++chasis) {
 		result[chasis] = new float[MOTORS_PER_CHASIS];
 		for (int motor = 0; motor < MOTORS_PER_CHASIS; ++motor) {
@@ -1274,25 +1302,6 @@ MotorModule::~MotorModule() {
 	free(_instance);
 }
 
-void MotorModule::stop() {
-	for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS;
-			iter_chasis++) {
-		for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS;
-				iter_motor++) {
-			int ret = set_motors_power(iter_chasis, iter_motor, 0);
-			i2cerror = (ret != 0) || i2cerror;
-			if (!ret) {
-				dm3->enable(0);
-				report_enable();
-				vels_target[iter_chasis][iter_motor] = 0;
-			}
-		}
-		dirty_target_vel_mutex.lock();
-		dirty_target_vel[iter_chasis] = false;
-		dirty_target_vel_mutex.unlock();
-		report_set_target_vel(iter_chasis);
-		report_get_vel_change(iter_chasis);
-		dirty_power[iter_chasis] = false;
-		report_power(iter_chasis);
-	}
+void MotorModule::update_motors_status(int mode) {
+	handle_enable_motors(mode);
 }

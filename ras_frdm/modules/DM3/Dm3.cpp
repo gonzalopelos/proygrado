@@ -43,6 +43,7 @@ DigitalOut pio_horn(PTB20);								// 2017.06.13 GP - Pin nro 9 fila interior de
 char i2c_cmd[2];
 
 Dm3* Dm3::m_pInstance = NULL;
+int _logical_pio_enable;
 
 Dm3::Dm3() {
 	// ->
@@ -66,6 +67,7 @@ Dm3::Dm3() {
 	}
 	pio_enable = 0;
 	pio_brake = 0;
+	_logical_pio_enable = 0;
 	//pio_horn = 0;
 }
 
@@ -125,11 +127,14 @@ int Dm3::brake() {
 
 int Dm3::enable(int mode) {
 	pio_enable = mode;
-	return pio_enable;
+	_logical_pio_enable = mode;
+	//FixMe return pio_enable;
+	return _logical_pio_enable;
 }
 
 int Dm3::enable() {
-	return pio_enable;
+//FixMe	return pio_enable;
+	return _logical_pio_enable;
 }
 
 int Dm3::horn(int mode) {

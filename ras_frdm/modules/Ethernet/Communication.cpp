@@ -33,6 +33,8 @@ int Communication::receive(char* data, int length) {
 
 
 Communication::~Communication() {
+	_socket_client.close();
+	_socket_server.close();
 	free(_communication_instance);
 }
 
@@ -48,7 +50,6 @@ void Communication::init_eth_interface() {
 	_socket_server.bind(ETH_COMMUNICATION_SERVER_PORT);
 	_socket_server.listen(1);
 	_socket_server.set_blocking(false, 1000);
-
 }
 
 bool Communication::is_client_connected() {

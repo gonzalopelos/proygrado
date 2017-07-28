@@ -267,12 +267,11 @@ void Dm3Security::handle_tcp_connection_alert() {
 }
 
 void Dm3Security::disable_dm3() {
-	_dm3_instance->enable(0);
-	_motor_module_instance->stop();
+	_motor_module_instance->update_motors_status(0);
 }
 
 void Dm3Security::enable_dm3() {
-	_dm3_instance->enable(1);
+	_motor_module_instance->update_motors_status(1);
 }
 
 } /* namespace modules */

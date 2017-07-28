@@ -56,7 +56,12 @@ public:
 	static void rated_report_pot_task(void const *argument);
 	static void security_stop_task(void const *argument);
 	float** get_current_vels();
-	static void stop();
+
+	/** Update motors status
+	 *  @param mode - 1 to change the status to Enabled  and 0 to change the status to Disabled.
+	 *  @return The member that was just requested (NULL if empty or out of bounds)
+	 */
+	void update_motors_status(int mode);
 };
 
 }
