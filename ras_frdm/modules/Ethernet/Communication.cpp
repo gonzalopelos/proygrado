@@ -33,8 +33,8 @@ int Communication::receive(char* data, int length) {
 
 
 Communication::~Communication() {
-	_socket_client.close();
-	_socket_server.close();
+	_socket_client.close(true);
+	_socket_server.close(true);
 	free(_communication_instance);
 }
 
