@@ -83,6 +83,9 @@ void memory_monitor(){
 //================================================
 
 int main() {
+	led_blue = 1;
+	led_green = 1;
+	led_red = 1;
 	// Levantar hilo con heartbeat, contiene el kick del WDT.
 	Thread heartbeat;
 	heartbeat.start(&heartbeat_task);
@@ -92,6 +95,7 @@ int main() {
 	motorModule_instance->init();
 	Dm3Module dm3Module;
 
+	dm3Module.report_last_reset_source();	// Reportar fuente del ultimo reset.
 	memory_monitor_thread.start(&memory_monitor);
 	Thread potpoll; // polling de potenciometro
 	potpoll.start(callback(&MotorModule::potpoll_task, motorModule_instance));

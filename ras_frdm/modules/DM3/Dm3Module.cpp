@@ -8,6 +8,7 @@
 #include <Dm3Module.h>
 #include "Dm3.h"
 #include "../EmBencode/EmBencode.h"
+#include "fsl_rcm.h"
 
 #include "rtos.h"
 
@@ -15,6 +16,7 @@
 using namespace modules;
 using namespace utilities;
 
+extern Watchdog wdt;
 extern Mcc mcc;
 
 
@@ -90,6 +92,39 @@ static int handle_batterylevel(unsigned int  pid, unsigned int  opcode) {
 	mcc.encoder.push(OPCODE_BATTERY);
 	mcc.encoder.startList();
 	int len = snprintf(stringbuffer, STRING_BUFF_SIZE, "%.2f", 100.0*dm3_instance->get_batt());
+	mcc.encoder.push(stringbuffer, len);
+	mcc.encoder.endList();
+	mcc.encoder.endFrame();
+	return 1;
+}
+
+static int handle_reset_source(unsigned int  pid, unsigned int  opcode){
+	uint32_t resetSource = wdt.getLastResetStatus() & (kRCM_SourceWdog | kRCM_SourcePin | kRCM_SourcePor);
+
+	mcc.encoder.startFrame();
+	mcc.encoder.push(DM3_PID);
+	mcc.encoder.push(OPCODE_RESET);
+	mcc.encoder.startList();
+	int len = snprintf(stringbuffer, STRING_BUFF_SIZE, "%lu", (unsigned long)resetSource);
+	mcc.encoder.push(stringbuffer, len);
+	switch(resetSource){
+		case kRCM_SourceWdog:
+			memcpy(stringbuffer, "WATCHDOG TIMEOUT RESET", 23);
+			len = 23;
+			break;
+		case kRCM_SourcePin:
+			memcpy(stringbuffer, "EXTERNAL PIN RESET", 18);
+			len = 18;
+			break;
+		case kRCM_SourcePor:
+			memcpy(stringbuffer, "POWER ON RESET", 14);
+			len = 14;
+			break;
+		default:
+			memcpy(stringbuffer, "OTHER SOURCE RESET", 18);
+			len = 18;
+			break;
+	}
 	mcc.encoder.push(stringbuffer, len);
 	mcc.encoder.endList();
 	mcc.encoder.endFrame();
@@ -198,6 +233,10 @@ void Dm3Module::battery_report_task(void const *argument) {
 
 }
 
+void Dm3Module::report_last_reset_source(){
+	handle_reset_source(DM3_PID, OPCODE_RESET);
+}
+
 void Dm3Module::bumper_state_alert(Dm3Security::alert_data * data){
 	dm3_security_device* sd = new dm3_security_device();
 	sd->data.direction = data->direction;
@@ -254,5 +293,6 @@ Dm3Module::Dm3Module() {
 	Dm3Module::opcode_callbacks[OPCODE_SIREN] = &handle_siren;
 	Dm3Module::opcode_callbacks[OPCODE_BATTERY] = &handle_batterylevel;
 //	Dm3Module::opcode_callbacks[OPCODE_SECURITY] = &report_dm3_security_status;
+	Dm3Module::opcode_callbacks[OPCODE_RESET] = &handle_reset_source;
 	Dm3Module::pid = mcc.register_opcode_callbacks(Dm3Module::opcode_callbacks, DM3_OPCODES);
 }

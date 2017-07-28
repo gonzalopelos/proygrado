@@ -9,15 +9,13 @@ class Watchdog {
 
 private:
 	int toVal = 5;	// Timeout Value - Maximo 356 segundos, un valor mayor desborda los regsitros TOVALH y TOVALL del Watchdog.
+	uint32_t resetStatus;
 
     // Desabilitar WDT
     void DisableWDOG();
     
     // Habilitar WDT
     void EnableWDOG();
-
-    // Reportar la fuente del ultimo reset (POWER ON, EXTERNAL PIN, WATCHDOG, OTRO).
-    void reportResetStatus();
 
 public:
     // ***************************************************************************************************
@@ -32,6 +30,9 @@ public:
 
     // Obtener valor de timeout del Watchdog.
     int getTimeOutValue();
+
+    // Obtener fuente del ultimo reset (POWER ON, EXTERNAL PIN, WATCHDOG)
+    uint32_t getLastResetStatus();
 };
 
 }

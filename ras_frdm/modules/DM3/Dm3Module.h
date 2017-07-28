@@ -9,6 +9,7 @@
 #define MODULES_DM3_DM3MODULE_H_
 
 #include "../Mcc/Mcc.h"
+#include "Watchdog.h"
 #include "Dm3Security.h"
 #include "../../utilities/linkedlist.h"
 
@@ -19,7 +20,8 @@ namespace modules {
 #define OPCODE_SIREN 1
 #define OPCODE_BATTERY 2
 #define OPCODE_SECURITY 3
-#define DM3_OPCODES 3
+#define OPCODE_RESET 4
+#define DM3_OPCODES 4
 
 class Dm3Module {
 private:
@@ -54,6 +56,7 @@ public:
 	virtual ~Dm3Module();
 	void siren_task();
 	static void battery_report_task(void const *argument);
+	void report_last_reset_source();
 	void bumper_state_alert(Dm3Security::alert_data * data);
 	void ultrasonic_distance_alert(Dm3Security::alert_data * data);
 	void tcp_connection_alert(Dm3Security::alert_data * data);

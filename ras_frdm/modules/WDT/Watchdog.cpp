@@ -7,8 +7,24 @@ using namespace modules;
 #if defined(TARGET_K64F)
 
 Watchdog::Watchdog(){
-	reportResetStatus();
-	const uint32_t K64FWDONESEC = 0x00B80000;   //approx 1 second delay
+	resetStatus = RCM_GetPreviousResetSources(RCM)/* & (kRCM_SourceWdog | kRCM_SourcePin | kRCM_SourcePor)*/;	// Obtener fuente del ultimo reset.
+	/*
+	switch(resetStatus){
+		case kRCM_SourceWdog:
+			printf("WATCHDOG TIMEOUT RESET\r\n");
+			break;
+		case kRCM_SourcePin:
+			printf("EXTERNAL PIN RESET\r\n");
+			break;
+		case kRCM_SourcePor:
+			printf("POWER ON RESET\r\n");
+			break;
+		default:
+			printf("OTHER SOURCE RESET\r\n");
+			break;
+	}
+	*/
+	const uint32_t K64FWDONESEC = 0x00B80000;   // Delay de 1s aprox.
 	if((toVal < 1) || (toVal > 356)) toVal = 356;
 	WDOG->UNLOCK = 0xC520;
 	WDOG->UNLOCK = 0xD928;
@@ -18,7 +34,6 @@ Watchdog::Watchdog(){
 	WDOG->TOVALH = wdogCntl >> 16;
 	WDOG->TOVALL = wdogCntl & 0xFFFF;
 	WDOG->STCTRLH |= 0x0001;
-	//EnableWDOG();
 	kick();
 }
 
@@ -50,22 +65,8 @@ int Watchdog::getTimeOutValue(){
 	return toVal;
 }
 
-void Watchdog::reportResetStatus(){
-	uint32_t resetStatus = RCM_GetPreviousResetSources(RCM) & (kRCM_SourceWdog | kRCM_SourcePin | kRCM_SourcePor);
-	switch(resetStatus){
-		case kRCM_SourceWdog:
-			//printf("WATCHDOG TIMEOUT RESET\r\n");
-			break;
-		case kRCM_SourcePin:
-			//printf("EXTERNAL PIN RESET\r\n");
-			break;
-		case kRCM_SourcePor:
-			//printf("POWER ON RESET\r\n");
-			break;
-		default:
-			//printf("OTHER SOURCE RESET\r\n");
-			break;
-	}
+uint32_t Watchdog::getLastResetStatus(){
+	return resetStatus;
 }
 
 #endif
