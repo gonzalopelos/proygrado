@@ -54,6 +54,7 @@ public:
 	virtual ~Dm3Module();
 	void siren_task();
 	static void battery_report_task(void const *argument);
+	void bumper_state_alert(Dm3Security::alert_data * data);
 	void ultrasonic_distance_alert(Dm3Security::alert_data * data);
 	void tcp_connection_alert(Dm3Security::alert_data * data);
 };

@@ -37,6 +37,7 @@ public:
 			break;
 		case BUMPER:
 			_bumper_pressed_alert_callback.attach(callback(function));
+			_bumper_unpressed_alert_callback.attach(callback(function));
 			break;
 		case TCP_CONNECTION:
 			_tcp_connection_alert_callback.attach(callback(function));
@@ -52,6 +53,7 @@ public:
 			break;
 		case BUMPER:
 			_bumper_pressed_alert_callback.attach(callback(object, member));
+			_bumper_unpressed_alert_callback.attach(callback(object, member));
 			break;
 		case TCP_CONNECTION:
 			_tcp_connection_alert_callback.attach(callback(object, member));
