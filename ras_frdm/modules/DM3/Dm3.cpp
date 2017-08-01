@@ -10,9 +10,7 @@
 //#include "DACInterface.h" 
 //#include "dev_interface_def.h"
 #include "../libs_I2C/mcp4728.h"
-#include "../Ultrasonic/Ultrasonic.h"
 
-using namespace modules;
 
 //MBEDI2CInterface mbedi2c(p28,p27);
 MBEDI2CInterface mbedi2c(PTE25, PTE24);	   // 2017.03.18 AM - PTE25 = SDA y PTE24 = SDL en FRDM K64F

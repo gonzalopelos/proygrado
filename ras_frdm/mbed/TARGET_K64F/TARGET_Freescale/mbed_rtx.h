@@ -193,7 +193,7 @@
 #endif
 
 #ifndef OS_TASKCNT
-#define OS_TASKCNT              14
+#define OS_TASKCNT              28
 #endif
 #ifndef OS_MAINSTKSIZE
 #define OS_MAINSTKSIZE          256
