@@ -64,16 +64,6 @@ Mutex dirty_target_vel_mutex;
 
 //AnalogIn halls[NUMBER_CHASIS][MOTORS_PER_CHASIS] = {{ENCODER0_IN, ENCODER1_IN}, {ENCODER2_IN, ENCODER3_IN}};
 
-/* halls pooling
- AnalogIn halls0(ENCODER0_IN);
- AnalogIn halls1(ENCODER1_IN);
- AnalogIn halls2(ENCODER2_IN);
- AnalogIn halls3(ENCODER3_IN);
-
- AnalogIn halls[NUMBER_CHASIS][MOTORS_PER_CHASIS] = {{halls0, halls1}, {halls2, halls3}};
- */
-DigitalIn hall_digital[NUMBER_CHASIS][MOTORS_PER_CHASIS] = { { (HALL0_IO),
-		(HALL1_IO) }, { (HALL2_IO), (HALL3_IO) } };
 
 DigitalIn halls0(HALL0_INT);
 DigitalIn halls1(HALL1_INT);
@@ -82,10 +72,7 @@ DigitalIn halls3(HALL3_INT);
 DigitalIn halls4(HALL4_INT);
 DigitalIn halls5(HALL5_INT);
 
-DigitalIn halls[NUMBER_CHASIS][MOTORS_PER_CHASIS] = { { halls0, halls1 }, { halls2, halls3 } };
 
-int hall_sensor_state[NUMBER_CHASIS][MOTORS_PER_CHASIS] = {
-		{ HALL_OFF, HALL_OFF }, { HALL_OFF, HALL_OFF } };
 Timer time_hall[NUMBER_CHASIS][MOTORS_PER_CHASIS];
 #define ALPHA 1
 #define WIN_LEN 10
@@ -812,52 +799,6 @@ static void tick() {
 	}
 }
 
-/* halls pooling
- AnalogIn get_hall(int chasis, int motor) {
- */
-DigitalIn get_hall(int chasis, int motor) {
-	return halls[chasis][motor];
-}
-/*
-void int_hall_rise(int chasis, int motor) {
-	long time_elapsed = time_hall[chasis][motor].read_ms();
-	int hall_value;
-	float current_vel;
-	if (state_hall_in[chasis][motor] == HALL_ON)
-		return;
-	state_hall_in[chasis][motor] = HALL_ON;
-	// si se hace con el array no anda
-	if ((chasis == 0) && (motor == 0)) {
-		hall_value = halls0.read();
-	} else if ((chasis == 0) && (motor == 1)) {
-		hall_value = halls1.read();
-	} else if ((chasis == 1) && (motor == 0)) {
-		hall_value = halls2.read();
-	} else if ((chasis == 1) && (motor == 1)) {
-		hall_value = halls3.read();
-	} else {
-		hall_value = 0;
-	}
-	if ((time_elapsed > 0) && (hall_value == 1)) { // para no dividir entre cero y asegurarse que no fue ruido
-		time_hall[chasis][motor].reset();
-		if (motor_stop[chasis][motor]) {
-			motor_stop[chasis][motor] = 0;
-		} else {
-			current_vel = time2vel(time_elapsed);
-			if ((current_vel > MIN_VEL) && (current_vel < MAX_VEL)) {
-				vel_win[chasis][motor][(cursor_vel_win[chasis][motor])] =
-						current_vel;
-				cursor_vel_win[chasis][motor] = (cursor_vel_win[chasis][motor]
-						+ 1) % WIN_LEN;
-			} //else {
-			  //  char * msg = "vel err!"; report_debug(msg, strlen(msg)); //TODO
-			  //}
-			  //Para arreglar que sete a cero las velocidades
-
-		}
-	}
-}
-*/
 void int_hall_fall(int chasis, int motor) {
 	if (state_hall_in[chasis][motor] == HALL_ON)
 		state_hall_in[chasis][motor] = HALL_OFF;
@@ -1113,43 +1054,6 @@ static int handle_set_controller(unsigned int pid, unsigned int opcode) {
 
 	report_set_controller();
 	return 1;
-}
-
-/* halls pooling ACTUALMENTE NO ESTA CORRIENDO ESTE HILO*/
-void MotorModule::compute_speed_task(void const *argument) {
-	int iter_chasis, iter_motor;
-	long time_elapsed;
-
-	while (true) {
-		for (iter_chasis = 0; iter_chasis < NUMBER_CHASIS; iter_chasis++)
-			for (iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor++) {
-				time_elapsed = time_hall[iter_chasis][iter_motor].read_ms();
-				/*
-				 if(time_elapsed > KILLING_TIME_MS){ //Si paso un tiempo en ms sin recibir velocidad
-				 vel_win[iter_chasis][iter_motor][(cursor_vel_win[iter_chasis][iter_motor])]=0.0;
-				 cursor_vel_win[iter_chasis][iter_motor] = (cursor_vel_win[iter_chasis][iter_motor] + 1)%WIN_LEN;
-				 }*/
-				if ((hall_sensor_state[iter_chasis][iter_motor] == HALL_OFF)
-						&& (get_hall(iter_chasis, iter_motor).read()
-								>= UMBRAL_ON)) {
-					time_hall[iter_chasis][iter_motor].reset();
-					vels_lineal_actual[iter_chasis][iter_motor] = (lineal_X
-							/ (float) time_elapsed) * 1000;
-					hall_sensor_state[iter_chasis][iter_motor] = HALL_ON;
-					vel_win[iter_chasis][iter_motor][(cursor_vel_win[iter_chasis][iter_motor])] =
-							vels_lineal_actual[iter_chasis][iter_motor];
-					cursor_vel_win[iter_chasis][iter_motor] =
-							(cursor_vel_win[iter_chasis][iter_motor] + 1)
-									% WIN_LEN;
-				} else if ((hall_sensor_state[iter_chasis][iter_motor]
-						== HALL_ON)
-						&& (get_hall(iter_chasis, iter_motor).read()
-								<= UMBRAL_OFF)) {
-					hall_sensor_state[iter_chasis][iter_motor] = HALL_OFF;
-				}
-			}
-		Thread::wait(UPDATE_FREQ_HALLS_MS);
-	}
 }
 
 void MotorModule::potpoll_task(void const *argument) {
