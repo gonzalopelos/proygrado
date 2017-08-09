@@ -82,8 +82,7 @@ DigitalIn halls3(HALL3_INT);
 DigitalIn halls4(HALL4_INT);
 DigitalIn halls5(HALL5_INT);
 
-DigitalIn halls[NUMBER_CHASIS][MOTORS_PER_CHASIS] = { { halls0, halls1 }, {
-		halls2, halls3 } };
+DigitalIn halls[NUMBER_CHASIS][MOTORS_PER_CHASIS] = { { halls0, halls1 }, { halls2, halls3 } };
 
 int hall_sensor_state[NUMBER_CHASIS][MOTORS_PER_CHASIS] = {
 		{ HALL_OFF, HALL_OFF }, { HALL_OFF, HALL_OFF } };
@@ -655,12 +654,12 @@ static void report_enable() {
 static int  handle_enable_motors(int mode) {
 	int result = 0;
 	if(mode == 0){
+		result = dm3->enable(0) == 0;
 		for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS; iter_chasis++) {
 			for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor++) {
 				int ret = set_motors_power(iter_chasis, iter_motor, 0);
 				i2cerror = (ret != 0) || i2cerror;
 				if (!ret) {
-					result = dm3->enable(0) == 0;
 					report_enable();
 					vels_target[iter_chasis][iter_motor] = 0;
 					result = result && dm3->brake(1) == 1;
@@ -819,7 +818,7 @@ static void tick() {
 DigitalIn get_hall(int chasis, int motor) {
 	return halls[chasis][motor];
 }
-
+/*
 void int_hall_rise(int chasis, int motor) {
 	long time_elapsed = time_hall[chasis][motor].read_ms();
 	int hall_value;
@@ -858,7 +857,7 @@ void int_hall_rise(int chasis, int motor) {
 		}
 	}
 }
-
+*/
 void int_hall_fall(int chasis, int motor) {
 	if (state_hall_in[chasis][motor] == HALL_ON)
 		state_hall_in[chasis][motor] = HALL_OFF;
@@ -875,6 +874,8 @@ int direction[MOTORS_PER_CHASIS] = { 1, 1 };
 int last_hall_value[MOTORS_PER_CHASIS] = { 0, 0 };
 void check_halls() {
 	//int hall_value[MOTORS_PER_CHASIS];
+//	printf("Halls motor 1: %d | %d | %d    ", halls0.read(), halls1.read(), halls2.read());
+//	printf("Halls motor 2: %d | %d | %d\n", halls3.read(), halls4.read(), halls5.read());
 	long time_elapsed;
 	int chasis = 0; // por ahora para un solo chasis
 	float current_vel;
