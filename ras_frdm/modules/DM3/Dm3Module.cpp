@@ -209,6 +209,8 @@ void Dm3Module::report_dm3_security_status() {
 	mcc.encoder.push(DM3_PID);
 	mcc.encoder.push(OPCODE_SECURITY);
 	mcc.encoder.startList();
+	mcc.encoder.push(dm3_security_info.status);
+	/*
 	int len = snprintf(stringbuffer, STRING_BUFF_SIZE, "SECURITY STATE: %s",
 			dm3_security_info.status == ENABLED ? "ENABLED"
 					: dm3_security_info.status == WARNING ? "WARNING"
@@ -221,6 +223,7 @@ void Dm3Module::report_dm3_security_status() {
 		len = snprintf(stringbuffer, STRING_BUFF_SIZE, "[DEVICE,STATUS]: [%s, %s]", device->type == Dm3Security::ULTRASONIC ? "ULTRASONIC" : device->type == Dm3Security::BUMPER ? "BUMPER" : "IOB_CONN", device->status == ENABLED ? "ENABLED" : device->status == WARNING ? "WARNING" : "DISABLED");
 		mcc.encoder.push(stringbuffer, len);
 	}
+	*/
 	mcc.encoder.endList();
 	mcc.encoder.endFrame();
 }
