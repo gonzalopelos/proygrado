@@ -277,6 +277,16 @@ void Dm3Module::tcp_connection_alert(Dm3Security::alert_data* data) {
 	update_sd_status(sd);
 }
 
+void Dm3Module::speed_checks_alert(Dm3Security::alert_data* data) {
+	dm3_security_device* sd = new dm3_security_device();
+	sd->data.direction = data->direction;
+	sd->data.distance = data->distance;
+	sd->data.level = data->level;
+	sd->status = data->level == Dm3Security::OK ? ENABLED : data->level == Dm3Security::WARNING ? WARNING : DISABLED;
+	sd->type = Dm3Security::SPEEDS_CHECK;
+	update_sd_status(sd);
+}
+
 Dm3Module::Dm3Module() {
 	for (unsigned int i=0; i<DM3_OPCODES; ++i) {
 			Dm3Module::opcode_callbacks[i]=NULL;
@@ -288,6 +298,7 @@ Dm3Module::Dm3Module() {
 	dm3_security_instance->attach(Dm3Security::BUMPER, this, &Dm3Module::bumper_state_alert);
 	dm3_security_instance->attach(Dm3Security::ULTRASONIC, this, &Dm3Module::ultrasonic_distance_alert);
 	dm3_security_instance->attach(Dm3Security::TCP_CONNECTION, this, &Dm3Module::tcp_connection_alert);
+	dm3_security_instance->attach(Dm3Security::SPEEDS_CHECK, this, &Dm3Module::speed_checks_alert);
 
 	Dm3Module::opcode_callbacks[OPCODE_REPORT] = &handle_report;
 	Dm3Module::opcode_callbacks[OPCODE_SIREN] = &handle_siren;
@@ -296,3 +307,4 @@ Dm3Module::Dm3Module() {
 	Dm3Module::opcode_callbacks[OPCODE_RESET] = &handle_reset_source;
 	Dm3Module::pid = mcc.register_opcode_callbacks(Dm3Module::opcode_callbacks, DM3_OPCODES);
 }
+

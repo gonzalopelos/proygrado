@@ -21,7 +21,7 @@ public:
 
 	/*Event handlers definitions*/
 	typedef enum e_security_device_type{
-		ULTRASONIC = 0, BUMPER = 1, TCP_CONNECTION = 2
+		ULTRASONIC = 0, BUMPER = 1, TCP_CONNECTION = 2, SPEEDS_CHECK = 3
 	}security_device_type;
 	typedef enum e_alert_level { OK = 0, WARNING = 1, DANGER = 2 } alert_level;
 	typedef struct s_alert_data{
@@ -42,6 +42,9 @@ public:
 		case TCP_CONNECTION:
 			_tcp_connection_alert_callback.attach(callback(function));
 			break;
+		case SPEEDS_CHECK:
+			_speeds_check_alert_callback.attach(callback(function));
+			break;
 		}
 	}
 
@@ -58,6 +61,9 @@ public:
 		case TCP_CONNECTION:
 			_tcp_connection_alert_callback.attach(callback(object, member));
 			break;
+		case SPEEDS_CHECK:
+			_speeds_check_alert_callback.attach(callback(object, member));
+			break;
 		}
 	}
 	void disable_dm3();
@@ -68,6 +74,7 @@ protected:
 	alert_event_t _tcp_connection_alert_callback;
 	alert_event_t _bumper_pressed_alert_callback;
 	alert_event_t _bumper_unpressed_alert_callback;
+	alert_event_t _speeds_check_alert_callback;
 	int filter_ultrasonic_distance(int distance, int last_distance);
 	void handle_ultrasonic_distance_action(dm3_direction_t direction);
 	static void self_alert_call(const alert_event_t& alert_callback, alert_data& alert_data);
@@ -89,15 +96,18 @@ protected:
 	void handle_tcp_connection_alert();
 	// ================================================================
 
+	// Speed alerts
+	void handle_speed_alert();
+
 private:
 #define	ULTRASONIC_MIN_FRONT_DIST 300
 #define BUMPER_DEBOUNCING_TIMEOUT (int) 100
 #define ULTRASONIC_FILTER_ALPHA .2
 #define TCP_CONN_RESET_TO (int) 4 //time out in seconds
+#define SPEED_MAX_VALUE (int) 3 // m/s
 	static Dm3Security * _dm3_security_instance;
 	Dm3Security();
 	virtual ~Dm3Security();
-
 };
 
 } /* namespace modules */

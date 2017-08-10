@@ -50,6 +50,9 @@ Bumper bumper(SW2);
 // TCP Connection =================================================
 Thread _tcp_connection_checks_thread;
 
+// Speed checks ===================================================
+Thread _speed_checks_thread;
+
 
 Dm3Security* Dm3Security::get_instance(){
 	if(_dm3_security_instance == NULL){
@@ -80,6 +83,9 @@ Dm3Security::Dm3Security() {
 
 	//TCP connection alerts
 	_tcp_connection_checks_thread.start(callback(this, &Dm3Security::handle_tcp_connection_alert));
+
+	//speed checks
+	_speed_checks_thread.start(callback(this, &Dm3Security::handle_speed_alert));
 }
 
 //ToDo: Agregar filtro por software para sacar ruido leer diapo de FRA diapositiva 1 hay formula, aplicar filtro de ventana o ponderaciones.
@@ -285,6 +291,31 @@ void Dm3Security::disable_dm3() {
 
 void Dm3Security::enable_dm3() {
 	_motor_module_instance->update_motors_status(1);
+}
+
+void Dm3Security::handle_speed_alert() {
+	float** speeds;
+	bool exceeds_maximum_speed = false;
+	alert_data data;
+	data.distance = 0;
+	data.direction = FRONT;
+	while(true){
+		speeds = _motor_module_instance->get_current_vels();
+		for (int motor = 0; motor < MOTORS_PER_CHASIS; ++motor) {
+			if(speeds[0][motor] > 0 && speeds[0][motor] > SPEED_MAX_VALUE
+					|| speeds[0][motor] < 0 && speeds[0][motor] < -SPEED_MAX_VALUE ){ //reverse
+				exceeds_maximum_speed = true;
+				break;
+			}
+		}
+
+		data.level = exceeds_maximum_speed ? DANGER : OK;
+
+		self_alert_call(_speeds_check_alert_callback, data);
+
+		Thread::wait(500);
+	}
+
 }
 
 } /* namespace modules */

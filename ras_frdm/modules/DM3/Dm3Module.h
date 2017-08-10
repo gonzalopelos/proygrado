@@ -60,6 +60,7 @@ public:
 	void bumper_state_alert(Dm3Security::alert_data * data);
 	void ultrasonic_distance_alert(Dm3Security::alert_data * data);
 	void tcp_connection_alert(Dm3Security::alert_data * data);
+	void speed_checks_alert(Dm3Security::alert_data * data);
 };
 
 } /* namespace modules */
