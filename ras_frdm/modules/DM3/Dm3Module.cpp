@@ -166,12 +166,12 @@ void Dm3Module::update_sd_status(dm3_security_device* sd) {
 	for (index = 1; index <= dm3_security_info.devices.length(); index++) {
 		list_node = dm3_security_info.devices.pop(index);
 		device = (dm3_security_device*)list_node->data;
-		update_to_enable &= device->status == ENABLED;
-		update_to_warning &= device->status != DISABLED;
 		if((int)device->type == (int)sd->type && (int)device->data.direction == (int)sd->data.direction){
 			update_sd_info(device, *sd);
 			new_sd = false;
 		}
+		update_to_enable &= device->status == ENABLED;
+		update_to_warning &= device->status != DISABLED;
 	}
 
 	if(new_sd){
@@ -210,7 +210,6 @@ void Dm3Module::report_dm3_security_status() {
 	mcc.encoder.push(OPCODE_SECURITY);
 	mcc.encoder.startList();
 	mcc.encoder.push(dm3_security_info.status);
-	/*
 	int len = snprintf(stringbuffer, STRING_BUFF_SIZE, "SECURITY STATE: %s",
 			dm3_security_info.status == ENABLED ? "ENABLED"
 					: dm3_security_info.status == WARNING ? "WARNING"
@@ -220,10 +219,10 @@ void Dm3Module::report_dm3_security_status() {
 
 	for(uint32_t dev_index = 1; dev_index <= dm3_security_info.devices.length(); ++dev_index){
 		device = (dm3_security_device *)dm3_security_info.devices.pop(dev_index)->data;
-		len = snprintf(stringbuffer, STRING_BUFF_SIZE, "[DEVICE,STATUS]: [%s, %s]", device->type == Dm3Security::ULTRASONIC ? "ULTRASONIC" : device->type == Dm3Security::BUMPER ? "BUMPER" : "IOB_CONN", device->status == ENABLED ? "ENABLED" : device->status == WARNING ? "WARNING" : "DISABLED");
+		len = snprintf(stringbuffer, STRING_BUFF_SIZE, "[DEVICE,STATUS]: [%s, %s]", device->type == Dm3Security::ULTRASONIC ? "ULTRASONIC" : device->type == Dm3Security::BUMPER ? "BUMPER" : device->type == Dm3Security::TCP_CONNECTION ? "IOB_CONN" : "SPEED_CHECK", device->status == ENABLED ? "ENABLED" : device->status == WARNING ? "WARNING" : "DISABLED");
 		mcc.encoder.push(stringbuffer, len);
 	}
-	*/
+
 	mcc.encoder.endList();
 	mcc.encoder.endFrame();
 }
@@ -281,6 +280,7 @@ void Dm3Module::tcp_connection_alert(Dm3Security::alert_data* data) {
 }
 
 void Dm3Module::speed_checks_alert(Dm3Security::alert_data* data) {
+//	printf("speed_checks_alert: %d, %d, %d\n", data->level, data->direction, data->distance);
 	dm3_security_device* sd = new dm3_security_device();
 	sd->data.direction = data->direction;
 	sd->data.distance = data->distance;

@@ -302,18 +302,23 @@ void Dm3Security::handle_speed_alert() {
 	while(true){
 		speeds = _motor_module_instance->get_current_vels();
 		for (int motor = 0; motor < MOTORS_PER_CHASIS; ++motor) {
-			if(speeds[0][motor] > 0 && speeds[0][motor] > SPEED_MAX_VALUE
-					|| speeds[0][motor] < 0 && speeds[0][motor] < -SPEED_MAX_VALUE ){ //reverse
+			if((speeds[0][motor] > 0 && speeds[0][motor] > SPEED_MAX_VALUE)
+					|| (speeds[0][motor] < 0 && speeds[0][motor] < -SPEED_MAX_VALUE) ){ //reverse
 				exceeds_maximum_speed = true;
 				break;
 			}
 		}
+		//delete aux data
+		for (int chasis = 0; chasis < (int)NUMBER_CHASIS; ++chasis) {
+			delete[] speeds[chasis];
+		}
+		delete[] speeds;
 
 		data.level = exceeds_maximum_speed ? DANGER : OK;
 
 		self_alert_call(_speeds_check_alert_callback, data);
-
-		Thread::wait(500);
+		exceeds_maximum_speed = false;
+		Thread::wait(100);
 	}
 
 }
