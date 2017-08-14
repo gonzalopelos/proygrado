@@ -209,17 +209,26 @@ void Dm3Module::report_dm3_security_status() {
 	mcc.encoder.push(DM3_PID);
 	mcc.encoder.push(OPCODE_SECURITY);
 	mcc.encoder.startList();
+
 	mcc.encoder.push(dm3_security_info.status);
+
+	/*
 	int len = snprintf(stringbuffer, STRING_BUFF_SIZE, "SECURITY STATE: %s",
 			dm3_security_info.status == ENABLED ? "ENABLED"
 					: dm3_security_info.status == WARNING ? "WARNING"
 							: "DISABLED");
 	mcc.encoder.push(stringbuffer, len);
+	*/
+	int len = 0;
 	dm3_security_device * device;
-
 	for(uint32_t dev_index = 1; dev_index <= dm3_security_info.devices.length(); ++dev_index){
+		/*
 		device = (dm3_security_device *)dm3_security_info.devices.pop(dev_index)->data;
 		len = snprintf(stringbuffer, STRING_BUFF_SIZE, "[DEVICE,STATUS]: [%s, %s]", device->type == Dm3Security::ULTRASONIC ? "ULTRASONIC" : device->type == Dm3Security::BUMPER ? "BUMPER" : device->type == Dm3Security::TCP_CONNECTION ? "IOB_CONN" : "SPEED_CHECK", device->status == ENABLED ? "ENABLED" : device->status == WARNING ? "WARNING" : "DISABLED");
+		mcc.encoder.push(stringbuffer, len);
+		*/
+		device = (dm3_security_device *)dm3_security_info.devices.pop(dev_index)->data;
+		len = snprintf(stringbuffer, STRING_BUFF_SIZE, "%u,%u", device->type, device->status);
 		mcc.encoder.push(stringbuffer, len);
 	}
 
