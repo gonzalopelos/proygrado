@@ -206,7 +206,7 @@ void Dm3Module::update_sd_status(dm3_security_device* sd) {
 
 void Dm3Module::report_dm3_security_status() {
 	mcc.encoder.startFrame();
-	mcc.encoder.push(DM3_PID);
+	mcc.encoder.push(ADMIN_PID);
 	mcc.encoder.push(OPCODE_SECURITY);
 	mcc.encoder.startList();
 
