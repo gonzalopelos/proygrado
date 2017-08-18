@@ -12,6 +12,8 @@
 #include "../Motor/MotorModule.h"
 #include "../Ethernet/Communication.h"
 #include "Bumper.h"
+#include "../../utilities/math_helper.h"
+
 
 namespace modules {
 
@@ -294,29 +296,62 @@ void Dm3Security::enable_dm3() {
 }
 
 void Dm3Security::handle_speed_alert() {
-	float** speeds;
+	MotorModule::motors_info motors_info;
+	MotorModule::motors_info last_motors_info;
+	/**
+	 * inicializo estrucutras de datos
+	 */
+	for (int chasis = 0; chasis < NUMBER_CHASIS; ++chasis) {
+		for (int motor = 0; motor < MOTORS_PER_CHASIS; ++motor) {
+			last_motors_info.current_pow[chasis][motor] = 0.0;
+			last_motors_info.current_vels[chasis][motor] = 0.0;
+		}
+	}
+	/**
+	 * sólo se consideran las velocidades del chasis nro 1.
+	 */
+	float speed_variation[MOTORS_PER_CHASIS];
+	/**
+	 * sólo se consideran las potencias del chasis nro 1.
+	 */
+	float pows_variation[MOTORS_PER_CHASIS];
 	bool exceeds_maximum_speed = false;
+	bool motor_overloaded = false;
 	alert_data data;
 	data.distance = 0;
 	data.direction = FRONT;
 	while(true){
-		speeds = _motor_module_instance->get_current_vels();
+		motors_info = _motor_module_instance->get_motors_info();
+		/**
+		 * Sólo se considera el chasis nro1 para controlar
+		 * las velocidades y potencias.
+		 */
 		for (int motor = 0; motor < MOTORS_PER_CHASIS; ++motor) {
-			if((speeds[0][motor] > 0 && speeds[0][motor] > SPEED_MAX_VALUE)
-					|| (speeds[0][motor] < 0 && speeds[0][motor] < -SPEED_MAX_VALUE) ){ //reverse
+			if((motors_info.current_vels[0][motor] > 0 && motors_info.current_vels[0][motor] > SPEED_MAX_VALUE)
+					|| (motors_info.current_vels[0][motor] < 0 && motors_info.current_vels[0][motor] < -SPEED_MAX_VALUE) ){ //reverse
 				exceeds_maximum_speed = true;
-				break;
+			}
+			if(last_motors_info.current_vels[0][motor] == 0){
+				speed_variation[motor] = utilities::math_helper::abs(motors_info.current_vels[0][motor]) * 100 / SPEED_MAX_VALUE;
+			}else{
+				speed_variation[motor] = (utilities::math_helper::abs(motors_info.current_vels[0][motor]) - utilities::math_helper::abs(last_motors_info.current_vels[0][motor])) * 100 / utilities::math_helper::abs(last_motors_info.current_vels[0][motor]);
+			}
+			if(last_motors_info.current_pow[0][motor] == 0){
+				pows_variation[motor] = utilities::math_helper::abs(motors_info.current_pow[0][motor]);
+			}else{
+				pows_variation[motor] = (utilities::math_helper::abs(motors_info.current_pow[0][motor]) - utilities::math_helper::abs(last_motors_info.current_pow[0][motor])) * 100 / utilities::math_helper::abs(last_motors_info.current_pow[0][motor]);
+			}
+			if((speed_variation[motor] - pows_variation[motor]) > MAX_POWS_SPEED_DESVIATION){
+				motor_overloaded = true;
 			}
 		}
-		//delete aux data
-		for (int chasis = 0; chasis < (int)NUMBER_CHASIS; ++chasis) {
-			delete[] speeds[chasis];
-		}
-		delete[] speeds;
 
 		data.level = exceeds_maximum_speed ? DANGER : OK;
-
 		self_alert_call(_speeds_check_alert_callback, data);
+
+		//ToDo llamar a un callback específico para notificar
+		//sobre carga de los motores.
+
 		exceeds_maximum_speed = false;
 		Thread::wait(100);
 	}

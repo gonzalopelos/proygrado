@@ -45,7 +45,9 @@ private:
 public:
 	#define NUMBER_CHASIS 2
 	#define MOTORS_PER_CHASIS 2
+
 	static MotorModule* get_instance();
+
 	//void potpoll();
 	static void init();
 	static void potpoll_task(void const *argument);
@@ -55,13 +57,32 @@ public:
 	static void rated_report_pow_task(void const *argument);
 	static void rated_report_pot_task(void const *argument);
 	static void security_stop_task(void const *argument);
+
+	/**
+	 * En principio sólo se considera el chasis nro 1.
+	 */
+	typedef struct{
+		float current_vels[NUMBER_CHASIS][MOTORS_PER_CHASIS];
+		float current_pow[NUMBER_CHASIS][MOTORS_PER_CHASIS];
+	}motors_info;
+
+	/**
+	 * OBSOLETE
+	 */
 	float** get_current_vels();
 
-	/** Update motors status
-	 *  @param mode - 1 to change the status to Enabled  and 0 to change the status to Disabled.
-	 *  @return The member that was just requested (NULL if empty or out of bounds)
+
+	/**
+	 * Update motors status
+	 * @param mode - 1 to change the status to Enabled  and 0 to change the status to Disabled.
+	 * @return The member that was just requested (NULL if empty or out of bounds)
 	 */
 	void update_motors_status(int mode);
+
+	/**
+	 * Returns information about engines, instant speeds and powers.
+	 */
+	motors_info get_motors_info();
 };
 
 }

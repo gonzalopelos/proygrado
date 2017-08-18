@@ -1216,3 +1216,14 @@ MotorModule::~MotorModule() {
 void MotorModule::update_motors_status(int mode) {
 	handle_enable_motors(mode);
 }
+
+MotorModule::motors_info MotorModule::get_motors_info() {
+	motors_info info;
+	for (int chasis = 0; chasis < NUMBER_CHASIS; ++chasis) {
+		for (int motor = 0; motor < NUMBER_MOTORS; ++motor) {
+			info.current_vels[chasis][motor] = reversed == 1 ? -vels_lineal_actual[chasis][motor] : vels_lineal_actual[chasis][motor];
+			info.current_pow[chasis][motor] = pows[chasis][motor];
+		}
+	}
+	return info;
+}
