@@ -44,12 +44,14 @@ private:
 
 	void update_sd_status(dm3_security_device* sd);
 
-	void report_dm3_security_status();
+	//void report_dm3_security_status();
 
 	void update_sd_info(dm3_security_device* sd_dest, dm3_security_device const& sd_source);
 	int pid;
 	OpcodeCallback opcode_callbacks[DM3_OPCODES];
 	void report_siren();
+
+	void init_devices_status();
 
 public:
 	Dm3Module();
@@ -61,6 +63,7 @@ public:
 	void ultrasonic_distance_alert(Dm3Security::alert_data * data);
 	void tcp_connection_alert(Dm3Security::alert_data * data);
 	void speed_checks_alert(Dm3Security::alert_data * data);
+	void report_dm3_security_status();
 };
 
 } /* namespace modules */

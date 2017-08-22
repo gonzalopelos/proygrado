@@ -98,6 +98,9 @@ int main() {
 	dm3Module.report_last_reset_source();	// Reportar fuente del ultimo reset.
 	memory_monitor_thread.start(&memory_monitor);
 
+	Thread secStat; // controlador de sirena
+	secStat.start(callback(&dm3Module, &Dm3Module::report_dm3_security_status));
+
 	Thread potpoll; // polling de potenciometro
 	potpoll.start(callback(&MotorModule::potpoll_task, motorModule_instance));
 

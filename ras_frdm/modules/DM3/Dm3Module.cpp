@@ -197,43 +197,47 @@ void Dm3Module::update_sd_status(dm3_security_device* sd) {
 		}
 		report_status = true;
 	}
-	if(report_status){
-		report_dm3_security_status();
-	}
+//	if(report_status){
+//		report_dm3_security_status();
+//	}
 
 	_update_status_mutex.unlock();
 }
 
 void Dm3Module::report_dm3_security_status() {
-	mcc.encoder.startFrame();
-	mcc.encoder.push(ADMIN_PID);
-	mcc.encoder.push(OPCODE_SECURITY);
-	mcc.encoder.startList();
+	while (true){
+		mcc.encoder.startFrame();
+		mcc.encoder.push(ADMIN_PID);
+		mcc.encoder.push(OPCODE_SECURITY);
+		mcc.encoder.startList();
 
-	mcc.encoder.push(dm3_security_info.status);
+		mcc.encoder.push(dm3_security_info.status);
 
-	/*
-	int len = snprintf(stringbuffer, STRING_BUFF_SIZE, "SECURITY STATE: %s",
-			dm3_security_info.status == ENABLED ? "ENABLED"
-					: dm3_security_info.status == WARNING ? "WARNING"
-							: "DISABLED");
-	mcc.encoder.push(stringbuffer, len);
-	*/
-	int len = 0;
-	dm3_security_device * device;
-	for(uint32_t dev_index = 1; dev_index <= dm3_security_info.devices.length(); ++dev_index){
 		/*
-		device = (dm3_security_device *)dm3_security_info.devices.pop(dev_index)->data;
-		len = snprintf(stringbuffer, STRING_BUFF_SIZE, "[DEVICE,STATUS]: [%s, %s]", device->type == Dm3Security::ULTRASONIC ? "ULTRASONIC" : device->type == Dm3Security::BUMPER ? "BUMPER" : device->type == Dm3Security::TCP_CONNECTION ? "IOB_CONN" : "SPEED_CHECK", device->status == ENABLED ? "ENABLED" : device->status == WARNING ? "WARNING" : "DISABLED");
+		int len = snprintf(stringbuffer, STRING_BUFF_SIZE, "SECURITY STATE: %s",
+				dm3_security_info.status == ENABLED ? "ENABLED"
+						: dm3_security_info.status == WARNING ? "WARNING"
+								: "DISABLED");
 		mcc.encoder.push(stringbuffer, len);
 		*/
-		device = (dm3_security_device *)dm3_security_info.devices.pop(dev_index)->data;
-		len = snprintf(stringbuffer, STRING_BUFF_SIZE, "%u,%u", device->type, device->status);
-		mcc.encoder.push(stringbuffer, len);
-	}
+		int len = 0;
+		dm3_security_device * device;
+		for(uint32_t dev_index = 1; dev_index <= dm3_security_info.devices.length(); ++dev_index){
+			/*
+			device = (dm3_security_device *)dm3_security_info.devices.pop(dev_index)->data;
+			len = snprintf(stringbuffer, STRING_BUFF_SIZE, "[DEVICE,STATUS]: [%s, %s]", device->type == Dm3Security::ULTRASONIC ? "ULTRASONIC" : device->type == Dm3Security::BUMPER ? "BUMPER" : device->type == Dm3Security::TCP_CONNECTION ? "IOB_CONN" : "SPEED_CHECK", device->status == ENABLED ? "ENABLED" : device->status == WARNING ? "WARNING" : "DISABLED");
+			mcc.encoder.push(stringbuffer, len);
+			*/
+			device = (dm3_security_device *)dm3_security_info.devices.pop(dev_index)->data;
+			len = snprintf(stringbuffer, STRING_BUFF_SIZE, "%u,%u", device->type, device->status);
+			mcc.encoder.push(stringbuffer, len);
+		}
 
-	mcc.encoder.endList();
-	mcc.encoder.endFrame();
+		mcc.encoder.endList();
+		mcc.encoder.endFrame();
+
+		Thread::wait(1000);
+	}
 }
 
 void Dm3Module::battery_report_task(void const *argument) {
@@ -299,12 +303,51 @@ void Dm3Module::speed_checks_alert(Dm3Security::alert_data* data) {
 	update_sd_status(sd);
 }
 
+void Dm3Module::init_devices_status(){
+	dm3_security_info.status = ENABLED;
+
+	dm3_security_device* sd = new dm3_security_device();
+	sd->data.direction = Dm3Security::FRONT;
+	sd->data.distance = 0;
+	sd->data.level = Dm3Security::OK;
+	sd->status = ENABLED;
+	sd->type = Dm3Security::BUMPER;
+	dm3_security_info.devices.append(sd);
+
+	sd = new dm3_security_device();
+	sd->data.direction = Dm3Security::FRONT;
+	sd->data.distance = 0;
+	sd->data.level = Dm3Security::OK;
+	sd->status = ENABLED;
+	sd->type = Dm3Security::ULTRASONIC;
+	dm3_security_info.devices.append(sd);
+
+	sd = new dm3_security_device();
+	sd->data.direction = Dm3Security::FRONT;
+	sd->data.distance = 0;
+	sd->data.level = Dm3Security::OK;
+	sd->status = ENABLED;
+	sd->type = Dm3Security::TCP_CONNECTION;
+	dm3_security_info.devices.append(sd);
+
+	sd = new dm3_security_device();
+	sd->data.direction = Dm3Security::FRONT;
+	sd->data.distance = 0;
+	sd->data.level = Dm3Security::OK;
+	sd->status = ENABLED;
+	sd->type = Dm3Security::SPEEDS_CHECK;
+	dm3_security_info.devices.append(sd);
+}
+
 Dm3Module::Dm3Module() {
 	for (unsigned int i=0; i<DM3_OPCODES; ++i) {
 			Dm3Module::opcode_callbacks[i]=NULL;
 	}
-	dm3_security_info.status = ENABLED;
+
+	init_devices_status();	// Inicializar informacion de seguridad.
+
 	dm3_instance = Dm3::Instance();
+
 	dm3_security_instance = Dm3Security::get_instance();
 
 	dm3_security_instance->attach(Dm3Security::BUMPER, this, &Dm3Module::bumper_state_alert);
