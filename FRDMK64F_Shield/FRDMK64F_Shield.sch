@@ -1,0 +1,311 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:FRDMK64F_Shield-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L CONN_02X08 J1
+U 1 1 59A5637F
+P 4600 3350
+F 0 "J1" H 4600 3800 50  0000 C CNN
+F 1 "CONN_02X08" V 4600 3350 50  0000 C CNN
+F 2 "" H 4600 2150 50  0001 C CNN
+F 3 "" H 4600 2150 50  0001 C CNN
+	1    4600 3350
+	-1   0    0    -1  
+$EndComp
+$Comp
+L CONN_02X10 J2
+U 1 1 59A56583
+P 4600 5050
+F 0 "J2" H 4600 5600 50  0000 C CNN
+F 1 "CONN_02X10" V 4600 5050 50  0000 C CNN
+F 2 "" H 4600 3850 50  0001 C CNN
+F 3 "" H 4600 3850 50  0001 C CNN
+	1    4600 5050
+	-1   0    0    -1  
+$EndComp
+$Comp
+L CONN_02X08 J3
+U 1 1 59A56825
+P 6600 4950
+F 0 "J3" H 6600 5400 50  0000 C CNN
+F 1 "CONN_02X08" V 6600 4950 50  0000 C CNN
+F 2 "" H 6600 3750 50  0001 C CNN
+F 3 "" H 6600 3750 50  0001 C CNN
+	1    6600 4950
+	1    0    0    1   
+$EndComp
+$Comp
+L CONN_02X06 J4
+U 1 1 59A56952
+P 6600 3250
+F 0 "J4" H 6600 3600 50  0000 C CNN
+F 1 "CONN_02X06" H 6600 2900 50  0000 C CNN
+F 2 "" H 6600 2050 50  0001 C CNN
+F 3 "" H 6600 2050 50  0001 C CNN
+	1    6600 3250
+	1    0    0    1   
+$EndComp
+$Comp
+L CONN_01X08 CINTA
+U 1 1 59A56E32
+P 8400 2600
+F 0 "CINTA" H 8400 3150 50  0000 C CNN
+F 1 "CONN_01X8" V 8500 2600 50  0000 C CNN
+F 2 "" H 8400 2600 50  0001 C CNN
+F 3 "" H 8400 2600 50  0001 C CNN
+	1    8400 2600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7300 4900 6850 4900
+Wire Wire Line
+	7200 4800 6850 4800
+$Comp
+L CONN_01X03 HALL_0
+U 1 1 59A6281A
+P 1950 4250
+F 0 "HALL_0" H 1950 4450 50  0000 C CNN
+F 1 "CONN_01X03" V 2050 4250 50  0000 C CNN
+F 2 "" H 1950 4250 50  0001 C CNN
+F 3 "" H 1950 4250 50  0001 C CNN
+	1    1950 4250
+	-1   0    0    1   
+$EndComp
+$Comp
+L CONN_01X03 HALL_1
+U 1 1 59A6286E
+P 1950 4850
+F 0 "HALL_1" H 1950 5050 50  0000 C CNN
+F 1 "CONN_01X03" V 2050 4850 50  0000 C CNN
+F 2 "" H 1950 4850 50  0001 C CNN
+F 3 "" H 1950 4850 50  0001 C CNN
+	1    1950 4850
+	-1   0    0    1   
+$EndComp
+$Comp
+L CONN_01X03 HALL_2
+U 1 1 59A628C1
+P 1950 5450
+F 0 "HALL_2" H 1950 5650 50  0000 C CNN
+F 1 "CONN_01X03" V 2050 5450 50  0000 C CNN
+F 2 "" H 1950 5450 50  0001 C CNN
+F 3 "" H 1950 5450 50  0001 C CNN
+	1    1950 5450
+	-1   0    0    1   
+$EndComp
+$Comp
+L CONN_01X03 HALL_3
+U 1 1 59A62B04
+P 2000 3650
+F 0 "HALL_3" H 2000 3850 50  0000 C CNN
+F 1 "CONN_01X03" V 2100 3650 50  0000 C CNN
+F 2 "" H 2000 3650 50  0001 C CNN
+F 3 "" H 2000 3650 50  0001 C CNN
+	1    2000 3650
+	-1   0    0    1   
+$EndComp
+$Comp
+L CONN_01X03 HALL_4
+U 1 1 59A62B66
+P 2000 2950
+F 0 "HALL_4" H 2000 3150 50  0000 C CNN
+F 1 "CONN_01X03" V 2100 2950 50  0000 C CNN
+F 2 "" H 2000 2950 50  0001 C CNN
+F 3 "" H 2000 2950 50  0001 C CNN
+	1    2000 2950
+	-1   0    0    1   
+$EndComp
+$Comp
+L CONN_01X03 HALL_5
+U 1 1 59A62BBD
+P 2000 2250
+F 0 "HALL_5" H 2000 2450 50  0000 C CNN
+F 1 "CONN_01X03" V 2100 2250 50  0000 C CNN
+F 2 "" H 2000 2250 50  0001 C CNN
+F 3 "" H 2000 2250 50  0001 C CNN
+	1    2000 2250
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	7200 2350 7200 4800
+Wire Wire Line
+	7200 2950 8200 2950
+Wire Wire Line
+	7300 2250 7300 4900
+Wire Wire Line
+	7300 2850 8200 2850
+Text Label 7300 4850 0    60   ~ 0
+P5V_USB
+Text Label 7000 4800 0    60   ~ 0
+GND
+Wire Wire Line
+	7200 2350 2200 2350
+Connection ~ 7200 2950
+Wire Wire Line
+	2950 2350 2950 5550
+Wire Wire Line
+	2950 3050 2200 3050
+Connection ~ 2950 2350
+Wire Wire Line
+	2950 3750 2200 3750
+Connection ~ 2950 3050
+Wire Wire Line
+	2950 4350 2150 4350
+Connection ~ 2950 3750
+Wire Wire Line
+	2950 4950 2150 4950
+Connection ~ 2950 4350
+Wire Wire Line
+	2950 5550 2150 5550
+Connection ~ 2950 4950
+Wire Wire Line
+	7300 2250 2200 2250
+Connection ~ 7300 2850
+Wire Wire Line
+	2550 2250 2550 5450
+Wire Wire Line
+	2550 2950 2200 2950
+Connection ~ 2550 2250
+Wire Wire Line
+	2550 3650 2200 3650
+Connection ~ 2550 2950
+Wire Wire Line
+	2550 4250 2150 4250
+Connection ~ 2550 3650
+Wire Wire Line
+	2550 4850 2150 4850
+Connection ~ 2550 4250
+Wire Wire Line
+	2550 5450 2150 5450
+Connection ~ 2550 4850
+Wire Wire Line
+	4350 3600 3300 3600
+Wire Wire Line
+	3300 3600 3300 2150
+Wire Wire Line
+	3300 2150 2200 2150
+Wire Wire Line
+	4350 3700 3200 3700
+Wire Wire Line
+	3200 3700 3200 2850
+Wire Wire Line
+	3200 2850 2200 2850
+Wire Wire Line
+	4350 4600 3100 4600
+Wire Wire Line
+	3100 4600 3100 3550
+Wire Wire Line
+	3100 3550 2200 3550
+Wire Wire Line
+	4350 4700 3050 4700
+Wire Wire Line
+	3050 4700 3050 4150
+Wire Wire Line
+	3050 4150 2150 4150
+Wire Wire Line
+	4350 4800 3000 4800
+Wire Wire Line
+	3000 4800 3000 4750
+Wire Wire Line
+	3000 4750 2150 4750
+Wire Wire Line
+	4350 4900 3100 4900
+Wire Wire Line
+	3100 4900 3100 5350
+Wire Wire Line
+	3100 5350 2150 5350
+Wire Wire Line
+	4850 3000 4850 2750
+Wire Wire Line
+	4850 2750 8200 2750
+Wire Wire Line
+	4850 3100 4950 3100
+Wire Wire Line
+	4950 3100 4950 2650
+Wire Wire Line
+	4950 2650 8200 2650
+Wire Wire Line
+	4850 3200 5050 3200
+Wire Wire Line
+	5050 3200 5050 2550
+Wire Wire Line
+	5050 2550 8200 2550
+Wire Wire Line
+	4850 3300 5150 3300
+Wire Wire Line
+	5150 3300 5150 2450
+Wire Wire Line
+	5150 2450 8200 2450
+Wire Wire Line
+	4350 5400 4100 5400
+Wire Wire Line
+	4100 5400 4100 5800
+Wire Wire Line
+	4100 5800 8000 5800
+Wire Wire Line
+	8000 5800 8000 2250
+Wire Wire Line
+	8000 2250 8200 2250
+Wire Wire Line
+	4350 5500 4350 5700
+Wire Wire Line
+	4350 5700 7900 5700
+Wire Wire Line
+	7900 5700 7900 2350
+Wire Wire Line
+	7900 2350 8200 2350
+Text Label 5150 3300 0    39   ~ 0
+REV_M0
+Text Label 5050 3200 0    39   ~ 0
+REV_M1
+Text Label 4950 3100 0    39   ~ 0
+REV_M2
+Text Label 4850 3000 0    39   ~ 0
+REV_M3
+Text Label 4100 5400 0    39   ~ 0
+I2C_SDA
+Text Label 4350 5700 0    39   ~ 0
+I2C_SCL
+$EndSCHEMATC
