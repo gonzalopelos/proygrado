@@ -21,7 +21,7 @@ public:
 
 	/*Event handlers definitions*/
 	typedef enum e_security_device_type{
-		ULTRASONIC = 0, BUMPER = 1, TCP_CONNECTION = 2, SPEEDS_CHECK = 3
+		ULTRASONIC = 0, BUMPER = 1, TCP_CONNECTION = 2, SPEEDS_CHECK = 3, WATCHDOG = 4
 	}security_device_type;
 	typedef enum e_alert_level { OK = 0, WARNING = 1, DANGER = 2 } alert_level;
 	typedef struct s_alert_data{

@@ -762,7 +762,7 @@ static int handle_report(unsigned int pid, unsigned int opcode) {
 	mcc.encoder.startList();
 	//mcc.encoder.push(motor_str, sizeof(motor_str)-1);
 	//mcc.encoder.push(MODULE_VERSION);
-	mcc.encoder.push(ok_str, sizeof(ok_str ) - 1);
+	mcc.encoder.push(ok_str, sizeof(ok_str) - 2);
 	mcc.encoder.endList();
 	mcc.encoder.endFrame();
 

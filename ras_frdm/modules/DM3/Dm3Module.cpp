@@ -211,7 +211,7 @@ void Dm3Module::report_dm3_security_status() {
 		mcc.encoder.push(OPCODE_SECURITY);
 		mcc.encoder.startList();
 
-		mcc.encoder.push(dm3_security_info.status);
+		mcc.encoder.push(dm3_security_info.status);	// Report general status
 
 		/*
 		int len = snprintf(stringbuffer, STRING_BUFF_SIZE, "SECURITY STATE: %s",
@@ -220,6 +220,7 @@ void Dm3Module::report_dm3_security_status() {
 								: "DISABLED");
 		mcc.encoder.push(stringbuffer, len);
 		*/
+		// Add each device status
 		int len = 0;
 		dm3_security_device * device;
 		for(uint32_t dev_index = 1; dev_index <= dm3_security_info.devices.length(); ++dev_index){
@@ -232,11 +233,15 @@ void Dm3Module::report_dm3_security_status() {
 			len = snprintf(stringbuffer, STRING_BUFF_SIZE, "%u,%u", device->type, device->status);
 			mcc.encoder.push(stringbuffer, len);
 		}
+		// Add reset source.
+		uint32_t resetSource = wdt.getLastResetStatus() & (kRCM_SourceWdog | kRCM_SourcePin | kRCM_SourcePor);
+		len = snprintf(stringbuffer, STRING_BUFF_SIZE, "4,%lu", resetSource);
+		mcc.encoder.push(stringbuffer, len);
 
 		mcc.encoder.endList();
 		mcc.encoder.endFrame();
 
-		Thread::wait(1000);
+		Thread::wait(2000);
 	}
 }
 
