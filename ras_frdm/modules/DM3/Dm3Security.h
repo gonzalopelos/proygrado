@@ -98,6 +98,10 @@ protected:
 
 	// Speed alerts
 	void handle_speed_alert();
+	/**
+	 * chequea consistencia entre la variacón de potencia y velocidad
+	 * rotorna true si está ok y false si hay error*/
+	bool check_power_consistency(int motor, float current_speed, float current_power);
 
 private:
 #define	ULTRASONIC_MIN_FRONT_DIST 1000

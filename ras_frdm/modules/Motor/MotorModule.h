@@ -64,6 +64,7 @@ public:
 	typedef struct{
 		float current_vels[NUMBER_CHASIS][MOTORS_PER_CHASIS];
 		float current_pow[NUMBER_CHASIS][MOTORS_PER_CHASIS];
+		bool reverse_enabled;
 	}motors_info;
 
 	/**

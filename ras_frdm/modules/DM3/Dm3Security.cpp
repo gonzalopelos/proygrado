@@ -327,8 +327,7 @@ void Dm3Security::handle_speed_alert() {
 		 * las velocidades y potencias.
 		 */
 		for (int motor = 0; motor < MOTORS_PER_CHASIS; ++motor) {
-			if((motors_info.current_vels[0][motor] > 0 && motors_info.current_vels[0][motor] > SPEED_MAX_VALUE)
-					|| (motors_info.current_vels[0][motor] < 0 && motors_info.current_vels[0][motor] < -SPEED_MAX_VALUE) ){ //reverse
+			if(motors_info.current_vels[0][motor] > utilities::math_helper::abs(SPEED_MAX_VALUE)){
 				exceeds_maximum_speed = true;
 			}
 			if(last_motors_info.current_vels[0][motor] == 0){
@@ -356,6 +355,11 @@ void Dm3Security::handle_speed_alert() {
 		Thread::wait(100);
 	}
 
+
+}
+
+bool Dm3Security::check_power_consistency(int motor, float current_speed, float current_power){
+	return true;
 }
 
 } /* namespace modules */

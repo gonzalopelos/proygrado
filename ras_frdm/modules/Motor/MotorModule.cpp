@@ -1201,7 +1201,7 @@ float** MotorModule::get_current_vels() {
 	for (int chasis = 0; chasis < NUMBER_CHASIS; ++chasis) {
 		result[chasis] = new float[MOTORS_PER_CHASIS];
 		for (int motor = 0; motor < MOTORS_PER_CHASIS; ++motor) {
-			result[chasis][motor] = reversed == 1 ? -vels_lineal_actual[chasis][motor] : vels_lineal_actual[chasis][motor];
+			result[chasis][motor] = vels_lineal_actual[chasis][motor];
 		}
 	}
 
@@ -1220,10 +1220,11 @@ void MotorModule::update_motors_status(int mode) {
 MotorModule::motors_info MotorModule::get_motors_info() {
 	motors_info info;
 	for (int chasis = 0; chasis < NUMBER_CHASIS; ++chasis) {
-		for (int motor = 0; motor < NUMBER_MOTORS; ++motor) {
-			info.current_vels[chasis][motor] = reversed == 1 ? -vels_lineal_actual[chasis][motor] : vels_lineal_actual[chasis][motor];
+		for (int motor = 0; motor < MOTORS_PER_CHASIS; ++motor) {
+			info.current_vels[chasis][motor] = vels_lineal_actual[chasis][motor];
 			info.current_pow[chasis][motor] = pows[chasis][motor];
 		}
 	}
+	info.reverse_enabled = reversed == 1;
 	return info;
 }
