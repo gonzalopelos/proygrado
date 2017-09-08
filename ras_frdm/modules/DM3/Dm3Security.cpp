@@ -87,7 +87,7 @@ Dm3Security::Dm3Security() {
 	_tcp_connection_checks_thread.start(callback(this, &Dm3Security::handle_tcp_connection_alert));
 
 	//speed checks
-	//_speed_checks_thread.start(callback(this, &Dm3Security::handle_speed_alert));
+	_speed_checks_thread.start(callback(this, &Dm3Security::handle_speed_alert));
 }
 
 //ToDo: Agregar filtro por software para sacar ruido leer diapo de FRA diapositiva 1 hay formula, aplicar filtro de ventana o ponderaciones.
