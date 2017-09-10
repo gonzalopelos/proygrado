@@ -87,7 +87,7 @@ Dm3Security::Dm3Security() {
 	_tcp_connection_checks_thread.start(callback(this, &Dm3Security::handle_tcp_connection_alert));
 
 	//speed checks
-	_speed_checks_thread.start(callback(this, &Dm3Security::handle_speed_alert));
+	_speed_checks_thread.start(callback(this, &Dm3Security::check_speed_and_power));
 }
 
 //ToDo: Agregar filtro por software para sacar ruido leer diapo de FRA diapositiva 1 hay formula, aplicar filtro de ventana o ponderaciones.
@@ -295,7 +295,7 @@ void Dm3Security::enable_dm3() {
 	_motor_module_instance->update_motors_status(1);
 }
 
-void Dm3Security::handle_speed_alert() {
+void Dm3Security::check_speed_and_power() {
 	MotorModule::motors_info motors_info;
 	MotorModule::motors_info last_motors_info;
 	/**
@@ -316,7 +316,7 @@ void Dm3Security::handle_speed_alert() {
 	 */
 	float pows_variation[MOTORS_PER_CHASIS];
 	bool exceeds_maximum_speed = false;
-	bool motor_overloaded = false;
+	bool power_speed_inconsistency = false;
 	alert_data data;
 	data.distance = 0;
 	data.direction = FRONT;
@@ -341,7 +341,7 @@ void Dm3Security::handle_speed_alert() {
 				pows_variation[motor] = (utilities::math_helper::abs(motors_info.current_pow[0][motor]) - utilities::math_helper::abs(last_motors_info.current_pow[0][motor])) * 100 / utilities::math_helper::abs(last_motors_info.current_pow[0][motor]);
 			}
 			if((speed_variation[motor] - pows_variation[motor]) > MAX_POWS_SPEED_DESVIATION){
-				motor_overloaded = true;
+				power_speed_inconsistency = true;
 			}
 		}
 
@@ -350,16 +350,14 @@ void Dm3Security::handle_speed_alert() {
 
 		//ToDo llamar a un callback específico para notificar
 		//sobre carga de los motores.
-
+		data.level = power_speed_inconsistency ? DANGER : OK;
+		self_alert_call(_power_alert_callback, data);
 		exceeds_maximum_speed = false;
+		power_speed_inconsistency = false;
 		Thread::wait(100);
 	}
 
 
-}
-
-bool Dm3Security::check_power_consistency(int motor, float current_speed, float current_power){
-	return true;
 }
 
 } /* namespace modules */

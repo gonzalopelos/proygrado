@@ -21,7 +21,7 @@ public:
 
 	/*Event handlers definitions*/
 	typedef enum e_security_device_type{
-		ULTRASONIC = 0, BUMPER = 1, TCP_CONNECTION = 2, SPEEDS_CHECK = 3, WATCHDOG = 4
+		ULTRASONIC = 0, BUMPER = 1, TCP_CONNECTION = 2, SPEEDS_CHECK = 3, WATCHDOG = 4, POWER_CEHCK = 5
 	}security_device_type;
 	typedef enum e_alert_level { OK = 0, WARNING = 1, DANGER = 2 } alert_level;
 	typedef struct s_alert_data{
@@ -45,6 +45,9 @@ public:
 		case SPEEDS_CHECK:
 			_speeds_check_alert_callback.attach(callback(function));
 			break;
+		case POWER_CEHCK:
+			_power_alert_callback.attach(callback(function));
+			break;
 		}
 	}
 
@@ -64,6 +67,8 @@ public:
 		case SPEEDS_CHECK:
 			_speeds_check_alert_callback.attach(callback(object, member));
 			break;
+		case POWER_CEHCK:
+			_power_alert_callback.attach(callback(object, member));
 		}
 	}
 	void disable_dm3();
@@ -75,6 +80,7 @@ protected:
 	alert_event_t _bumper_pressed_alert_callback;
 	alert_event_t _bumper_unpressed_alert_callback;
 	alert_event_t _speeds_check_alert_callback;
+	alert_event_t _power_alert_callback;
 	int filter_ultrasonic_distance(int distance, int last_distance);
 	void handle_ultrasonic_distance_action(dm3_direction_t direction);
 	static void self_alert_call(const alert_event_t& alert_callback, alert_data& alert_data);
@@ -96,12 +102,11 @@ protected:
 	void handle_tcp_connection_alert();
 	// ================================================================
 
-	// Speed alerts
-	void handle_speed_alert();
 	/**
 	 * chequea consistencia entre la variacón de potencia y velocidad
-	 * rotorna true si está ok y false si hay error*/
-	bool check_power_consistency(int motor, float current_speed, float current_power);
+	 * y velocidad máxima.
+	 **/
+	void check_speed_and_power();
 
 private:
 #define	ULTRASONIC_MIN_FRONT_DIST 1000

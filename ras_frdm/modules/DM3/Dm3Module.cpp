@@ -308,6 +308,17 @@ void Dm3Module::speed_checks_alert(Dm3Security::alert_data* data) {
 	update_sd_status(sd);
 }
 
+void Dm3Module::power_speed_inconsistency_alert(Dm3Security::alert_data * data)
+{
+	dm3_security_device* sd = new dm3_security_device();
+	sd->data.direction = data->direction;
+	sd->data.distance = data->distance;
+	sd->data.level = data->level;
+	sd->status = data->level == Dm3Security::OK ? ENABLED : data->level == Dm3Security::WARNING ? WARNING : DISABLED;
+	sd->type = Dm3Security::POWER_CEHCK;
+	update_sd_status(sd);
+}
+
 void Dm3Module::init_devices_status(){
 	dm3_security_info.status = ENABLED;
 
@@ -359,6 +370,7 @@ Dm3Module::Dm3Module() {
 	dm3_security_instance->attach(Dm3Security::ULTRASONIC, this, &Dm3Module::ultrasonic_distance_alert);
 	dm3_security_instance->attach(Dm3Security::TCP_CONNECTION, this, &Dm3Module::tcp_connection_alert);
 	dm3_security_instance->attach(Dm3Security::SPEEDS_CHECK, this, &Dm3Module::speed_checks_alert);
+	dm3_security_instance->attach(Dm3Security::POWER_CEHCK, this, &Dm3Module::power_speed_inconsistency_alert);
 
 	Dm3Module::opcode_callbacks[OPCODE_REPORT] = &handle_report;
 	Dm3Module::opcode_callbacks[OPCODE_SIREN] = &handle_siren;

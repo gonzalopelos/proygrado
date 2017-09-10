@@ -63,6 +63,7 @@ public:
 	void ultrasonic_distance_alert(Dm3Security::alert_data * data);
 	void tcp_connection_alert(Dm3Security::alert_data * data);
 	void speed_checks_alert(Dm3Security::alert_data * data);
+	void power_speed_inconsistency_alert(Dm3Security::alert_data * data);
 	void report_dm3_security_status();
 };
 
