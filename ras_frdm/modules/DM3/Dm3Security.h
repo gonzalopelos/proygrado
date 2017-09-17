@@ -21,7 +21,7 @@ public:
 
 	/*Event handlers definitions*/
 	typedef enum e_security_device_type{
-		ULTRASONIC = 0, BUMPER = 1, TCP_CONNECTION = 2, SPEEDS_CHECK = 3, WATCHDOG = 4, POWER_CEHCK = 5
+		ULTRASONIC = 0, BUMPER = 1, TCP_CONNECTION = 2, SPEEDS_CHECK = 3, WATCHDOG = 4, POWER_CHECK = 5
 	}security_device_type;
 	typedef enum e_alert_level { OK = 0, WARNING = 1, DANGER = 2 } alert_level;
 	typedef struct s_alert_data{
@@ -45,7 +45,7 @@ public:
 		case SPEEDS_CHECK:
 			_speeds_check_alert_callback.attach(callback(function));
 			break;
-		case POWER_CEHCK:
+		case POWER_CHECK:
 			_power_alert_callback.attach(callback(function));
 			break;
 		}
@@ -67,7 +67,7 @@ public:
 		case SPEEDS_CHECK:
 			_speeds_check_alert_callback.attach(callback(object, member));
 			break;
-		case POWER_CEHCK:
+		case POWER_CHECK:
 			_power_alert_callback.attach(callback(object, member));
 		}
 	}
