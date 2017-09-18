@@ -260,9 +260,9 @@ void Dm3Security::handle_tcp_connection_alert() {
 	alert_data data;
 	data.distance = 0;
 	data.direction = FRONT;
-	bool throw_alert = false;
+	bool throw_alert, connection_lost = false;
 	int lost_conn_count = 0;
-	float time_to_sleep_rate = 0.5; //in secconds
+	float time_to_sleep_rate = 1; //in secconds
 	float time_to_sleep = 1000 * time_to_sleep_rate;
 
 	while(true){
@@ -271,11 +271,16 @@ void Dm3Security::handle_tcp_connection_alert() {
 			if(lost_conn_count >= TCP_CONN_RESET_TO / time_to_sleep_rate){ /**TCP_CONN_RESET_TO is in seconds**/
 				data.level = DANGER;
 				throw_alert = true;
+				connection_lost = true;
 			}
-//			//printf("TCP CONNECTION: DSICONECTED\n");
+			printf("TCP CONNECTION: DSICONECTED\n");
 		}else{
 			data.level = OK;
-//			//printf("TCP CONNECTION: CONECTED\n");
+			if(connection_lost){
+				connection_lost = false;
+				throw_alert = true;
+			}
+			printf("TCP CONNECTION: CONECTED\n");
 		}
 		if(throw_alert){
 			throw_alert = false;

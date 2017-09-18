@@ -52,10 +52,12 @@ void EmBencode::PushChar(char ch) {
 	if (strlen(outbuf) < 255) {
 		outbuf[strlen(outbuf)] = ch;
 		if (ch == '\n') {
-			if(outbuf[2] == '2'){
-				printf(outbuf);
-			}
-			host->send_all(outbuf, strlen(outbuf));
+			//if(outbuf[2] == '2'){
+//				printf(outbuf);
+			//}
+			int data_sent = 0;
+			data_sent = host->send_all(outbuf, strlen(outbuf));
+//			printf("\nMCC data sent: %d\n\n", data_sent);
 			bzero(outbuf, 255);
 		}
 	}

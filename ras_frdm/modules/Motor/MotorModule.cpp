@@ -1078,7 +1078,7 @@ void MotorModule::potpoll_task(void const *argument) {
 				pid_controller();
 			}
 			else if (controller_type == PP_CONTROLLER_TYPE){
-//				//printf("controller_type == PP_CONTROLLER_TYPE\n");
+				printf("controller_type == PP_CONTROLLER_TYPE\n");
 				pp_controller();
 			}
 			// fixme else report error
@@ -1090,11 +1090,12 @@ void MotorModule::potpoll_task(void const *argument) {
 					int ret = set_motors_power(iter_chasis, iter_motor,
 							expected_pows[iter_chasis][iter_motor]);
 					i2cerror = (ret != 0) || i2cerror;
+					printf("I2CERROR: %s", i2cerror ? "TRUE" : "FALSE\n\n");
 				}
 			}
 			Thread::wait(UPDATE_FREQ_CONTROLLER_ON_MS);
 		} else{
-			//printf("potpoll_task, dm3_enable -> %d, control_mode -> %d\n", dm3->enable(), control_mode);
+			printf("potpoll_task, dm3_enable -> %d, control_mode -> %d\n", dm3->enable(), control_mode);
 			Thread::wait(UPDATE_FREQ_CONTROLLER_OFF_MS);
 		}
 		//Thread::wait(POT_POLL);
