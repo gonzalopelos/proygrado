@@ -708,9 +708,9 @@ static int handle_reverse(unsigned int pid, unsigned int opcode) {
 	if (mcc.incomming_params_count != 1)
 		return -1;
 
-	uint8_t enable_reverse = dm3->enable(mcc.incomming_params_n[0]);
+	uint8_t enable_reverse = mcc.incomming_params_n[0];
 
-	if ((enable_reverse != 0 && reversed == 0) || (enable_reverse == 0 && reversed == 1)) {
+	if ((enable_reverse == 1 && reversed == 0) || (enable_reverse == 0 && reversed == 1)) {
 		//disable motors before change reverse mode
 		handle_enable_motors(0);
 

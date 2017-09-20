@@ -69,7 +69,6 @@ int TCPSocketConnection::send(char* data, int length) {
 // -1 if unsuccessful, else number of bytes written
 int TCPSocketConnection::send_all(char* data, int length) {
 	if ((_sock_fd < 0) || !_is_connected){
-    	_is_connected = false;
     	return -1;
     }
     int writtenLen = 0;
@@ -89,7 +88,6 @@ int TCPSocketConnection::send_all(char* data, int length) {
             _is_connected = false;
             return writtenLen;
         } else {
-        	_is_connected = false;
             return -1; //Connnection error
         }
     }
@@ -98,7 +96,6 @@ int TCPSocketConnection::send_all(char* data, int length) {
 
 int TCPSocketConnection::receive(char* data, int length) {
     if ((_sock_fd < 0) || !_is_connected){
-        _is_connected = 0;
     	return -1;
     }
     
