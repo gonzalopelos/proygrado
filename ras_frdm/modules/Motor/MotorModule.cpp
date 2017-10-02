@@ -714,7 +714,8 @@ static int handle_reverse(unsigned int pid, unsigned int opcode) {
 		//disable motors before change reverse mode
 		handle_enable_motors(0);
 
-		reversed = 1 - reversed;
+		reversed = enable_reverse;
+
 		int swap;
 		swap = dm3->motor_i2c_address[0];
 		dm3->motor_i2c_address[0] = dm3->motor_i2c_address[3];

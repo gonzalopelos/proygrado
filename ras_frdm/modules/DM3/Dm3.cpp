@@ -28,7 +28,7 @@ AnalogIn batt(BATT_IN);
 
 //we are not usig p5 anymore because malfunction
 //DigitalOut pio_reverse[4]={p9, p6, p7, p8};
-DigitalOut pio_reverse[4]={PTC8, PTC1, PTB19, PTB18};	// 2017.03.18 AM - Ultimos 4 pines fila interior de J1
+DigitalOut pio_reverse[4]={PTB18, PTB19, PTC1, PTC8};	// 2017.03.18 AM - Ultimos 4 pines fila interior de J1
 //DigitalOut pio_brake(p29);
 DigitalOut pio_brake(PTC17);							// 2017.03.18 AM - Pin nro 1 fila exterior de J1
 //DigitalOut pio_enable(p30);
@@ -76,7 +76,7 @@ Dm3 *Dm3::Instance() {
 }
 
 int Dm3::motor_i2c(uint8_t motor, float speed) {
-	speed=speed * Dm3::motor_mult[motor];
+	speed = speed * Dm3::motor_mult[motor];
 	if (speed<0) {
 		pio_reverse[motor] = 1;
 		speed=-speed;
@@ -100,7 +100,14 @@ int Dm3::motor_i2c(uint8_t motor, float speed) {
 	*/
 
 	//FIXME
-	return   dac.setDACvalue(outvel, motor); // i2c.write(motor_i2c_address[motor], i2c_cmd, 2);
+	int result;
+	result =  dac.setDACvalue(outvel, motor); // i2c.write(motor_i2c_address[motor], i2c_cmd, 2);
+
+	if(result != 0){
+	   printf("\n\nset_motors_power ERROR: %d\n\n", result);
+	}
+
+	return result;
 	//return 0;
 }
 float Dm3::get_pot() {

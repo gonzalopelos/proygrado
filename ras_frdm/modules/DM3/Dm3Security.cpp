@@ -273,14 +273,14 @@ void Dm3Security::handle_tcp_connection_alert() {
 				throw_alert = true;
 				connection_lost = true;
 			}
-			printf("TCP CONNECTION: DSICONECTED\n");
+//			printf("TCP CONNECTION: DSICONECTED\n");
 		}else{
 			data.level = OK;
 			if(connection_lost){
 				connection_lost = false;
 				throw_alert = true;
 			}
-			printf("TCP CONNECTION: CONECTED\n");
+//			printf("TCP CONNECTION: CONECTED\n");
 		}
 		if(throw_alert){
 			throw_alert = false;
@@ -356,7 +356,7 @@ void Dm3Security::check_speed_and_power() {
 		//ToDo llamar a un callback específico para notificar
 		//sobre carga de los motores.
 		data.level = power_speed_inconsistency ? DANGER : OK;
-		self_alert_call(_power_alert_callback, data);
+		//self_alert_call(_power_alert_callback, data);
 		exceeds_maximum_speed = false;
 		power_speed_inconsistency = false;
 		Thread::wait(100);

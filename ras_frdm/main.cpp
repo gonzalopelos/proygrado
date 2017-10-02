@@ -90,6 +90,8 @@ int main() {
 	Thread heartbeat;
 	heartbeat.start(&heartbeat_task);
 
+
+
 	Admin* admin_module = Admin::get_instance();
 	MotorModule* motorModule_instance = MotorModule::get_instance();
 	motorModule_instance->init();
@@ -116,11 +118,13 @@ int main() {
 	Thread report_pot;
 	report_pot.start(callback(&MotorModule::rated_report_pot_task, &motorModule_instance));
 
+
 	//	Thread battery_report_task;
 //	battery_report_task.start(callback(&Dm3Module::battery_report_task, &dm3Module));
 
 	while(1){
 		mcc.tick();
+		//Thread::wait(100);
 	}
 }
 
