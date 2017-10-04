@@ -2,7 +2,7 @@
 
 
 Communication * Communication::_communication_instance = NULL;
-DigitalOut communication_led_red(LED_RED);
+bool _client_connected;
 
 Communication* Communication::get_instance() {
 	if(_communication_instance == NULL){
@@ -15,8 +15,8 @@ Communication* Communication::get_instance() {
 
 int Communication::send_all(char* data, int length) {
 	int result = 0;
-
 	result = getSocketClient()->send_all(data, length);
+	_client_connected = result != 0;
 
 	return result;
 }
@@ -27,6 +27,12 @@ int Communication::receive(char* data, int length) {
 	bzero(data, sizeof(data));
 
 	result = getSocketClient()->receive(data, length);
+
+	_client_connected = result != 0;
+
+	if(result <= 0){
+		printf("\n\nRECEIVE RESULT: %d\n\n", result);
+	}
 
 	return result;
 }
@@ -40,8 +46,8 @@ Communication::~Communication() {
 
 
 Communication::Communication() {
+	_client_connected = false;
 	init_eth_interface();
-	communication_led_red = 0;
 }
 
 void Communication::init_eth_interface() {
@@ -50,17 +56,18 @@ void Communication::init_eth_interface() {
 	_socket_server.bind(ETH_COMMUNICATION_SERVER_PORT);
 	_socket_server.listen(1);
 	_socket_server.set_blocking(false, 1000);
+//	getSocketClient();
 }
 
 bool Communication::is_client_connected() {
-	return _socket_client.is_connected();
+	return  _socket_client.is_connected();//_client_connected &&
 }
 
 TCPSocketConnection* Communication::getSocketClient() {
-	if(!_socket_client.is_connected()){
+	if(!is_client_connected()){
 		_socket_client.close();
-//		//printf("_socket_client.is_connected = false\n");
-//		communication_led_red = !communication_led_red;
+//		printf("\n\ngetSocketClient is_connected = false\n\n");
+
 		if(_socket_server.accept(_socket_client) == 0)
 		{
 			_socket_client.set_blocking(false, 1000);
@@ -69,6 +76,7 @@ TCPSocketConnection* Communication::getSocketClient() {
 		}
 //		//printf("sale del getSocketClient()\n");
 	}
+	_client_connected = _socket_client.is_connected();
 
 	return &_socket_client;
 }
