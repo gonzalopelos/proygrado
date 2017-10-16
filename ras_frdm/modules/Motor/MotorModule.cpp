@@ -502,7 +502,7 @@ static int handle_set_target_vel(unsigned int pid, unsigned int opcode) {
 
 	memcpy(stringbuff, mcc.incomming_params_s[1], mcc.incomming_params_n[1]);
 	stringbuff[mcc.incomming_params_n[1]] = 0;
-	control_angle = -atof(stringbuff);
+	control_angle = atof(stringbuff);
 
 	if (control_mode == MODE_SETVEL) {
 		compute_motors(0, control_angle);
