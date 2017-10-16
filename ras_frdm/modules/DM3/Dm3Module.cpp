@@ -174,6 +174,24 @@ void Dm3Module::update_sd_status(dm3_security_device* sd) {
 		update_to_warning &= device->status != DISABLED;
 	}
 
+
+
+
+	if(update_to_enable){
+		if(sd->type == Dm3Security::MOTORS_STATUS && dm3_security_info.status != ENABLED){
+			dm3_security_info.status = ENABLED;
+			dm3_security_instance->enable_dm3();
+			report_status = true;
+		}
+		else if(dm3_security_info.status == WARNING){
+			dm3_security_info.status = ENABLED;
+			report_status = true;
+		}
+	} else if(update_to_warning && dm3_security_info.status == ENABLED) {
+		dm3_security_info.status = WARNING;
+		report_status = true;
+	}
+
 	if(new_sd){
 		//printf("append sd: type %d, direction %d, status %d\n", sd->type, sd->data.direction, sd->status);
 		dm3_security_info.devices.append(sd);
@@ -181,25 +199,6 @@ void Dm3Module::update_sd_status(dm3_security_device* sd) {
 	else{
 		delete sd;
 	}
-
-
-	if(update_to_enable && dm3_security_info.status != ENABLED){
-		if(dm3_security_info.status == DISABLED){
-			dm3_security_instance->enable_dm3();
-		}
-		dm3_security_info.status = ENABLED;
-		report_status = true;
-	} else if(update_to_warning && !update_to_enable && dm3_security_info.status != WARNING) {
-		bool toEnable = dm3_security_info.status == DISABLED;
-		dm3_security_info.status = WARNING;
-		if(toEnable){
-			dm3_security_instance->enable_dm3();
-		}
-		report_status = true;
-	}
-//	if(report_status){
-//		report_dm3_security_status();
-//	}
 
 	_update_status_mutex.unlock();
 }
@@ -353,6 +352,24 @@ void Dm3Module::init_devices_status(){
 	sd->status = ENABLED;
 	sd->type = Dm3Security::SPEEDS_CHECK;
 	dm3_security_info.devices.append(sd);
+
+	sd = new dm3_security_device();
+	sd->data.direction = Dm3Security::FRONT;
+	sd->data.distance = 0;
+	sd->data.level = Dm3Security::OK;
+	sd->status = ENABLED;
+	sd->type = Dm3Security::POWER_CHECK;
+	dm3_security_info.devices.append(sd);
+}
+
+void Dm3Module::motors_status_alert(Dm3Security::alert_data * data){
+	dm3_security_device* sd = new dm3_security_device();
+	sd->data.direction = data->direction;
+	sd->data.distance = data->distance;
+	sd->data.level = data->level;
+	sd->status = data->level == Dm3Security::OK ? ENABLED : DISABLED;
+	sd->type = Dm3Security::MOTORS_STATUS;
+	update_sd_status(sd);
 }
 
 Dm3Module::Dm3Module() {
@@ -371,6 +388,7 @@ Dm3Module::Dm3Module() {
 	dm3_security_instance->attach(Dm3Security::TCP_CONNECTION, this, &Dm3Module::tcp_connection_alert);
 	dm3_security_instance->attach(Dm3Security::SPEEDS_CHECK, this, &Dm3Module::speed_checks_alert);
 	dm3_security_instance->attach(Dm3Security::POWER_CHECK, this, &Dm3Module::power_speed_inconsistency_alert);
+	dm3_security_instance->attach(Dm3Security::MOTORS_STATUS, this, &Dm3Module::motors_status_alert);
 
 	Dm3Module::opcode_callbacks[OPCODE_REPORT] = &handle_report;
 	Dm3Module::opcode_callbacks[OPCODE_SIREN] = &handle_siren;

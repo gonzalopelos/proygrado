@@ -17,6 +17,7 @@
  */
 #include "TCPSocketConnection.h"
 #include <cstring>
+#include <stdio.h>
 
 using std::memset;
 using std::memcpy;
@@ -42,28 +43,34 @@ int TCPSocketConnection::connect(const char* host, const int port) {
 }
 
 bool TCPSocketConnection::is_connected(void) {
-	if ((_sock_fd < 0) || !_is_connected) return false;
-
-//	char buffer[32];
-//	_is_connected = lwip_recv(_sock_fd, buffer, sizeof(buffer), MSG_PEEK | MSG_DONTWAIT) == 0; // if recv returns zero, that means the connection has been closed
-
-    return _is_connected;
+//	if ((_sock_fd < 0) || !_is_connected) return false;
+//
+////	char buffer[32];
+////	_is_connected = lwip_recv(_sock_fd, buffer, sizeof(buffer), MSG_PEEK | MSG_DONTWAIT) == 0; // if recv returns zero, that means the connection has been closed
+//
+//    return _is_connected;
+	return (_sock_fd > 0) && _is_connected;
 }
 
 int TCPSocketConnection::send(char* data, int length) {
-    if ((_sock_fd < 0) || !_is_connected)
-        return -1;
-    
-    if (!_blocking) {
-        TimeInterval timeout(_timeout);
-        if (wait_writable(timeout) != 0)
-            return -1;
+	int result = 0;
+    if ((_sock_fd < 0) || !_is_connected){
+        result = -1;
+    }else{
+    	if (!_blocking) {
+			TimeInterval timeout(_timeout);
+			if (wait_writable(timeout) != 0){
+				result = -1;
+			}
+    	}
+    }
+    if(result == 0){
+    	result = lwip_send(_sock_fd, data, length, 0);
     }
     
-    int n = lwip_send(_sock_fd, data, length, 0);
-    _is_connected = (n != 0);
-    
-    return n;
+    _is_connected = (result != 0);
+
+    return result;
 }
 
 // -1 if unsuccessful, else number of bytes written
@@ -81,11 +88,12 @@ int TCPSocketConnection::send_all(char* data, int length) {
         }
         
         int ret = lwip_send(_sock_fd, data + writtenLen, length - writtenLen, 0);
+        _is_connected = ret != 0;
+
         if (ret > 0) {
             writtenLen += ret;
             continue;
         } else if (ret == 0) {
-            _is_connected = false;
             return writtenLen;
         } else {
             return -1; //Connnection error
@@ -106,6 +114,9 @@ int TCPSocketConnection::receive(char* data, int length) {
     }
     
     int n = lwip_recv(_sock_fd, data, length, 0);
+    if(!_is_connected && n != 0){
+    	printf("\n\nRECEIVE CONNECTED - result: %d\n\n", n);
+    }
     _is_connected = (n != 0);
     
     return n;

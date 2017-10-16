@@ -21,7 +21,7 @@ public:
 
 	/*Event handlers definitions*/
 	typedef enum e_security_device_type{
-		ULTRASONIC = 0, BUMPER = 1, TCP_CONNECTION = 2, SPEEDS_CHECK = 3, WATCHDOG = 4, POWER_CHECK = 5
+		ULTRASONIC = 0, BUMPER = 1, TCP_CONNECTION = 2, SPEEDS_CHECK = 3, WATCHDOG = 4, POWER_CHECK = 5, MOTORS_STATUS = 6
 	}security_device_type;
 	typedef enum e_alert_level { OK = 0, WARNING = 1, DANGER = 2 } alert_level;
 	typedef struct s_alert_data{
@@ -48,6 +48,9 @@ public:
 		case POWER_CHECK:
 			_power_alert_callback.attach(callback(function));
 			break;
+		case MOTORS_STATUS:
+			_motors_status_callback.attach(callback(function));
+			break;
 		}
 	}
 
@@ -69,6 +72,10 @@ public:
 			break;
 		case POWER_CHECK:
 			_power_alert_callback.attach(callback(object, member));
+			break;
+		case MOTORS_STATUS:
+			_motors_status_callback.attach(callback(object, member));
+			break;
 		}
 	}
 	void disable_dm3();
@@ -81,6 +88,7 @@ protected:
 	alert_event_t _bumper_unpressed_alert_callback;
 	alert_event_t _speeds_check_alert_callback;
 	alert_event_t _power_alert_callback;
+	alert_event_t _motors_status_callback;
 	int filter_ultrasonic_distance(int distance, int last_distance);
 	void handle_ultrasonic_distance_action(dm3_direction_t direction);
 	static void self_alert_call(const alert_event_t& alert_callback, alert_data& alert_data);
@@ -108,16 +116,26 @@ protected:
 	 **/
 	void check_speed_and_power();
 
+	void handle_motors_status_changed();
+
 private:
 #define	ULTRASONIC_MIN_FRONT_DIST 200
 #define BUMPER_DEBOUNCING_TIMEOUT (int) 100
 #define ULTRASONIC_FILTER_ALPHA .2
 #define TCP_CONN_RESET_TO (int) 4 //time out in seconds
-#define SPEED_MAX_VALUE (float) 1.5 // m/s
+#define SPEED_MAX_VALUE (float) 2.9 // m/s
+/**
+ * EXCEEDS_MAX_SPEED_TIME_RATE * 100ms de esoera en el bucle = EXCEEDS_MAX_SPEED_TIME_RATE * 0.1s.
+ */
+#define EXCEEDS_MAX_SPEED_TIME_RATE (int) 20
 /**
  * calcular este factor según el peso de carga y la inersia.
  */
-#define MAX_POWS_SPEED_DESVIATION (float)2
+#define MAX_POWS_SPEED_DESVIATION (float)25
+/**
+ * POWS_SPEED_INCONSISTENT_TIME_RATE * 100ms de esoera en el bucle = POWS_SPEED_INCONSISTENT_TIME_RATE * 0.1s.
+ */
+#define POWS_SPEED_INCONSISTENT_TIME_RATE (int) 20
 
 	static Dm3Security * _dm3_security_instance;
 	Dm3Security();

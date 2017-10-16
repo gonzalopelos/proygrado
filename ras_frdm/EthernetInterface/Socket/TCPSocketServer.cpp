@@ -18,6 +18,7 @@
 #include "TCPSocketServer.h"
 
 #include <cstring>
+#include <stdio.h>
 
 using std::memset;
 using std::memcpy;
@@ -73,6 +74,7 @@ int TCPSocketServer::accept(TCPSocketConnection& connection) {
         return -1; //Accept failed
     connection._sock_fd = fd;
     connection._is_connected = true;
+    printf("\n\nACCEPT CONNECTED, fd: %d\n\n", fd);
     
     return 0;
 }

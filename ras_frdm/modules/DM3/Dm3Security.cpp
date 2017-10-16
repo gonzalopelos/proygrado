@@ -5,14 +5,21 @@
  *      Author: gonzalopelos
  */
 
+#include <Bumper.h>
+#include <cmsis_os.h>
+#include <Callback.h>
+#include <Communication.h>
+#include <DigitalOut.h>
+#include <Dm3.h>
 #include <Dm3Security.h>
-#include <mbed.h>
-#include <rtos.h>
-#include "../Ultrasonic/Ultrasonic.h"
-#include "../Motor/MotorModule.h"
-#include "../Ethernet/Communication.h"
-#include "Bumper.h"
-#include "../../utilities/math_helper.h"
+#include <MotorModule.h>
+#include <Mutex.h>
+#include <PinNames.h>
+#include <stdlib.h>
+#include <Thread.h>
+#include <utilities/math_helper.h>
+#include <Ultrasonic.h>
+
 
 
 namespace modules {
@@ -54,6 +61,16 @@ Thread _tcp_connection_checks_thread;
 
 // Speed checks ===================================================
 Thread _speed_checks_thread;
+float compute_speed_variation(MotorModule::motors_info motors_info, int motor);
+float compute_pows_variation(MotorModule::motors_info motors_info, int motor);
+float compute_pows_and_speed_diff(float speed_variation, float pows_variation);
+bool check_angular_speed_direction(float speed, float pow, bool reversed);
+
+
+// Motors status
+Thread _motors_status_thread;
+
+
 
 
 Dm3Security* Dm3Security::get_instance(){
@@ -88,6 +105,10 @@ Dm3Security::Dm3Security() {
 
 	//speed checks
 	_speed_checks_thread.start(callback(this, &Dm3Security::check_speed_and_power));
+
+	_motors_status_thread.start(callback(this, &Dm3Security::handle_motors_status_changed));
+
+
 }
 
 //ToDo: Agregar filtro por software para sacar ruido leer diapo de FRA diapositiva 1 hay formula, aplicar filtro de ventana o ponderaciones.
@@ -302,26 +323,14 @@ void Dm3Security::enable_dm3() {
 
 void Dm3Security::check_speed_and_power() {
 	MotorModule::motors_info motors_info;
-	MotorModule::motors_info last_motors_info;
-	/**
-	 * inicializo estrucutras de datos
-	 */
-	for (int chasis = 0; chasis < NUMBER_CHASIS; ++chasis) {
-		for (int motor = 0; motor < MOTORS_PER_CHASIS; ++motor) {
-			last_motors_info.current_pow[chasis][motor] = 0.0;
-			last_motors_info.current_vels[chasis][motor] = 0.0;
-		}
-	}
-	/**
-	 * sólo se consideran las velocidades del chasis nro 1.
-	 */
-	float speed_variation[MOTORS_PER_CHASIS];
-	/**
-	 * sólo se consideran las potencias del chasis nro 1.
-	 */
-	float pows_variation[MOTORS_PER_CHASIS];
+
+	float speed_variation;
+	float pows_variation;
 	bool exceeds_maximum_speed = false;
+	int exceeds_maximum_speed_times = 0;
 	bool power_speed_inconsistency = false;
+	int power_speed_inconsistency_times = 0;
+	bool angular_speed_direction_consistent = false;
 	alert_data data;
 	data.distance = 0;
 	data.direction = FRONT;
@@ -332,37 +341,111 @@ void Dm3Security::check_speed_and_power() {
 		 * las velocidades y potencias.
 		 */
 		for (int motor = 0; motor < MOTORS_PER_CHASIS; ++motor) {
+
+			/**
+			 * Check angular speed direction.
+			 */
+			angular_speed_direction_consistent = check_angular_speed_direction(motors_info.current_vels[0][motor], motors_info.current_pow[0][motor], motors_info.reverse_enabled);
+			if(!angular_speed_direction_consistent){
+				printf("SPEED[%d] = %f || POWS[%d] = %f || reversed: %d\n\n",motor, motors_info.current_vels[0][motor], motor, motors_info.current_pow[0][motor], motors_info.reverse_enabled);
+				break;
+			}
+
+			/**
+			 * Maximum speeds checks
+			 */
 			if(motors_info.current_vels[0][motor] > utilities::math_helper::abs(SPEED_MAX_VALUE)){
 				exceeds_maximum_speed = true;
 			}
-			if(last_motors_info.current_vels[0][motor] == 0){
-				speed_variation[motor] = utilities::math_helper::abs(motors_info.current_vels[0][motor]) * 100 / SPEED_MAX_VALUE;
-			}else{
-				speed_variation[motor] = (utilities::math_helper::abs(motors_info.current_vels[0][motor]) - utilities::math_helper::abs(last_motors_info.current_vels[0][motor])) * 100 / utilities::math_helper::abs(last_motors_info.current_vels[0][motor]);
-			}
-			if(last_motors_info.current_pow[0][motor] == 0){
-				pows_variation[motor] = utilities::math_helper::abs(motors_info.current_pow[0][motor]);
-			}else{
-				pows_variation[motor] = (utilities::math_helper::abs(motors_info.current_pow[0][motor]) - utilities::math_helper::abs(last_motors_info.current_pow[0][motor])) * 100 / utilities::math_helper::abs(last_motors_info.current_pow[0][motor]);
-			}
-			if((speed_variation[motor] - pows_variation[motor]) > MAX_POWS_SPEED_DESVIATION){
+
+			/**
+			 * Consistency check between speeds and powers
+			 */
+			speed_variation = compute_speed_variation(motors_info, motor);
+
+			pows_variation = compute_pows_variation(motors_info, motor);
+
+			if(compute_pows_and_speed_diff(speed_variation, pows_variation) > MAX_POWS_SPEED_DESVIATION){
 				power_speed_inconsistency = true;
 			}
+
+//			printf("SPEED_VARIATION[%d] = %f || POWS_VARIATION[%d] = %f || VARIATION = %f\n\n",motor, speed_variation, motor, pows_variation, compute_pows_and_speed_diff(speed_variation, pows_variation));
 		}
 
-		data.level = exceeds_maximum_speed ? DANGER : OK;
-		self_alert_call(_speeds_check_alert_callback, data);
+		if(!angular_speed_direction_consistent){
+			data.level = DANGER;
+			self_alert_call(_speeds_check_alert_callback, data);
+		}else if(exceeds_maximum_speed){
+			exceeds_maximum_speed_times++;
+			if(exceeds_maximum_speed_times >= EXCEEDS_MAX_SPEED_TIME_RATE){
+				data.level = DANGER;
+				self_alert_call(_speeds_check_alert_callback, data);
+				exceeds_maximum_speed_times = 0;
+			}
+		}else{
+			data.level = OK;
+			self_alert_call(_speeds_check_alert_callback, data);
+			exceeds_maximum_speed_times = 0;
+		}
 
-		//ToDo llamar a un callback específico para notificar
-		//sobre carga de los motores.
-		data.level = power_speed_inconsistency ? DANGER : OK;
-		//self_alert_call(_power_alert_callback, data);
+		if(power_speed_inconsistency){
+			power_speed_inconsistency_times++;
+			if(power_speed_inconsistency_times >= POWS_SPEED_INCONSISTENT_TIME_RATE){
+				data.level = DANGER;
+				self_alert_call(_power_alert_callback, data);
+				power_speed_inconsistency_times = 0;
+			}
+		}else{
+			data.level = OK;
+			self_alert_call(_power_alert_callback, data);
+			power_speed_inconsistency_times = 0;
+		}
+
 		exceeds_maximum_speed = false;
 		power_speed_inconsistency = false;
+
 		Thread::wait(100);
 	}
 
 
+}
+
+void Dm3Security::handle_motors_status_changed(){
+	alert_data data;
+	data.distance = 0;
+	data.direction = FRONT;
+
+
+	while(true){
+		data.level = _dm3_instance->enable() == 1 ? OK : DANGER;
+		self_alert_call(_motors_status_callback, data);
+		Thread::wait(500);
+	}
+
+
+}
+float compute_speed_variation(MotorModule::motors_info motors_info, int motor){
+	float result = -1;
+
+	result = utilities::math_helper::abs(motors_info.current_vels[0][motor]) * 100 / SPEED_MAX_VALUE;
+
+	return result;
+}
+
+inline float compute_pows_variation(MotorModule::motors_info motors_info, int motor) {\
+	return utilities::math_helper::abs(motors_info.current_pow[0][motor]);
+}
+
+inline float compute_pows_and_speed_diff(float speed_variation, float pows_variation) {
+	return utilities::math_helper::abs(speed_variation - pows_variation);
+}
+
+inline bool check_angular_speed_direction(float speed, float pow, bool reversed) {
+	/**
+	 * si la velocidad es negativa es porque está en dirección contraria a lo indicado
+	 * por el flag reversed.
+	 */
+	return speed >= 0;
 }
 
 } /* namespace modules */

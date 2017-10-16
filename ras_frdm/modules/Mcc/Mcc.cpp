@@ -52,9 +52,9 @@ void EmBencode::PushChar(char ch) {
 	if (strlen(outbuf) < 255) {
 		outbuf[strlen(outbuf)] = ch;
 		if (ch == '\n') {
-			if(outbuf[2] == '0'){
-				printf(outbuf);
-			}
+//			if(outbuf[2] == '0'){
+//				printf(outbuf);
+//			}
 			int data_sent = 0;
 			data_sent = host->send_all(outbuf, strlen(outbuf));
 //			printf("\nMCC data sent: %d\n\n", data_sent);
