@@ -199,19 +199,13 @@ void Dm3Security::handle_ultrasonic_distance_action(dm3_direction_t direction) {
 			alert_data.distance = distance_min;
 			alert_data.direction = FRONT;
 			if(distance_min < ULTRASONIC_MIN_FRONT_DIST){
-				float** vels = _motor_module_instance->get_current_vels();
+				MotorModule::motors_info motors_info = _motor_module_instance->get_motors_info();
 				for (int motor = 0; motor < MOTORS_PER_CHASIS; ++motor) {
-					if(vels[0][motor] > 0){
+					if(motors_info.current_vels[0][motor] > 0 && !motors_info.reverse_enabled ){
 						disable = true;
 						break;
 					}
 				}
-				//delete aux data
-				for (int chasis = 0; chasis < (int)NUMBER_CHASIS; ++chasis) {
-					delete[] vels[chasis];
-				}
-				delete[] vels;
-
 				if(disable){
 					led_red = 0;
 					alert_data.level = DANGER;

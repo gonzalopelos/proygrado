@@ -663,8 +663,6 @@ static int  handle_enable_motors(int mode) {
 	}else if (mode == 1){
 		result = dm3->enable(mode);
 		if(result){
-			report_enable();
-
 			for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS; iter_chasis++) {
 				for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor++) {
 					int ret = set_motors_power(iter_chasis, iter_motor, 0.0);
@@ -683,6 +681,9 @@ static int  handle_enable_motors(int mode) {
 			//printf("ERROR to handle enabled: %d\n", mode);
 		}
 	}
+	report_enable();
+	report_brake();
+
 	return result;
 }
 static int handle_enable(unsigned int pid, unsigned int opcode) {

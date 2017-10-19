@@ -9,7 +9,7 @@
 #define MODULES_ETHERNET_COMMUNICATION_H_
 
 #include "../EthernetInterface/EthernetInterface.h"
-#define ETH_COMMUNICATION_IP       		"192.168.1.52"
+#define ETH_COMMUNICATION_IP       		"192.168.2.52"
 #define ETH_COMMUNICATION_MASK     		"255.255.255.0"
 #define ETH_COMMUNICATION_GW       		"0.0.0.0"
 #define ETH_COMMUNICATION_SERVER_PORT   5001

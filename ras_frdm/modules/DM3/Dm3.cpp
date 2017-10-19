@@ -42,6 +42,7 @@ char i2c_cmd[2];
 
 Dm3* Dm3::m_pInstance = NULL;
 int _logical_pio_enable;
+int _logical_pio_brake;
 
 Dm3::Dm3() {
 	// ->
@@ -66,7 +67,8 @@ Dm3::Dm3() {
 	pio_enable = 0;
 	pio_brake = 0;
 	_logical_pio_enable = 0;
-	//pio_horn = 0;
+	_logical_pio_brake = 0;
+ 	//pio_horn = 0;
 }
 
 Dm3 *Dm3::Instance() {
@@ -122,12 +124,15 @@ float Dm3::get_batt() {
 }
 
 int Dm3::brake(int mode) {
-	pio_brake.write(1-mode); // el freno se maneja por logica negada desde la para de E/S al rele
-	return 1-pio_brake.read();
+	pio_brake = 1 - mode; // el freno se maneja por logica negada desde la para de E/S al rele
+	_logical_pio_brake = 1 - mode;
+	//FixMe return 1 - pio_brake
+	return 1 - _logical_pio_brake;
 }
 
 int Dm3::brake() {
-	return 1-pio_brake.read();
+	//FixMe return 1 - pio_brake
+	return 1 - _logical_pio_brake;
 }
 
 int Dm3::enable(int mode) {
