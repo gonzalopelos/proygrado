@@ -380,5 +380,7 @@ Dm3Module::Dm3Module() {
 //	Dm3Module::opcode_callbacks[OPCODE_SECURITY] = &report_dm3_security_status;
 	Dm3Module::opcode_callbacks[OPCODE_RESET] = &handle_reset_source;
 	Dm3Module::pid = mcc.register_opcode_callbacks(Dm3Module::opcode_callbacks, DM3_OPCODES);
+
+	report_dm3_security_status();	// Reportar status inicial de los dispositivos.
 }
 
