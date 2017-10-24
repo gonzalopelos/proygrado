@@ -130,6 +130,8 @@ static void report_pid_parameters();
 static void report_set_controller();
 float time2vel(float time_elapsed);
 void zero_vel_win(int chasis, int motor);
+static void set_target_vel(float control_module, float control_angle);
+static void set_reverse(bool enable_reverse);
 
 MotorModule* MotorModule::_instance = NULL;
 
@@ -504,33 +506,8 @@ static int handle_set_target_vel(unsigned int pid, unsigned int opcode) {
 	stringbuff[mcc.incomming_params_n[1]] = 0;
 	control_angle = atof(stringbuff);
 
-	if (control_mode == MODE_SETVEL) {
-		compute_motors(0, control_angle);
-		compute_motors(1, pot_angle - control_angle);
-	} else if (control_mode == MODE_SETANGLE) {
-		compute_motors_angle(control_angle, pot_angle);
-	} else if (control_mode == MODE_TWIST) {
-		compute_motors_vel_twist(0, control_modulo, control_angle);
-	} else {
-		snprintf(msg_debug, sizeof(msg_debug),
-				"ERROR: Set control mode to %i .", control_mode);
-		report_debug(msg_debug, strlen(msg_debug));
-	}
+	set_target_vel(control_modulo, control_angle);
 
-	/*
-	 if(controller_type == PID_CONTROLLER_TYPE){
-	 for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS; iter_chasis ++) {
-	 for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor ++)	{
-	 pidModules[iter_chasis][iter_motor].new_set_vel();
-	 }
-	 }
-	 }
-	 */
-
-	dirty_target_vel_mutex.lock();
-	dirty_target_vel[0] = false;
-	dirty_target_vel_mutex.unlock();
-	report_set_target_vel(0); //reportar chasis 0
 	return 1;
 }
 
@@ -1105,6 +1082,62 @@ void MotorModule::potpoll_task(void const *argument) {
 
 }
 
+static void set_target_vel(float control_module, float control_angle){
+
+	if (control_mode == MODE_SETVEL) {
+		compute_motors(0, control_angle);
+		compute_motors(1, pot_angle - control_angle);
+	} else if (control_mode == MODE_SETANGLE) {
+		compute_motors_angle(control_angle, pot_angle);
+	} else if (control_mode == MODE_TWIST) {
+		compute_motors_vel_twist(0, control_module, control_angle);
+	} else {
+		snprintf(msg_debug, sizeof(msg_debug),
+				"ERROR: Set control mode to %i .", control_mode);
+		report_debug(msg_debug, strlen(msg_debug));
+	}
+
+	/*
+		 if(controller_type == PID_CONTROLLER_TYPE){
+		 for (int iter_chasis = 0; iter_chasis < NUMBER_CHASIS; iter_chasis ++) {
+		 for (int iter_motor = 0; iter_motor < MOTORS_PER_CHASIS; iter_motor ++)	{
+		 pidModules[iter_chasis][iter_motor].new_set_vel();
+		 }
+		 }
+		 }
+	 */
+
+	dirty_target_vel_mutex.lock();
+	dirty_target_vel[0] = false;
+	dirty_target_vel_mutex.unlock();
+	report_set_target_vel(0); //reportar chasis 0
+
+}
+static void set_reverse(bool enable_reverse){
+
+	if ((enable_reverse == 1 && reversed == 0) || (enable_reverse == 0 && reversed == 1)) {
+		//disable motors before change reverse mode
+		handle_enable_motors(0);
+
+		reversed = enable_reverse;
+
+		int swap;
+		swap = dm3->motor_i2c_address[0];
+		dm3->motor_i2c_address[0] = dm3->motor_i2c_address[3];
+		dm3->motor_i2c_address[3] = swap;
+		swap = dm3->motor_i2c_address[1];
+		dm3->motor_i2c_address[1] = dm3->motor_i2c_address[2];
+		dm3->motor_i2c_address[2] = swap;
+		dm3->motor_mult[0] = -dm3->motor_mult[0];
+		dm3->motor_mult[1] = -dm3->motor_mult[1];
+		dm3->motor_mult[2] = -dm3->motor_mult[2];
+		dm3->motor_mult[3] = -dm3->motor_mult[3];
+
+		//enable motors again. Motors speed is zero.
+		handle_enable_motors(1);
+	}
+}
+
 void MotorModule::security_stop_task(void const *argument) {
 	while (true) {
 		if (control_mode != MODE_RAW) {
@@ -1217,6 +1250,31 @@ MotorModule::~MotorModule() {
 }
 
 void MotorModule::update_motors_status(int mode) {
+	/**
+	 * disable motors and enable break.
+	 */
+	if(mode == 0){
+		bool _has_speed = false;
+		for (int chasis = 0; chasis < NUMBER_CHASIS; ++chasis) {
+			for (int motor = 0; motor < MOTORS_PER_CHASIS; ++motor) {
+				if(vels_lineal_actual[chasis][motor] > MIN_VEL){
+					_has_speed = true;
+					break;
+				}
+			}
+		}
+		/**
+		 * se disminuye la velocidad previo
+		 * al frenado.
+		 */
+		if(_has_speed){
+			set_reverse(!(reversed == 0));
+			set_target_vel(MIN_VEL, 0);
+			Thread::wait(1200);
+			set_reverse(!(reversed == 0));
+		}
+	}
+
 	handle_enable_motors(mode);
 }
 
