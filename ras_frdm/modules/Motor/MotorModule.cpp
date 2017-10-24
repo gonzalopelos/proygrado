@@ -131,7 +131,7 @@ static void report_set_controller();
 float time2vel(float time_elapsed);
 void zero_vel_win(int chasis, int motor);
 static void set_target_vel(float control_module, float control_angle);
-static void set_reverse(bool enable_reverse);
+static void set_reverse(int enable_reverse);
 
 MotorModule* MotorModule::_instance = NULL;
 
@@ -1113,8 +1113,7 @@ static void set_target_vel(float control_module, float control_angle){
 	report_set_target_vel(0); //reportar chasis 0
 
 }
-static void set_reverse(bool enable_reverse){
-
+static void set_reverse(int enable_reverse){
 	if ((enable_reverse == 1 && reversed == 0) || (enable_reverse == 0 && reversed == 1)) {
 		//disable motors before change reverse mode
 		handle_enable_motors(0);
@@ -1268,10 +1267,10 @@ void MotorModule::update_motors_status(int mode) {
 		 * al frenado.
 		 */
 		if(_has_speed){
-			set_reverse(!(reversed == 0));
+			set_reverse(reversed == 0 ? 1 : 0);
 			set_target_vel(MIN_VEL, 0);
 			Thread::wait(1200);
-			set_reverse(!(reversed == 0));
+			set_reverse(reversed == 0 ? 1 : 0);
 		}
 	}
 

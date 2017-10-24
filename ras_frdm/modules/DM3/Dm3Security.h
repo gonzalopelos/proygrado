@@ -119,7 +119,7 @@ protected:
 	void handle_motors_status_changed();
 
 private:
-#define	ULTRASONIC_MIN_FRONT_DIST 200
+#define	ULTRASONIC_MIN_FRONT_DIST 1000
 #define BUMPER_DEBOUNCING_TIMEOUT (int) 100
 #define ULTRASONIC_FILTER_ALPHA .2
 #define TCP_CONN_RESET_TO (int) 4 //time out in seconds
