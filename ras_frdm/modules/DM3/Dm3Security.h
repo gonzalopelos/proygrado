@@ -119,23 +119,31 @@ protected:
 	void handle_motors_status_changed();
 
 private:
-#define	ULTRASONIC_MIN_FRONT_DIST 1000
+#define	ULTRASONIC_MIN_FRONT_DIST 200
 #define BUMPER_DEBOUNCING_TIMEOUT (int) 100
 #define ULTRASONIC_FILTER_ALPHA .2
 #define TCP_CONN_RESET_TO (int) 4 //time out in seconds
-#define SPEED_MAX_VALUE (float) 2.9 // m/s
+	/**
+	 * Utilizando la batería es 2.65 m/s, utilizando la fuente es 3.0 m/s
+	 */
+#define SPEED_MAX_VALUE (float) 2.65 // m/s
+#define SPEED_MAX_VALUE_ALLOWED (float) 2.70 // m/s
 /**
  * EXCEEDS_MAX_SPEED_TIME_RATE * 100ms de esoera en el bucle = EXCEEDS_MAX_SPEED_TIME_RATE * 0.1s.
  */
-#define EXCEEDS_MAX_SPEED_TIME_RATE (int) 20
+#define EXCEEDS_MAX_SPEED_TIME_RATE (int) 5
 /**
  * calcular este factor según el peso de carga y la inersia.
+ * Se asume que al 100% de potencia la velocidad máxima alcanzada es SPEED_MAX_VALUE,
+ * en función de esos valores, el peso de carga y el terreno (pendiente, densidad, etc.),
+ * se debería calcular este valor. No debería ser lineal :-)
+ *
  */
-#define MAX_POWS_SPEED_DESVIATION (float)25
+#define MAX_POWS_SPEED_DESVIATION (float)100
 /**
  * POWS_SPEED_INCONSISTENT_TIME_RATE * 100ms de esoera en el bucle = POWS_SPEED_INCONSISTENT_TIME_RATE * 0.1s.
  */
-#define POWS_SPEED_INCONSISTENT_TIME_RATE (int) 20
+#define POWS_SPEED_INCONSISTENT_TIME_RATE (int) 10
 
 	static Dm3Security * _dm3_security_instance;
 	Dm3Security();

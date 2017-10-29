@@ -31,11 +31,11 @@ MotorModule* _motor_module_instance = NULL;
 Dm3Security* Dm3Security::_dm3_security_instance = NULL;
 
 // Front-right ultrasonic sensor variables =========================
-Thread _ultrasonic_fr_alert_thread;
-int _ultrasonic_fr_distance;
-int _ultrasonic_fr_last_distance;
-void update_fr_dist(int distance);
-Ultrasonic ultrasonic_fr(PTD1, PTD3, .1, 1, &update_fr_dist);
+//Thread _ultrasonic_fr_alert_thread;
+//int _ultrasonic_fr_distance;
+//int _ultrasonic_fr_last_distance;
+//void update_fr_dist(int distance);
+//Ultrasonic ultrasonic_fr(PTD1, PTD3, .1, 1, &update_fr_dist);
 // ================================================================
 
 // Front-left ultrasonic sensor ===================================
@@ -95,8 +95,8 @@ Dm3Security::Dm3Security() {
 	_ultrasonic_fl_last_distance = -1;
 	_ultrasonic_fl_alert_thread.start(callback(this, &Dm3Security::handle_ultrasonic_fl_distance_alert));
 //	ultrasonic_fr.startUpdates();
-	_ultrasonic_fr_last_distance = 9999999;
-	_ultrasonic_fr_alert_thread.start(callback(this, &Dm3Security::handle_ultrasonic_fr_distance_alert));
+//	_ultrasonic_fr_last_distance = 9999999;
+//	_ultrasonic_fr_alert_thread.start(callback(this, &Dm3Security::handle_ultrasonic_fr_distance_alert));
 	_dm3_instance = Dm3::Instance();
 	_motor_module_instance = MotorModule::get_instance();
 
@@ -163,21 +163,21 @@ void Dm3Security::handle_ultrasonic_fl_distance_alert(){
 	}
 }
 
-inline void update_fr_dist(int distance)
-{
-	_ultrasonic_fr_distance = distance;
-   //ToDo Logic to check distance ranges
-	_ultrasonic_fr_alert_thread.signal_set(0x1);
-}
+//inline void update_fr_dist(int distance)
+//{
+//	_ultrasonic_fr_distance = distance;
+//   //ToDo Logic to check distance ranges
+//	_ultrasonic_fr_alert_thread.signal_set(0x1);
+//}
 
-void Dm3Security::handle_ultrasonic_fr_distance_alert(){
-//	int risk_state = 0;
-	while(true) {
-		_ultrasonic_fr_alert_thread.signal_wait(0x1, osWaitForever);
-		_ultrasonic_fr_last_distance = filter_ultrasonic_distance(_ultrasonic_fr_distance, _ultrasonic_fr_last_distance);
-		handle_ultrasonic_distance_action(FRONT);
-	}
-}
+//void Dm3Security::handle_ultrasonic_fr_distance_alert(){
+////	int risk_state = 0;
+//	while(true) {
+//		_ultrasonic_fr_alert_thread.signal_wait(0x1, osWaitForever);
+//		_ultrasonic_fr_last_distance = filter_ultrasonic_distance(_ultrasonic_fr_distance, _ultrasonic_fr_last_distance);
+//		handle_ultrasonic_distance_action(FRONT);
+//	}
+//}
 
 int Dm3Security::filter_ultrasonic_distance(int dist, int last_dist){
 	int result = dist;
@@ -195,7 +195,7 @@ void Dm3Security::handle_ultrasonic_distance_action(dm3_direction_t direction) {
 	alert_data alert_data;
 	switch (direction) {
 		case FRONT:
-			distance_min = _ultrasonic_fl_last_distance < _ultrasonic_fr_last_distance ? _ultrasonic_fl_last_distance : _ultrasonic_fr_last_distance;
+			distance_min = _ultrasonic_fl_last_distance;// < _ultrasonic_fr_last_distance ? _ultrasonic_fl_last_distance : _ultrasonic_fr_last_distance;
 			alert_data.distance = distance_min;
 			alert_data.direction = FRONT;
 			if(distance_min < ULTRASONIC_MIN_FRONT_DIST){
@@ -341,15 +341,17 @@ void Dm3Security::check_speed_and_power() {
 			 */
 			angular_speed_direction_consistent = check_angular_speed_direction(motors_info.current_vels[0][motor], motors_info.current_pow[0][motor], motors_info.reverse_enabled);
 			if(!angular_speed_direction_consistent){
-				printf("SPEED[%d] = %f || POWS[%d] = %f || reversed: %d\n\n",motor, motors_info.current_vels[0][motor], motor, motors_info.current_pow[0][motor], motors_info.reverse_enabled);
+//				printf("SPEED[%d] = %f || POWS[%d] = %f || reversed: %d\n\n",motor, motors_info.current_vels[0][motor], motor, motors_info.current_pow[0][motor], motors_info.reverse_enabled);
 				break;
 			}
 
 			/**
 			 * Maximum speeds checks
 			 */
-			if(motors_info.current_vels[0][motor] > utilities::math_helper::abs(SPEED_MAX_VALUE)){
+			if(motors_info.current_vels[0][motor] > SPEED_MAX_VALUE_ALLOWED){
 				exceeds_maximum_speed = true;
+//				printf("SPEED[%d] = %f || POWS[%d] = %f || reversed: %d\n\n",motor, motors_info.current_vels[0][motor], motor, motors_info.current_pow[0][motor], motors_info.reverse_enabled);
+				break;
 			}
 
 			/**
@@ -361,6 +363,8 @@ void Dm3Security::check_speed_and_power() {
 
 			if(compute_pows_and_speed_diff(speed_variation, pows_variation) > MAX_POWS_SPEED_DESVIATION){
 				power_speed_inconsistency = true;
+//				printf("SPEED[%d] = %f || POWS[%d] = %f || reversed: %d\n\n",motor, motors_info.current_vels[0][motor], motor, motors_info.current_pow[0][motor], motors_info.reverse_enabled);
+				break;
 			}
 
 //			printf("SPEED_VARIATION[%d] = %f || POWS_VARIATION[%d] = %f || VARIATION = %f\n\n",motor, speed_variation, motor, pows_variation, compute_pows_and_speed_diff(speed_variation, pows_variation));
@@ -369,6 +373,7 @@ void Dm3Security::check_speed_and_power() {
 		if(!angular_speed_direction_consistent){
 			data.level = DANGER;
 			self_alert_call(_speeds_check_alert_callback, data);
+			exceeds_maximum_speed_times = 0;
 		}else if(exceeds_maximum_speed){
 			exceeds_maximum_speed_times++;
 			if(exceeds_maximum_speed_times >= EXCEEDS_MAX_SPEED_TIME_RATE){
@@ -426,7 +431,7 @@ float compute_speed_variation(MotorModule::motors_info motors_info, int motor){
 	return result;
 }
 
-inline float compute_pows_variation(MotorModule::motors_info motors_info, int motor) {\
+inline float compute_pows_variation(MotorModule::motors_info motors_info, int motor) {
 	return utilities::math_helper::abs(motors_info.current_pow[0][motor]);
 }
 

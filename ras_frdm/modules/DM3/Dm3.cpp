@@ -31,6 +31,7 @@ AnalogIn batt(BATT_IN);
 DigitalOut pio_reverse[4]={PTB18, PTB19, PTC1, PTC8};	// 2017.03.18 AM - Ultimos 4 pines fila interior de J1
 //DigitalOut pio_brake(p29);
 DigitalOut pio_brake(PTC17);							// 2017.03.18 AM - Pin nro 1 fila exterior de J1
+DigitalOut brake_alert(PTD1);
 //DigitalOut pio_enable(p30);
 DigitalOut pio_enable(PTC16);							// 2017.03.18 AM - Pin nro 2 fila exterior de J1
 DigitalOut pio_horn(PTB20);								// 2017.06.13 GP - Pin nro 9 fila interior de J4
@@ -68,6 +69,7 @@ Dm3::Dm3() {
 	pio_brake = 0;
 	_logical_pio_enable = 0;
 	_logical_pio_brake = 0;
+	brake_alert = 0;
  	//pio_horn = 0;
 }
 
@@ -106,7 +108,7 @@ int Dm3::motor_i2c(uint8_t motor, float speed) {
 	result =  dac.setDACvalue(outvel, motor); // i2c.write(motor_i2c_address[motor], i2c_cmd, 2);
 
 	if(result != 0){
-	   printf("\n\nset_motors_power ERROR: %d\n\n", result);
+//	   printf("\n\nset_motors_power ERROR: %d\n\n", result);
 	}
 
 	return result;
@@ -124,9 +126,11 @@ float Dm3::get_batt() {
 }
 
 int Dm3::brake(int mode) {
-	pio_brake = 1 - mode; // el freno se maneja por logica negada desde la para de E/S al rele
+	pio_brake.write(1 - mode); // el freno se maneja por logica negada desde la para de E/S al rele
 	_logical_pio_brake = 1 - mode;
-	//FixMe return 1 - pio_brake
+//	printf("BRAKE: mode %d, pio_brake %d, logical_pio_brake %d\n", mode, pio_brake.read(), _logical_pio_brake);
+	//FixMe return 1 - pio_brake, configure PTC17 to DigitalOutput
+	brake_alert = mode;
 	return 1 - _logical_pio_brake;
 }
 

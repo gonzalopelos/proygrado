@@ -32,54 +32,54 @@ void heartbeat_task() {
  * MEMORY MONITOR
  */
 /* Using malloc() to determine free memory.*/
-
-#define FREEMEM_CELL 100
-struct elem { /* Definition of a structure that is FREEMEM_CELL bytes  in size.) */
-    struct elem *next;
-    char dummy[FREEMEM_CELL-2];
-};
-
-int FreeMem(void) {
-    int counter;
-    struct elem *head, *current, *nextone;
-    current = head = (struct elem*) malloc(sizeof(struct elem));
-    if (head == NULL)
-        return 0;      /*No memory available.*/
-    counter = 0;
-   // __disable_irq();
-    do {
-        counter++;
-        current->next = (struct elem*) malloc(sizeof(struct elem));
-        current = current->next;
-    } while (current != NULL);
-    /* Now counter holds the number of type elem
-       structures we were able to allocate. We
-       must free them all before returning. */
-    current = head;
-    do {
-        nextone = current->next;
-        free(current);
-        current = nextone;
-    } while (nextone != NULL);
-   // __enable_irq();
-
-    return counter*FREEMEM_CELL;
-}
-
-Thread memory_monitor_thread;
-void memory_monitor(){
-	int last_free_memory;
-	int actual_free_memory;
-	last_free_memory = FreeMem();
-	while(true){
-		actual_free_memory = FreeMem();
-		if(actual_free_memory < last_free_memory){
-			printf("FREE MEMORY: %dB\n", actual_free_memory);
-		}
-		last_free_memory = actual_free_memory;
-		Thread::wait(1000);
-	}
-}
+//
+//#define FREEMEM_CELL 100
+//struct elem { /* Definition of a structure that is FREEMEM_CELL bytes  in size.) */
+//    struct elem *next;
+//    char dummy[FREEMEM_CELL-2];
+//};
+//
+//int FreeMem(void) {
+//    int counter;
+//    struct elem *head, *current, *nextone;
+//    current = head = (struct elem*) malloc(sizeof(struct elem));
+//    if (head == NULL)
+//        return 0;      /*No memory available.*/
+//    counter = 0;
+//   // __disable_irq();
+//    do {
+//        counter++;
+//        current->next = (struct elem*) malloc(sizeof(struct elem));
+//        current = current->next;
+//    } while (current != NULL);
+//    /* Now counter holds the number of type elem
+//       structures we were able to allocate. We
+//       must free them all before returning. */
+//    current = head;
+//    do {
+//        nextone = current->next;
+//        free(current);
+//        current = nextone;
+//    } while (nextone != NULL);
+//   // __enable_irq();
+//
+//    return counter*FREEMEM_CELL;
+//}
+//
+//Thread memory_monitor_thread;
+//void memory_monitor(){
+//	int last_free_memory;
+//	int actual_free_memory;
+//	last_free_memory = FreeMem();
+//	while(true){
+//		actual_free_memory = FreeMem();
+//		if(actual_free_memory < last_free_memory){
+//			printf("FREE MEMORY: %dB\n", actual_free_memory);
+//		}
+//		last_free_memory = actual_free_memory;
+//		Thread::wait(1000);
+//	}
+//}
 //================================================
 
 int main() {
@@ -98,10 +98,7 @@ int main() {
 	Dm3Module dm3Module;
 
 	dm3Module.report_last_reset_source();	// Reportar fuente del ultimo reset.
-	memory_monitor_thread.start(&memory_monitor);
-
-	Thread secStat; // controlador de sirena
-	secStat.start(callback(&dm3Module, &Dm3Module::report_dm3_security_status));
+//	memory_monitor_thread.start(&memory_monitor);
 
 	Thread potpoll; // polling de potenciometro
 	potpoll.start(callback(&MotorModule::potpoll_task, motorModule_instance));

@@ -1,4 +1,5 @@
 #include "MotorModule.h"
+#include <utilities/math_helper.h>
 
 using namespace mbed;
 using namespace modules;
@@ -1083,7 +1084,7 @@ void MotorModule::potpoll_task(void const *argument) {
 }
 
 static void set_target_vel(float control_module, float control_angle){
-
+//	printf("set_target_vel: %f, %f\n", control_module, control_angle);
 	if (control_mode == MODE_SETVEL) {
 		compute_motors(0, control_angle);
 		compute_motors(1, pot_angle - control_angle);
@@ -1249,32 +1250,93 @@ MotorModule::~MotorModule() {
 }
 
 void MotorModule::update_motors_status(int mode) {
+	DigitalOut alerta_disabled(LED_RED);
+	alerta_disabled = 1;
 	/**
 	 * disable motors and enable break.
 	 */
 	if(mode == 0){
-		bool _has_speed = false;
-		for (int chasis = 0; chasis < NUMBER_CHASIS; ++chasis) {
-			for (int motor = 0; motor < MOTORS_PER_CHASIS; ++motor) {
-				if(vels_lineal_actual[chasis][motor] > MIN_VEL){
-					_has_speed = true;
-					break;
+		alerta_disabled = 0;
+//		bool reverse_must_change = false;
+//		float _speed;
+		bool _braked_logic_must_disable;
+		bool _has_speed;
+		_braked_logic_must_disable = false;
+		Timer time_out;
+		time_out.start();
+		do{
+			_has_speed = false;
+			/*_speeds = 0;
+			_speed = 0;*/
+			for (int chasis = 0; chasis < NUMBER_CHASIS; ++chasis) {
+				for (int motor = 0; motor < MOTORS_PER_CHASIS; ++motor) {
+					if(utilities::math_helper::abs(vels_lineal_actual[chasis][motor]) > MIN_VEL+0.1){
+						_has_speed = true;
+						break;
+					}
 				}
 			}
-		}
-		/**
-		 * se disminuye la velocidad previo
-		 * al frenado.
-		 */
-		if(_has_speed){
+
+			/**
+			 * se utiliza la velocidad promedio de los motores para
+			 * establecerla en sentido contrario y simular un freno
+			 */
+			/*if(_speeds > 0){
+				_speed = _speed / _speeds;
+			}*/
+
+			/**
+			 * se disminuye la velocidad previo
+			 * al frenado.
+			 */
+/*			if(_speeds > 0 && !reverse_must_change){
+				reverse_must_change = true;
+				set_reverse(reversed == 0 ? 1 : 0);
+				printf("CHANGE REVERSE: %d\n", reversed);
+				set_target_vel(_speed, 0);
+			}else if(_speeds > 0){
+				set_target_vel(_speed, 0);
+			}else if(reverse_must_change){
+				set_reverse(reversed == 0 ? 1 : 0);
+				reverse_must_change = false;
+				printf("CHANGE REVERSE: %d\n", reversed);
+			}*/
+			/*if(_has_speed && !reverse_must_change){
+				reverse_must_change = true;
+				set_reverse(reversed == 0 ? 1 : 0);
+				printf("CHANGE REVERSE: %d\n", reversed);
+				set_target_vel(MIN_VEL+0.4, 0);
+			}*/
+
+			if(_has_speed && !_braked_logic_must_disable){
+				_braked_logic_must_disable = true;
+				controller_type = UNSENSORED_CONTROLLER_TYPE;
+				control_mode = MODE_RAW;
+				float break_pow = 45 * (reversed ? 1 :-1);
+				dm3->motor_i2c(0, break_pow);
+				dm3->motor_i2c(1, break_pow);
+				dm3->motor_i2c(2, break_pow);
+				dm3->motor_i2c(3, break_pow);
+			}
+
+		}while (_has_speed && time_out.read_ms() < 1000);
+		time_out.stop();
+		/*if(reverse_must_change){
 			set_reverse(reversed == 0 ? 1 : 0);
-			set_target_vel(MIN_VEL, 0);
-			Thread::wait(1200);
-			set_reverse(reversed == 0 ? 1 : 0);
+			printf("CHANGE REVERSE: %d\n", reversed);
+		}*/
+		if(_braked_logic_must_disable){
+			dm3->motor_i2c(0, 0);
+			dm3->motor_i2c(1, 0);
+			dm3->motor_i2c(2, 0);
+			dm3->motor_i2c(3, 0);
+			control_mode = MODE_TWIST;
+			controller_type = PP_CONTROLLER_TYPE;
 		}
 	}
 
 	handle_enable_motors(mode);
+	alerta_disabled = 1;
 }
 
 MotorModule::motors_info MotorModule::get_motors_info() {
