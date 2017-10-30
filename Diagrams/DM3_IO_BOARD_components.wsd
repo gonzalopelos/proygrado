@@ -1,0 +1,78 @@
+@startuml
+
+' Components definition
+
+component AdminModule [
+    AdminModule
+    ---
+    ..MCC..
+    Ping
+    Resset
+]
+component Bumper  
+component DM3Core
+component DM3Module[
+    DM3Module
+    ---
+    Handle DM3 security status
+    ..MCC..
+    Reports
+    Handle siren
+]
+component DM3Security[
+    DM3Security
+    ---
+    Check speeds
+    Check motor pows
+    Check connection
+    Check proximity sensors
+    Callbacks notifications
+]
+component EmBencode
+component Communication
+component Logging
+component MCC
+component MotorModule[
+    MotorModule
+    ---
+    Gets motors info
+    Update motors status
+    Speeds controller
+    --MCC--
+    Reports
+    Handle brake
+    Handle enable
+    Handle reverse
+    Set drive mode
+    Set controller type
+]
+component Ultrasonic
+component WDT
+component main
+
+' Components relationships
+
+DM3Module --> DM3Security
+DM3Module --> DM3Core
+DM3Module --> MCC
+
+DM3Security --> Ultrasonic
+DM3Security --> Bumper
+DM3Security --> MotorModule
+DM3Security ..> DM3Module : callbacks
+
+AdminModule --> MCC
+
+MotorModule --> DM3Core
+MotorModule --> MCC
+
+MCC --> EmBencode
+MCC --> Communication
+
+main --> WDT
+main --> AdminModule
+main --> MotorModule
+main --> DM3Module
+
+
+@enduml
