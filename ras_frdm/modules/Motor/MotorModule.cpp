@@ -1232,17 +1232,17 @@ MotorModule::MotorModule() {
 }
 
 
-float** MotorModule::get_current_vels() {
-	float** result = new float* [NUMBER_CHASIS];
-	for (int chasis = 0; chasis < NUMBER_CHASIS; ++chasis) {
-		result[chasis] = new float[MOTORS_PER_CHASIS];
-		for (int motor = 0; motor < MOTORS_PER_CHASIS; ++motor) {
-			result[chasis][motor] = vels_lineal_actual[chasis][motor];
-		}
-	}
-
-	return result;
-}
+//float** MotorModule::get_current_vels() {
+//	float** result = new float* [NUMBER_CHASIS];
+//	for (int chasis = 0; chasis < NUMBER_CHASIS; ++chasis) {
+//		result[chasis] = new float[MOTORS_PER_CHASIS];
+//		for (int motor = 0; motor < MOTORS_PER_CHASIS; ++motor) {
+//			result[chasis][motor] = vels_lineal_actual[chasis][motor];
+//		}
+//	}
+//
+//	return result;
+//}
 
 MotorModule::~MotorModule() {
 	free(dm3);
@@ -1349,4 +1349,8 @@ MotorModule::motors_info MotorModule::get_motors_info() {
 	}
 	info.reverse_enabled = reversed == 1;
 	return info;
+}
+
+bool MotorModule::has_i2c_error() {
+	return i2cerror;
 }

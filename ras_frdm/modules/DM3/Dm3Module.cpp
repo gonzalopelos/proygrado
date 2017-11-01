@@ -356,6 +356,16 @@ void Dm3Module::motors_status_alert(Dm3Security::alert_data * data){
 	update_sd_status(sd);
 }
 
+void Dm3Module::i2c_motors_status_alert(Dm3Security::alert_data * data){
+	dm3_security_device* sd = new dm3_security_device();
+	sd->data.direction = data->direction;
+	sd->data.distance = data->distance;
+	sd->data.level = data->level;
+	sd->status = data->level == Dm3Security::OK ? ENABLED : DISABLED;
+	sd->type = Dm3Security::I2C_MOTORS_STATUS;
+	update_sd_status(sd);
+}
+
 Dm3Module::Dm3Module() {
 	for (unsigned int i=0; i<DM3_OPCODES; ++i) {
 			Dm3Module::opcode_callbacks[i]=NULL;
@@ -373,6 +383,7 @@ Dm3Module::Dm3Module() {
 	dm3_security_instance->attach(Dm3Security::SPEEDS_CHECK, this, &Dm3Module::speed_checks_alert);
 	dm3_security_instance->attach(Dm3Security::POWER_CHECK, this, &Dm3Module::power_speed_inconsistency_alert);
 	dm3_security_instance->attach(Dm3Security::MOTORS_STATUS, this, &Dm3Module::motors_status_alert);
+	dm3_security_instance->attach(Dm3Security::MOTORS_STATUS, this, &Dm3Module::i2c_motors_status_alert);
 
 	Dm3Module::opcode_callbacks[OPCODE_REPORT] = &handle_report;
 	Dm3Module::opcode_callbacks[OPCODE_SIREN] = &handle_siren;

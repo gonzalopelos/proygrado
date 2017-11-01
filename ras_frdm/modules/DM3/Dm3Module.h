@@ -66,6 +66,8 @@ public:
 	void power_speed_inconsistency_alert(Dm3Security::alert_data * data);
 	void report_dm3_security_status();
 	void motors_status_alert(Dm3Security::alert_data * data);
+	void i2c_motors_status_alert(Dm3Security::alert_data * data);
+
 };
 
 } /* namespace modules */

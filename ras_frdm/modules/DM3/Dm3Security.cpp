@@ -70,6 +70,9 @@ bool check_angular_speed_direction(float speed, float pow, bool reversed);
 // Motors status
 Thread _motors_status_thread;
 
+// I2C communication checks
+Thread _i2c_motors_status_thread;
+
 
 
 
@@ -107,6 +110,8 @@ Dm3Security::Dm3Security() {
 	_speed_checks_thread.start(callback(this, &Dm3Security::check_speed_and_power));
 
 	_motors_status_thread.start(callback(this, &Dm3Security::handle_motors_status_changed));
+
+	_i2c_motors_status_thread.start(callback(this, &Dm3Security::handle_i2c_motors_status_changes));
 
 
 }
@@ -423,6 +428,29 @@ void Dm3Security::handle_motors_status_changed(){
 
 
 }
+
+void Dm3Security::handle_i2c_motors_status_changes() {
+	int i2c_error_count = 0;
+	alert_data data;
+	data.distance = 0;
+	data.direction = FRONT;
+	alert_level last_alert_level = OK;
+	while(true){
+		if(_motor_module_instance->has_i2c_error()){
+			i2c_error_count++;
+		}else{
+			i2c_error_count = 0;
+		}
+
+		data.level = i2c_error_count >= I2C_MOTORS_STATUS_ERROR_COUNT ? DANGER : OK;
+		if(data.level != last_alert_level){
+			self_alert_call(_i2c_motors_status_callback, data);
+			last_alert_level = data.level;
+		}
+		Thread::wait(100);
+	}
+}
+
 float compute_speed_variation(MotorModule::motors_info motors_info, int motor){
 	float result = -1;
 
@@ -448,4 +476,3 @@ inline bool check_angular_speed_direction(float speed, float pow, bool reversed)
 }
 
 } /* namespace modules */
-

@@ -21,7 +21,7 @@ public:
 
 	/*Event handlers definitions*/
 	typedef enum e_security_device_type{
-		ULTRASONIC = 0, BUMPER = 1, TCP_CONNECTION = 2, SPEEDS_CHECK = 3, WATCHDOG = 4, POWER_CHECK = 5, MOTORS_STATUS = 6
+		ULTRASONIC = 0, BUMPER = 1, TCP_CONNECTION = 2, SPEEDS_CHECK = 3, WATCHDOG = 4, POWER_CHECK = 5, MOTORS_STATUS = 6, I2C_MOTORS_STATUS = 7
 	}security_device_type;
 	typedef enum e_alert_level { OK = 0, WARNING = 1, DANGER = 2 } alert_level;
 	typedef struct s_alert_data{
@@ -51,6 +51,9 @@ public:
 		case MOTORS_STATUS:
 			_motors_status_callback.attach(callback(function));
 			break;
+		case I2C_MOTORS_STATUS:
+			_i2c_motors_status_callback.attach(callback(function));
+			break;
 		}
 	}
 
@@ -76,6 +79,9 @@ public:
 		case MOTORS_STATUS:
 			_motors_status_callback.attach(callback(object, member));
 			break;
+		case I2C_MOTORS_STATUS:
+			_i2c_motors_status_callback.attach(callback(object, member));
+			break;
 		}
 	}
 	void disable_dm3();
@@ -89,6 +95,8 @@ protected:
 	alert_event_t _speeds_check_alert_callback;
 	alert_event_t _power_alert_callback;
 	alert_event_t _motors_status_callback;
+	alert_event_t _i2c_motors_status_callback;
+
 	int filter_ultrasonic_distance(int distance, int last_distance);
 	void handle_ultrasonic_distance_action(dm3_direction_t direction);
 	static void self_alert_call(const alert_event_t& alert_callback, alert_data& alert_data);
@@ -98,7 +106,7 @@ protected:
 	// ================================================================
 
 	// Front-right ultrasonic sensor ==================================
-	void handle_ultrasonic_fr_distance_alert();
+//	void handle_ultrasonic_fr_distance_alert();
 	// ================================================================
 
 	// Bumper =========================================================
@@ -115,8 +123,17 @@ protected:
 	 * y velocidad máxima.
 	 **/
 	void check_speed_and_power();
-
+	/**
+	 * Chequea el estado del dm3 y en el módulo dm3. En caso que el estado
+	 * se haya modificado desde la SBC, esta operación reporta el estado
+	 * al DM3Module quien se encarga de manejar el estado global del DM3.
+	 */
 	void handle_motors_status_changed();
+	/**
+	 * Chequea el estado de la comunicación i2c en MotorModule y lo reporta
+	 * al DM3Module
+	 */
+	void handle_i2c_motors_status_changes();
 
 private:
 #define	ULTRASONIC_MIN_FRONT_DIST 200
@@ -144,6 +161,12 @@ private:
  * POWS_SPEED_INCONSISTENT_TIME_RATE * 100ms de esoera en el bucle = POWS_SPEED_INCONSISTENT_TIME_RATE * 0.1s.
  */
 #define POWS_SPEED_INCONSISTENT_TIME_RATE (int) 10
+/**
+ * Se monitorea cada 100ms el estado de la comunicación I2C, si falla
+ * I2C_MOTORS_STATUS_ERROR_COUNT consecutivas, es decir durante I2C_MOTORS_STATUS_ERROR_COUNT * 100ms
+ * obtengo errores se reporta al DM3Module un error en la comunicación I2C.
+ */
+#define I2C_MOTORS_STATUS_ERROR_COUNT (int) 10
 
 	static Dm3Security * _dm3_security_instance;
 	Dm3Security();

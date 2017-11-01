@@ -70,7 +70,7 @@ public:
 	/**
 	 * OBSOLETE
 	 */
-	float** get_current_vels();
+//	float** get_current_vels();
 
 
 	/**
@@ -84,6 +84,11 @@ public:
 	 * Returns information about engines, instant speeds and powers.
 	 */
 	motors_info get_motors_info();
+	/**
+	 * Returns i2c_error flag.
+	 * True if has i2cerror, false otherwise.
+	 */
+	bool has_i2c_error();
 };
 
 }
