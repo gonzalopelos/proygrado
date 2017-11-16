@@ -1,0 +1,22 @@
+@startuml Diagrama de flujo Dm3Security - Ultrasonic
+skinparam activity {
+    BackgroundColor MintCream
+    BorderColor Peru
+    FontName Verdana
+}
+start
+#MintCream:ultrasonido reporta distancia;
+#MintCream:filtrar señal;
+if(se detecta un objeto en la zona de riesgo?) then (SI)
+    #MintCream:se obtiene información\nsobre las velocidades\ndel robot;
+    if(existe una velocidad en\ndirección hacia donde el\nsensor detectó el obstaculo?) then (SI)
+        #Tomato:se genera una alerta de seguridad\ncon criticidad alta indicando\nel peligro;
+    else (NO)
+        #Gold:se genera una alerta de seguridad\ncon criticidad media indicando que,\nsi bien no hay un riesgo alto de\ncolisión, se detectó un objeto demasiado\npróximo al robot;
+    endif
+else (NO)
+    #LightGreen:se genera un alerta de seguridadd indicando\nque el dispositivo de ultrasonido\nno ha detectado objetos demasiado\npróximos al robot;
+endif
+#MintCream:se envía el alerta generada mediante\nun callback al componente Dm3Security\npara que procese la información y tome\nlas acciones correspondientes;
+stop
+@enduml

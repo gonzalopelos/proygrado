@@ -1,19 +1,24 @@
-@startuml
+@startuml Diagrama de estados del robot
 
-title Diagrama de estados DM3
+' title Diagrama de estados del robot
 
-(Enabled) --> (Warning) : * alerta de proximidad\n* alerta de velocidad
-(Enabled) --> (Disabled) : * alerta de proximidad crítica\n* alerta de velocidad crítica\n* alerta de perdida de conexión
-(Disabled) --> (Enabled) : * cancelación de todas las alertas
-(Warning)  --> (Enabled) : * cancelación de todas las alertas
-(Warning)  --> (Disabled) : * aumento de criticidad en alguna alertas
-(Enabled) --> (Enabled) : * no hay alertas
-(Warning) --> (Warning) : * hay alertas, ninguna crítica
-(Disabled) --> (Disabled) : * hay alertas críticas
+storage Enabled#Green
+storage Disabled#Crimson
+storage Warning#f19300
+
+Enabled --> Warning#f19300 : * alerta de proximidad\n* alerta de velocidad
+Enabled --> Disabled : * alerta de proximidad crítica\n* alerta de velocidad crítica\n* alerta de perdida de conexión\n* se recibe comnado para deshabilitar\nal robot desde la SBC
+Disabled --> Enabled#Green : * se recibe comando desde SBC \npara habilitar el robot y no hay alertas
+Warning  --> Enabled#Green : * cancelación de todas las alertas
+Warning  --> Disabled : * aumento de criticidad en alguna alertas
+Enabled --> Enabled#Green : * no hay alertas
+Warning --> Warning#f193a00 : * hay alertas, ninguna crítica
+Disabled --> Disabled : * hay alertas críticas
 
 
 @enduml
 
 /'
-URL Diagram: https://www.planttext.com/plantuml/svg/hLBBSfim5Dtp5TebwTJ13uWVYqvSeDZ6u1ZZLwOp7ba8a0s2WB2X_zHLFo4_Lg1DOYVrhWlDwDwhSyuzL_S-OJ1cQU1p72FCnq0cq8rX086D0IwATfW0MMzntBL2uTR7zWserRw0woMCAQ7k3UY1Jm3wE6OL98h3Z0J4XlPtUfe_O3z4PVezZqoIl-4b8e3Yvv-C87Y1yK8zmh5TbCih2YdEoFCloft8LUgllPJY25A4VOZAboMCXJPCW5-SFwm9z-Rwly3VUKy3J5bODHoJmb1b3jC2xgOKlh6S3_2i1ne23-R_4FpuPoVlFeCoNMgyZFB3eCvRFS6-GXAEu-unjQjTug-ukJb-MQOUy1YBaXxF7u_7syY7b36SiLiK1dmL5HW-ERYyCnQo5ka4BJcEcZZNt85arckEEa0JNNJaoNPg2AxLqNwCkrAxBnWuW9sXErRctvI8vLOOQvf434jtPuy3OJUKHbgpFQclyDtAMwW6c_PDxT3SfZkaVktdowOf1G-hgUfD0cgg6bu_F2qd6tAdj0xhRhGHJFqOgBwbUtksJwQ2iWpOMlOCiPqZSwP5zI5gp1EniKeN64rGib167N7hYiAJRbcEjEjQBITBZGqKfuOyo-1-5UsbnkZGe9k1KtCxZssdhULrxeh_3G00
+URL Diagram: 
+    ![DM3_States](http://www.plantuml.com/plantuml/svg/TL91JWCn3Bpd5PPwG49KAk841rJHLZo00vTUl8bPB6MToabH-oXEFA4V8zbkbrrWRz6CFHwFium9DUqRRymL94wUOCrOApO8Ze0oxKBCJmyQgf2CYIaerWGRmSgJcpqhaVJeckCPNYatCVmGhwZ2Ki_URk_l5WjZkdQOpnz_SV00ru2UDBKMTXeEtB13jvKX_a4-s0AFf2xp9qN0wkapiSK9jGb-H-eoNPus21tuz2Mb8X8eMQuAt4ZE2dQefIo-OyMUSxfRmIwy0cS1Z_3oj3AzrU9xb6PhVgICafNFtRaLjj9EwKV0vJnm10aPFtRMe-coXOaf5iMIHrlsASkbu31cX_5_WN6y-uOaXJOJvPnPcryMHb_l1Nk5uNt-EfZmE_4l1gKtKCWow7AoSQGZhuE-lZmQOvOaBl_-Rm00 "DM3_States")
 '/

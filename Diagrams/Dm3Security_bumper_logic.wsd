@@ -1,0 +1,18 @@
+@startuml Diagrama de flujo Dm3Security - Bumper
+skinparam activity {
+    BackgroundColor MintCream
+    BorderColor Peru
+    FontName Verdana
+}
+start
+#MintCream:Bumper genera una interrupción\nal sistema de control reportando\nuna señal;
+if(la señal Indica que se\ndetectó una colisión?) then (SI)
+    #Tomato:se genera una alerta de seguridad\ncon criticidad alta indicando\nel peligro;
+else (NO)
+    #LightGreen:se genera un alerta de seguridadd indicando\nque el sensor ha dejado de detectar\nel contacto de un objeto con el robot;
+endif
+#MintCream:se envía el alerta generada mediante\nun callback al componente Dm3Security\npara que procese la información y tome\nlas acciones correspondientes;
+stop
+@enduml
+
+' URL: ![Diagrama de flujo Dm3Security - Bumper](http://www.plantuml.com/plantuml/svg/RPB1JXmn38RlynIMk2o7ddfZ3qM0Yf1QMWdKqroyYNSsIs9FdGG9eJvI3nMFi2zM9qEhHM9k6Jl__-MtptD1BJL5k0euAIO4Jx2DTIzmbJxUaQiQoXDyW8kQPj8XFmIUqHe1NGcFhVOyW7qNw1ucbSh-Kg8eV0rSBfKmBLLHJxfKlfFM_lEpSBd5HF23r2FZy6leECF9_yjdYorCnAG8bH6iHAfrTk7mmYDZX1noeONScQHA1ALPj21x6RbTodJuWt4zXEqg_Zl13VlW47vMiZyZUohaok6bkpY98JU7JwTGTiImkhivxTGdzvAmo5ccOogCP7uD8TDacNdq8niDECilk7QsdjBmcsa7emWpnM2fhGUAfhUw_VRgyILCktAjHFp6vpqRVopPtcAocJXRqhlMkKSlxSBoFDJkstAo0VQ2oSfcJtPel5PKsKWn99FT7i_2I8WV3x-nDRsIB6WU8P4FQADfUOF363Us4DPbecaM9YiTRzJOjwXdFwiuCktOmjcA9koZXISeaamlOhPbSy54igcfKZP17vfaNjlAo3oS6wnjyLy0 "Diagrama de flujo Dm3Security - Bumper")

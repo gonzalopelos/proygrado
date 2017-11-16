@@ -1,0 +1,62 @@
+@startuml
+' URL to diagram:
+'   http://www.plantuml.com/plantuml/svg/XLHTQzim57tthxZa9IrCORJR7iOeJHqsp6gMaUwf2q6LD4VKqZMIJCP6_tkl_DN4teSVR7FFkLz7nxxsWRjGcp99_AEs5NVSW5CYS5kK2dudq5qEQojJT5Ovk7WxXFVSoeFJ8IWBmTLg06xGIULIBD51gOjzU2W9VJfki-RYaHSgvpyt-fU2YzT9KhKXc7r-z-RZ3BW7ZUqC0as5Lja0zoaQKrijUD1ejorfHxWP4tCCw7AKTQbwcecXCMyfZRQdF1v3OzxAN9wofBcCAmrJVv4EjMpcHZcPsokdURapGcnRHYJlskY_MtLKQjVB-xyLkencZR_bZENfSlueKH3LU70AnUKdwyDcZuTM0p_He1IqSU2XzaUbF2Ni28dbvY1Ah2LaDYWoMo0Bpk4f0RfRbDGarrAIC--qShC6ZDVzJUsrLTx3BHPQRFlmYWSEIo48QVgjbW0TfcE37rmeo78UzX6DpmawoxAWZ6yMQjxYF107bLJyWNkYhD67mgdDrzllzcYe3Gcf9AmT2hzjrg1RRovOI3pOnOifvvsZZe36r2S-0SPS_9eOkng91-_XB4_JLz0IpvENOu8FZCMQCQchEh3lqlLvF4Hg_-bR1YtlQf2VmiD9jDXPBzDOSs1rnNgGX6Piq6jAfJ8zIDJ5OYnMSgsifD_ICm00
+skinparam rectangle {
+        roundCorner 25
+        handwritten true
+        BorderColor lightblue
+}
+
+skinparam PackageMaxSize 20
+
+package "K64F" as io{
+    component [Communication] as io_comm
+    component [MotorModule] as io_motor
+    component [AdminModule] as io_admin
+    component [Dm3Module] as io_dm3
+}
+
+package "Odroid\n<ROS>" as od{
+    component [serial_mcc] as odroid_serial
+    component [Dm3Module] as odroid_dm3        
+    component [AdminModule] as odroid_admin        
+    component [MotorModule] as odroid_motor
+    component [tcp_mcc] as odroid_tcp
+}
+
+
+
+package "Odroid Show" as os{
+    component [lcd_status] as odroidshow_lcd
+}
+
+' cloud Internet {
+' }
+ 
+' node "Middle Tier" {
+'     [Business Logic]
+'     [Data Access] as DA  
+'     interface IMath as Math
+'     interface "IItems" as Items
+' } 
+
+' database "PostgreSQL\n" {
+'     [Stored Procs]
+' }
+
+' io_admin .down. io_motor
+' io_dm3 .down. io_comm
+odroid_serial --right--> odroidshow_lcd : (MCC, serial)
+odroid_tcp <--down--> io_comm : (MCC, TCP)
+
+
+
+
+' GUI -down-> Internet
+' Internet -down-( Math
+' [Business Logic] -up- Math
+' DA -- Items
+' [Business Logic] --( Items
+' DA .. [Stored Procs]
+
+@enduml

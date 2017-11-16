@@ -1,0 +1,99 @@
+@startuml
+' URL to diagram:
+'   http://www.plantuml.com/plantuml/svg/RPIzRjim481tFiLjxIAXG3SFHXebQ0BKG14tw51aeCMpJLWYYIELrczVYgAaanmj8ZyUx_zuvuEaqBMD49-Wigsp1atmeF2eZGxQ6Y7g4SCtrMgpiwfh4Fu8Y1yZQLyKHVgNvQwgoZAj2Psb0FO2qLZeV88_jJcbnGjwZq6yCJFtNUkG01Xws7sjB8rMysvXyMp9f0KQUSZU74XUyag6W7G5ROvsOIkg6joVD7yGpPCqAeOS3y5ZtP4ELnuB3_Ob1UlvDQy9pTheFkkPp8vWORWwOntJvX2LPw2rmH8u-vV3sXg3TIhP31tPVxfD_gBnbl85sJG7MLyy61lqKTUol-ONFZwszsXggv2ns21jPx8uup_iwTJNSoOn8NpN-ylJpC0YtkyOUoz5vuTIzV3LAHbmn2pl-vINFl10jccGigveFElxe1fpJsJ0-YKJmdSaFw0z1b2attlxQaQpJGXNX-8DXey5_Te4ajx6T37u--4NsxLIczNW4JP3CSxQUI6cVeJYyvTYqIUtHsacLhWln0hrFWYcQQ3CtPkpOI1lEIyZFopBxJn9i85wx3SXycndYUd61fvD753gNApMxCfQRY4c17-FfcW5ysgPcfk3GRogOiziMSCdqfyl-rtqvPfJEEosYoTmPDpI1iAPK2e8qiSCZ28yFrm0ObntQ5Hya_y3
+
+' Components definition
+
+component AdminModule [
+    AdminModule
+    ---
+    ..MCC..
+    report ok status
+    Ping
+    Resset
+]
+ 
+
+component EmBencode
+component Communication
+component Logging
+component MCC
+component MotorModule[
+    MotorModule
+    ---
+    Gets motors info
+    Update motors status
+    Speeds controller
+    --MCC--
+    Reports
+    Handle brake
+    Handle enable
+    Handle reverse
+    Set drive mode
+    Set controller type
+]       
+component WDT
+component main
+
+package "DM3_Module"{
+    component Bumper
+    component Ultrasonic
+    component DM3Core [
+            DM3Core
+            ---
+            horn
+            enable
+            brake
+            battery info
+    ]
+    component DM3Module[
+        DM3Module
+        ---
+        Handle DM3 security status
+        ..MCC..
+        Reports
+        Handle siren
+    ]
+    component DM3Security[
+        DM3Security
+        ---
+        Check speeds
+        Check motor pows
+        Check connection
+        Check proximity sensors
+        Callbacks notifications
+    ]
+    
+}
+
+' Components relationships
+
+DM3Module -(0- DM3Security
+DM3Module -(0- DM3Core
+DM3Module -(0- MCC
+DM3Module -(0- WDT
+
+DM3Security -(0- Ultrasonic
+DM3Security -(0- Bumper
+DM3Security --(0-- MotorModule
+DM3Security ..> DM3Module : callbacks
+
+Bumper ...> DM3Security : Interrupts
+Ultrasonic ...> DM3Security: Interrupts
+
+
+' AdminModule -(0- MCC
+
+' MotorModule -(0- DM3Core
+' MotorModule -(0- MCC
+
+' MCC --> EmBencode
+' MCC -(0- Communication
+
+' main -(0- WDT
+' main -> AdminModule
+' main -> MotorModule : thread tasks
+' main -> DM3Module : thread tasks 
+
+
+@enduml

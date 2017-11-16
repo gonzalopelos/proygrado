@@ -1,0 +1,109 @@
+@startuml
+' URL to diagram:
+'   ![DM3_IOBoard_Components](http://www.plantuml.com/plantuml/svg/TLVNigFOadq_Nw7f-p0p3rGZX14TDpekHY3XlOHkT11uxpqJy-_3CTLrJdMFNiHUcJjtvae3-r_zu7R3M1Ol_tamDU4mr8SWTUFEBN_RaSFXF_vDYoVd9fErsmKELPTDNONLqF_nNyamDB_z-kiypz-QmgrURNppw_BNxujV-od-rH0iBCrnsSyMA-gX66ak6q-eBDW9hK2ogHk1m_rYX-VBRMCaactD5SXjhT7ZFCvuB02MTW4ADq392a29efwaTNZQNl7mPKxnbfkvYGMna8f30Ou8YfiemEMMUMNH87J7APq0ElVDsSZ7Z6sRLGocCZkPAaX5dKp8anEs2i2M_aWKML7NUdbpKnAIrHDwMzBaX9rB-6Yb4ARhal6iynjPH_VbHCm9QoAbs8YW74WLpju0UdF84F477sr5CgFxcZ-tFj5ZJmaUywi0sgPMntSf9xRZedOSXAAm2wrydZDWT3SI8c6du_EUkPEdUJrxJveXYtkkVfB2Cn5lNOhBuwEiMvvJjHcHBFukWsu5rb8mPG4IGJHR0V0vUe0u2FC5qFjrVZvv8ausUH6WPU0pu9ILr91KxTAPGgr4qdcacHBM6kvCds-efN4zreZiFSXnNCJag7_kWOIvLdMtWS8TOSxWXsR863GgS0vaiWeJt6XKm6cAfaiIBmLutFIAdxmmlIWtiOnHcATheAzC2WOAUxm1k2zsG7_B0Cq-4cZOWXRcBDKPmQ-pCae9Xb3RhC5y8CT76BShq5LgFuFKWN8CHDUr8an6yOZrq9bKhaT-Q7hMF9NOBKrJq5TF_QKLC7AyIi-6cpa59psOcqx2WEENJefRmMqf8vlQcn5tk1fkO_bOQFIuUWoazB422BP7zv34dY452E75mgw85MHzuDycOQubVObLi53H9CRpkzsrqTR87TOrGnK7HWRmz-RI9vIgfaiRbyxJZyeokdXg9qvJ5TjT06uNtBtBzusE44F9dXAF95rD463Dca8ceLdT7Yd_ggFUBDtx8g5ljMlM4uNn5WudgkOkcN-z2doejRttf9oe1aKqXcO-bKUzWNiPxHJbgiB65VLbuiP6UcWyY7ix4ubhekqweaCGb2FLTqRleO4BDf4O1GDqxGS1tRDZXMo561Y3-RORnJ0M1bNZNmcxApWHL9C0lhT9q2TgSdTblX_FCX3DqSa_ye1mj8vqmVVPVHLcxwcPfNg1S8jfrLD9Qx5yzKAZqgWABOkaiPj7pSl32i_WPk7wpAbr9vKujC5zL5tfsuYEIsl7AuzeggF3rUmdbsmWpwGGpWg954VflgASW13ZNHVtqM6cQH1OmUriLaVOtO9wUnndwE8w_6cYFJ5yt6UzunkcgSaBdIOacPryZuQgMHY42VO8T9p105uD5kKDDTZsJDgrwjr2tpuhNG_DwvNebEa8YoriJaxCzaWBC14aF_a2ScbA7VUACYkoXHXfhu0h5_acVXbXsAvyRkplz_DHDjqQQjbB18PZOv0NUGk4IHed04NonUwy9bqXlrx4s3t6EX8abjcEKS-1rdoi4X6uAhGCR91uWoeP6NTmCkvugJpCEYZRS5YOz46b9brxXkn2yeXNsKEvjV58IccAaxx-k2CIq_Bvas3A2RuPJRZvHpXpqp5IdpMBq4Uxj7elSM_tYxPFFoiT9DlNuYd6TPQL5M7DsMgXhoVXKJ4sGN1BtVdUhHelwysbA5ZdOGS7SJUJ1u1UzOTTt1wtUCY7u1bZW-q7kAEAtBtoH7jShhCmBfJTjp4iu1FavksrzvECYd9sMZpPXyQhFHP8t2BnTKYNG6poXg5546HC-TffaNcvgGXtkqeMv_PvrIkHZWguHDK5oMdhXCWkVclsig0hKk8yZ0oOuqXYqYKwHigTE0UgtqbBV0VI7W7lKLZn_dW4IXjyDCUaltW6IXslmRIX3T0H8vB4qnOSjRqTQ-QY6Yd1PDtJ8GLvVp5CJwB5rIEjpCzzShT8asOK7LUrb08t3JI7csEpTATbDyZBBzSXVvoML89R1LFyJ96V2tSj6CrDojJSbZ4rq5d2QyodzzTDX2XjKhJMPVQwPsM07b2449OrLPSaHAuuLGjLkG0FiHJVdknLkT-FLyfNaRw3scPM5ykRaOTwu-CUjvgZZYXsvbhXyLmr55sXxP4ay2FYdS80iilDhR8UxmQx9qviW-erihjrh-od1KEGvC8d9RlNLPdNVK4O_V2GUQHI0JmybHnRtJ944XyvOfAk0CjDdjur4iMu8x_m-7Gl2TwKRm-2vMmS2HhjQN5Cj7MPcmj2MsmhacLBPpzRasTfmTJp5AB3Hpe0UOJulN6A5-R40MoTqxQ0YpZgWSKyC_REZx-oow2BJb9xizd3gIqwaM95rr0F7hnpbES1Ef_NRkWjt2R824RL37WSCqQ2o98rVLwOvkuK07DUQ-m3LrZTbqr01Wdvh1Ehe0IJ51NS9Mfbrhl2EE3v8amzZOOAqkNCCEvipm_Ej6FSdMbQxU5wrjSgnoRlKL5MBjqYHiIId5SZwZgCvsMk7jIWHuHlc2w8u6qdIKs8zpeudZA6zTXjgHrqBo0D1rg8dshPM8ahI-irq9qpRL1RYHPeaXUbw_IWgIUhd5AISXjZEjkYnbNs7XufvpYy58Zcd4QAGHMtETBHiWzoDJYIyJsz3yYes-xD9oQzuP0JwZtI2QgDF0F9fjyhuLufUuQPYbmCQLHvO-O1ZhbKuSq8LrYYL3Uc7Z5oyI45OsYizMbqk8M8O4AwgKSFZD3mOozogCYP6RRbQzvOJoDohQqXDQqsrkwkdHy2anWPtrOGgh3gKRygpv8VpfNd6lXccUVSkfIdIBD9EbBOOsIOdKkW6qcSqXbp1tjL0z9TD1qy8TwGZyrZJ2AVeWTvsdaJsqbePr0ANPu8P9O4BfmTi8M5erknvN3sG1zd-3fVyviPXroBtn3tWe_by_pq-VFrlk5cWS3MXLIpRkZM1MyYPS1a7DFJL013aHMFfnoeMsg4NRcYQ1Dx-BPXn1hOIiaPoouQNYdxb1lLVVZtJIlaKEY63mfDR8AdMYzV5SzfjaTpvXvFi3Tepcw4x3I02i_ZH73503NDj7feCw-VKxz94DJN0XD-G3Gg3cQxOggoX0HpEn5RVP9ER3zrsVsH9qn-VxZc4b1OS-VTcoZCMwwvS9Le1KHaNCXFCtITVNd90tt_yYYUkTSR5D7V6MKxiXgVc8-pKKEm5fsnAqYN2p-bfrK86SRq4gk0vjjS-BKIwyACJzcn6pZgFYxXZQWd7SkAYA7tsi-gp2hS8dUemXesPHzMp5ghr1WtbqTSHr8tWQuXPbczt7q0n4f0iqWWZOi2cul8LoA_cKzcqLKgoeH5J8ydOqCPgV38BJD5Ob6shInY5oE63FRheJVoMKlPMObYu6c5p4chJjcHb-gx1X3psgznJ9AK5IRhqm5SJXpYUu1HHP9bOw_ZPb3Ekc2jCi6CY9KN6ond9bDw3h0MM8bUGq4GxAo0deRbMKx2cJhdc2t56YTjMOm2IkaLS6HJCDZUqOwHdGwprCjoUSr3PP3gpSTH4EPEDR0nrzolr4odD7o-Py8naU8p4rT0G5OQHujTGNPO1bmT4o0xoIAhgQnEtTPsOhMsaZZdiU6OpfMnk0O1O3nuT3cgF75n0fJBEgKNwznerhdKABbcuWx3d7A4TTA9OPTPXf6r7FiuqMYf93SwZA0LlFAD1lKtew2Q_iHs6CyNEyVuzkmR1HSqOC9eyJcVIhGWcRxZz-yHBPJJvauM0bkjkk9frRnU_ETnBhETUbsRxyvWhBN38fiZPTBC2MPgIdDlBm1dTMEmT90yt2nIFIlEcUptszOuTEt9y51BTBHJNOeg79nolbkBJMqWAqOw_T9oYQMrxcdPXWfwHjaC3jUJOqTvfcZvtaA0YM6FUH7SSh_6TLZJDDeAufEwWKmKra5SSfbxrIb_8PbeVysFa3Ie0zWCT91CbiK032hjKzuoGI0DwE0EDNEp6KIy9inocWm5cwISRkSI8UULKjkZXu0hkz6v14fhy3JR_UOPROopzFjcEfdIntAZ2WSErWjFEtZIYGiWSgUaQnoWwPWECw_5c01nOaDM4FLfpeLF2utMPdMjAz0x9MxbiwHiyQ1rm0aA5gfU2x9QXgwq46xCJ5ea08bhW5xjilLIu5XXRobPEmmD00oF02RlzBftSqOHy028g4xhcemN3IlgirDRZ-6wMLuWd8sdO8tEuPU_lyB_yjylB_iT_mTm2C8ehT8XhQkNbpvFgyRjtFBWVrSu_C_BOV-vNLVF-sTNtHrejylPBWohDu5NTq7OlKl-SMJGuvb-mvcw6lHq2mz7-6tTrMCLK7LNXTq10TyWqlNp-0D_tQxKyswABCRmxyJ__6TQEsKTZ4Nu--y78OsJuOSNVwVRX_xOfSEwQ_-3X0diWhpyxylBZy28e4mhyStWuQlnVx_P_2H_MmC0yFR_xPj8KT--lKSLDdKt7Ehyq0_kCFPle99MyTk35lPzEBpyyUbGSYoRdO739sXFrCvB-77gn-hBYSbEszj3MBdUXpTUv-OVJ-umXDrwIAke_dBMRkhT_I_H_NdCtuHsTQjWPsCN7hwpzpcmpv5hRv7tdxVrQRUduoSFz0yxFwNaJo--ox_uGIMXlrFQX67GVmBAUjZBfAddpw1VLrNelzNl3x3fwYKjtzmFgxxkFZQuHU7jbT8Vgdf8ezHtNxVrNro-b6HO-NKGViBsRYd7waFztVClq1VV3Kevf6LJXEM-zLtynzvnFwm9THo_LiWFv9UTrjrYDNHrKOJTBmUtF-pG9mtnDVB_DvcVf5zSOSEzlzz8wz-hunKqcy0Tmk_mf-pgRtI_yldXnuUjtPCFUt-Jynzb-05yAj4Ff0kdiElV8JqS3a6NJg_d1p-W7sSUXhK9N_uulFy-CM0MG-VszKxv9_1E6vzMfPjMFmstBYpUSvoaJV_ogh07L8JH002_VsdmTr7tEbLsoQlT3-NVFxDx-Eqm95te1X_Itt_qqLz5hnby-I47thN_hFU_IDxQ_YlwQk8JCZOVlhryClIc-8cTdqNl4-SlyEUQ-IpxzkrhKFxtdlbguSsLhqtmyZ7RFYpygVlRuLRj0weRcxrqVZZwizuNjPUNpzFvEnKldrFncRMVyNVblQbU5pyw-WtvdkEVd7zv-LTO1MDP_1y0 "DM3_IOBoard_Components")
+
+' Components definition
+
+skinparam component {
+    arrowColor DarkGreen
+    borderColor #1F618D
+    FontSize 14
+    roundCorner 50
+    BackgroundColor PowderBlue
+    BackgroundColor<<io_module>> LightGreen
+    BackgroundColor<<io_security>> #B4A7E5
+}
+
+component AdminModule <<io_module>> [
+    AdminModule
+    ---
+    ..MCC..
+    report ok status
+    Ping
+    Resset
+]
+component Bumper  
+component DM3Core [
+    DM3Core
+    ---
+    horn
+    enable
+    brake
+    battery info
+]
+component DM3Module<<io_module>>[
+    DM3Module
+    ---
+    Handle DM3 security status
+    ..MCC..
+    Reports
+    Handle siren
+]
+component DM3Security<<io_security>>[
+    DM3Security
+    ---
+    Check speeds
+    Check motor pows
+    Check connection
+    Check proximity sensors
+    Callbacks notifications
+]
+component EmBencode
+component Communication[
+    Communication
+    ---
+    TCP implementation
+]
+' component Logging
+component "MCC Controller" as MCC
+component MotorModule<<io_module>>[
+    MotorModule
+    ---
+    Gets motors info
+    Update motors status
+    Speeds controller
+    --MCC--
+    Reports
+    Handle brake
+    Handle enable
+    Handle reverse
+    Set drive mode
+    Set controller type
+]       
+component Ultrasonic
+component WDT
+component main
+
+' Components relationships
+main --left--> AdminModule
+main -right-> WDT
+main --> MotorModule : thread
+main -> DM3Module : thread
+main -> MCC
+
+DM3Module --> DM3Security
+DM3Module --> DM3Core
+DM3Module --> MCC
+DM3Module -up-> WDT
+
+DM3Security --> Ultrasonic
+DM3Security --> Bumper
+DM3Security --> MotorModule
+DM3Security ..> DM3Module : callbacks
+DM3Security -up-> Communication
+
+Bumper ..> DM3Security : Interrupts
+Ultrasonic ..> DM3Security: Interrupts
+
+
+AdminModule --> MCC
+
+MotorModule --> DM3Core
+MotorModule --> MCC
+
+MCC --> EmBencode
+MCC -right-> Communication
+
+
+
+@enduml

@@ -1,0 +1,89 @@
+@startuml Diagrama de subsistema Dm3Security
+
+
+skinparam componentBorderColor White
+
+component Dm3Security#PaleGreen{
+    (speeds_and_pows_checks) as spwc #MediumAquaMarine
+    (connection_checks) as cc #MediumAquaMarine
+    (ultrasonic_alert_handle) as uah #MediumAquaMarine
+    (bumper_alert_handle) as bah #MediumAquaMarine
+    (i2c_alert_handle) as i2cah #MediumAquaMarine
+    (atach) as atach #MediumAquaMarine
+}
+
+note left of atach
+  Provee un mecanismo de 
+  registro para recibir
+  notificaciones asociadas
+  a las alertas de seguridad
+end note
+component MotorModule#Aquamarine{
+    (get_motors_info) as gmi #PaleTurquoise
+    (has_i2c_error) as i2ce #PaleTurquoise
+    (disable_motors) as disableMotors #PaleTurquoise
+    (enable_motors) as enableMotors #PaleTurquoise
+}
+
+component Dm3Module#MediumSpringGreen{
+    (bumper_state_alert) as dm3m_bsa #DarkTurquoise
+    (ultrasonic_distance_alert) as dm3m_uda #DarkTurquoise
+    (tcp_connection_alert) as dm3m_tca #DarkTurquoise
+    (speed_checks_alert) as dm3m_spca #DarkTurquoise
+    (power_speed_inconsistency_alert) as dm3m_psia #DarkTurquoise
+    (i2c_motors_status_alert) as dm3m_imsa #DarkTurquoise
+    (constructor) as dm3m_ctor #DarkTurquoise
+    (update_security_status) as dm3m_uss #DarkTurquoise
+}
+
+component Bumper#DarkSeaGreen
+component Ultrasonic#DarkSeaGreen
+component Communication#YellowGreen{
+    (tcp_connection_status)#HoneyDew
+}
+component "MCC Controller" as MCC #GreenYellow
+component "Dm3 Core" as DM3Core#DarkSeaGreen {
+    (disable_dm3) as dm3c_disable #DarkSeaGreen
+    (enalbe_dm3) as dm3c_enable #DarkSeaGreen
+}
+
+spwc --up--> gmi#Blue
+i2cah -up-> i2ce#Blue
+
+spwc ....> dm3m_spca#OrangeRed : callback
+spwc ....> dm3m_psia#OrangeRed : callback
+cc ...> dm3m_tca#OrangeRed : callback
+i2cah ..down..> dm3m_imsa#OrangeRed : callback
+uah ..> dm3m_uda#OrangeRed : callback
+bah ...> dm3m_bsa#OrangeRed : callback
+dm3m_ctor --> atach#Blue : se registra para recibir\nnotificaciones asociadas a cada\nmecanismo de seguridad.
+dm3m_ctor ..> dm3m_bsa #MediumSeaGreen
+dm3m_ctor ..> dm3m_imsa #MediumSeaGreen
+dm3m_ctor ..> dm3m_psia #MediumSeaGreen
+dm3m_ctor ..> dm3m_spca #MediumSeaGreen
+dm3m_ctor ..> dm3m_tca #MediumSeaGreen
+dm3m_ctor ..> dm3m_uda #MediumSeaGreen
+dm3m_bsa -down-> dm3m_uss  #MediumSeaGreen
+dm3m_imsa -down-> dm3m_uss  #MediumSeaGreen
+dm3m_psia -down-> dm3m_uss  #MediumSeaGreen
+dm3m_spca -down-> dm3m_uss  #MediumSeaGreen
+dm3m_tca -down-> dm3m_uss  #MediumSeaGreen
+dm3m_uda -down-> dm3m_uss  #MediumSeaGreen
+Ultrasonic ---> uah: interrupts
+Bumper ---> bah: interrupts
+cc -up-> tcp_connection_status#Blue
+
+dm3m_uss ---right---> MCC#blue : send report over MCC
+MCC ---up---> Communication#blue : send data over TCP
+dm3m_uss -left-> dm3c_enable#blue
+dm3m_uss -left-> dm3c_disable#blue
+
+dm3c_enable -left-> enableMotors#blue
+dm3c_disable -left-> disableMotors#blue
+
+@enduml
+
+/'
+URL Diagram: 
+    ![Diagrama de subsistema Dm3Security](http://www.plantuml.com/plantuml/svg/ZLPDRzem6BxdLrZDPJl0ORtrWBg2j5tGghNJDAbIv3WlO97OgJ-Aggh_VQ_j99ZW2BW0zlEyt--Jt6j3bR5DJLQSRXLjAAc0Q5jghWtWlrLp-mJCAcxUiopJUovQYZ32PDDA0S8yI5M1MifQAl9tnmrasN0Ni_D7MiCF1I0-CeAVBxe5g7H1HLMqyg0BjWEsrry9rKIt1qRoDLJSDjzVBLrJnGK46fD203DSYfZ19l6sDefgAJWhC01bYXrwhC6pBDrDqKhRjA3EAUKqXNzBkC33QGOrbEqypFzAm3wpJ4W3f8QD8N8JS4X-LF8DW5X16c1KSDr8rpYyKR35rYb9N9_m7-CbLtYEPlY6CygmSe0EjMISLbJZ5IMr2y65Zj-k_x35dbMqoa1KZWbHJzVIIBMMbQqXTv4sFjAkgLimHUC0kk1Y8trksuOJt_rdgrwjvBhBVaSHX3K3fQJgYmL9QCKrBMleJ7jiT-IZqKaIY34ddAGfdwEvxJ8C7NbgCSTjFBtTVE3w60XT3r4rjqrHQaho5LNxKK3HA6BqXWfsHhLLccfOMqIJFs8PbcRv5UlMPCpHxGG9bz4bvgbSe5Cl1OAzZosqcgSjkAPsG-3gOyzyysQYGiwRKPQPRY0yslrBrxEjNFLrfp2TiwYOMezv9rr-y3tqY2UWlhlHxP-XMrE8fMmQY_VKzIJ_1tKj3_6CZ9hMXPV_HFRx2WuOpD7MpNgvH8C2DxV6Ojsu9DnHxWq6sp4S9nJX2ZnmjRvrlq_Y91-dguCLwIlZnyyTajFC-gsfon4yxCq8ZQNqEZsRsNOsMxWrpnzg2rcGF7Uwy1iTJWDuZf_5SG3pNugABVo6YjmHHkkwf6n_XdI3baOoZriCMv16XO3cyqeUn81sCvY6MmzU30kPHfKUrSFAAMF72NOrylBjwu4O3RrOqnEnVX5JMerApV3xHPo8_g3MyyXR75d_N1bQbu25bRoC2qj_6HVavJBEN0VpkfY2kVHchh6pnN7fqr2VufLOd-QLM9_gbLXpFTIbV1bwL2aSC4JYyDuHBWm-L6rhT1OqBjoLeplSdh2bIQ7grdPmZIOKt-wCDuNIb9Vz6ECxWe9MAdn3UKDVU9SvwPe5PK3qgL36F1Hm6bZFoyV8btlV2NdtwkDf4uXEpW8aYoMhXyLF_i7IKGS7Q_5BHMVk7kF45-J_ "Diagrama de subsistema Dm3Security")
+'/

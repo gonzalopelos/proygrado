@@ -1,0 +1,30 @@
+@startuml Diagrama_de_flujo_Dm3Security_Speeds
+skinparam activity {
+    BackgroundColor MintCream
+    BorderColor Peru
+    FontName Verdana
+}
+start
+:start thread;
+while(while true)
+
+:obtener reporte de velocidades\ndesde MotorModule;
+:filtrar señal;
+note left
+    Es útil para filtrar errores
+    en los sensores de Hall que
+    reportan las velocidades angulares
+    en las ruedas.
+end note
+if(la velocidad supera\nla máxima permitida?) then (SI)
+    #Tomato:se genera una alerta de\nseguridad con criticidad\nalta indicando el peligro;
+else (NO)
+    #LightGreen:se genera un alerta de seguridadd\nindicando que las velocidades están\nbajo los parámetros establecidos;
+endif
+:se envía el alerta generada mediante\nun callback al componente Dm3Security\npara que procese la información y tome\nlas acciones correspondientes;
+:esperar 100ms;
+endwhile
+stop
+@enduml
+
+' SVG URL: ![Diagrama_de_flujo_Dm3Security_Speeds](http://www.plantuml.com/plantuml/svg/PLDDZnCn3BtdLrZYqbxG8cxjWHMxV4bqGIhYLAbo9swRtSGUd4nXXVWn-mCu86vSvu_Xf0jTn1nc5Flb-VdPSvuBQXbIXCk0EyM4Qq_hRHokPNsPdYwf6pIKs_Mo9_BPvPl0FHeCi2lXO1duwi2UvzZTx5G6zXSIHM4Hk5meOJfcHJtfCVEUT6Z1byBb2XF1HrAFZEwRQsBSh7sWxEs-dxlF-n1fqjvGTA2fSpFP569IKEf52u4dE52KBdZqb5TiBmijf8Wkn0-Hvcws3R4eAcGQVs2SEnQx66bRcfeN6SPV9KIexS4VBAcAKcu8OeYIxJhd6girNsECy6cWbZzgGKDXVgW6a7T3n8Sq1h16FER7ZjX3LUB2TXBnT0_oq9FYYYsOnhil8I5O88LYsMTJSyU89iitqqRww8CaB3BB1Bjg3CB021Z919dG5MVQsI0hRoSCdSqqj38hncYGm3vqo5w0p06AmMOvTnIDRtBrxhx6sx3RbrTAnF_KEPM1lrMCzqHf1ltd2UKotl6ADtWjpLQpVRnBL5HQ4ZUH32jvNXqAMrTB4X_6xrWbtfSyQl3c4Fc0NAnHqzFPL3QsZuQoRbClJ9Q21-kyQalSXFKg7UKgq4pOYYRimlYJuHQA9Ahssm2xBXX9DZQrCHgX3vNInCtiI7LJdfoTfQFOjgcsojAxSplQl_KR "Diagrama_de_flujo_Dm3Security_Speeds")

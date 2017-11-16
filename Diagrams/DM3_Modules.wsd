@@ -1,0 +1,78 @@
+@startuml DM3_Modules
+' URL to diagram:
+'![DM3_Modules](http://www.plantuml.com/plantuml/svg/TLVPagD84dolhs1x7dR7REa68OHe6siRxak0118wPiSmBW7YXkHSstzVIjNLLTLLhJV2FJqZF98WzMS3d1gqMGgnAcQhXT-cGVFmJ-XWR21GG7xiXBMJVPqZq3_-UaNv-ryH0ENNBr_wllzSfax-gF7PAx8lpmzVcYxyijzkzqvFKil0IE7Q5BgwZ8rOA8AU2WYHaSLg8MBP1is9BJXMI82kbuipJ9QwRG-LBuEGhRXDHwTA0MzLHJjhkTSipU7ISsvweWWINRPhTa3vOjrRJNOvwLq6M_PqS1CLi3HzekmBAnteb2WjAuRfojgPIQtmPEUmpQsFPRUoj_ccp1hUDVaY0zCrB5oDIOdbc7XQkPsoL5TAigdulMTm3E4ODsDAD5c_Jd5u8c-hoU79wzP1OZmNJzJMx2FiCCc8lhIw6tienJHXXUdWtF9uZw1NIY73qbwjEzM-UCxgLbWesfrXfkaqRsUG-_uS2_LGN1QUKF67AehGVa5C15SgH7AfjK2Fc2dOto9mqWtNYVDre5vJEKnE3dkbZ4RHHrTFymlN-cPZADHqk348VIky3WzPr4jF_kvIRqv3v8_HPalPk1fMDSlqrCRKNQwRFHX0Zjwo15L7jJ3MiKohUi5KWcRKuBJ6IcIh5osYNeMb7TATUrOLiwIjyxgJSMKlZQ6v3NKKjrZdr5QODtXN0YdpPJpmHvTNA7ZXjp6H8KhUxMvdVSr8fWA7Jh9DodCh-mrD2yTIdHXlqUUJ8h3EjXnuGfRm6wcNt76SLEgqsal3bXq5fWKg6IXwYMD9hsP6bBTvSbaSJpQsFWBit7fgrVF-MNEvTakVbE7ivJPtllg7XNyjRxuS7AgmAtP2kECNvM2eKxm_LDggSKwCBDtmy6fkR_WfZFLfhmBGBZHrasYcZjMWFCggWIqfJqLad6cvs4vY9QGnFa4nEyzkl3Mj-wCL-bJByJ9DqsFdik9uAyVCuIc_Xh5oFQxFkBhVELSdsBSxx8oua-h9nsr9N4G_I1HCCPISlPfLI4dO6SvpDawH3iUxXS5Bp6Mz2Oynfmsh0r6dXpuCUQcAhwEsP9r6MtWYDX3uLMEvK5GRe5JEeffSnqWy8d5yV2l3zderSOjw3Lyh2VNXrk2SScKVtEvmAIWlolIUHCpnQ1pG7PPkAqiokKO9Ha1nISRx1D9vTBe9brRlvM6tzhKGhPN63JClM5mEAZd7ghevvCn2a8gpYxOapwZfpLosL7ubDwUIZzrTC4JBCXm4xTpUDbdjBjD0nZrKqG29MN9FTTOWw0brMZVN9J6jl38RHB7jf38yofeAj6NAoprTqLjwnFKq494Hat5NDGfAv4fNN1tScgpZsDckDfPXNGHJpY-kXsPWrvNSsjzjrA47ONzTNz43aQcUoiH6pgu6Sx6nQgV57PN9piLaEHB3N3GgAIwkxSGinRMU4pab7i5UVrCDq1pyQr_4Q-JgwuEgdvhEGn6RFv0xQheStG9f5YArv77VgWX0rfcc5OBGLqlipFTPKkr9pAqQGKIE-asEXA2ydIWBmDojO2NNe0g3oYI-oxC9rRVIDa_1A9aNj33D4JaYC7dQS4ecSbfnzHPL0XF2bhURcEvP6XOQIxT6nl92shRNNCPKPAw8LAl9cnGXjX85TgPcx-rcrPh2uiO1B5k0BULeUog9vH1DrcH-FF7LIYqwsXzm9a0M7BXE-HbKU5HBXfDDyIgyR63Pk3KmK0DoGcbIJMEOjzc3THMduuZQHLVLjyqm3Yr9RCHCvJF-44TJjS7NDzBWnEPiACEKXaR2UiEkcz84A9ZDKYccdHtW3THw05CHAns6PWQQUIFQj9Q5ftAagZIGVRFM1dRWF1d8B3eYg6yCAsP1BRGbFefhiB5P2Ol6k2cZJZeW2UePOY04XKGXV4Wvd4Hj5Ry8-mNABedsUF2bazSPaqXirzRvjWZHwKAqwRf641S3mbv7I3pJy5tZ9uOjHfmW9LNVe_ksXibe5qj7CLy5IrrWIrmByQYiuqjzt7FIIjmVyouoChEHpSZgLzLkFW5xM64cKN4sER9ApaA9H6pZqTrnBvhxPl24fKnWnrIrR5IxfIlZS5RFZ2zsu9AtXkLexR0gRSBom5ApnCi8znWRwqYzRqIup_UNqTt3n7LDXAg9xev6rDji2gfoI3DuiJkL94bdQiBumX4SU_Mc8BMp6WcLeZWRonMRWXi2dkAwEnQKJneH0J1cRvvKQo4DS9MMGCPX2yO6kx1satqwQMKb6eHDWEcCmKw6vKjbuVFcO1_uKD2c5TXeXyZeQDWapiR5D-U6ZMXF6tRAZppqwTNTujFl3mzD4kUbCryzeFc20WBelm_G_7EBsWzgfaYB6leDvLVecht7-I87PZm54BgyFzT5c_jCKUT13U78FKGxNX9-ZpyktnRzB4MdRV0H_CSVaaxhbC5--mPjuZ02GXq4-STCdJLqYJL5_JYJbSX9ueV_pGNSq_vaqin_yZyCtVps2N8QIFVh8lRlrJmHW5VQcUVzUFxa-5cSszdTYVkIObuohx7l0FH2p0fGr3yJPzuz_a9hWZfsqiSzNfEUeYyiFyC-a9gZBvJFdp-_nWeGrVDD4VefF_Ylt_ee1i7VyBTNjRtelI5y9FLSmKV4xrc_k2lfDbqujVzeyVxPuxbpZp7eLGzV_7xjsYl23_p5Y8_Grytv29_llrcRnvu3uY9_ItYzyUlQNalEj3SARpnuoUpX9xcl42G4e7cADL2SNmleFULG-ZyCQExvjirxbba6WT_CQUIWBj8qgDzJO5Xb61X-3nX1MTJW0r7HoVsvQhTsak2NQ90xRlfhk0wwe6u-mCq0G7uTTu-b-R_0Nyg1m5ZU3NnZz5TepsoXE2lJ80joS8yzabuyduMOAF0IgBaRz37sT73Bely5FgUH1zvT_4Eyh8iXpc8mGasGDtERtj6SD7Nd-TD0UG7Yw_Vitz6-MpQFr5d8Q-kxudF3tp2ZUKR-7FlHY3VHv-Qz3Je01FLuFt8_Oo_7v4tuvP1yb78Jr_Sn-sZ-wpVZZTvFG7rNX8hafSQV6Diu3zz7ZQ1f0l0oJTZvZf0wexrXsBT3_UdRyqHAlNaCtRTvoxbJNi2l49kzC_zxfeyxVlyEmFDx_Jokla9pVT2_veFuRoZ8t23tvkFy-yCp_4XzMlLczQkadnMUfkGRaOS_WzoV_vF_7m00 "DM3_Modules")
+
+skinparam state {
+    borderColor #1F618D
+    FontSize 14
+    roundCorner 50
+    BackgroundColor PowderBlue
+    BackgroundColor<<IOBOARD>> LightGreen
+    BackgroundColor<<ODROIDSHOW>> Khaki
+}
+
+state "SBC\n<ROS>" as Odroid {
+  state tcp_mcc
+  state "admin_module" as odrooid_admin 
+  state "motor_module" as odroid_motor
+  state "serial_mcc" as odroid_serial
+  state "dm3_module" as odroid_dm3
+  state "..." as odroid_othres
+  odrooid_admin -[#white]-> tcp_mcc
+  odroid_dm3 -[#white]-> odroid_othres
+  odroid_motor -[#white]-> odroid_serial
+}
+
+state "IO_Board\n<RTOS>" as IOBoard <<IOBOARD>>{
+  state motor_module<<IOBOARD>>
+  state dm3_module<<IOBOARD>>
+  state admin_module<<IOBOARD>>
+  state communication<<IOBOARD>>
+  motor_module -[#white]->admin_module
+  communication -[#white]-> dm3_module
+
+  motor_module:  Gets motors info 
+  motor_module:  Update motors status
+  motor_module:  Speeds controller
+  motor_module:  --MCC--
+  motor_module:  Reports
+  motor_module:  Handle brake
+  motor_module:  Handle enable
+  motor_module:  Handle reverse
+  motor_module:  Set drive mode
+  motor_module:  Set controller type
+
+  communication: TCP implementation
+
+  dm3_module:  Check speeds
+  dm3_module:  Check motor pows
+  dm3_module:  Check connection
+  dm3_module:  Check proximity sensors
+  dm3_module:  Callbacks notifications
+  dm3_module:  Handle DM3 security status
+  dm3_module:  horn
+  dm3_module:  enable
+  dm3_module:  brake
+  dm3_module:  battery info
+  dm3_module:  --MCC--
+  dm3_module:  Reports
+  dm3_module:  Handle siren
+  
+
+  admin_module:  --MCC--
+  admin_module:  report ok status
+  admin_module:  Ping
+  admin_module:  Resset
+}
+
+state Display_LCD<<ODROIDSHOW>>{
+    state lcd_status<<ODROIDSHOW>>
+    lcd_status: Dm3 security status report
+}
+
+Odroid --> IOBoard : MCC (TCP, embencode)
+IOBoard --> Odroid
+
+Odroid --> Display_LCD : MCC (serial, embencode)
+
+@enduml
