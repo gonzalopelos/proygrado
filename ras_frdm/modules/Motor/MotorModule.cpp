@@ -626,9 +626,9 @@ static int  handle_enable_motors(int mode) {
 				i2cerror = (ret != 0) || i2cerror;
 				if (!ret) {
 					report_enable();
-					vels_target[iter_chasis][iter_motor] = 0;
-					result = result && dm3->brake(1) == 1;
 				}
+				vels_target[iter_chasis][iter_motor] = 0;
+				result = result && dm3->brake(1) == 1;
 			}
 			dirty_target_vel_mutex.lock();
 			dirty_target_vel[iter_chasis] = false;

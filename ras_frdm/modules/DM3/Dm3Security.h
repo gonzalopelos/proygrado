@@ -144,11 +144,18 @@ private:
 	 * Utilizando la batería es 2.65 m/s, utilizando la fuente es 3.0 m/s
 	 */
 #define SPEED_MAX_VALUE (float) 2.65 // m/s
-#define SPEED_MAX_VALUE_ALLOWED (float) 2.70 // m/s
+#define SPEED_MAX_VALUE_ALLOWED (float) 1.5 // m/s
 /**
  * EXCEEDS_MAX_SPEED_TIME_RATE * 100ms de esoera en el bucle = EXCEEDS_MAX_SPEED_TIME_RATE * 0.1s.
  */
 #define EXCEEDS_MAX_SPEED_TIME_RATE (int) 5
+/**
+ * Define el tamaño de ventana para calcular velocidad
+ * promedio y determinar si estamos por encima de la velocidad
+ * máxima permitida.
+ */
+#define SPEEDS_CHECK_WINDOW_SIZE (int) 10
+
 /**
  * calcular este factor según el peso de carga y la inersia.
  * Se asume que al 100% de potencia la velocidad máxima alcanzada es SPEED_MAX_VALUE,

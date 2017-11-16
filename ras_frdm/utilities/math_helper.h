@@ -36,6 +36,19 @@ namespace utilities {
 
 			return result;
 		}
+
+		static float average(float* values, int values_count){
+			float result = 0;
+			if(values_count > 0){
+				float sum_values = 0;
+				for (int index = 0; index < values_count; index++) {
+					sum_values += values[index];
+				}
+				result = sum_values / values_count;
+			}
+
+			return result;
+		}
 	};
 }
 

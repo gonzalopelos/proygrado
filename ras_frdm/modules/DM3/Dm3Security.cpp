@@ -326,10 +326,19 @@ void Dm3Security::check_speed_and_power() {
 	float speed_variation;
 	float pows_variation;
 	bool exceeds_maximum_speed = false;
-	int exceeds_maximum_speed_times = 0;
 	bool power_speed_inconsistency = false;
 	int power_speed_inconsistency_times = 0;
 	bool angular_speed_direction_consistent = false;
+	float speeds_window[SPEEDS_CHECK_WINDOW_SIZE];
+	float speed_average;
+
+	int speeds_windw_index = 0;
+
+	for (int index = 0; index < SPEEDS_CHECK_WINDOW_SIZE; index++) {
+		speeds_window[index] = 0;
+	}
+
+
 	alert_data data;
 	data.distance = 0;
 	data.direction = FRONT;
@@ -353,7 +362,15 @@ void Dm3Security::check_speed_and_power() {
 			/**
 			 * Maximum speeds checks
 			 */
-			if(motors_info.current_vels[0][motor] > SPEED_MAX_VALUE_ALLOWED){
+			speeds_windw_index = speeds_windw_index % SPEEDS_CHECK_WINDOW_SIZE;
+
+			if(motor == 0){
+				speeds_window[speeds_windw_index] = motors_info.current_vels[0][motor];
+			}else{
+				speeds_window[speeds_windw_index] = motors_info.current_vels[0][motor] > speeds_window[speeds_windw_index] ? motors_info.current_vels[0][motor] : speeds_window[speeds_windw_index];
+			}
+			speed_average = utilities::math_helper::average(speeds_window, SPEEDS_CHECK_WINDOW_SIZE);
+			if(speed_average >= SPEED_MAX_VALUE_ALLOWED){
 				exceeds_maximum_speed = true;
 //				printf("SPEED[%d] = %f || POWS[%d] = %f || reversed: %d\n\n",motor, motors_info.current_vels[0][motor], motor, motors_info.current_pow[0][motor], motors_info.reverse_enabled);
 				break;
@@ -378,18 +395,12 @@ void Dm3Security::check_speed_and_power() {
 		if(!angular_speed_direction_consistent){
 			data.level = DANGER;
 			self_alert_call(_speeds_check_alert_callback, data);
-			exceeds_maximum_speed_times = 0;
 		}else if(exceeds_maximum_speed){
-			exceeds_maximum_speed_times++;
-			if(exceeds_maximum_speed_times >= EXCEEDS_MAX_SPEED_TIME_RATE){
-				data.level = DANGER;
-				self_alert_call(_speeds_check_alert_callback, data);
-				exceeds_maximum_speed_times = 0;
-			}
+			data.level = DANGER;
+			self_alert_call(_speeds_check_alert_callback, data);
 		}else{
 			data.level = OK;
 			self_alert_call(_speeds_check_alert_callback, data);
-			exceeds_maximum_speed_times = 0;
 		}
 
 		if(power_speed_inconsistency){
@@ -406,6 +417,7 @@ void Dm3Security::check_speed_and_power() {
 		}
 
 		exceeds_maximum_speed = false;
+		speeds_windw_index++;
 		power_speed_inconsistency = false;
 
 		Thread::wait(100);
