@@ -1,0 +1,108 @@
+@startuml Diagrama_de_flujo_Dm3Security_update_status
+skinparam activity {
+    BackgroundColor MintCream
+    BorderColor Peru
+    FontName Verdana
+}
+skinparam note {
+    BackgroundColor HoneyDew
+    FontName Verdana
+    BorderColor Peru
+}
+start
+#MintCream:update_security_status;
+note left
+Método que procesa alertas
+de seguridad reportadas por
+el componente Dm3Security.
+end note
+#Plum:mutex_lock;
+note right
+Dado que pueden llegar alertas
+en forma simultánea y los estados
+son globales en el sistema, es
+necesario mutoexcluir la lógica
+que las procesa.
+end note
+if(el alerta es de peligro con criticidad alta?) then (SI)
+    #Tomato:Deshabilitar el robot;
+    note left
+        Consiste en:
+        * establecer el estado
+        general del robot en
+        //Disabled//.
+        * liberar los motores
+        o lo que es lo mismo,
+        establecer velocidades
+        en 0m/s.
+        * deshabilitar los motores,
+        bloqueando la alimentación
+        de energía de los mismos.
+        * activar el freno de las
+        ruedas. 
+    end note
+else (NO)
+    if(el alerta es de peligro con criticidad media\ny el estado actual del robot es //Enabled//?) then (SI)
+        #Gold:Actualizar estado del robot\na //Warining//;
+    endif
+endif
+:Actualizar el estado del componente\nasociado al alerta;
+note left
+Los componentes que se manejan son:
+* __Ultrasonic__: relevante a la detección
+de objetos próximos.
+* __Bumper__: ídem anterior.
+* __TCP_CONNECTION__: relevante a la conexión
+entre la IO_Board y la SBC.
+* __SPEEDS_CHECK__ relevante a la detección
+de velocidades anómalas.
+* __POWER_CHECK__: relevante al control porcentual
+de potencias y velocidades.
+* __I2C_Motors_Status__: relevante a la comunicación
+con los motores.
+end note
+if(el alerta a procesar reporta\nel estado //**OK**// y viende desde la //SBC//?) then (SI)
+    if(el rporte viende sde la SBC?) then (SI)
+        if(el estado actual del robot\nes diferente de //Enabled//\ny no existen componentes\ncon estados diferentes a //**OK**//?) then (SI)
+            #LightGreen:Habilitar el robot;
+            note left
+                Este caso se presneta
+                cuando el robot se 
+                encuentra deshabilitado
+                y desde la SBC se ordena
+                el habilitado del mismo.
+            end note        
+        endif
+    else if(el estado actual del robot\nes //**Warning**//?) then (SI)
+            #LightGreen:Habilitar el robot;
+            note right
+                Consiste en:
+                * establecer el estado
+                general del robot en
+                //Enabled//.
+                * establecer las velocidades
+                deseadas en 0m/s.
+                * habilitar la alimentación
+                de energía en los motores.
+            end note        
+    endif
+    
+else if(el alerta a procesar reporta\nel estado //Warning// y el estado\nactual del robot es //**Enabled**//?) then (SI)
+    #Gold:Actualizar el estado\ngeneral del robot\a //**Warning**//;
+endif
+
+if(hubo algún cambio de estado?) then (SI)
+    :reportar estados;
+    note left
+        Se genera un reporte de
+        los estados de todos los
+        componentes y el estado
+        general del robot y se
+        envía mediante //MCC// a la //SBC//.
+    end note
+endif
+#Plum:mutex_unlock;
+stop
+@enduml
+
+' URL: ![Diagrama_de_flujo_Dm3Security_update_status](http://www.plantuml.com/plantuml/svg/hLTDSzis4BtpLs365qUJ4JljJJuqjQJ6diIMftARYsSuAt8bmmO15G1TAvt-c1vxoCctNlN7kWkI8cnHYG_b8IFZu-t7stsBl7CUhAzA9IOILXPAo0hCbggwCzca_66EUMMbtsJLkW2F6PtsbKlSlTHheDC2SYyVw83uCn7qdK9-lxAcqiNOA6F5XTH-R17AUjVO0cszSuMs2ei_6-qleKJn6ze2D2H_HV3QU3m0VMOqRYRuHpz8hpb2vcYJevrRepQkDiuwm9Ca65QuzCd5zXzl2YD-hr2ihSdHWG25reDB2XGELtIpW49ON1jQBS09-f6W4hafr-Ib9gWebyC4TH4YIuwkL5MEoihZOwPCVj_OjN9rwvC9j5OhB50BfN05TcURLfR6bY2SB2lbjtzh1B4HoZY154LXY2QZnKgP1LsXHIt89IUTnnBUqfb48mTZfH7aWS77N5NI2WL2RPzMCeU4ZIiEfmuxSbmkZmciTeMW12LYZKeIFnIq5Zd5AVEG5L0UVdmZ_2tPFvwVlmdC75sR4hmPJT3Tma8gIRImTzOiZ3y9Hpe2HFEDZGxUKoIZtU8W1BjG54f0g4FVRQzGemL5_ZNWT7ctcQOJwVXkaQR325791Lso8PMbySPIhjfTGwk150gQVfNIbURjRZVovG69KCv0T9bIy5sPkjXM4MSWCjXXBfGXUw2f61HNdYofe22NswSkaeAJWdQr_GByE-2mPyzCXLQjyxoqg4qu2PrtbieCt50ajQiDqwWSYkFBMKtSwtaliP1mepSTAUn0zPmBHnnCTKF1NfM4IdblL37wAToKdzdx6ci7SgE1G3vH6MkfLsbwqhelbqdzxxFRAWRe-fDG7D4Ll6pZYqNW8sMqE-r21L1UIj1u1rfGeusIWSYoNvMtXAHbdcKZKWI53y3j3ynTWHxpcZZAcrdSeJVSNDkdHncuOeJJgboZvTlRBmMImD9rQb5RxrwFhxBnxF9oEhu-drtss20My36O84Sj4opEPzcf0LkmE82OduvhgFdLT3gPP-EpwVX3bdtTrwYOoQ7jKmbKE3NCrUpJz9SMvPaxd5_omIYMmvpS8H8OR4rPrPHhHmv5m3NS-VVZx89Rm6Np8CMzCPOLPRZf0Qwxg74EYHIqAcPReRxHNJMawM0m-p0Of2ax9Ga2kJL3Xz0c9QsdFcjyos3ONcgkq8NUSgwl7EW7SeWwIYxHXf51I55tS2jHpnAv984wBiORpIbeDB-xJqn5OVLw4nhi8m-RznP9LSyEQ77xxMjo-qrPbtEgVEwADT6WqSFUgRmAChRhVpgxTuPAe-BIXLWQ8qLllqt73oMReNZQwtsZPAs32SaEqZXCdbkjQwRzEv9ibf0QXsnycpzEEQaHYz7_c_VwKV0okjwX-ChX-AeXsGtBNIaElsw8NmnzqwyRLWx3Asbl77PmqKmyDFFwPX--a89lKjpHcqJylb8o6fg3PkpMQPBqZhd1eCbVRrNiZxaERu-U6tXPPIVDg6F9kwqMFCHMstz99Q1So33eQx0zkwCci7QkkaEFhpasPI8gtMI35Mgt7pqxsHo_cFc1rB4VJy_Dgrvg6shgg0yVcE3mgc1nJDEBCMboFH0QWHw-UBc4bCHFx4hNZspdpJfvH_lq_vx_0000 "Diagrama_de_flujo_Dm3Security_update_status")
