@@ -1,0 +1,112 @@
+@startuml Diagrama_de_flujo_indicadores_de_estados
+skinparam activity {
+    BackgroundColor MintCream
+    BorderColor Peru
+    FontName Verdana
+}
+skinparam note {
+    BackgroundColor HoneyDew
+    FontName Verdana
+    BorderColor Peru
+}
+
+start
+skinparam partition{
+    BackgroundColor FCF3EB
+}
+partition IOBoard{
+    :update_security_status;
+    note left
+    Método del componente Dm3Module
+    que procesa alertas de seguridad
+    reportadas por el componente
+    Dm3Security.
+    end note
+    :report_status;
+    note right
+    Método del componente Dm3Module
+    que reporta los stados a la //SBC//
+    a través de mensajes //MCC// sobre //TCP//.
+    end note
+}
+
+skinparam partition{
+    BackgroundColor F8FCEB
+}
+
+partition SBC {
+    ://tcp_mcc//::process_incomming_from_ioboard;
+    note left
+        Método del nodo //ROS//,  //tcp_mcc//, que
+        se encarga de procesar los mensajes
+        que llegan desde la conexión TCP y los
+        publica en el tópico ///dm3/mcc2pc//
+    end note
+    split
+    ://io_admin_module//::newMsg;
+    note right
+        Método del nodo //ROS//, //io_admin_module//,
+        que analiza los mensajes publicados en
+        el tópico ///dm3/mcc2pc// y los distribuye
+        a las operaciones del nodo que corresponda.
+    end note
+    if(el código de operación\npresente en el mensaje\nMCC se corresponde con\nel reporte de estados?) then (SI)
+        ://io_admin_module//::process_report;
+        note left
+            Método que decodifica el mensaje
+            //MCC// y almacena el valor
+            de los estados reportados en
+            variables locales
+        end note
+    endif
+    stop
+    split again
+    ://io_admin_module//::status_lcd_thread;
+    repeat
+        ://io_admin_module//::sendStatusToLCD;
+        note left
+            Método encargado leer los estados
+            almacenados en variables locales y
+            de generar un reporte codificado
+            con //ANSI VT100//, logrando
+            transmitir la información a los
+            operarios de forma amigable.
+            El reporte es publicado en el tópico
+            ///dm3/statusmonitor// para que 
+            sea enviado a la pantalla LCD.
+        end note
+    repeat while (cada dos segundos)
+    stop
+    split again
+        ://serial_lcd//::newStatusMonitor;
+        note right
+            Método implementado en el nodo
+            //serial_lcd//, que resuelve
+            la comunicación con el componente
+            //DisplayLCD//, para procesar
+            todos los mensajes que llegan
+            al tópico ///dm3/statusmonitor//
+            y enviarlos a la pantalla LCD
+            mediante una conexión serial
+            USB.
+        end note
+    end split
+}
+
+skinparam partition{
+    BackgroundColor EBEFFC
+}
+
+partition DisplayLCD{
+    :display;
+    note right
+        Se presenta el reporte
+        de estados en la pantalla
+    end note
+}
+
+stop
+
+@enduml
+
+' URL: ![Diagrama_de_flujo_indicadores_de_estados](http://www.plantuml.com/plantuml/svg/bLPDRnit4BthL_1e0uOthI-5SsWgsK8DL4bGEJa5M8oMepKJVcn9hboro0_AsJz1Vwn3SbTQhcGtqK7OZyVXyBqtC_l6UR2-LPBT2AWjA2WvbclPVZQbq5nKm8r55nuYGRbn4_T5w0O8og3oOYFyblqxOVIRGlMbjgRLV6QaiMmXj9zP19NU6ilHfZVlqRRnuTne_nOKiezeEMYOV1s4ryRZCw5_DngtD_XuEiZ9xRvE9l6iWmtetmilZ3wzoNmslxgTqi8zZjszcngmFE6lsuQ3nz9XrLgYeQJuldMluykOlCIrZtUBtJTlk64S9QkCQYXzJUzlrDN2y5PY1FtL8ckigT010udMWwC5p65DuJdm2BBO67h3wHrTi2nU153CPPVGPNo0ciTiKivf_N6gLjGFFvXhbmgJnh7a3KOtm8fYEPqLHSG1ynOsks_n90grWy_e2B6O4O8vix98T_UpzqKnoZRezTrA_JAVHQK6Kb4EdNckYy9NJQcggYYkhnF3ZjnDXrD2r-NQ6bKAimhAdX9lJ8eE5qNnvxjbKLmmDeX-4NZPht58fwd0rX0Etobh8rqz4tjiu5DAh44JrX6SUAo8-R_5xaapueTjmy8zlcbNaegJDWWMyBkdHbGXgOAhgu9o-RcfEWKo-LqZXUz94QO4JWoKAkeQoD7uk73rILkypCA9Q1VPuQWkfVW7ijFtfmZEGRs7Ft-WH0BZmdahLktsm7KmdcEcGGiLgO_ka6FOlJAMkXXPcSE9eX3hi-3rtHCNTJXS7uUe_wGRMXWB857TvVv9auE3meV8uPhmX4c5WI5IrpH_FMV-WGASBU_EzpcVbg3tPmhoUey-zkHGaN18ZfNXOXrjiKyqG_TrjwN-eg127P4Re1hASC5_GPEkglkUayiKVXkm0bQIw9QcefvrC6X6CDs8TJAWDyt1YGng4Fe5FwOsLSgAb_w1HabNdvGGWlyV8aarlephxyqVivllPR8hMRgIY7R8GmRl2Koa71F1jcD6QzJaAijQlJT8hnSt6PXyH5BzzdPvnpxU__JgLIWmQMWwwn6GUgjsYlgT3Vr2wBMnAlcMGTOkmY-QsWeJMt54Cb2Y3bbVPi3RWuE7DPhtcf6lOfacjPJHmXjBDWkzEpep0piCRMiZGiWuBnhG7YHTa4gNfmsK16UF3q8YEwDigAM6gKEZaJXnvozxg_E8Gz981ZDrhIwvOv7o7VaZRtn3WmZLIAJgyWTEGfyP4JBSxA8Rbwv5kSahChPvrMfYEEaMj3yUweUuDu9E1rkYAiID3FUJ9RU62GHbtVOmOqPE7hVRaOuPUfkqixAVzaFrCgH2BY0qpbOFPraY9aD-M4uldsqStSpwaS-1s-djV3xBFmSEl7KV1JmzU7RMBSF8Zgq_Dick8YQ3WkxR8tbWmCFnLqomvUGDFQBFxFy0 "Diagrama_de_flujo_indicadores_de_estados")

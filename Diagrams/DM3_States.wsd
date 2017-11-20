@@ -1,4 +1,4 @@
-@startuml Diagrama de estados del robot
+@startuml Diagrama_de_estados_del_robot
 
 ' title Diagrama de estados del robot
 
@@ -14,11 +14,11 @@ Warning  --> Disabled : * aumento de criticidad en alguna alertas
 Enabled --> Enabled#Green : * no hay alertas
 Warning --> Warning#f193a00 : * hay alertas, ninguna crítica
 Disabled --> Disabled : * hay alertas críticas
-
+. -> Disabled#Black : estado inicial
 
 @enduml
 
 /'
 URL Diagram: 
-    ![DM3_States](http://www.plantuml.com/plantuml/svg/TL91JWCn3Bpd5PPwG49KAk841rJHLZo00vTUl8bPB6MToabH-oXEFA4V8zbkbrrWRz6CFHwFium9DUqRRymL94wUOCrOApO8Ze0oxKBCJmyQgf2CYIaerWGRmSgJcpqhaVJeckCPNYatCVmGhwZ2Ki_URk_l5WjZkdQOpnz_SV00ru2UDBKMTXeEtB13jvKX_a4-s0AFf2xp9qN0wkapiSK9jGb-H-eoNPus21tuz2Mb8X8eMQuAt4ZE2dQefIo-OyMUSxfRmIwy0cS1Z_3oj3AzrU9xb6PhVgICafNFtRaLjj9EwKV0vJnm10aPFtRMe-coXOaf5iMIHrlsASkbu31cX_5_WN6y-uOaXJOJvPnPcryMHb_l1Nk5uNt-EfZmE_4l1gKtKCWow7AoSQGZhuE-lZmQOvOaBl_-Rm00 "DM3_States")
+    ![Diagrama de estados del robot](http://www.plantuml.com/plantuml/svg/XLD1JiCm4Bpx5IlrW8GeAk841rIrHJo00vTSDlOIB9nrPRkeVHGddj2FiKxIa1GYRjRixEpis5x6X27jQWSRYrN06i4GaA36Hpaw2BxqIQaBI3Ov-eyMamzO4JmobexCx2aGSOzkR6pXTR1rz3-55mnikPgztjpTBXPATUqmdp-SrU0UBW4TXTHOs0Q_jxKrQ0eUuX_alCxmIEeqVr84T3X-9gjnGcsYlgLWf9oFsZFjxV6BCoCI1DAsp73DaXLiCMHQVCFIEYlP5unTU1aM0OVml5ghtchsFKgpCJzIHXRbjbjQeU1cIZy2JjS31s0l-A6p7bMNBKnCqSYQ7EgyJrukUODH7CQ_1SRnxchYv9jCWfNCcln465srO-mLXlVpsy64t_DtWTt3672l85VpfDETZJCTcHtqzVIehc70cwqaY7TXjwyUBCjAw9HQ4XlvGDy0 "Diagrama de estados del robot")
 '/
