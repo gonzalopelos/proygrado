@@ -8,7 +8,6 @@
 #include "Watchdog.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <mbed_config.h>
 
 using namespace modules;
 Watchdog wdt;
@@ -21,16 +20,10 @@ DigitalOut led_red(LED_RED);
 DigitalOut led_blue(LED_BLUE);
 
 void heartbeat_task() {
-	unsigned int otro_count = 0;
 	while (true) {
-		otro_count++;
 		wdt.kick();	// Refresh WDT
-		if(otro_count > 1005000){
-			led_green = !led_green;
-			otro_count = 0;
-		}
-
-//		Thread::wait((wdt.getTimeOutValue() * 1000) / 2);	// Wait WDT (toVal / 2) expressed in milliseconds.
+		led_green = !led_green;
+		Thread::wait((wdt.getTimeOutValue() * 1000) / 2);	// Wait WDT (toVal / 2) expressed in milliseconds.
 	}
 }
 
@@ -89,33 +82,15 @@ void heartbeat_task() {
 //}
 //================================================
 
-void test_rtos(){
-
-	unsigned long my_count = 0;
-	while(1){
-		my_count++;
-		if(my_count > 30000000){
-			led_red = !led_red;
-			my_count = 0;
-			Thread::wait(100);
-		}
-	}
-}
-
-
 int main() {
 	led_blue = 1;
 	led_green = 1;
 	led_red = 1;
 	// Levantar hilo con heartbeat, contiene el kick del WDT.
-	Thread heartbeat(osPriorityNormal);
+	Thread heartbeat;
 	heartbeat.start(&heartbeat_task);
-	Thread test_thread(osPriorityHigh);
-	printf("la prioridad establecida es: %i\n", test_thread.get_priority());
-	test_thread.start(&test_rtos);
 
 
-/*
 
 	Admin* admin_module = Admin::get_instance();
 	MotorModule* motorModule_instance = MotorModule::get_instance();
@@ -143,16 +118,9 @@ int main() {
 
 	//	Thread battery_report_task;
 //	battery_report_task.start(callback(&Dm3Module::battery_report_task, &dm3Module));
-*/
-	unsigned int count = 0;
-	while(1){
-		count++;
-		if(count > 1000000){
-			led_blue = !led_blue;
-			count = 0;
-		}
 
-		//mcc.tick();
+	while(1){
+		mcc.tick();
 		//Thread::wait(100);
 	}
 }
