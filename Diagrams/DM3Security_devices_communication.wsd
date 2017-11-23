@@ -1,11 +1,19 @@
 @startuml Diagrama_de_subsistema_Dm3Security
-
-
-skinparam componentBorderColor White
+skinparam component{
+    FontSize 20
+    BorderColor DarkGreen
+    ArrowThickness 3
+}
+skinparam usecase{
+   FontSize 20
+   ArrowFontSize 20
+   ArrowThickness 5
+}
 skinparam note {
     BackgroundColor HoneyDew
     FontName Verdana
     BorderColor Peru
+    FontSize 20
 }
 
 component Dm3Security#PaleGreen{
@@ -28,6 +36,7 @@ component MotorModule#Aquamarine{
     (has_i2c_error) as i2ce #PaleTurquoise
     (disable_motors) as disableMotors #PaleTurquoise
     (enable_motors) as enableMotors #PaleTurquoise
+    (reports) as reportsMotors #PaleTurquoise
 }
 
 component Dm3Module#MediumSpringGreen{
@@ -74,21 +83,22 @@ dm3m_psia -down-> dm3m_uss  #MediumSeaGreen
 dm3m_spca -down-> dm3m_uss  #MediumSeaGreen
 dm3m_tca -down-> dm3m_uss  #MediumSeaGreen
 dm3m_uda -down-> dm3m_uss  #MediumSeaGreen
-Ultrasonic ---> uah: interrupts
-Bumper ---> bah: interrupts
+Ultrasonic ---> uah: interrupciones
+Bumper ---> bah: interrupciones
 cc -up-> tcp_connection_status#Blue
 
-dm3m_uss ---right---> MCC#blue : send report over MCC
-MCC ---up---> Communication#blue : send data over TCP
+dm3m_uss ---right---> MCC#blue : enviar reportes con mensajes MCC
+MCC ---up---> Communication#blue : enviar datos sobre TCP
 dm3m_uss -left-> dm3c_enable#blue
 dm3m_uss -left-> dm3c_disable#blue
 
 dm3c_enable -left-> enableMotors#blue
 dm3c_disable -left-> disableMotors#blue
+reportsMotors --->> MCC#blue
 
 @enduml
 
 /'
 URL Diagram: 
-    ![Diagrama_de_subsistema_Dm3Security](http://www.plantuml.com/plantuml/svg/ZLPDRziu4BthLn3LfNjm3isj1wCR6xkzk0sQTXSB5116v4Gc8f4gFse4Y_xt3ab9fXK9iI-soVVcUvxqmJempdSjsqje37HG2Qoihwsq3kdVlhjzGEwDTCz5KTWdgNeW6EEwwxL2vUwq4MXskjM6_NkK3ZEGqWxP_mMZpntmfyPehqI2VYJoynvFyV8lhTmdw93zWqQ0WiJ83D-ZySMlefYyiYokyXvQ_DiWgkJghUqHXQr0YQhN9rln8_8d-mS3osn_ugmye92--_E7XmCOgJ3Hk5OAkPDQvGo-YlUjCs2rahoY08ohZkInnSZoS5oZrRxhqRoarEiK-Mx11HskCy01FqPO_BK0esh6zhJuw9X-J3WYtnlz4v5vnJhaeAJjD1F8wCPWGqDXD0lDfNzSrjBGEPcHZv83fyeXERIQIn1WwGfO6q88eTCtcR7OKCy4Y0ALYFEHzVIWdJO7BNoBPOYqYv4EJMtGLLq0s4ggHnrpQph9OlU_UlF3Qsc7x8z08AeP6gFDM2nSX0ffeMvnC1snmr6CnYwIKCqvwMIPCf_R8SFKaOUUScpowHtcWnRJOUfwYggxxQhQ0YltO9vc0MMZID4xKFm5rOjbgkDzbKt-ZENuCYkksB0cSuxjLqYqZ26nI9MAd4QHKVnvRg6tSjb2QEem1A4-_eLlsQrKA7XpndCt34H4Xt_BzUn5gBuT56PmbXNJsZdleijtiOSHyO0GkvlTVfkwjOROwQxpT0-X9-L_sBRwbC_8h6b3UEKaghyoMsyEknqPLBIvBHNhJKWY79NHOBATmsb22Mum0lU7s_3x8iv1qQVLeOgCbOdZ5mxPPMRZrhJr39xsPeQcKaQTtcnylzbimvgNTwt78abUEDt6ZKwd2Nn3d-rv0ClF1bI3Nr2mzun3szRq07g138EsZEGHjvssO1cL0hgv4Vga9dIOmMMuZ-3jj93Bg3gYHbYzPkmymQ56KRvZFGXZSHHhk13hxsfDgqcfENr_LnUYFwdrJUOjZsnyhaojMu2bbNmTbvR-TLoIbzTnxZfOrCKbM4Xl4ngxsPwNVXaQKxmI6zEy4XjJlHBhheU6b5-7dbMA1eoGDBplcLIE7gg-TxP86fVkwjaTRK_QqaMX6jPsSaqcZ6oEBfeYQIhhSOpf7S5WhmszeVmaNtHN1EdQ96KWzALGvZmIS4Yihxlxp5TutqbvZ-eJQIk8GSuIfCWbQuJbJ_x9qba79slvIyLWxWF5IQ_Ulm40 "Diagrama_de_subsistema_Dm3Security")
+    ![Diagrama_de_subsistema_Dm3Security](http://www.plantuml.com/plantuml/svg/ZPPDZzis48Rl-XL4T6aFtaFsbeEHhesc5oUBRfgYG01XHCtAx4gameyOYo3_lKDIbYajrRKlbiXdXkHylE9xOq5RrtTiBw3Lq4FLO6LSROInI6_x_lO1kTF2FXT5OPw4780mnbK_A8dItYdTeDwfJcdszr5OJ22fBB8V1QFV7V2dLYidcuZ-GSRFUpo5oT-Lj1-XH_O5TGCIeaNY-1wrAtuMnRGgI_PLtaE77pIYZ4lzOWR4nbGWcsfG9rFn8_8dyoi3mynmugmyO2DS_zit1mVGGc8quqfAv5OecLhmLTvrLeDHKl2ADg1jTQGLEmnM3evhPhNh1zGlJUfr4_4simGDhbk01NuCM7ZAO1JDa9uE7orJZv4ZutkjlYCo9rcF7AGmlM8DCfhHs59HQCLySkcDYrfe6YStub5mu1Gvf0MDuW8QC3G5hFDRy5kdVt9ZiAMSDT0KA9jG7qbE3yegVL2Dwx3qE-t3JiUajcYhtWEc4l9HXRErlM0X-v-T_kQKCEFfZq0GnGorLleSBCoYZJ1GTpYw3kmu57PZiaOebpPnv7zCD0vAsmYFptbwMULZF6B-7WQAI9lM-bXDrCOMOut4C_ItVLKROEKUzDDYBqdXqbajIFx2r3LvKyk7AkcJXPNbUQlGa6DJBMtCi694hUiF5ao5f4M394d-lFGm697tu4jWB1aV7_TYRT6lHCYlPhNZTYoVGFktV3o7naVVZ7eqBfO4qvYbtIpBTo67WNX02DbDPl-QihL6x5JVEve7dvFo7-mwTKfhP96qSNlb9C4_4rzl3hiTEPJKvnq5wuq_X1ygWyFeEyMfGWdN6C3zuTO_p_Ovwl_KQ1IHSsH2-Vb1DZ_PkSUwUe77BblG5CgWwfkD6pQRhHU5ygvpM4I1zAFRqFznDC8tzDjU2h3yf46s-2Ssx1tZq7KrVQvUaBxGyYGFt7RgWZmLDtHpqwYJd6XVWtdS1NWxDMIUgWDrnkerPvSAzZ4AOX_YGOp1ixJ3JDg_oZLb9rtdzFzLpZuHaxRV9AkbEpj_XQRKPR3OagzpiUbVvwAylCxPwx2WYpdC7s_Z4xlPNfe-ZuOZNic6Orx9XgDUoThhKN_arz6BIb614Kd5-uu9QUaJx8POFqNKkJXVP-QfYsAtPWLhRDzf2-H6Y_PeWpkIgBAEvOpokm0zVcIfQiaHNMMaWNynI5dXvMmJrO8iv-8vzq6ohkZEg6gDxFFkFbdRtvfYFCwg54nNY57c8bAaKdR6qll3vEcYZvEtz6eIkVbbOXQCedXFjoowtFy7 "Diagrama_de_subsistema_Dm3Security")
 '/

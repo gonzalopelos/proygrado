@@ -1,4 +1,7 @@
 @startuml Diagrama_de_flujo_indicadores_de_estados
+
+skinparam defaultFontSize 25
+skinparam defaultArrowThickness 5
 skinparam activity {
     BackgroundColor MintCream
     BorderColor Peru
@@ -14,7 +17,7 @@ start
 skinparam partition{
     BackgroundColor FCF3EB
 }
-partition IOBoard{
+partition "IOBoard"{
     :update_security_status;
     note left
     Método del componente Dm3Module
@@ -32,9 +35,10 @@ partition IOBoard{
 
 skinparam partition{
     BackgroundColor F8FCEB
+    FontSize 20
 }
 
-partition SBC {
+partition "SBC"{
     ://tcp_mcc//::process_incomming_from_ioboard;
     note left
         Método del nodo //ROS//,  //tcp_mcc//, que
@@ -52,7 +56,7 @@ partition SBC {
     end note
     if(el código de operación\npresente en el mensaje\nMCC se corresponde con\nel reporte de estados?) then (SI)
         ://io_admin_module//::process_report;
-        note left
+        note right
             Método que decodifica el mensaje
             //MCC// y almacena el valor
             de los estados reportados en
@@ -95,9 +99,10 @@ partition SBC {
 
 skinparam partition{
     BackgroundColor EBEFFC
+    FontSize 20
 }
 
-partition DisplayLCD{
+partition "DisplayLCD"{
     :display;
     note right
         Se presenta el reporte
