@@ -480,8 +480,8 @@ Movilidad segura del robot: El robot debe estar diseñado para que pueda
 
 \begin_layout Itemize
 Frenos mecánicos adicionales: si el robot maneja grandes cargas, debe contar
- con frenos adicionales que se activen cuando cuando se corte la alimentación
- de los accionantes.
+ con frenos adicionales que se activen cuando se corte la alimentación de
+ los actuadores.
  También se debe disponer de mecanismos para desactivar estos frenos de
  forma manual.
 \end_layout
@@ -502,10 +502,6 @@ s anormales de componentes del robot en el desarrollo de tareas.
 
 \begin_layout Itemize
 Técnicas de prevención de colisiones y para minimizar el impacto del accidente.
-\end_layout
-
-\begin_layout Itemize
-Prevención de colisiones:
 \end_layout
 
 \begin_deeper
@@ -571,8 +567,8 @@ No permitir que personal no calificado opere con el robot.
 \end_layout
 
 \begin_layout Itemize
-Instalar mecanismos de seguridad para para acceder al sistema del robot
- (códigos de acceso al sistema, etc.).
+Instalar mecanismos de seguridad para acceder al sistema del robot (códigos
+ de acceso al sistema, etc.).
 \end_layout
 
 \begin_layout Itemize
@@ -657,8 +653,8 @@ Los operadores del robot reciben una formación adecuada en el reconocimiento
 \begin_layout Itemize
 Si es necesario capacitar a un operario colaborando con el robot compartiendo
  su espacio de trabajo se debe realizar a velocidades lentas y brindando
- un conocimiento previo de las paradas de las paradas de emergencia y de
- los componentes que alimentan de energía al robot.
+ un conocimiento previo de las paradas de emergencia y de los componentes
+ que alimentan de energía al robot.
  
 \end_layout
 

@@ -40,16 +40,16 @@ public:
     void attachUp(void (*method)(void) = 0);
 
     // ********************************************************************************
-        // * Attaches the method to be called when the bumper is unpressed.
-        // *
-        // * @param method      A reference to the method to be called.
-        // ********************************************************************************
+    // * Attaches the method to be called when the bumper is unpressed.
+    // *
+    // * @param method      A reference to the method to be called.
+    // ********************************************************************************
     void attachDown(void (*method)(void) = 0);
 
     // ********************************************************************************
     // * The time in milliseconds in which the bumper can not be pressed again.
     // *
-    // * @default          20ms
+    // * @default          100ms
     // ********************************************************************************
     int timeout;
 };
