@@ -496,7 +496,7 @@ Es un protocolo de la capa de transporte de Internet fiable y orientado a la con
 Una conexión TCP proporciona un servicio full-duplex, esto es, dada una conexión TCP entre el proceso A que se ejecuta en un host y el proceso B que se ejecuta en otro host, los datos de la capa de aplicación pueden fluir desde el proceso A al proceso B en el mismo instante que los datos de la capa de aplicación fluyen del proceso B al proceso A. Además el protocolo garantiza que los datos serán entregados en su destino, sin errores y en el mismo orden en que se transmitieron.
 
 \section{Robot Operating System (ROS)}
-El Sistema Operativo de Robots (en inglés Robot Operating System, ROS), es un meta-sistema operativo de código abierto para robots. Provee servicios que uno esperaría de un sistema operativo, incluyendo abstracción del hardware, control de dispositivos de bajo nivel, implementación de funcionalidades comúnmente usadas, intercambio de mensajes entre procesos y gestión de paquetes. También provee herramientas y librerías para obtener, compilar, codificar, y ejecutar código a través de múltiples computadoras (\hl{referencia a http://wiki.ros.org/ROS/Introduction}).
+El Sistema Operativo de Robots (en inglés Robot Operating System, ROS), es un meta-sistema operativo de código abierto para robots. Provee servicios que uno esperaría de un sistema operativo, incluyendo abstracción del hardware, control de dispositivos de bajo nivel, implementación de funcionalidades comúnmente usadas, intercambio de mensajes entre procesos y gestión de paquetes. También provee herramientas y librerías para obtener, compilar, codificar, y ejecutar código a través de múltiples computadoras \cite{wikiROS}.
 
 \begin{figure}[H]
   \centering
@@ -650,18 +650,24 @@ En este capítulo se plantea la solución al problema abordado en el proyecto. E
 \section{Requerimientos} \label{sec:Sol Prop :: Requerimientos}
 Si bien no se recibimos requerimientos funcionales explícitos, construimos el siguiente conjunto de requerimientos como resultado de la investigación realizada durante el revelamiento del estado del arte.
 
--\hl{Requerimientos funcionales que se desprendieron de la investigacion, normas, etc. (e.g: la velocidad no debe ser superior a X)}
+\begin{itemize}
+	\item Establecer criterios de lo que es el funcionamiento normal y seguro del robot (distancias, velocidades y potencias) y velar por que estos se cumplan.
+	\item Desarrollar mecanismos de bajo nivel (en comparación con los implementados en la SBC) para garantizar que el robot no colisione con obstáculos.
+	\item Implementar un mecanismo por el cual se comunique al usuario el estado del robot.	
+	\item El protocolo de comunicación entre la SBC y la placa de entrada/salida debe proveer mecanismos que hagan frente a la pérdida de paquetes, errores de secuencia y arribos de paquetes fuera de orden, con el propósito de que la comunicación entre los nodos sea confiable.
+	\item Incluir el uso de Watchdog timer.
+\end{itemize}
 
-Inicialmente se requirió que la placa seleccionada tuviese como mínimo las siguientes características:
+Como requerimientos de \textit{hardware} inicialmente se solicitó que la placa seleccionada tuviese como mínimo las siguientes características:
 \begin{itemize}
     \item Interfaz Serial/USB.
     \item Interfaz de comunicación serial síncrona y asíncrona. Soportar I2C.
     \item Al menos 6 salidas digitales, 4 para direcciones de ruedas, freno, habilitación, luz de seguridad y bocina.
-    \item 4 salidas analógicas, podrían ser PWM con filtros pasa bajo como se describe en (agregar ref $http://ww1.microchip.com/downloads/en/AppNotes/00538c.pdf$).
+    \item 4 salidas analógicas, podrían ser PWM con filtros pasa bajo como se describe en \cite{AN538}.
     \item Entradas para la señal de los sensores hall.
     \item Servicio de WatchDog Timer (WDT).
 \end{itemize}
-Luego se determinó que los motores utilizados, ver \ref{sec: Implementación :: Plataforma Utilizada - Hardware - Actuadores}, eran muy sensibles como para funcionar con PWM, requiriéndose una salida analógica real e independiente para cada  uno. Ninguna de las placas evaluadas cuenta con 4 salidas analógicas por lo cual se decidió utilizar un \hl{DAC} externo (\hl{referencia a plataforma utilizada}) controlados vía \hl{I2C}.
+Luego se determinó que los motores utilizados, ver \ref{sec: Implementación :: Plataforma Utilizada - Hardware - Actuadores}, eran muy sensibles como para funcionar con PWM, requiriéndose una salida analógica real e independiente para cada  uno. Ninguna de las placas evaluadas cuenta con 4 salidas analógicas por lo cual se decidió utilizar un \hl{DAC} externo (ver Sección \ref{sec: Implementación :: Plataforma Utilizada - Hardware - Otros}) controlado con el protocolo \hl{I2C}.
 
 \section{Arquitectura de la Solución}
 
@@ -815,7 +821,7 @@ Consideramos que es sumamente importante la implementación de éstos componente
 \subsection{Detección de Objetos Próximos} \label{sec:Sol Prop :: detección de objetos próximos}
 Si bien el robot cuenta con un sistema de navegación y detección de obstáculos implementado en la \hl{SBC} creemos necesario implementar en la \hl{IO Board} otros mecanismos para la detección de objetos próximos que estén controlados por el componente Dm3Security (\ref{sec:Sol Prop :: Dm3Security}). Se utilizará para ello un conjunto de sensores de distancia que permitirán detectar la presencia de objetos a distancias cercanas a los cuatro metros. 
 
-También es necesario considerar que todos los mecanismos de detección de objetos próximos han fallado y se presenta el accidente o colisión, es muy importante poder detectar este caso y tomar acciones de forma muy eficiente. Para ello se utilizan sensores contacto \hl{Bummpers} que alerten de una colisión en tiempo real generando una interrupción en el sistema para que el componente Dm3Security (\ref{sec:Sol Prop :: Dm3Security}) procese la información y tome las acciones correspondientes (apagar los motores, activar frenos, encender una sirena, etc.).
+También es necesario considerar que todos los mecanismos de detección de objetos próximos han fallado y se presenta el accidente o colisión, es muy importante poder detectar este caso y tomar acciones de forma muy eficiente. Para ello se utilizan sensores contacto \hl{Bumpers} que alerten de una colisión en tiempo real generando una interrupción en el sistema para que el componente Dm3Security (\ref{sec:Sol Prop :: Dm3Security}) procese la información y tome las acciones correspondientes (apagar los motores, activar frenos, encender una sirena, etc.).
 
 \subsection{Detección de Velocidades y Potencias Anómalas} \label{sec:Sol Prop :: detección de velocidades y potencias anómalas}
 Debemos garantizar que el robot se moverá en un rango de velocidades bien establecido, para ello se implementan mecanismos de control en el componente Dm3Security (\ref{sec:Sol Prop :: Dm3Security}) que monitorean las velocidades de las ruedas del robot y validan que estén dentro de los parámetros configurados, de no estarlo se ejecutan rutinas que de seguridad que eventualmente deshabilitan al robot y reportan el estado de los componentes a los operarios.
@@ -872,7 +878,7 @@ Los números que figuran en las imágenes se corresponden con los siguientes com
   \item Placa de Entrada/Salida conectada a \textit{shield} construido para ella.
   \item Shield octocoplado para \hl{DAC}
   \item DAC
-  \item LCD de estado de los motores (\hl{LCD 1602 BUS})
+  \item LCD de estado de los motores \cite{LCD1602}
   \item Módulo \hl{GPS} con interfaz \hl{USB} \cite{GPSModule}
   \item Sensor de distancia ultrasonido
   \item Sensor de contacto
@@ -903,9 +909,31 @@ El ítem 17 de la Figura \ref{fig:PrototipoDM32} corresponde a la SBC Jetson TK1
 La placa Odroid SHOW 2 es una placa de entrada/salida compatible con Arduino que se utilizo como display indicador de los estados del prototipo, ítem 16 de las Figuras \ref{fig:PrototipoDM31}, \ref{fig:PrototipoDM32} y \ref{fig:PrototipoDM33}. En la sección 4.7 de \cite{RASSOA} se puede observar sus características en detalle, como allí se observa esta placa tiene reducidas capacidades de expansión y poder de computo, razón por la cual solo se utilizo su pantalla LCD.
 
 \subsubsection{\textit{Shield} para Placa de Entrada/Salida}
-A los efectos de facilitar la integración de la placa de entrada/salida al prototipo, contar con conexiones mas seguras y fáciles de intercambiar, se diseño y construyo un \textit{shield} para la placa FRDM K64F en el cual se exponen de forma organizada los pines de extensión utilizados. En las Figuras \hl{referencia a shield con placa}, \hl{referencia a shield} y \hl{referencia a esquematico} se puede observar el \textit{shield} construido con la placa de entrada/salida colocada, el \textit{shield} solo y el diseño esquemático del mismo respectivamente.
+A los efectos de facilitar la integración de la placa de entrada/salida al prototipo, contar con conexiones mas seguras y fáciles de intercambiar, se diseño y construyo un \textit{shield} para la placa FRDM K64F en el cual se exponen de forma organizada los pines de extensión utilizados. En las Figuras \ref{fig:ShieldFront}, \ref{fig:ShieldBack} y \ref{fig:ShieldSchematic} se puede observar el \textit{shield} construido con la placa de entrada/salida colocada, el \textit{shield} solo y el diseño esquemático del mismo respectivamente.
 
-\hl{Poner figuras del shield con K64F, shield solo y esquematico}
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[t]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{images/Shield_K64F}
+    \caption[Shield, vista frontal]{Shield, vista frontal con placa de entrada/salida FRDM K64F colocada.}
+    \label{fig:ShieldFront}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{images/Shield_Back}
+    \caption[Shield, vista trasera]{Shield, vista trasera.}
+    \label{fig:ShieldBack}
+  \end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{images/Shield_Schematic}
+    \caption[Diseño esquemático del shield]{Diseño esquemático del shield.}
+    \label{fig:ShieldSchematic}
+  \end{minipage}
+\end{figure}
 
 \subsubsection{Sensores}
 El sensor de distancia de ultrasonido utilizado, ítem 9 de las Figuras \ref{fig:PrototipoDM31} y \ref{fig:PrototipoDM32}, es el HC-SR04 cuyo funcionamiento y características se puede observar en \cite{HCSR04}.
@@ -919,7 +947,7 @@ Los ítems 1 y 2 de las Figuras \ref{fig:PrototipoDM31}, \ref{fig:PrototipoDM32}
 
 El prototipo no incluyó una sirena y freno instalados, a los efectos de experimentar con los mecanismos de seguridad asociados a estos componentes (que se activan/desactivan) se utilizaron dos LED, uno verde (ítem 13 de la Figura \ref{fig:PrototipoDM32}) para representar la sirena y uno rojo (ítem 14 de la Figura \ref{fig:PrototipoDM32}) para representar el freno.
 
-\subsubsection{Otros}
+\subsubsection{Otros} \label{sec: Implementación :: Plataforma Utilizada - Hardware - Otros}
 Como se comentó en \ref{sec:Sol Prop :: Requerimientos} cuando se describieron los requerimientos de hardware, se utilizó un DAC para dar potencia a los motores, el modelo del mismo es MPC4728 y se pueden observar sus características en \cite{MPC4728}. Es el ítem 6 de las Figuras \ref{fig:PrototipoDM32} y \ref{fig:PrototipoDM33}.
 
 \subsection{Entorno de desarrollo}
@@ -1137,7 +1165,7 @@ En la figura ~\ref{fig:plotUltrasonic} se presentan los resultados del conjunto 
 \end{figure}
 
 \subsection{Control de Límite de Velocidad} \label{sec:Exp Eval :: Control Limite Velocidad}
-Se realizo este experimento para validar el control que verifica que la velocidad alcanzada por el robot no supera un máximo predefinido (\hl{referencia al parametro}), de aquí en mas y a los efectos de este experimento llamaremos a dicha velocidad "velocidad segura". El experimento consistió entonces en ejecutar un script (\hl{referencia a script?}) que enviase al robot cada un segundo velocidades cada vez mayores a partir de los \SI{0.50}{\metre/\second} y hasta los \SI{1.80}{\metre/\second} habiendo configurado el parámetro velocidad segura, considerando la evaluación sobre el control de distancias realizada en \ref{sec:Exp Eval :: Evaluación Resultados}, en \SI{1.50}{\metre/\second}.
+Se realizo este experimento para validar el control que verifica que la velocidad alcanzada por el robot no supera un máximo predefinido (ver Sección \ref{sec: Control de velocidad máxima}), de aquí en mas y a los efectos de este experimento llamaremos a dicha velocidad ``velocidad segura''. El experimento consistió entonces en ejecutar un script que enviase al robot cada un segundo velocidades cada vez mayores a partir de los \SI{0.50}{\metre/\second} y hasta los \SI{1.80}{\metre/\second} habiendo configurado el parámetro velocidad segura, considerando la evaluación sobre el control de distancias realizada en \ref{sec:Exp Eval :: Evaluación Resultados}, en \SI{1.50}{\metre/\second}.
 
 \begin{figure}[H]
   \centering
@@ -1149,9 +1177,9 @@ Se realizo este experimento para validar el control que verifica que la velocida
 En la gráfica de la figura \ref{fig:plotSpeedTest} se muestra una de las ejecuciones del experimento. Se observa claramente en la misma que luego de que la velocidad supera los \SI{1.50}{\metre/\second} esta desciende dramáticamente hasta \SI{0.00}{\metre/\second}, lo que ha ocurrido aquí es que el mecanismo de seguridad se ha disparado y ha deshabilitado el robot. Este resultado fue observado consistentemente para todas las pruebas realizadas.
 
 \subsection{Control de la Relación entre Potencia y Velocidad} \label{sec: Relación Potencia Velocidad}
-Se describe la prueba llevada adelante para inferir como es la relación entre la potencia enviada a los motores y la velocidad desarrollada por el robot. Esta prueba se llevo adelante para luego, habiendo observado los resultados obtenidos, determinar un valor razonable para el parámetro utilizado en el mecanismo de seguridad que controla el "gap" entre estos dos atributos. Se describen también los experimentos realizados para validar el mecanismo de seguridad propuesto.
+Se describe la prueba llevada adelante para inferir como es la relación entre la potencia enviada a los motores y la velocidad desarrollada por el robot. Esta prueba se llevo adelante para luego, habiendo observado los resultados obtenidos, determinar un valor razonable para el parámetro utilizado en el mecanismo de seguridad que controla el ``gap'' entre estos dos atributos. Se describen también los experimentos realizados para validar el mecanismo de seguridad propuesto.
 
-El experimento consistió en correr scripts dándole ordenes al robot de que se moviese a distintas velocidades, teniendo como salida de los mismos gráficas que muestran en el eje de las abscisas el tiempo y en el eje de las ordenadas las potencias enviadas a los motores y las velocidades alcanzadas por las ruedas como un porcentaje de sus valores máximos posibles. \hl{Revisar redaccion.} Se utilizo para esta prueba el solo el chasis frontal del robot suspendido en el aire.
+El experimento consistió en ejecutar scripts dándole ordenes al robot de que se moviese a distintas velocidades, obteniendo como salida de las ejecuciones gráficas que muestran en el eje de las abscisas el tiempo y en el eje de las ordenadas las potencias enviadas a los motores y las velocidades alcanzadas por las ruedas como un porcentaje de sus valores máximos posibles. Se utilizo para esta prueba sólo el chasis frontal del robot suspendido en el aire.
 
 \begin{figure}[H]
 \centering
@@ -1171,7 +1199,7 @@ En la figura \ref{fig:plotIncreasingPowvsSpeed} se observa el resultado de corre
 
 En la figura \ref{fig:plotConstantPowvsSpeed} se observa el resultado de correr un script que envió un comando de velocidad constante de \SI{1.50}{\metre/\second}, aproximadamente 50\% del máximo soportado.
 
-De las dos gráficas anteriores se desprende que la relación entre potencia y velocidad es lineal, esto es, si se aplica un determinado porcentaje de la máxima potencia posible a los motores las ruedas alcanzaran una velocidad que sera similar en porcentaje respecto de la velocidad máxima posible.\hl{Revisar redaccion.} Visto esto, en las condiciones del experimento se recomienda que el parámetro que limita la desviación entre la potencia y la velocidad tenga un valor acotado. Se decidió admitir un desfajase del 25\%.
+De las dos gráficas anteriores se desprende que la relación entre potencia y velocidad es lineal, esto es, si se aplica un determinado porcentaje de la máxima potencia posible a los motores las ruedas alcanzaran una velocidad que sera similar en porcentaje respecto de la velocidad máxima posible. Visto esto, en las condiciones del experimento se recomienda que el parámetro que limita la desviación entre la potencia y la velocidad tenga un valor acotado. Se decidió admitir un desfajase del 25\%.
 
 Realizado lo anterior, para probar el correcto funcionamiento del mecanismo de seguridad se realizaron 2 experimentos. En el primero se coloco un obstáculo (ladrillos) en el camino del robot de forma tal que para sortearlo el robot debiese aumentar la potencia enviada a los motores. En el segundo se coloco el robot con el frente apoyado contra un árbol (habiéndose desactivado el mecanismo de control de distancias), de forma que no pudiese avanzar al recibir ordenes para hacerlo. Se realizaron repeticiones de ambos experimentos a distintas velocidades (\SI{0.25}{\metre/\second}, \SI{0.50}{\metre/\second}, \SI{0.75}{\metre/\second}, \SI{1.00}{\metre/\second} y \SI{1.50}{\metre/\second}).
 
@@ -1309,7 +1337,7 @@ Sobre el mecanismo de control de distancias: El mecanismo arrojó resultados sat
 \subsubsection{Control de Límite de Velocidad}
 Sobre el mecanismo de control del limite de velocidad: Los resultados arrojados por el mecanismo fueron los esperados, una vez la velocidad supera la máxima definida como segura el robot se deshabilita consistentemente en todas las situaciones.
 \subsubsection{Control de la Relación entre Potencia y Velocidad}
-Sobre el mecanismo de control de la relación entre potencia y velocidad: Si bien el mecanismo pudo ser validado y los resultados se muestran promisorios, las condiciones ideales en las que se realizo el experimento para determinar la relación entre la potencia y velocidad hacen que se deba ser cauto a la hora de tomar en cuenta estos resultados en otras circunstancias. Seria recomendable realizar experimentos que cubran mas situaciones y configuraciones que se asemejen mas al ambiente final donde el robot operara. De hecho, por si solos los valores de velocidad y potencia aportan poca información acerca de lo que esta sucediendo, seria positivo contar con sensores que aporten mas información como podría ser la inclinación, el nivel de batería y el peso de la carga transportada por el robot.
+Sobre el mecanismo de control de la relación entre potencia y velocidad: Si bien el mecanismo pudo ser validado y los resultados se muestran promisorios, las condiciones ideales en las que se realizo el experimento para determinar la relación entre la potencia y velocidad hacen que se deba ser cauto a la hora de tomar en cuenta estos resultados en otras circunstancias. Seria recomendable realizar experimentos que cubran mas situaciones y configuraciones que se asemejen más al ambiente final donde el robot operara. De hecho, por si solos los valores de velocidad y potencia aportan poca información acerca de lo que esta sucediendo, seria positivo contar con sensores que aporten mas información como podría ser la inclinación, el nivel de batería y el peso de la carga transportada por el robot.
 \subsection{Pruebas de Rendimiento}
 \subsubsection{Throughput de la conexión TCP}
 \subsubsection{Tiempo de respuesta frente a situaciones anómalas (tiempo de deshabilitación)}
@@ -1324,7 +1352,7 @@ Sobre tiempo de respuesta frente a situaciones anómalas: Si bien se considera p
 En este último capítulo se presentan las conclusiones y trabajos a futuro.
 
 \section{Conclusiones}
-Este trabajo ha estado guiado durante su evolución por dos objetivos principales. El primero establecía la confección de una guía de seguridad como resultado del revelamiento de normas y estándares internacionales que hicieran foco en la seguridad aplicada a robots que realicen tareas colaborativas con humanos en ambientes laborales dinámicos y abiertos, mientras que el segundo establecía el desarrollo de un conjunto "razonable" de mecanismos de seguridad.
+Este trabajo ha estado guiado durante su evolución por dos objetivos principales. El primero establecía la confección de una guía de seguridad como resultado del revelamiento de normas y estándares internacionales que hicieran foco en la seguridad aplicada a robots que realicen tareas colaborativas con humanos en ambientes laborales dinámicos y abiertos, mientras que el segundo establecía el desarrollo de un conjunto ``razonable'' de mecanismos de seguridad.
 
 -Conclusiones sobre el primero objetivo.
 -Conclusiones sobre el segundo objetivo.
@@ -1342,7 +1370,7 @@ Se presenta a continuación los principales aspectos a desarrollar en trabajos f
     \item Conectar bocina
     \item Luz de emergencia encendida mientras el robot está alimentado de energía
     \item Control de ángulos máximos de giro (Para evitar choques entre chasis)
-    \item Pruebas de los mecanismos de seguridad mas exhaustivas, en configuraciones ambientales mas variadas para evaluarlos mejor. La logística para acceder y mover el robot, el trabajar "enchufados", etc. dificultaron la realización de un mejor conjunto de pruebas.
+    \item Pruebas de los mecanismos de seguridad mas exhaustivas, en configuraciones ambientales mas variadas para evaluarlos mejor. La logística para acceder y mover el robot, el trabajar ``enchufados'', etc. dificultaron la realización de un mejor conjunto de pruebas.
 \end{itemize}
 
 
