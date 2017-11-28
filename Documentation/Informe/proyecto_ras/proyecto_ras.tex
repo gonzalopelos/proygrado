@@ -1211,7 +1211,7 @@ Se realizaron experimentos sobre la comunicación entre las placas \hl{SBC} e \h
 Los experimentos consisten en monitorear y analizar los paquetes  de datos que se transmiten en la comunicación entre las placas considerando diferentes escenarios:
 \begin{itemize}
 	\item \textul{b\'{a}sico}: únicamente hay flujo de datos desde la \hl{IOBoard} a la \hl{SBC}, y dicho flujo corresponde a los reportes esenciales que realiza la placa para comunicar el estado de los motores (velocidades y potencias de los motores), así como también el estado general del robot y de sus mecanismos y dispositivos de seguridad.
-	\item \textul{carga a 10hz}: contempla el flujo de datos del escenario anterior y agrega un tráfico de 10 mensajes por segundo, con la semántica de la funcionalidad \hl{ping}, enviados desde la placa \hl{SBC} a la placa \hl{IOBoard}, y al procesar estos mensajes esta última los responde generando un mensaje idéntico al recibido, lo que genera un flujo de daos extra desde la \hl{IOBoard} a la \hl{SBC} contemplando los reportes y todos los menajes de ping.
+	\item \textul{carga a 15hz}: contempla el flujo de datos del escenario anterior y agrega un tráfico de 15 mensajes por segundo, con la semántica de la funcionalidad \hl{ping}, enviados desde la placa \hl{SBC} a la placa \hl{IOBoard}, y al procesar estos mensajes esta última los responde generando un mensaje idéntico al recibido, lo que genera un flujo de daos extra desde la \hl{IOBoard} a la \hl{SBC} contemplando los reportes y todos los menajes de ping.
 	\item \textul{carga a 30hz}: idéntico al escenario anterior pero generando 30 mensajes por segundo en lugar de generar 10.
 	\item \textul{carga a 50hz}: idéntico al escenario anterior pero generando 50 mensajes por segundo en lugar de generar 30.
 \end{itemize}
@@ -1220,14 +1220,14 @@ Es interesante analizar la cantidad de paquetes así como también la cantidad d
 \subsubsection{Escenario básico}
 \begin{figure}[H]
   \centering
-  	\includegraphics[width=\textwidth]{images/TCP_Throughput_io_to_pc_basic_pkps}
+  	\includegraphics[width=0.8\textwidth]{images/TCP_Throughput_io_to_pc_basic_pkps}
   	\caption[Throughput de la conexión TCP - Básico]{Flujo de paquetes TCP en la comunicación SBC $\leftrightarrow$ IOBoard -  Escenario básico}
   \label{fig:TCP_Throughput_io_to_pc_basic_pkps}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  	\includegraphics[width=\textwidth]{images/TCP_Throughput_io_to_pc_basic_bps}
+  	\includegraphics[width=0.8\textwidth]{images/TCP_Throughput_io_to_pc_basic_bps}
   	\caption[Throughput de la conexión TCP - Básico]{Flujo de datos (bits) TCP en la comunicación SBC $\leftrightarrow$ IOBoard -  Escenario básico}
   \label{fig:TCP_Throughput_io_to_pc_basic_bps}
 \end{figure}
@@ -1240,43 +1240,50 @@ Se pueden observar los siguientes datos:
 		\label{fig:TCP_Throughput_io_to_pc_basic_pkps_results}
 	\end{minipage}
 \end{table}
+Si bien se observa que la cantidad de paquetes que se envían desde cada placa son similares, esto es debido a que TCP exige confirmación de paquetes recibidos exitosamente, la cantidad de datos transmitidos es sensiblemente diferente para cada placa. Claro que esto tiene sentido ya que el flujo de datos es generado por los reportes de estados que realiza la placa de entrada/salida y la SBC simplemente responde confirmando que los mensajes fueron recibidos de forma correcta, siguiendo con la especificación del protocolo de comunicación.
 
-\subsubsection{Escenario con carga 10hz}
+También se observaron algunos mensajes de TCP utilizados para monitorear indicadores del protocolo, en particular los mensajes registrados en el experimento corresponden a alertas que indican la falta de confirmación de recibido a un mensaje. Estas alertas son de nivel de seguridad bajo y no se perdieron datos en la comunicación.
+
+\subsubsection{Escenario con carga 15hz}
 \begin{figure}[H]
   \centering
-  	\includegraphics[width=\textwidth]{images/TCP_Throughput_io_to_pc_10hz_pps}
-  	\caption[Throughput de la conexión TCP - Básico]{Flujo de paquetes TCP en la comunicación SBC $\leftrightarrow$ IOBoard -  Escenario con carga a 10hz}
-  \label{fig:TCP_Throughput_io_to_pc_10hz_pps}
+  	\includegraphics[width=0.8\textwidth]{images/TCP_Throughput_io_to_pc_15hz_pps}
+  	\caption[Throughput de la conexión TCP - Escenario con carga a 15hz]{Flujo de paquetes TCP en la comunicación SBC $\leftrightarrow$ IOBoard -  Escenario con carga a 15hz}
+  \label{fig:TCP_Throughput_io_to_pc_15hz_pps}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  	\includegraphics[width=\textwidth]{images/TCP_Throughput_io_to_pc_10hz_bps}
-  	\caption[Throughput de la conexión TCP - Básico]{Flujo de datos (bits) TCP en la comunicación SBC $\leftrightarrow$ IOBoard -  Escenario con carga a 10hz}
-  \label{fig:TCP_Throughput_io_to_pc_10hz_bps}
+  	\includegraphics[width=0.8\textwidth]{images/TCP_Throughput_io_to_pc_15hz_bps}
+  	\caption[Throughput de la conexión TCP - Escenario con carga a 15hz]{Flujo de datos (bits) TCP en la comunicación SBC $\leftrightarrow$ IOBoard -  Escenario con carga a 15hz}
+  \label{fig:TCP_Throughput_io_to_pc_15hz_bps}
 \end{figure}
-Del experimento se pueden observar los siguientes datos:
+Del experimento se observan los siguientes datos:
 \begin{table}[H]
 	\centering
  	\begin{minipage}[b]{0.6\textwidth}  	
-  		\includegraphics[width=\textwidth]{images/TCP_Throughput_io_to_pc_10hz_results}
-  		\caption[Throughput de la conexión TCP - Básico]{Flujo de paquetes TCP en la comunicación SBC $\leftrightarrow$ IOBoard -  Resultados en escenario con carga a 10hz}
-		\label{fig:TCP_Throughput_io_to_pc_10hz_results}
+  		\includegraphics[width=\textwidth]{images/TCP_Throughput_io_to_pc_15hz_results}
+  		\caption[Throughput de la conexión TCP - Escenario con carga a 15hz]{Flujo de paquetes TCP en la comunicación SBC $\leftrightarrow$ IOBoard -  Resultados en escenario con carga a 15hz}
+		\label{fig:TCP_Throughput_io_to_pc_15hz_results}
 	\end{minipage}
 \end{table}
+
+Como era de esperarse la cantidad total de paquetes por segundo aumenta en 30 paquetes respecto al escenario básico, esto es debido a que se generan 15 paquetes por segundo con el comando \textit{ping}, en la placa SBC, y los mismos son respondidos por la placa de entrada/salida ni bien llegan.
+También en este escenario se registraron algunos paquetes de control de TCP para manejar algunos indicadores relevantes a la confirmación de entrega de paquetes. No se registra pérdida de datos en la comunicación.
+
 
 \subsubsection{Escenario con carga 30hz}
 \begin{figure}[H]
   \centering
-  	\includegraphics[width=\textwidth]{images/TCP_Throughput_io_to_pc_30hz_pps}
-  	\caption[Throughput de la conexión TCP - Básico]{Flujo de paquetes TCP en la comunicación SBC $\leftrightarrow$ IOBoard -  Escenario con carga a 30hz}
+  	\includegraphics[width=0.8\textwidth]{images/TCP_Throughput_io_to_pc_30hz_pps}
+  	\caption[Throughput de la conexión TCP - Escenario con carga a 30hz]{Flujo de paquetes TCP en la comunicación SBC $\leftrightarrow$ IOBoard -  Escenario con carga a 30hz}
   \label{fig:TCP_Throughput_io_to_pc_30hz_pps}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  	\includegraphics[width=\textwidth]{images/TCP_Throughput_io_to_pc_30hz_bps}
-  	\caption[Throughput de la conexión TCP - Básico]{Flujo de datos (bits) TCP en la comunicación SBC $\leftrightarrow$ IOBoard -  Escenario con carga a 30hz}
+  	\includegraphics[width=0.8\textwidth]{images/TCP_Throughput_io_to_pc_30hz_bps}
+  	\caption[Throughput de la conexión TCP - Escenario con carga a 30hz]{Flujo de datos (bits) TCP en la comunicación SBC $\leftrightarrow$ IOBoard -  Escenario con carga a 30hz}
   \label{fig:TCP_Throughput_io_to_pc_30hz_bps}
 \end{figure}
 Del experimento se pueden observar los siguientes datos:
@@ -1288,6 +1295,9 @@ Del experimento se pueden observar los siguientes datos:
 		\label{fig:TCP_Throughput_io_to_pc_30hz_results}
 	\end{minipage}
 \end{table}
+Al igual que en el escenario anterior, se observa un aumento de flujo de datos consistente con el aumento de frecuencia de emisión de paquetes por la placa SBC con comandos \textit{ping}. 
+También en este escenario se registra una cantidad insignificante de paquetes de control de TCP con procesamiento de alertas y no se registra pérdida de datos en la comunicación.
+
 
 \subsubsection{Escenario con carga 50hz}
 \begin{figure}[H]
@@ -1340,6 +1350,7 @@ Sobre el mecanismo de control del limite de velocidad: Los resultados arrojados 
 Sobre el mecanismo de control de la relación entre potencia y velocidad: Si bien el mecanismo pudo ser validado y los resultados se muestran promisorios, las condiciones ideales en las que se realizo el experimento para determinar la relación entre la potencia y velocidad hacen que se deba ser cauto a la hora de tomar en cuenta estos resultados en otras circunstancias. Seria recomendable realizar experimentos que cubran mas situaciones y configuraciones que se asemejen más al ambiente final donde el robot operara. De hecho, por si solos los valores de velocidad y potencia aportan poca información acerca de lo que esta sucediendo, seria positivo contar con sensores que aporten mas información como podría ser la inclinación, el nivel de batería y el peso de la carga transportada por el robot.
 \subsection{Pruebas de Rendimiento}
 \subsubsection{Throughput de la conexión TCP}
+
 \subsubsection{Tiempo de respuesta frente a situaciones anómalas (tiempo de deshabilitación)}
 Sobre tiempo de respuesta frente a situaciones anómalas: Si bien se considera positivo que el tiempo de deshabilitacion sea constante, una demora de \SI{1}{\second} parece excesiva y da cabida situaciones de riesgo, habría optimizar el proceso. No obstante esto, si se sigue la recomendación realizada en esta misma sección de que el robot no se desplace a mas de \SI{1.50}{\metre/\second} el robot no colisionara con obstáculos aun con esta demora.
 
