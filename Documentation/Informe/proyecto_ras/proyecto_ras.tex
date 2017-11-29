@@ -656,26 +656,29 @@ Estas funciones deben permitir detectar fallos (conocer su existencia), ubicarlo
 En este capítulo se plantea la solución al problema abordado en el proyecto. En la Sección 4.1 se detallan los requerimientos del sistema, en la Sección 4.2 se muestra la arquitectura de la solución, en la Sección 4.3 se presenta y justifica los protocolos de comunicación empleados, en la Sección 4.4 se presentan y describen los mecanismos de seguridad desarrollados e integrados al DM3 y por último en la Sección 4.5 el se describe el método utilizado para comunicar el estado del robot a los usuarios.
 
 \section{Requerimientos} \label{sec:Sol Prop :: Requerimientos}
-Si bien no se recibimos requerimientos funcionales explícitos, construimos el siguiente conjunto de requerimientos como resultado de la investigación realizada durante el revelamiento del estado del arte.
+Los requerimientos del proyecto fueron los siguientes:
 
 \begin{itemize}
+	\item Relevar normas y estándares de seguridad considerando el contexto de aplicación.
+	\item Confeccionar una guía de seguridad para robots colaborativos.
 	\item Establecer criterios de lo que es el funcionamiento normal y seguro del robot (distancias, velocidades y potencias) y velar por que estos se cumplan.
 	\item Desarrollar mecanismos de bajo nivel (en comparación con los implementados en la SBC) para garantizar que el robot no colisione con obstáculos.
 	\item Implementar un mecanismo por el cual se comunique al usuario el estado del robot.	
 	\item El protocolo de comunicación entre la SBC y la placa de entrada/salida debe proveer mecanismos que hagan frente a la pérdida de paquetes, errores de secuencia y arribos de paquetes fuera de orden, con el propósito de que la comunicación entre los nodos sea confiable.
+	\item Utilizar el protocolo de mensajes MCC.
 	\item Incluir el uso de Watchdog timer.
 \end{itemize}
 
-Como requerimientos de \textit{hardware} inicialmente se solicitó que la placa seleccionada tuviese como mínimo las siguientes características:
+Se solicitó seleccionar una placa de entrada/salida que inicialmente cumpliese con los siguientes requerimientos de \textit{hardware}:
 \begin{itemize}
     \item Interfaz Serial/USB.
     \item Interfaz de comunicación serial síncrona y asíncrona. Soportar I2C.
-    \item Al menos 6 salidas digitales, 4 para direcciones de ruedas, freno, habilitación, luz de seguridad y bocina.
+    \item Al menos 8 salidas digitales, 4 para direcciones de ruedas, freno, habilitación, luz de seguridad y bocina.
     \item 4 salidas analógicas, podrían ser PWM con filtros pasa bajo como se describe en \cite{AN538}.
     \item Entradas para la señal de los sensores hall.
     \item Servicio de WatchDog Timer (WDT).
 \end{itemize}
-Luego se determinó que los motores utilizados, ver \ref{sec: Implementación :: Plataforma Utilizada - Hardware - Actuadores}, eran muy sensibles como para funcionar con PWM, requiriéndose una salida analógica real e independiente para cada  uno. Ninguna de las placas evaluadas cuenta con 4 salidas analógicas por lo cual se decidió utilizar un \hl{DAC} externo (ver Sección \ref{sec: Implementación :: Plataforma Utilizada - Hardware - Otros}) controlado con el protocolo \hl{I2C}.
+Luego se determinó que los motores utilizados, ver \ref{sec: Implementación :: Plataforma Utilizada - Hardware - Actuadores}, eran muy sensibles como para funcionar con PWM, requiriéndose una salida analógica real e independiente para cada uno. Ninguna de las placas evaluadas cuenta con 4 salidas analógicas por lo cual se decidió utilizar un \hl{DAC} externo (ver Sección \ref{sec: Implementación :: Plataforma Utilizada - Hardware - Otros}) controlado con el protocolo \hl{I2C}.
 
 \section{Arquitectura de la Solución}
 
