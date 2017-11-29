@@ -38,7 +38,7 @@
 \usepackage{longtable}
 \usepackage{glossaries}
 \usepackage[export]{adjustbox}
-\usepackage{siunitx}
+\usepackage[binary-units]{siunitx}
 \usepackage{color}
 \usepackage{soul}
 \usepackage{float}
@@ -1215,7 +1215,8 @@ Para el primer experimento cuando se ordeno al robot avanzar a velocidades super
 
 \section{Pruebas de Rendimiento}
 \subsection{Throughput de la conexión TCP}
-Se realizaron experimentos sobre la comunicación entre las placas \hl{SBC} e \hl{IO\_Board} buscando dimensionar el flujo de datos que es soportado en dicha comunicación.
+Se realizaron experimentos sobre la comunicación entre las placas \hl{SBC} e \hl{IO\_Board} buscando dimensionar el flujo de datos que es soportado en dicha comunicación. Es importante aclarar que las características del hardware utilizado (las placas se encuentran cableadas a un router \ref{fig:PrototipoDM31} item 20) permiten transferencias de datos a 100 Mbits/s 
+
 Los experimentos consisten en monitorear y analizar los paquetes  de datos que se transmiten en la comunicación entre las placas considerando diferentes escenarios:
 \begin{itemize}
 	\item \textul{b\'{a}sico}: únicamente hay flujo de datos desde la \hl{IOBoard} a la \hl{SBC}, y dicho flujo corresponde a los reportes esenciales que realiza la placa para comunicar el estado de los motores (velocidades y potencias de los motores), así como también el estado general del robot y de sus mecanismos y dispositivos de seguridad.
@@ -1321,7 +1322,7 @@ También en este escenario se registra una cantidad insignificante de paquetes d
   	\caption[Throughput de la conexión TCP - Básico]{Flujo de datos (bits) TCP en la comunicación SBC $\leftrightarrow$ IOBoard -  Escenario con carga a 50hz}
   \label{fig:TCP_Throughput_io_to_pc_50hz_bps}
 \end{figure}
-Del experimento se pueden observar los siguientes datos:
+Del experimento realizado se pueden observar los siguientes datos:
 \begin{table}[H]
 	\centering
  	\begin{minipage}[b]{\textwidth}  	
@@ -1330,6 +1331,14 @@ Del experimento se pueden observar los siguientes datos:
 		\label{fig:TCP_Throughput_io_to_pc_50hz_results}
 	\end{minipage}
 \end{table}
+
+Para analizar mejor los datos resulta interesante considerar dos intervalos de tiempo, por un lado los primeros 40 segundos donde se observa un incremento razonable de tráfico respecto a los experimentos anteriores, y por otra parte los últimos 20 segundos donde vemos que  la placa de entrada/salida se satura y el flujo de datos disminuye considerablemente en la comunicación.
+
+En todos los experimentos anteriores, inclusive en los primeros segundos de este experimentos, observamos que la cantidad de datos transmitidos por la placa de entrada/salida es sensiblemente mayor que la transmitida por la placa SBC, ésto lógicamente es debido a que la placa de entrada/salida además de generar mensajes consecuentes del procesamiento de los comandos \textit{ping} que envía la SBC, genera y envía reportes de estados a la placa SBC. 
+No obstante, en los últimos 20 segundos observamos ciertos intervalos de tiempo en el que el tráfico de datos generado por la placa SBC fue mayor que el generado por la placa de entrada/salida, además sabemos que estamos lejos de alcanzar las capacidades límite soportadas por el hardware, lo que nos lleva a pensar que es el procesamiento de la información en la placa de entrada/salida el cuello de botella en la comunicación. Vale la pena comentar que en la implementación del protocolo MCC \ref{sec: Marco Teo :: MCC} se procesan los datos de a bytes, pidiéndoselos también de a bytes a la capa de transporte, y esto puede ocasionar un impacto negativo en el rendimiento del protocolo TCP.
+
+Analizando los paquetes de control de TCP encontramos errores de confirmaciones de arribo de paquetes duplicadas, reportados por la SBC, y solicitudes de retransmisión de otros paquetes, reportados por la placa de entrada/salida, esto reafirma la idea de que es el procesamiento en la placa de entrada/salida el cuello de botella en el rendimiento de la comunicación.
+
 
 
 \subsection{Tiempo de respuesta frente a situaciones anómalas (tiempo de deshabilitación)}
@@ -1351,16 +1360,19 @@ Como se observa en el Cuadro \ref{table:tableDisablingTimes} los tiempos de desh
 \section{Evaluación de Resultados} \label{sec:Exp Eval :: Evaluación Resultados}
 \subsection{Pruebas Funcionales}
 \subsubsection{Control de Distancia}
-Sobre el mecanismo de control de distancias: El mecanismo arrojó resultados satisfactorios. Considerando que a la máxima velocidad evaluada, \SI{1.50}{\metre/\second}, la distancia a la que se detuvo el robot fue, como se observa en el cuadro \ref{table:ultrasonic150}, de \SI{0.25}{\metre} en el peor caso; no es recomendable que el robot se desplace a velocidades superiores a esta máxima evaluada, esto al menos en las zonas que sean transitadas tanto por el robot como por humanos.
+El mecanismo arrojó resultados satisfactorios. Considerando que a la máxima velocidad evaluada, \SI{1.50}{\metre/\second}, la distancia a la que se detuvo el robot fue, como se observa en el cuadro \ref{table:ultrasonic150}, de \SI{0.25}{\metre} en el peor caso; no es recomendable que el robot se desplace a velocidades superiores a esta máxima evaluada, esto al menos en las zonas que sean transitadas tanto por el robot como por humanos.
 \subsubsection{Control de Límite de Velocidad}
-Sobre el mecanismo de control del limite de velocidad: Los resultados arrojados por el mecanismo fueron los esperados, una vez la velocidad supera la máxima definida como segura el robot se deshabilita consistentemente en todas las situaciones.
+Los resultados arrojados por el mecanismo fueron los esperados, una vez la velocidad supera la máxima definida como segura el robot se deshabilita consistentemente en todas las situaciones.
 \subsubsection{Control de la Relación entre Potencia y Velocidad}
-Sobre el mecanismo de control de la relación entre potencia y velocidad: Si bien el mecanismo pudo ser validado y los resultados se muestran promisorios, las condiciones ideales en las que se realizo el experimento para determinar la relación entre la potencia y velocidad hacen que se deba ser cauto a la hora de tomar en cuenta estos resultados en otras circunstancias. Seria recomendable realizar experimentos que cubran mas situaciones y configuraciones que se asemejen más al ambiente final donde el robot operara. De hecho, por si solos los valores de velocidad y potencia aportan poca información acerca de lo que esta sucediendo, seria positivo contar con sensores que aporten mas información como podría ser la inclinación, el nivel de batería y el peso de la carga transportada por el robot.
+Si bien el mecanismo pudo ser validado y los resultados se muestran promisorios, las condiciones ideales en las que se realizo el experimento para determinar la relación entre la potencia y velocidad hacen que se deba ser cauto a la hora de tomar en cuenta estos resultados en otras circunstancias. Seria recomendable realizar experimentos que cubran mas situaciones y configuraciones que se asemejen más al ambiente final donde el robot operara. De hecho, por si solos los valores de velocidad y potencia aportan poca información acerca de lo que esta sucediendo, seria positivo contar con sensores que aporten mas información como podría ser la inclinación, el nivel de batería y el peso de la carga transportada por el robot.
 \subsection{Pruebas de Rendimiento}
 \subsubsection{Throughput de la conexión TCP}
+De los experimentos realizados se observa que para comunicaciones con un tráfico de \SI{7.62}{\kilo\byte/\second} el sistema se comporta correctamente y no se observaron errores en el tráfico de paquetes TCP. Es importante aclarar que esta carga se corresponde con una cantidad de 104 paquetes por segundo, y en este caso es equivalente a 104 mensajes MCC por segudo debido a que todos los mensajes MCC enviados tienen un tamaño menor a la máxima carga útil de los paquetes TCP.
+
+Se identificó un cuello de botella en el rendimiento de la comunicación que está en el procesamiento de los datos de la placa de entrada/salida y se identifican puntos de mejora en el procesamiento de codificación y decodificación de mensajes MCC que influirán positivamente en el rendimiento de la comunicación.
 
 \subsubsection{Tiempo de respuesta frente a situaciones anómalas (tiempo de deshabilitación)}
-Sobre tiempo de respuesta frente a situaciones anómalas: Si bien se considera positivo que el tiempo de deshabilitacion sea constante, una demora de \SI{1}{\second} parece excesiva y da cabida situaciones de riesgo, habría optimizar el proceso. No obstante esto, si se sigue la recomendación realizada en esta misma sección de que el robot no se desplace a mas de \SI{1.50}{\metre/\second} el robot no colisionara con obstáculos aun con esta demora.
+Si bien se considera positivo que el tiempo de deshabilitacion sea constante, una demora de \SI{1}{\second} parece excesiva y da cabida situaciones de riesgo, habría optimizar el proceso. No obstante esto, si se sigue la recomendación realizada en esta misma sección de que el robot no se desplace a mas de \SI{1.50}{\metre/\second} el robot no colisionara con obstáculos aun con esta demora.
 
 \hl{HAY QUE VER COMO ESTRUCTURAR Y REDACTAR MEJOR ESTAS EVALUACIONES}
 
