@@ -624,8 +624,16 @@ Para el caso particular de los dispositivos de visualización (cámaras) sera de
 
 \section{Técnicas de Seguridad} \label{sec: Guía Seguridad :: Técnicas Seguridad}
 \begin{itemize}
-\item Supervisión de Funciones: Supervisión básica del movimiento del robot, i.e: el movimiento ejecutado se corresponde con el movimiento comandado. Supervisión de las cantidades cinemáticas como son la posición, velocidad, aceleración y frenado. Supervisión de cantidades dinámicas como lo son el torque y la fuerza. Funciones de supervisión definidas por el usuario, relacionadas con la aplicación.
-\item Recuperación Frente a Fallas:\hl{FALTA}
+\item Supervisión de Funciones: Se debe considerar la supervisión básica del movimiento del robot, i.e. el movimiento ejecutado se corresponde con el movimiento comandado; la supervisión de las cantidades cinemáticas como son la posición, velocidad, aceleración y frenado; la supervisión de las cantidades dinámicas como lo son el torque y la fuerza; y la supervisión de funciones definidas por el usuario, relacionadas con la aplicación. Se debe buscar que la incertidumbre que el robot tiene acerca de su estado sea mínima.
+
+Estas funciones deben permitir detectar fallos (conocer su existencia), ubicarlos (aislar fallo, detectar lugar y tiempo, acotar efectos para evitar propagación) e identificarlos (estimar tipo, naturaleza y dimensiones o alcance), esto es, realizar un diagnóstico del fallo.
+\item Recuperación Frente a Fallas: Las técnicas de recuperación frente a fallas proveen mecanismos para que el sistema siga operando de forma normal a pesar de la existencia de fallas. A continuación se describen tres técnicas utilizadas con este propósito.
+	\begin{itemize}
+		\item Enmascaramiento del fallos: Una forma de recuperación frente a fallas es simplemente tolerarlos y enmascararlos, de esta forma el error no se expresa. De hecho ni siquiera es necesaria la detección del fallo. Una técnica de enmascaramiento de fallos es la de \textit{mayoría de votos}, en esta se cuentan con sensores redundantes los cuales ``votan'' acerca del estado de lo sensado y el valor que se considera es el indicado por la mayoría. Si se selecciona adecuadamente el tipo y cantidad de sensores se puede lograr que el sistema opere correctamente aunque algunos de los sensores reporten lecturas erróneas. Este técnica se puede incluso mejorar considerando la confianza que se tiene en las lecturas de cada sensor y ponderar los votos considerándola. En \hl{referencia} y \hl{referencia} se puede ver más detalle de esta técnica.
+		\item Reintento de procesamiento: Si el tipo de aplicación hace que sea aceptable, muchas veces un nuevo intento de procesamiento puede ser satisfactorio, siendo muy común en fallos transitorios.
+		\item Control tolerante pasivo: Utiliza la propiedad de los sistemas realimentados de hacer frente a las perturbaciones, cambios en la dinámica e incluso fallos. Un cambio inesperdado en el sistema crea un efecto sobre el mismo que se transmite al sistema de control y éste a su vez trata de compensarlo rápidamente. En este sentido, el control tolerante pasivo es un diseño robusto del sistema de control realimentado para hacerlo inmune a fallos \cite{PATTON19971029}.
+		\item Diversidad de diseño: La única aproximación a la tolerancia frente a fallas que tienen su origen en el diseño es aplicar la diversidad en el diseño, esto es, la implementación de más de una variante de la función a realizar. Esto aplica tanto al software como al hardware. 
+	\end{itemize}
 \item Prevención de Colisiones:
   \begin{itemize}
   	\item 3D Sensor Fusión: Fusión en tiempo real de información provista por sensores de imagen tridimensional para crear una representación del espacio a través de una grilla de evidencia volumétrica (\textit{volumetric evidence/occupancy grid}). Se segmenta el espacio en fondo, robots y humanos. Al rededor del robot se define una zona de peligro y al rededor de cada persona o todo aquello que se quiera proteger se define una zona de seguridad. Si estas zonas se intersecan el robot se debe enlentecer o detener hasta que la situación se resuelva. \hl{PONER REFERENCIAS A APLICACIONES}
@@ -844,7 +852,7 @@ En este capítulo se describe la implementación de lo descrito en el capítulo 
 
 \section{Plataforma Utilizada} \label{sec: Implementación :: Plataforma Utilizada}
 \subsection{Prototipo DM3}
-El robot DM3 con el cual se trabajo en este proyecto es un prototipo de robot para la agricultura cuyo propósito es, como se menciona en \ref{sec: Introduccion :: Motivacion}, el de asistir en la cosecha de peras y manzanas, liberando así tiempo de los trabajadores que es actualmente utilizado en el transporte de las frutas para que puedan concentrarse en la recolección en si. En las Figuras \ref{fig:PrototipoDM31}, \ref{fig:PrototipoDM32} y \ref{fig:PrototipoDM33} se puede observar el prototipo construido y ver hardware el que lo compone enumerado.
+El robot DM3 con el cual se trabajo en este proyecto es un prototipo de robot para la agricultura cuyo propósito es, como se menciona en \ref{sec: Introduccion :: Motivacion}, el de asistir en la cosecha de peras y manzanas, liberando así tiempo de los trabajadores que es actualmente utilizado en el transporte de las frutas para que puedan concentrarse en la recolección en si. En las Figuras \ref{fig:PrototipoDM31}, \ref{fig:PrototipoDM32} y \ref{fig:PrototipoDM33} se puede observar el prototipo construido y ver el hardware que lo compone.
 
 \begin{figure}[H]
   \centering
@@ -870,31 +878,31 @@ El robot DM3 con el cual se trabajo en este proyecto es un prototipo de robot pa
   \end{minipage}
 \end{figure}
 
-Los números que figuran en las imágenes se corresponden con los siguientes componentes:
+Los números que se observan en las figuras se corresponden con los siguientes componentes:
 \begin{enumerate}[noitemsep]
-  \item Motores
-  \item Controladoras de motores
-  \item Botón de parada de emergencia
+  \item Motores.
+  \item Controladoras de motores.
+  \item Botón de parada de emergencia.
   \item Placa de Entrada/Salida conectada a \textit{shield} construido para ella.
-  \item Shield octocoplado para \hl{DAC}
-  \item DAC
-  \item LCD de estado de los motores \cite{LCD1602}
-  \item Módulo \hl{GPS} con interfaz \hl{USB} \cite{GPSModule}
-  \item Sensor de distancia ultrasonido
-  \item Sensor de contacto
-  \item Cámara 3D (ZED)
-  \item Sensor inercial \cite{myAHRS}
-  \item Sirena (LED verde)
-  \item Freno (LED Rojo)
-  \item SBC ROS
-  \item Display LCD
-  \item SBC ZED
-  \item Batería
-  \item Encoder de la articulación entre los chasis (\hl{MODELO?})
-  \item Router
+  \item Shield octocoplado para \hl{DAC}.
+  \item DAC.
+  \item LCD de estado de los motores \cite{LCD1602}.
+  \item Módulo \hl{GPS} con interfaz \hl{USB} \cite{GPSModule}.
+  \item Sensor de distancia ultrasonido.
+  \item Sensor de contacto.
+  \item Cámara 3D (ZED).
+  \item Sensor inercial \cite{myAHRS}.
+  \item Sirena (LED verde).
+  \item Freno (LED Rojo).
+  \item SBC ROS.
+  \item Display LCD.
+  \item SBC ZED.
+  \item Batería.
+  \item Sensor de ángulo de rotación (potenciómetro) \cite{Potenciometro}.
+  \item Router.
 \end{enumerate}
 
-Se incluye por completitud los ítems 8 y 18, módulo GPS y batería respectivamente. El módulo GPS quedó oculto bajo la caja que contiene las SBC y la batería no estaba instalada al momento de tomar las fotografías.
+Se incluye por completitud los ítems 8 y 18, módulo GPS y batería respectivamente. El módulo GPS quedó oculto bajo la caja que contiene las SBC y la batería no estaba instalada al momento de tomar las fotografías. Aquellos ítems para los cuales no se incluye una referencia serán detallados más adelante.
 
 \subsection{Detalle del Hardware} \label{sec: Implementación :: Plataforma Utilizada - Hardware}
 Se expone a continuación los componentes de hardware mas relevantes al proyecto incluidos en el prototipo.
