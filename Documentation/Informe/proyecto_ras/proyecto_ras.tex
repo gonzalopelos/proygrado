@@ -684,9 +684,17 @@ Luego se determinó que los motores utilizados, ver \ref{sec: Implementación ::
 \section{Arquitectura de la Solución}
 
 En la definición de la arquitectura propuesta para el sistema de control del robot tenemos un conjunto de módulos, elementos de software y hardware involucrados. La implementación de los módulos de hardware y la interconexión entre ellos y los elementos de software definen dicha arquitectura.
-Ofrece los medios por los cuales el sistema puede lograr sus metas eficientemente, satisfacer restricciones de tiempo real, promover la tolerancia a fallas y proporcionar seguridad para el robot y su entorno. Debe ofrecer una distribución apropiada para los procesos de sensado y procesamiento de manera que éstos se realicen en tiempos razonables para conseguir los objetivos propuestos.
+Ofrece los medios por los cuales el sistema puede lograr sus objetivos eficientemente, satisfacer restricciones de tiempo real, promover la tolerancia a fallas y proporcionar seguridad para el robot y su entorno. Debe ofrecer una distribución apropiada para los procesos de sensado, procesamiento y actuación, de manera que éstos se realicen en tiempos razonables para conseguir los objetivos propuestos.
 
 \subsection{Requerimientos}
+El principal requerimiento no funcional que presenta el sistema de control del robot es que debe ser un sistema dedicado, en una placa de entrada/salida, a interactuar con el hardware a bajo nivel, con alto rendimiento para el censado, procesamiento de los datos y actuación en respuesta a situaciones de riesgo para la seguridad del robot y su entorno. También se definen los requerimientos no funcionales para el sistema que se describen a continuación.
+\subsubsection{Sistema modularizado}
+Si bien el sistema implementado en la placa de entrada/salida tiene gran interacción con la placa SBC, es muy importante que existan módulo que pueden operar de forma autónoma y desacoplada, por ejemplo para tomar acciones que evitarían un accidente.
+\subsubsection{Sistema flexible}
+Pensando en la evolución del sistema y considerando que inicialmente se desarrolla un prototipo, es deseable que la arquitectura permita suplantar módulos que interactuan con un hardware específico por otro módulo que interactua con otro hardware pero resuelve la misma problemática. Por ejemplo, si hoy se tiene un módulo para detectar obstáculos con sensores de proximidad ultrasónicos y el día de mañana se desea cambiar a sensores láser se debe poder cambiar dicho módulo, de forma simple, sin alterar al resto del sistema.
+También es importante considerar aspectos de configuración, teniendo en cuenta ciertos parámetros como velocidades máximas y distancias mínimas, que permitirán luego ajustar y optimizar el rendimiento del robot según el contexto en el que opere.
+\subsubsection{Sistema extensible}
+Al igual que en el punto anterior; pensando en la evolución del sistema y considerando que inicialmente se desarrolla un prototipo, es deseable que la arquitectura permita incorporar de forma simple nuevos módulos al sistema de control. Por ejemplo si se desea tener más sensores para detectar objetos próximos considerando diferentes escenarios y eventualidades del clima por ejemplo.
 
 \subsection{Componentes}
 
