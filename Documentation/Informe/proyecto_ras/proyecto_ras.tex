@@ -625,10 +625,12 @@ Para el caso particular de los dispositivos de visualización (cámaras) sera de
 \section{Técnicas de Seguridad} \label{sec: Guía Seguridad :: Técnicas Seguridad}
 Se comenta muy brevemente a continuación un conjunto de técnicas de interés mencionadas en los distintos trabajos que formaron parte de la bibliografía del proyecto.
 \begin{itemize}
-\item Supervisión de Funciones: Se debe considerar la supervisión básica del movimiento del robot, i.e. el movimiento ejecutado se corresponde con el movimiento comandado; la supervisión de las cantidades cinemáticas como son la posición, velocidad, aceleración y frenado; la supervisión de las cantidades dinámicas como lo son el torque y la fuerza; y la supervisión de funciones definidas por el usuario, relacionadas con la aplicación. Se debe buscar que la incertidumbre que el robot tiene acerca de su estado sea mínima.
+\item Supervisión de Funciones: 
+Se debe considerar la supervisión básica del movimiento del robot, i.e. el movimiento ejecutado se corresponde con el movimiento comandado; la supervisión de las cantidades cinemáticas como son la posición, velocidad, aceleración y frenado; la supervisión de las cantidades dinámicas como lo son el torque y la fuerza; y la supervisión de funciones definidas por el usuario, relacionadas con la aplicación. Se debe buscar que la incertidumbre que el robot tiene acerca de su estado sea mínima.
 
 Estas funciones deben permitir detectar fallos (conocer su existencia), ubicarlos (aislar fallo, detectar lugar y tiempo, acotar efectos para evitar propagación) e identificarlos (estimar tipo, naturaleza y dimensiones o alcance), esto es, realizar un diagnóstico del fallo.
-\item Recuperación Frente a Fallas: Las técnicas de recuperación frente a fallas proveen mecanismos para que el sistema siga operando de forma normal a pesar de la existencia de fallas. A continuación se describen tres técnicas utilizadas con este propósito.
+\item Recuperación Frente a Fallas: 
+Las técnicas de recuperación frente a fallas proveen mecanismos para que el sistema siga operando de forma normal a pesar de la existencia de fallas. A continuación se describen tres técnicas utilizadas con este propósito.
 	\begin{itemize}
 		\item Enmascaramiento del fallos: Una forma de recuperación frente a fallos es simplemente tolerarlos y enmascararlos, de esta forma el error no se expresa. De hecho, ni siquiera es necesaria la detección del fallo. Una técnica de enmascaramiento de fallos es la de \textit{mayoría de votos}, en esta se cuentan con sensores redundantes los cuales ``votan'' acerca del estado de lo sensado y el valor que se considera es el indicado por la mayoría. Si se selecciona adecuadamente el tipo, ubicación y cantidad de sensores se puede lograr que el sistema opere correctamente aunque algunos de los sensores reporten lecturas erróneas. Esta técnica se puede incluso mejorar considerando la confianza que se tiene en las lecturas de cada sensor y ponderar los votos considerando el valor atribuido a esta confianza. En \cite{GARCIA200711} y \cite{ROGINA1999} se puede ver más detalle de esta técnica.
 		\item Reintento de procesamiento: Si el tipo de aplicación hace que sea aceptable, muchas veces un nuevo intento de procesamiento puede ser satisfactorio, siendo muy común en fallos transitorios.
@@ -636,19 +638,21 @@ Estas funciones deben permitir detectar fallos (conocer su existencia), ubicarlo
 		\item Diversidad de diseño: La única aproximación a la tolerancia frente a fallas que tienen su origen en el diseño es aplicar la diversidad en el diseño, esto es, la implementación de más de una variante de la función a realizar. Esto aplica tanto al software como al hardware. 
 	\end{itemize}
 \item Prevención de Colisiones:
+  Estas técnicas agrupadas bajo este nombre persiguen como objetivo el evitar que el robot colisione.
   \begin{itemize}
   	\item 3D Sensor Fusión: Fusión en tiempo real de información provista por sensores de imagen tridimensional para crear una representación del espacio a través de una grilla de evidencia volumétrica (\textit{volumetric evidence/occupancy grid}). Se segmenta el espacio en fondo, robots y humanos. Al rededor del robot se define una zona de peligro y al rededor de cada persona o todo aquello que se quiera proteger se define una zona de seguridad. Si estas zonas se intersecan el robot se debe enlentecer o detener hasta que la situación se resuelva.
     \item Predicción de Movimiento y Acción Humana: Bajo este titulo se engloban varias técnicas que persiguen como fin otorgar al robot la capacidad de inferir o predecir movimientos y acciones humanas. Ya sea esto para evitar accidentes o asistir en la realización de tareas. 
   \end{itemize}
 \item Estrategias de Control de Colisiones:
+  Las estrategias de control de colisiones tienen como objetivo minimizar, eliminando si es posible, el daño que el robot pueda ocasionar a humanos y materiales en caso de ocurrir una colisión. 
   \begin{itemize}
-    \item Control de Torque con Compensación de la Gravedad: \hl{FALTA}
-    \item \hl{OTROS?? EL QUE IMPLEMENTAMOS??}
-  \end{itemize}
+    \item Detener el robot: Quizá la estrategia más simple para minimizar daños por colisiones sea la de detener el robot una vez que la colisión ocurre. Esta claro que en muchas circunstancias esta estrategia puede ser la adecuada, pero no es generalizable a todos los escenarios (ej.: aplastamiento o compresión) 
+    \item Control de Torque con Compensación de la Gravedad: En \cite{haddadin2008collision} y \cite{Luca2007} se presenta esta técnica con la que se logra que luego de la detección de una colisión los actuadores del robot no solo se detengan sino que además queden ``livianos'' y ``dóciles'' de forma que el humano pueda manipularlos fácilmente sin que ofrezcan resistenca. Cabe destacar que el control de torque por sí solo logra esto, pero la compensación de la gravedad mejora la técnica.
+  \end {itemize}
 \item Estrategias de Control:
   \begin{itemize}
+  	\item Campo de potenciales: En \cite{MartinezSisto2009} se describe esta estrategia que, enmarcada dentro del enfoque de proyección de trayectorias para llegar a un destino de tipo ``Buscar el objetivo'' (\textit{Goal seeking}), consiste en el cálculo de campos de repulsión imaginarios que rodean a los obstáculos. El proceso entonces consistirá en determinar una trayectoria mantenga al robot tan alejado como sea posible de los obstáculos. El método se puede extender considerando objetos cuyo campo sea atractor.
   	\item Campo de Peligro Cinetoestático: Este concepto captura en una única medida el estado completo del robot, su configuración y velocidad. Se intenta con este método  estimar el peligro en la vecindad del robot. Se puede considerar una generalización del enfoque de campos de potenciales para la búsqueda de trayectorias, con el cual difiere en que captura la velocidad y postura del robot, y en que la fuente del campo de potenciales es el robot mismo en lugar de los humanos/obstáculos.
-    \item \hl{OTRO?} \hl{LA QUE UTILIZA EL DM3?? Va mas por el lado de computar y seguir un camino virtual o buscar un objetivo?}
   \end{itemize}
 \item Códigos de Acceso al Sistema: Se recalca la importancia que tiene que el acceso a la unidad de control, el arranque, parada y modificación del programa, deben estar limitados mediante el empleo de algún mecanismo de seguridad (llaves, códigos de seguridad, etc.).
 \end{itemize}
