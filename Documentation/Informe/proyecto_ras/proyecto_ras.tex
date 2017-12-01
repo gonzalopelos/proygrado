@@ -1403,8 +1403,7 @@ Este trabajo ha estado guiado durante su evolución por dos objetivos principale
 -Conclusiones sobre el segundo objetivo.
 
 \section{Trabajos Futuros}
-Considerar los siguientes puntos:
-Aún cuando la guía confeccionada sirve de apoyo a futuros desarrollos y los mecanismos implementados muestran resultados aceptables, existen varios puntos en los que se puede mejorar, o incluso abordar de forma completamente diferente a la realizada en el presente trabajo.
+Aún cuando la guía confeccionada sirve de apoyo a futuros desarrollos y los mecanismos implementados muestran resultados aceptables como se vió en la sección anterior, existe un sinnúmero de aspectos en los que se puede mejorar (debe), o incluso abordar de forma completamente diferente a la realizada en el presente trabajo.
 Se presenta a continuación los principales aspectos a desarrollar en trabajos futuros tomando como base los resultados obtenidos en el contexto de este proyecto.
 
 \subsection{Escenarios de prueba}
@@ -1416,6 +1415,7 @@ Considerar más aspectos de RTOS, dando un enfoque más de tareas y estableciend
 \subsection{Mecanismos de seguridad}
 
 \begin{itemize}
+	\item Diseño seguro de un nuevo prototipo del robot. Sería recomendable la construcción de un nuevo prototipo del robot que incluya ya desde la etapa de diseño mecánico las consideraciones de seguridad vertidas en este documento (y otras), con el fin de eliminar y mitigar los riesgos que tengan origen en el diseño actual (mala señalización de componentes de encendido, apagado y parada de emergencia; materiales rígidos; bordes cortantes; etc.). Y en general en todas las etapas de construcción del mismo se debería considerar la seguridad.
     \item Brake por hardware
     \item No se está controlando que el freno esté desactivado a la hora de establecer potencias a los motores luego de haber recibido un comando de velocidad. Si el freno estuviera posta lo que ocurriría en este caso es que se accionaría el control de potencia y desactivaría los motores debido a que no logra alcanzar una velocidad coherente con la potencia establecida.
     \item Enable por hardware controlado desde la ioboard para los motores
