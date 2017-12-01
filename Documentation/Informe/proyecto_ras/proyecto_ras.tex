@@ -228,14 +228,16 @@ Integrar robots en ambientes donde trabajan humanos es un tarea desafiante. Es i
 
 En las aplicaciones industriales, donde el uso de robots está extendido, la seguridad en la interacción humano-robot se lleva a cabo por medio del aislamiento del robot (en efecto, no hay interacción). De hecho, tanto el estándar estadounidense, ANSI/RIA 15.06~\cite{ANSIRIA1506}, como el europeo, EN-755~\cite{Gaskill1996}, contienen provisiones similares al respecto. En concreto, ambos indican que la seguridad es alcanzada definiendo una región al rededor del robot que debe ser custodiada, y que la acción a ser tomada por el sistema robótico al detectar una intrusión en dicha región es una parada de emergencia. Sin embargo, a medida que los robots se trasladan de estos ambientes industriales aislados a entornos interactivos, este enfoque deja de ser sostenible. De todas formas los conceptos asociados a la evaluación de los riesgos contenidos en estos estándares pueden aun ser aplicados.
 
-Se reconocen 3 enfoques fundamentales para mitigar o eliminar riesgos: 
-\begin{itemize}
-\item Rediseñar el sistema para eliminar el peligro.
-\item Controlar el peligro valiéndose de medios electrónicos o físicos.
-\item Advertir al operador, ya sea durante la operación o por medio del entrenamiento.
-\end{itemize}
+Existe una jerarquía de controles operacionales para mitigar o eliminar peligros: 
 
-La experiencia de la industria indica que el primer enfoque es el más exitoso como estrategia de reducción de riesgos~\cite{ANSIRIA1506}~\cite{IEC61508}. Este ha sido aplicado incluso en robots no industriales como pueden ser los presentados en ~\cite{Yamada1997}, ~\cite{Yamada1999} y ~\cite{Bicchia} que cuentan en su diseño con cobertura visco-eléctrica o articulaciones esféricas y flexibles.
+\begin{itemize}
+\item \textit{Eliminar el peligro}: es muy importante analizar e identificar riesgos y peligros de forma temprana y cuando se detecta uno que puede ser eliminado, debe eliminarse. Es la primer estrategia de control en la jerarquía y debe ser considerado, sobre todo, en la etapa de diseño del sistema. No obstante puede ser considerado en una etapa posterior rediseñando el sistema, por ejemplo para incorporar un nuevo mecanismo o dispositivo que permite eliminar el peligro en cuestión.
+\item \textit{Controlar el peligro}: una vez considerada la estrategia de eliminación de peligros, donde no todos pudieron ser eliminados, se debe tratar de controlarlos reduciendo su probabilidad de ocurrencia o minimizando sus propiedades de peligro. Por ejemplo, considerando un robot colaborativo en el que es imposible suprimir la interacción con humanos para eliminar el peligro de colisión, una forma de controlar o reducir dicho peligro es incorporar mecanismos y sensores para prevenir y detectar las colisiones, de forma de poder reducir la probabilidad de ocurrencia de éstas y de minimizar el daño que pueden causar.
+\item \textit{Controles administrativos}: en este control se debe considerar todo lo que respecta a señales que advierten al operador sobre la existencia de un peligro dado. Se debe contar con señales visibles y audibles que indiquen el correcto funcionamiento del robot y que llamen la atención de los operarios cuando haya riesgo de un potencial accidente. 
+Otro aspecto importante a considerar en este punto es advertir y entrenar a los operadores sobre procedimientos para la operación segura con el robot.
+\item \textit{Protección personal}: este es el último de la jerarquía y dónde se debe pensar que todas las estrategias anteriores no pudieron sortear el peligro y se produce el accidente, es por ello que se debe pensar en el equipamiento de protección corporal para los operarios de forma que se reduzca las consecuencias del accidente.
+\end{itemize}
+La experiencia de la industria indica que el primer punto de la jerarquia es el más exitoso como estrategia de reducción de riesgos~\cite{ANSIRIA1506}~\cite{IEC61508}. Este ha sido aplicado incluso en robots no industriales como pueden ser los presentados en ~\cite{Yamada1997}, ~\cite{Yamada1999} y ~\cite{Bicchia} que cuentan en su diseño con cobertura visco-eléctrica o articulaciones esféricas y flexibles.
 
 \chapter{Marco Teórico}
 Este capítulo presenta el marco teórico en el cual se encuadra el proyecto. En la Sección 3.1 se presenta el protocolo de comunicación HDLC, en la sección 3.2 se mencionan los aspectos básicos de la plataforma MCC, en la Sección 3.3 se describe el protocolo TCP, a continuación en la Sección 3.4 se describe brevemente Robot Operative System (ROS), y finalmente, en la Sección 3.5 se describen las características del Sistema Operativo de Tiempo Real (RTOS).
