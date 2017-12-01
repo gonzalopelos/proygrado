@@ -1407,6 +1407,14 @@ Considerar los siguientes puntos:
 Aún cuando la guía confeccionada sirve de apoyo a futuros desarrollos y los mecanismos implementados muestran resultados aceptables, existen varios puntos en los que se puede mejorar, o incluso abordar de forma completamente diferente a la realizada en el presente trabajo.
 Se presenta a continuación los principales aspectos a desarrollar en trabajos futuros tomando como base los resultados obtenidos en el contexto de este proyecto.
 
+\subsection{Escenarios de prueba}
+\begin{itemize}
+    \item Pruebas de los mecanismos de seguridad mas exhaustivas, en configuraciones ambientales mas variadas para evaluarlos mejor. La logística para acceder y mover el robot, el trabajar ``enchufados'', etc. dificultaron la realización de un mejor conjunto de pruebas.
+\end{itemize}
+\subsection{Rediseño del firmware}
+Considerar más aspectos de RTOS, dando un enfoque más de tareas y estableciendo prioridades logrando que el sistema sea más predecible.
+\subsection{Mecanismos de seguridad}
+
 \begin{itemize}
     \item Brake por hardware
     \item No se está controlando que el freno esté desactivado a la hora de establecer potencias a los motores luego de haber recibido un comando de velocidad. Si el freno estuviera posta lo que ocurriría en este caso es que se accionaría el control de potencia y desactivaría los motores debido a que no logra alcanzar una velocidad coherente con la potencia establecida.
@@ -1415,7 +1423,6 @@ Se presenta a continuación los principales aspectos a desarrollar en trabajos f
     \item Conectar bocina
     \item Luz de emergencia encendida mientras el robot está alimentado de energía
     \item Control de ángulos máximos de giro (Para evitar choques entre chasis)
-    \item Pruebas de los mecanismos de seguridad mas exhaustivas, en configuraciones ambientales mas variadas para evaluarlos mejor. La logística para acceder y mover el robot, el trabajar ``enchufados'', etc. dificultaron la realización de un mejor conjunto de pruebas.
 \end{itemize}
 
 
