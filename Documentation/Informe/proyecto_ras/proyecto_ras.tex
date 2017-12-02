@@ -982,6 +982,17 @@ El prototipo no incluyó una sirena y freno instalados, a los efectos de experim
 Como se comentó en \ref{sec:Sol Prop :: Requerimientos} cuando se describieron los requerimientos de hardware, se utilizó un DAC para dar potencia a los motores, el modelo del mismo es MPC4728 y se pueden observar sus características en \cite{MPC4728}. Es el ítem 6 de las Figuras \ref{fig:PrototipoDM32} y \ref{fig:PrototipoDM33}.
 
 \subsection{Entorno de desarrollo}
+\subsubsection{Utilizados para desarrollo en la placa de entrada/salida}
+Para el desarrollo del firmware se utilizó la plataforma Kinetis Design Studio, que es un entorno de desarrollo para Kinetis MCU y permite la edición robusta, la compilación y la depuración de sus diseños. Está basado en software libre y de código abierto que incluye Eclipse, GNU Compiler Collection (GCC), GNU Debugger (GDB).
+También se utlizaron las siguientes librerías de código en C++:
+\begin{itemize}
+	\item \textit{EthernetInterface}: librería que provee una API para establecer conexiones a internet. En particular se utilizó esta librería para crear sockets TCP y establecer la comunicación con la SBC.
+	\item \textit{mbed-rtos}: esta librería ofrece la implementación del Sistema operativo oficial mbed en tiempo real basado en la implementación RTX del estándar abierto de la API CMSIS-RTOS.
+	\item \textit{mpc4728}: librería que implmenta las interfaces I2CInterface y DACInterface, provistas por mbed, para proveer una API que permite la comunicación con el dispositivo DAC MCP4728.
+	\item \textit{mbed}: SDK oficial de mbed C / C ++ que proporciona la plataforma de software y las bibliotecas básicas para el desarrollo de aplicaciones.
+\end{itemize}
+Para gestionar el versionado del desarrollo se utilizó un repositorio en GitHub \footnote{El repositorio se encuentra accesible en la dirección https://github.com/gonzalopelos/proygrado} en el que además del código del firmware se incluye documentación relevante al proyecto, como ser: diagramas de arquitectura, componentes y estados, documentación asociada al relevamiento del estado del artye y el propio documento de informe de proyecto.
+\subsubsection{Utilizados para desarrollo en la SBC}
 \begin{itemize}
     \item IDEs
     \item Librerías y SDKs
