@@ -1406,23 +1406,29 @@ Este trabajo ha estado guiado durante su evolución por dos objetivos principale
 Aún cuando la guía confeccionada sirve de apoyo a futuros desarrollos y los mecanismos implementados muestran resultados aceptables como se vió en la sección anterior, existe un sinnúmero de aspectos en los que se puede mejorar (debe), o incluso abordar de forma completamente diferente a la realizada en el presente trabajo.
 Se presenta a continuación los principales aspectos a desarrollar en trabajos futuros tomando como base los resultados obtenidos en el contexto de este proyecto.
 
-\subsection{Escenarios de prueba}
-\begin{itemize}
-    \item Pruebas de los mecanismos de seguridad mas exhaustivas, en configuraciones ambientales mas variadas para evaluarlos mejor. La logística para acceder y mover el robot, el trabajar ``enchufados'', etc. dificultaron la realización de un mejor conjunto de pruebas.
-\end{itemize}
+\subsection{Pruebas}
+Realizar pruebas de los mecanismos de seguridad mas exhaustivas, en configuraciones ambientales mas variadas para evaluarlos mejor. La logística para acceder y mover el robot, el trabajar ``enchufados'', etc. dificultaron la realización de un mejor conjunto de pruebas. Se debería además realizar todos las pruebas también con el robot cargado.
 \subsection{Rediseño del firmware}
 Considerar más aspectos de RTOS, dando un enfoque más de tareas y estableciendo prioridades logrando que el sistema sea más predecible.
 \subsection{Mecanismos de seguridad}
+	\begin{itemize}
+		\item Incluir frendo por hardware, o sea, incluir un freno físico. Actualmente se implementó una rutina de frenado (referencia) en el firmware como parte del proceso de deshabilitación del robot, existe la posibilidad también de frenar los motores ocasionando un corto en los mismos, pero esta opción no funciona a velocidades muy bajas y además no se puede controlar. Ninguna de estas dos opciones es la mejor desde el punto de vista de la seguridad por lo cual se recomienda la inclusión de un freno adicional activado por hardware. \hl{capaz esto puede ir en una seccion mas general de rediseno mecanico}
+		\item No se está controlando que el freno esté desactivado a la hora de establecer potencias a los motores luego de haber recibido un comando de velocidad. Si el freno estuviera posta lo que ocurriría en este caso es que se accionaría el control de potencia y desactivaría los motores debido a que no logra alcanzar una velocidad coherente con la potencia establecida.
+		\item La habilitación/deshabilitación de los motores debería poder ser realizada por hardware, la placa de entrada/salida en su firmware ya prevee una señal de entrada para este fin, se debería seleccionar el dispositivo de activación e instalarlo.
+	\end{itemize}
+\subsection{Nuevo prototipo}
+Diseño seguro de un nuevo prototipo del robot. Sería recomendable la construcción de un nuevo prototipo del robot que incluya ya desde la etapa de diseño mecánico las consideraciones de seguridad vertidas en este documento (y otras), con el fin de eliminar y mitigar los riesgos que tengan origen en el diseño actual (mala señalización de componentes de encendido, apagado y parada de emergencia; materiales rígidos; bordes cortantes; etc.). Y en general en todas las etapas de construcción del mismo se debería considerar la seguridad.
 
+
+\hl{Los siguientes quedan aca xq no se donde ponerlos}
 \begin{itemize}
-	\item Diseño seguro de un nuevo prototipo del robot. Sería recomendable la construcción de un nuevo prototipo del robot que incluya ya desde la etapa de diseño mecánico las consideraciones de seguridad vertidas en este documento (y otras), con el fin de eliminar y mitigar los riesgos que tengan origen en el diseño actual (mala señalización de componentes de encendido, apagado y parada de emergencia; materiales rígidos; bordes cortantes; etc.). Y en general en todas las etapas de construcción del mismo se debería considerar la seguridad.
-    \item Brake por hardware
-    \item No se está controlando que el freno esté desactivado a la hora de establecer potencias a los motores luego de haber recibido un comando de velocidad. Si el freno estuviera posta lo que ocurriría en este caso es que se accionaría el control de potencia y desactivaría los motores debido a que no logra alcanzar una velocidad coherente con la potencia establecida.
-    \item Enable por hardware controlado desde la ioboard para los motores
-    \item Control de motores del chasis 2
-    \item Conectar bocina
+    \item Se debe integrar al sistema los motores del chasis trasero del robot. Actualmente estos motores no son utilizados lo cual, además de ser un desperdicio, priva al robot de tracción independiente en las cuatro ruedas, la posibilidad de invertir fácilmente el sentido de avance y hace que el robot tenga menos fuerza para transportar cargas.
+    \item Conectar la bocina. Actualmente la señal que enciende y apaga la bocina controla un led, se debería sustituir por la bocina. 
     \item Luz de emergencia encendida mientras el robot está alimentado de energía
-    \item Control de ángulos máximos de giro (Para evitar choques entre chasis)
+    \item Actualmente el potenciómetro encontrado en la articulación entre los chasis del robot no está siendo utilizado (item de 19 de \cite{fig:PrototipoDM33}), la consecuencia de esto es que el robot puede realizar giros tales que los chasis colisionan entre sí. Se debería conectar el potenciómetro, leer la información provista por el mismo y limitar los ángulos de giro para evitar estas colisiones.
+    \item Se debería controlar los valores de las potencia entregados por el DAC a los motores. Actualmente sólo se vela por la posibilidad de un error en la comunicación I2C entre la placa de entrada/salida y el DAC sin embargo este podría funcionar mal y entregar potencias no deseadas sin supervisión alguna.
+    \item Sensores redundantes y de distinto tipo para medir la misma magnitud. Se recomienda utilizar una batería de sensores que sea capaz de medir lo mismo para todas aquellas magnitudes a considerar. En particular, el mecanismo de control de distancias para evitar colisiones actualmente se apoya únicamente en la tecnología de medición de distancias por ultrasonidos, sería positivo agregar sensores láser e infrarrojos que complementen las mediciones realizadas para brindar más robustez a este mecanismo.
+    \item Señalizar el espacio de trabajo. Si bien el ambiente en el que operará el robot es tal que dificulta su delimitación y señalización, se considera que se pueden desarrollar estrategias simples e inteligentes para delimitar áreas en las cuales sólo pueden transitar operarios, áreas en las que sólo puede transitar el robot y áreas de carga en las cuales los operarios podrán cargar frutos en el robot. Una posible forma de realizar esto podría ser utilizando estacas y cintas de colores para delimitar áreas (similares a las utilizadas por la policía).
 \end{itemize}
 
 
