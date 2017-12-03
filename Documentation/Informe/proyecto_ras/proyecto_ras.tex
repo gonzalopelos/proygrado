@@ -26,6 +26,7 @@
 \documentclass[withindex,glossary]{cam-thesis}
 
 % Citations using numbers
+\usepackage{glossaries}
 \usepackage[numbers]{natbib}
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
@@ -33,7 +34,6 @@
 \usepackage[spanish, activeacute]{babel} %Definir idioma español
 \usepackage[utf8]{inputenc} %Codificacion utf-8
 \usepackage{babel}
-\usepackage{glossaries}
 \usepackage{enumitem}
 \usepackage{longtable}
 \usepackage[export]{adjustbox}
@@ -115,12 +115,51 @@ Montevideo, Diciembre de 2017.}
 
 \newglossaryentry{SBC}{
 	name=SBC,
-	description={Single Board Computer}
+	description={en inglés \textbf{S}ingle \textbf{B}oard \textbf{C}omputer, es una computadora completa construida en una sola placa de circuito}
+}
+
+\newglossaryentry{DAC}{
+	name=DAC,
+	description={en inglés \textbf{D}igital to \textbf{A}nalogue \textbf{C}onverter, es un dispositivo conversor de señal digital a analógica}
+}
+\newglossaryentry{I2C}{
+	name=I2C,
+	description={en inglés \textbf{I}nter-\textbf{I}ntegrated \textbf{C}ircuit, es un protocolo en serie para conectar dispositivos de baja velocidad en un circuito integrado}
+}
+
+\newglossaryentry{Socket}{
+	name=Socket,
+	description={designa un concepto abstracto por el cual dos programas (probablemente residentes en computadoras distintas) pueden intercambiar un flujo de datos}
+}
+
+\newglossaryentry{USB}{
+	name=USB,
+	description={en inglés \textbf{U}niversal \textbf{S}erial \textbf{B}us, es un bus estándar industrial que define los conectores y protocolos utilizados  para conectar, comunicar y proveer de alimentación eléctrica a dispositivos electrónicos}
+}
+
+\newglossaryentry{Ethernet}{
+	name=Ethernet,
+	description={es una familia de tecnologías de redes informáticas}
+}
+
+\newglossaryentry{conectorRJ45}{
+	name=conector RJ45,
+	description={es una interfaz física comúnmente utilizada para conectar redes de computadoras con cableado estructurado}
+}
+
+\newglossaryentry{Bumper}{
+	name=Bumper,
+	description={sensor de contacto de uso común en sistemas robóticos para la detección de colisiones}
+}
+
+\newglossaryentry{GPS}{
+	name=GPS,
+	description={en inglés \textbf{G}lobal \textbf{P}ositioning \textbf{S}ystem, es un sistema que permite determinar, en toda la Tierra, la posición de un objeto}
 }
 
 \newglossaryentry{CRC}{
-	name=CRC,
-	description={Comprobación de redundancia cíclica}
+name=CRC,
+description={Comprobación de redundancia cíclica}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -243,7 +282,7 @@ La experiencia de la industria indica que el primer punto de la jerarquia es el 
 \chapter{Marco Teórico}
 Este capítulo presenta el marco teórico en el cual se encuadra el proyecto. En la Sección 3.1 se presenta el protocolo de comunicación HDLC, en la sección 3.2 se mencionan los aspectos básicos de la plataforma MCC, en la Sección 3.3 se describe el protocolo TCP, a continuación en la Sección 3.4 se describe brevemente Robot Operative System (ROS), y finalmente, en la Sección 3.5 se describen las características del Sistema Operativo de Tiempo Real (RTOS).
 
-\section{High-Level Data Link Control}
+\section{High-Level Data Link Control} \label{sec:MarcoTeo :: HDLC}
 
 \subsection{Introducción}
 HDLC es un protocolo de comunicaciones de propósito general punto a punto, que opera a nivel de enlace de datos. Se basa en ISO 3309 e ISO 4335. Surge como una evolución del anterior SDLC. Proporciona recuperación de errores en caso de pérdida de paquetes de datos, fallos de secuencia y otros, por lo que ofrece una comunicación confiable entre el transmisor y el receptor. (\cite{RFC2687} \cite{RFC1662})
@@ -692,7 +731,7 @@ Se solicitó seleccionar una placa de entrada/salida que inicialmente cumpliese 
     \item Entradas para la señal de los sensores hall.
     \item Servicio de WatchDog Timer (WDT).
 \end{itemize}
-Luego se determinó que los motores utilizados, ver \ref{sec: Implementación :: Plataforma Utilizada - Hardware - Actuadores}, eran muy sensibles como para funcionar con PWM, requiriéndose una salida analógica real e independiente para cada uno. Ninguna de las placas evaluadas cuenta con 4 salidas analógicas por lo cual se decidió utilizar un \hl{DAC} externo (ver Sección \ref{sec: Implementación :: Plataforma Utilizada - Hardware - Otros}) controlado con el protocolo \hl{I2C}.
+Luego se determinó que los motores utilizados, ver \ref{sec: Implementación :: Plataforma Utilizada - Hardware - Actuadores}, eran muy sensibles como para funcionar con PWM, requiriéndose una salida analógica real e independiente para cada uno. Ninguna de las placas evaluadas cuenta con 4 salidas analógicas por lo cual se decidió utilizar un \gls{DAC} externo (ver Sección \ref{sec: Implementación :: Plataforma Utilizada - Hardware - Otros}) controlado con el protocolo \gls{I2C}.
 
 \section{Arquitectura de la Solución}
 
@@ -714,7 +753,7 @@ Al igual que en el punto anterior; pensando en la evolución del sistema y consi
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\textwidth]{images/DM3_Modules}
-\caption[Diagrama de componentes de módulos]{Diagrama de módulos - Firmware k64F.}
+\caption[Diagrama de componentes de módulos]{Diagrama de módulos - DM3.}
 \end{figure}
 
 \subsubsection{SBC}
@@ -728,7 +767,7 @@ El robot cuenta con una \gls{SBC} Odroid dedicada a procesar el stack de navegac
 \end{itemize}
 
 También se comunica con una display para mostrar un reporte de estados de seguridad del robot.
-A continuación se comenta sobre los módulos de la \hl{SBC} que han tenido más participación en el desarrollo de este proyecto.
+A continuación se comenta sobre los módulos de la \gls{SBC} que han tenido más participación en el desarrollo de este proyecto.
 
 \paragraph{tcp\_mcc} \label{sec:Sol Prop :: tcp_mcc}
 Este nodo ROS es el encargado de establecer y mantener activa la comunicación con la placa K64F, mediante un socket TCP, implementando operaciones para enviar y recibir información.
@@ -749,14 +788,14 @@ Módulo responsable de controlar los motores del robot así como también  de ge
 \end{itemize}
 
 \paragraph{admin\_module} \label{sec:Sol Prop :: admin_module}
-Módulo que recibe y procesa reportes de estados y errores que envía la placa de entrada salida mediante la conexión MCC sobre la conexión TCP establecida, también recibe el estado de la conexión desde el nodo ROS descrito en \ref{sec:Sol Prop :: tcp_mcc}. Mantiene el estado de los distintos dispositivos y mecanismos de seguridad así como el estado general del firmare corriendo en la placa \hl{IOBoard}. El reporte de estados es presentado en la placa \hl{Display\_LCD}, ésta placa recibe dicho reporte a través de una comunicación en un canal serial USB utilizando códigos de escape ANSI/VT100.
+Módulo que recibe y procesa reportes de estados y errores que envía la placa de entrada salida mediante la conexión MCC sobre la conexión TCP establecida, también recibe el estado de la conexión desde el nodo ROS descrito en \ref{sec:Sol Prop :: tcp_mcc}. Mantiene el estado de los distintos dispositivos y mecanismos de seguridad así como el estado general del firmare corriendo en la placa de entrada/salida. El reporte de estados es presentado en la pantalla LCD, ésta placa recibe dicho reporte a través de una comunicación en un canal serial USB utilizando códigos de escape ANSI/VT100.
 
-También son implementadas en este módulo las operaciones de ping y reset de la placa \hl{IOBoard}. La operación ping envía un mensaje MCC a la placa K64F y espera recibir un paquete con la misma información desde dicha placa. Por otra parte la operación reset envía un mensaje MCC a la placa K64F indicando que debe ser reiniciada.
+También son implementadas en este módulo las operaciones de ping y reset de la placa de entrada/salida. La operación ping envía un mensaje MCC a la placa K64F y espera recibir un paquete con la misma información desde dicha placa. Por otra parte la operación reset envía un mensaje MCC a la placa K64F indicando que debe ser reiniciada.
 
 \paragraph{dm3\_module}
 Este módulo recibe y reporta el estado de la batería del robot, así como también implementa la funcionalidad de activación de una sirena; para ello envía un mensaje MCC a la placa de entrada/salida y ésta es la encargada de (des)activar la sirena al procesar el mensaje.
 
-\subsubsection{Display LCD}
+\subsubsection{Pantalla LCD}
 Placa que recibe un reporte de información de estados del robot desde la placa Odroid a través de una conexión serial USB, procesa la información recibida y la presenta en un display LCD. Este reporte es de gran utilidad para los operarios y muy importante desde el punto de vista de la seguridad en el trabajo cooperativo humano-robot debido a que en el mismo se indican los estados de los diferentes componentes de hardware:
 \begin{itemize}
 \item estado general del robot
@@ -766,11 +805,11 @@ Placa que recibe un reporte de información de estados del robot desde la placa 
 \item estado de control de sensores de proximidad
 \end{itemize}
 
-\subsubsection{IO Board}
+\subsubsection{Placa de Entrada/Salida}
 El módulo más importante desarrollado en este proyecto es la unidad de control que maneja todos los sensores de bajo volumen de datos así como también a los motores del robot.
-Para desarrollar la unidad de control se utiliza una placa \hl{IOBoard} que proporciona los recursos necesarios para desarrollar un sistema basado en RTOS (ver \ref{sec: Marco Teórico - RTOS }) que procese la información y tome acciones en tiempo real.
+Para desarrollar la unidad de control se utiliza una placa de entrada/salida que proporciona los recursos necesarios para desarrollar un sistema basado en RTOS (ver \ref{sec: Marco Teórico - RTOS }) que procese la información y tome acciones en tiempo real.
 
-Para explicar con un poco más de detalle, a continuación se presenta un diagrama con los componentes presentes en la placa \hl{IOBoard} y a partir de éste describiremos cómo se relacionan unos con los otros y cuales son sus responsabilidades.
+Para explicar con un poco más de detalle, a continuación se presenta un diagrama con los componentes presentes en la placa de entrada/salida y a partir de éste describiremos cómo se relacionan unos con los otros y cuales son sus responsabilidades.
 
 \begin{figure}[H]
 \centering
@@ -779,7 +818,7 @@ Para explicar con un poco más de detalle, a continuación se presenta un diagra
 \label{fig: Diagrama de componentes - Firmware IO Board}
 \end{figure}
 
-\textbf{mbed ROTS:} El RTOS de mbed no es otra cosa que un envoltorio desarrollado en C++ sobre Keil RTX (\hl{referencia}), que es un RTOS para procesadores ARM y Cortex-M. Provee las funcionalidades que se observan en la Figura \ref{fig: RTX}.
+\textbf{mbed ROTS:} El RTOS de mbed no es otra cosa que un envoltorio desarrollado en C++ sobre Keil RTX \cite{KeilRTX}, que es un RTOS para procesadores ARM y Cortex-M. Provee las funcionalidades que se observan en la Figura \ref{fig: RTX}.
 
 \begin{figure}[H]
   \centering
@@ -791,7 +830,7 @@ Para explicar con un poco más de detalle, a continuación se presenta un diagra
 Se utilizo la política de planificación por defecto de RTX, esto es, una política expropiativa con prioridades fijas que frente a tareas con la misma prioridad aplica una política por turnos con un timeslice de \SI{5}{\milli\second}. Adicionalmente, no se asigno prioridades a las diferentes tareas creadas y por esto la política de planificación de nuestra solución es simplemente por turnos.
 
 \paragraph{main}
-Programa (hilo) principal, encargado de inicializar al resto de los componentes y de comenzar a procesar los datos provenientes desde la \hl{SBC}. Este hilo principal es quien crea al componente MCC Controller, encargado de recibir información desde la \hl{SBC} y entregarla a los componentes apropiados, así como también instancia otros hilos que procesan y reportan información en los módulos \hl{MotorModule} y \hl{Dm3Module}.
+Programa (hilo) principal, encargado de inicializar al resto de los componentes y de comenzar a procesar los datos provenientes desde la \gls{SBC}. Este hilo principal es quien crea al componente MCC Controller, encargado de recibir información desde la \gls{SBC} y entregarla a los componentes apropiados, así como también instancia otros hilos que procesan y reportan información en los módulos MotorModule \ref{sec: Sol Prop :: MotorModule} y Dm3Module \ref{Sol Prop :: Dm3Module}.
 
 \paragraph{MCC Controller}
 Es el componente encargado de implementar el protocolo MCC y de entregar los mensajes a los componentes responsables de su proceso. Cada módulo capaz de intercambiar información con un sistema externo debe registrarse en este controlador siguiendo el protocolo MCC, permitiendo de esta manera que el controlador pueda entregar los mensajes a los componentes apropiados para su procesamiento de forma satisfactoria.
@@ -799,8 +838,8 @@ Es el componente encargado de implementar el protocolo MCC y de entregar los men
 \paragraph{AdminModule}
 Componente que al inicializarse se registra en el stack de módulos y operaciones del sistema, siguiendo el protocolo MCC, quedando disponible para procesar solicitudes de ping, reset, o reporte de estado del componente.
 
-\paragraph{MotorModule}
-Este componente es responsable de controlar todos los motores del robot, es quién atiende las solicitudes de establecimiento de velocidades a través de mensajes MCC enviados por la \hl{SBC}, procesa dichos mensajes y determina las potencias a establecer en los motores. También es el encargado de generar, y enviar a la \hl{SBC}, reportes de velocidades de las ruedas, potencias y estados de los motores.
+\paragraph{MotorModule} \label{sec: Sol Prop :: MotorModule}
+Este componente es responsable de controlar todos los motores del robot, es quién atiende las solicitudes de establecimiento de velocidades a través de mensajes MCC enviados por la \gls{SBC}, procesa dichos mensajes y determina las potencias a establecer en los motores. También es el encargado de generar, y enviar a la \gls{SBC}, reportes de velocidades de las ruedas, potencias y estados de los motores.
 
 \paragraph{Dm3Module} \label{Sol Prop :: Dm3Module}
 Componente responsable de manejar el estado general del robot en base a los estados de cada uno de los mecanismos de control de seguridad que se implementan en Dm3Security(\ref{sec:Sol Prop :: Dm3Security}). A continuación se presenta un diagrama de estados en el que se pueden observar los posibles estados del robot y sus transiciones.
@@ -813,38 +852,37 @@ Componente responsable de manejar el estado general del robot en base a los esta
 
 Se prosigue a describir brevemente las características del robot en cada uno de los estados.
 \begin{itemize}
-\item \textul{Enabled}: en este estado el robot se encuentra operando o listo para operar con todos sus mecanismos activos y funcionando correctamente. A este estado se puede llegar únicamente cuando se recibe el un comando de habilitación desde la placa \hl{SBC} y el sistema de control de la \hl{IO Board} no ha detectado alertas de seguridad.
+\item \textul{Enabled}: en este estado el robot se encuentra operando o listo para operar con todos sus mecanismos activos y funcionando correctamente. A este estado se puede llegar únicamente cuando se recibe el un comando de habilitación desde la placa \gls{SBC} y el sistema de control de la placa de entrada/salida no ha detectado alertas de seguridad.
 \item \textul{Warning}: este estado indica que se ha detectado una alerta de criticidad media, por ejemplo, cuando hay un obstáculo próximo al robot y éste no se está moviendo en dirección a dicho obstáculo, se detecta una alerta de criticidad media por lo que el estado del robot pasa a ser \textit{Warning}. A este estado se llega únicamente desde el estado \textit{Enabled} y es posible pasar al estado \textit{Disabled} en caso de tener una alerta de criticidad mayor, considerando el ejemplo anterior, si se detecta velocidad en dirección al obstáculo el alerta es de criticidad alta.
-\item \textul{Disabled}: estado que indica que el robot no está operativo, los motores están deshabilitados y seguramente se encuentre frenado (eventualmente se puede desactivar el freno manualmente aunque el robot esté deshabilitado). Es posible que el robot se encuentre en este estado debido a que se detectó un alerta de criticidad alta como la descrita en el punto anterior o porque se recibió un comando para deshabilitar al robot desde la \hl{SBC}. La única forma de salir de este estado es recibiendo un comando de habilitado desde la \hl{SBC} y que no se detectan alertas de algún tipo, en tal caso el robot pasa al estado \textit{Enabled}.
+\item \textul{Disabled}: estado que indica que el robot no está operativo, los motores están deshabilitados y seguramente se encuentre frenado (eventualmente se puede desactivar el freno manualmente aunque el robot esté deshabilitado). Es posible que el robot se encuentre en este estado debido a que se detectó un alerta de criticidad alta como la descrita en el punto anterior o porque se recibió un comando para deshabilitar al robot desde la \gls{SBC}. La única forma de salir de este estado es recibiendo un comando de habilitado desde la \gls{SBC} y que no se detectan alertas de algún tipo, en tal caso el robot pasa al estado \textit{Enabled}.
 \end{itemize}
 
-Este componente también es responsable de manejar una sirena, la cual se activa al detectar una alerta de seguridad o al recibir un comando específico para ello desde la \hl{SBC}, y de reportar cada cambio de estado o de alerta de seguridad a la \hl{SBC} mediante mensajes MCC.
+Este componente también es responsable de manejar una sirena, la cual se activa al detectar una alerta de seguridad o al recibir un comando específico para ello desde la \gls{SBC}, y de reportar cada cambio de estado o de alerta de seguridad a la \gls{SBC} mediante mensajes MCC.
 
 
 \paragraph{Dm3Security} \label{sec:Sol Prop :: Dm3Security}
 Es en este componente que se implementan las operaciones de controles relevantes a la seguridad en la operativa del robot. Para ello se siguen dos estrategias, por un lado el monitoreo de componentes utilizado en controles de velocidades \ref{sec:Sol Prop :: detección de velocidades y potencias anómalas} y para la detección y recuperación de la conexión \ref{sec:Sol Prop :: monitoreo y recuperación de la conexión}; por otra parte se empleó un manejo de interrupciones en la detección de objetos próximo \ref{sec:Sol Prop :: detección de objetos próximos}.
-El componente provee un mecanismo de registro para ser notificado con el estado de cada uno de los mecanismos de seguridad implementados. Actualmente el Dm3Module (\ref{Sol Prop :: Dm3Module}) es el único componente que se suscribe a dichas notificaciones y en base a ellas toma acciones de seguridad generando reportes que son enviados a la \hl{SBC}.
+El componente provee un mecanismo de registro para ser notificado con el estado de cada uno de los mecanismos de seguridad implementados. Actualmente el Dm3Module (\ref{Sol Prop :: Dm3Module}) es el único componente que se suscribe a dichas notificaciones y en base a ellas toma acciones de seguridad generando reportes que son enviados a la \gls{SBC}.
 
 \section{Protocolo de Comunicación}
-El protocolo de comunicación central y sobre el que se implementa la comunicación entre los componentes y sistemas del robot es MCC (\ref{sec: Marco Teo :: MCC}). En la comunicación entre sistemas \hl{IO Board} y \hl{SBC} se utiliza el protocolo TCP mediante un \hl{soket} que conecta ambos sistemas.
+El protocolo de comunicación central y sobre el que se implementa la comunicación entre los componentes y sistemas del robot es MCC (\ref{sec: Marco Teo :: MCC}). En la comunicación entre sistemas placa de entrada/salida y \gls{SBC} se utiliza el protocolo TCP mediante un \gls{Socket} que conecta ambos sistemas.
 
-En los inicios del proyecto se evaluó el uso del protocolo \hl{HDLC} sobre un \hl{enlace serial USB} y no sólo se investigó sobre el protocolo sino que se implementó una versión (básica) del mismo, pero debido a la complejidad que presentó llevar dicha implementación al hardware del aplaca IO Board, que también se estaba evaluando en ese momento, optamos por cambiar el hardware para la IO Board y consigo el protocolo de comunicación con la \hl{SBC}. Esto fue debido a que el nuevo hardware contempla un módulo que permite establecer una \hl{conexion Ethernet} mediante un \hl{conector RJ45}, lo que nos entusiasmó a utilizar un protocolo ya implementado \hl{por la comunidad} y maduro como lo es TCP en lugar de nuestra implementación del protocolo HDLC.
+En los inicios del proyecto se evaluó el uso del protocolo HDLC \ref{sec:MarcoTeo :: HDLC} sobre un enlace serial \gls{USB} y no sólo se investigó sobre el protocolo sino que se implementó una versión (básica) del mismo, pero debido a la complejidad que presentó llevar dicha implementación al hardware del aplaca IO Board, que también se estaba evaluando en ese momento, optamos por cambiar el hardware para la IO Board y consigo el protocolo de comunicación con la \gls{SBC}. Esto fue debido a que el nuevo hardware contempla un módulo que permite establecer una conexión \gls{Ethernet} mediante un \gls{conectorRJ45}, lo que nos entusiasmó a utilizar un protocolo ya implementado por la comunidad y maduro como lo es TCP en lugar de nuestra implementación del protocolo HDLC.
 Algunas de las ventajas del uso de TCP frente al uso de HDLC:
 \begin{itemize}
-\item El protocolo ya se encuentra implementado en las diferentes tecnologías de cada sistema, por la comunidad de desarrolladores \hl{mbed} en el caso de la IO Board y por \hl{GNU Projects} en el caso de la \hl{SBC}. En cualquiera de los casos son implementaciones maduras que ofrecen garantías de calidad.
+\item El protocolo ya se encuentra implementado en las diferentes tecnologías de cada sistema, por la comunidad de desarrolladores mbed \cite{ARMMBEDCODE} en el caso de la placa de entrada/salida y por GNU Projects \cite{GNUPROJECTS} en el caso de la \gls{SBC}. En cualquiera de los casos son implementaciones maduras que ofrecen garantías de calidad.
 \item TCP garantiza que los paquetes serán recibidos en el orden correcto y la implementación básica que se desarrolló de HDLC no contaba con esta característica.
-\item El rendimiento que obtuvimos con la comunicación TCP en la transferencia exitosa de datos fue considerablemente mejor que el obtenido utilizando HDLC. \hl{REVISAR ESTA AFIRMACION}
 \item Otra característica que pone en ventaja al uso de TCP es la flexibilidad y facilidad para poder establecer múltiples conexiones entre los sistemas, por ejemplos para el caso en el que se quisiera tener una conexión específica para un módulo o componente.
 \end{itemize}
 
 \section{Supervisión de Sub-sistemas y componentes}
-Como se mencionó en la sección \ref{sec:Sol Prop :: Dm3Security} el componente Dm3Security es el responsable de monitorear al resto de los componentes  y atender las rutinas de interrupción que generan alertas de seguridad en lo que respecta al correcto comportamiento del robot en un escenario de trabajo colaborativo con humanos. A pesar de tener este comportamiento resuelto en el componente \hl{Dm3Security} es necesario proveer un mecanismo de control sobre el propio componente, un mecanismo incluso más general que garantice que el propio sistema de control está ejecutando correctamente y en caso contrario tome acciones para restaurar su funcionamiento.
+Como se mencionó en la sección \ref{sec:Sol Prop :: Dm3Security} el componente Dm3Security es el responsable de monitorear al resto de los componentes  y atender las rutinas de interrupción que generan alertas de seguridad en lo que respecta al correcto comportamiento del robot en un escenario de trabajo colaborativo con humanos. A pesar de tener este comportamiento resuelto en el componente Dm3Security \ref{sec:Sol Prop :: Dm3Security} es necesario proveer un mecanismo de control sobre el propio componente, un mecanismo incluso más general que garantice que el propio sistema de control está ejecutando correctamente y en caso contrario tome acciones para restaurar su funcionamiento.
 Para proveer tales características se propone el uso del componente Watchdog que se describe a continuación en la sección  \ref{sec: Sol Prop :: Watchdog}.
 
 \subsection{Watchdog} \label{sec: Sol Prop :: Watchdog}
-El componente Watchdog no es más que un manejador de un temporizador de vigilancia \hl{(Watch Dog Timer)}, un temporizador de hardware que genera automáticamente un restablecimiento del sistema si el programa principal deja de atenderlo con cierta frecuencia. Es un componente sumamente importante para  restablecer automáticamente al sistema de control del robot si este se cuelga debido a un error de software o hardware. Nuestra IO Board tiene hardware de temporizador de vigilancia que nos permite implementar el componente Watchdog mencionado.
+El componente Watchdog no es más que un manejador de un temporizador de vigilancia (en inglés Watch Dog Timer), un temporizador de hardware que genera automáticamente un restablecimiento del sistema si el programa principal deja de atenderlo con cierta frecuencia. Es un componente sumamente importante para  restablecer automáticamente al sistema de control del robot si este se cuelga debido a un error de software o hardware. Nuestra IO Board tiene hardware de temporizador de vigilancia que nos permite implementar el componente Watchdog mencionado.
 
-El programa principal de la \hl{IO Board} tiene un bucles que constantemente realiza diversas funciones, el temporizador de vigilancia se carga con un valor inicial mayor que el peor tiempo procesamiento que pude tomar realizar dichas funciones de los bucles. Cada vez que se cierra un ciclo de procesamiento se restablece el temporizador de vigilancia. Si ocurre una falla y el programa principal no regresa para restablecer el temporizador antes de que expire el tiempo establecido, se genera una interrupción para restablecer el procesador y con ello al sistema de control.
+El programa principal de la placa de entrada/salida tiene un bucles que constantemente realiza diversas funciones, el temporizador de vigilancia se carga con un valor inicial mayor que el peor tiempo procesamiento que pude tomar realizar dichas funciones de los bucles. Cada vez que se cierra un ciclo de procesamiento se restablece el temporizador de vigilancia. Si ocurre una falla y el programa principal no regresa para restablecer el temporizador antes de que expire el tiempo establecido, se genera una interrupción para restablecer el procesador y con ello al sistema de control.
 Cabe mencionar que el componente Dm3Security (\ref{sec:Sol Prop :: Dm3Security}) genera un reporte de estados en el que se indica si el sistema fue reiniciado por el temporizador de vigilancia o si inició debido a un encendido normal del sistema.
 
 Consideramos que es sumamente importante la implementación de éstos componentes en sistemas autónomos como lo es en el caso del robot Dm3. Para ejemplificar y mostrar la importancia que tiene les contaremos sobre un caso de la vida real:
@@ -852,9 +890,9 @@ Consideramos que es sumamente importante la implementación de éstos componente
 \textit{En un famoso caso \cite{Clementine}, una computadora de la sonda espacial de la NASA se bloqueó con los cohetes propulsores encendidos. Para el momento en el que los controladores presentes en la tierra se dieron cuenta del problema y enviaron una señal para forzar el reinicio del hardware de la sonda, ésta había utilizado todo su combustible. El procesador de la sonda tenía un temporizador de vigilancia pero no fue utilizado, de haberlo hecho probablemente habría detectado la falla y apagaría los motores del cohete a tiempo para salvar la misión.}
 
 \subsection{Detección de Objetos Próximos} \label{sec:Sol Prop :: detección de objetos próximos}
-Si bien el robot cuenta con un sistema de navegación y detección de obstáculos implementado en la \hl{SBC} creemos necesario implementar en la \hl{IO Board} otros mecanismos para la detección de objetos próximos que estén controlados por el componente Dm3Security (\ref{sec:Sol Prop :: Dm3Security}). Se utilizará para ello un conjunto de sensores de distancia que permitirán detectar la presencia de objetos a distancias cercanas a los cuatro metros. 
+Si bien el robot cuenta con un sistema de navegación y detección de obstáculos implementado en la \gls{SBC} creemos necesario implementar en la placa de entrada/salida otros mecanismos para la detección de objetos próximos que estén controlados por el componente Dm3Security (\ref{sec:Sol Prop :: Dm3Security}). Se utilizará para ello un conjunto de sensores de distancia que permitirán detectar la presencia de objetos a distancias cercanas a los cuatro metros. 
 
-También es necesario considerar que todos los mecanismos de detección de objetos próximos han fallado y se presenta el accidente o colisión, es muy importante poder detectar este caso y tomar acciones de forma muy eficiente. Para ello se utilizan sensores contacto \hl{Bumpers} que alerten de una colisión en tiempo real generando una interrupción en el sistema para que el componente Dm3Security (\ref{sec:Sol Prop :: Dm3Security}) procese la información y tome las acciones correspondientes (apagar los motores, activar frenos, encender una sirena, etc.).
+También es necesario considerar que todos los mecanismos de detección de objetos próximos han fallado y se presenta el accidente o colisión, es muy importante poder detectar este caso y tomar acciones de forma muy eficiente. Para ello se utilizan sensores contacto, \gls{Bumper}, que alerten de una colisión en tiempo real generando una interrupción en el sistema para que el componente Dm3Security (\ref{sec:Sol Prop :: Dm3Security}) procese la información y tome las acciones correspondientes (apagar los motores, activar frenos, encender una sirena, etc.).
 
 \subsection{Detección de Velocidades y Potencias Anómalas} \label{sec:Sol Prop :: detección de velocidades y potencias anómalas}
 Debemos garantizar que el robot se moverá en un rango de velocidades bien establecido, para ello se implementan mecanismos de control en el componente Dm3Security (\ref{sec:Sol Prop :: Dm3Security}) que monitorean las velocidades de las ruedas del robot y validan que estén dentro de los parámetros configurados, de no estarlo se ejecutan rutinas que de seguridad que eventualmente deshabilitan al robot y reportan el estado de los componentes a los operarios.
@@ -862,7 +900,7 @@ Además de los controles de velocidades propiamente, se definen controles que re
 Al detectar cualquiera de los escenarios mencionados anteriormente el robot será deshabilitado y se reportará a los operarios de lo sucedido.
 
 \subsection{Monitoreo y Recuperación de la Conexión} \label{sec:Sol Prop :: monitoreo y recuperación de la conexión}
-Se proporciona un mecanismo que monitorea la conexión entre la \hl{SBC} y la \hl{IOBoard} y en caso de detectar una pérdida de ésta genera una alerta crítica de seguridad que concluye en deshabilitar al robot. También se implementa un mecanismo que intenta restablecer la conexión una vez que se detecta la pérdida de la misma. Este mecanismo es totalmente independiente del que tomas las acciones para deshabilitar al robot.
+Se proporciona un mecanismo que monitorea la conexión entre la \gls{SBC} y la placa de entrada/salida y en caso de detectar una pérdida de ésta genera una alerta crítica de seguridad que concluye en deshabilitar al robot. También se implementa un mecanismo que intenta restablecer la conexión una vez que se detecta la pérdida de la misma. Este mecanismo es totalmente independiente del que tomas las acciones para deshabilitar al robot.
 
 \section{Indicadores de Estado} \label{sec: sol prop - Indicadores de Estado}
 El robot cuenta con dispositivos que permiten indicar a los operarios sobre el estado del robot y el funcionamiento de sus componentes. Estos dispositivos son:
@@ -909,10 +947,10 @@ Los números que se observan en las figuras se corresponden con los siguientes c
   \item Controladoras de motores.
   \item Botón de parada de emergencia.
   \item Placa de Entrada/Salida conectada a \textit{shield} construido para ella.
-  \item Shield octocoplado para \hl{DAC}.
+  \item Shield octocoplado para \gls{DAC}.
   \item DAC.
   \item LCD de estado de los motores \cite{LCD1602}.
-  \item Módulo \hl{GPS} con interfaz \hl{USB} \cite{GPSModule}.
+  \item Módulo \gls{GPS} con interfaz \gls{USB} \cite{GPSModule}.
   \item Sensor de distancia ultrasonido.
   \item Sensor de contacto.
   \item Cámara 3D (ZED).
@@ -1102,7 +1140,7 @@ El cálculo que determina si la velocidad y potencia reportadas son consistentes
 
 \subsection{Monitoreo y Recuperación de la Conexión}
 
-En lo que respecta al tópico monitoreo de la conexión se implementan dos procesos, uno que realiza un monitoreo de la conexión TCP con la SBC y otro que realiza un monitoreo de errores en la conexión \hl{I2C} con los motores. Ambos procesos consisten en monitorear una conexión en particular y en caso de detectar un error generar un alerta de seguridad indicando el peligro correspondiente, en ninguno de los dos casos se implementa una corrección del error encontrado, simplemente se notifica y el componente Dm3Module tomará las medidas adecuadas.
+En lo que respecta al tópico monitoreo de la conexión se implementan dos procesos, uno que realiza un monitoreo de la conexión TCP con la SBC y otro que realiza un monitoreo de errores en la conexión \gls{I2C} con los motores. Ambos procesos consisten en monitorear una conexión en particular y en caso de detectar un error generar un alerta de seguridad indicando el peligro correspondiente, en ninguno de los dos casos se implementa una corrección del error encontrado, simplemente se notifica y el componente Dm3Module tomará las medidas adecuadas.
 
 Es importante mencionar que el Communication (ver diagrama de la figura \ref{fig: Diagrama de componentes - Firmware IO Board}) implementa un controlador para TCP que provee operaciones para enviar y recibir datos, así como también para establecer la conexión con la SBC cuando ésta se encuentre caída y el sistema de control necesite recibir o enviar datos. En caso de no poder establecerse efectivamente dicha conexión, el proceso mencionado anteriormente lo detectará y reportará un alerta de seguridad de riesgo alto que, al ser procesada por el Dm3Module, desactivará al robot. 
 

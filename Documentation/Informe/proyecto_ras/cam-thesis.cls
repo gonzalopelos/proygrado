@@ -152,13 +152,13 @@
 % Create the glossary
 \ifcam@glossary
     \RequirePackage{glossaries}
-    \makeglossaries%
+    \makeglossaries
     \newcommand{\printthesisglossary}{\printglossary[nonumberlist]}
-    \newcommand{\cam@printthesisglossary}{%
-        \cleardoublepage%
-        \pagestyle{empty}%
-        \renewcommand{\glossarypreamble}{\thispagestyle{empty}}%
-        \printthesisglossary%
+    \newcommand{\cam@printthesisglossary}{
+        \cleardoublepage
+        \pagestyle{empty}
+        \renewcommand{\glossarypreamble}{\thispagestyle{empty}}
+        \printthesisglossary
     }
 \fi
 
