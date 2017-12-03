@@ -36,7 +36,6 @@
 \usepackage{glossaries}
 \usepackage{enumitem}
 \usepackage{longtable}
-\usepackage{glossaries}
 \usepackage[export]{adjustbox}
 \usepackage[binary-units]{siunitx}
 \usepackage{color}
@@ -129,14 +128,12 @@ Montevideo, Diciembre de 2017.}
 %% Title page, abstract, declaration etc.:
 %% -    the title page (is automatically omitted in the technical report mode).
 \frontmatter{}
-
+\printthesisglossary
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Thesis body:
 %%
 \chapter{Introducción}
 Este capítulo presenta una introducción al proyecto de aspectos de seguridad e interacción humano-robot aplicados en un robot agropecuario. Incluye una exposición de las motivaciones para realizar el proyecto en la Sección 1.1, un resumen de los objetivos del proyecto en la Sección 1.2 y los aportes que se considera que el proyecto vuelca al conocimiento general de la temática en la Sección 1.3.
-
-This is an example glossary reference: \gls{HOL}
  
 %\marginpar[Margin note.]{Margin par.}
 
@@ -148,13 +145,13 @@ El robot DM3 tiene como objetivo asistir a humanos en tareas de recolección de 
 \section{Aportes}
 El objetivo de este trabajo consiste en investigar normas, guías y trabajos anteriores relacionados con aspectos de seguridad en robots autónomos que deban interactuar con humanos en ambientes abiertos y dinámicos, para luego implementar e incorporar un subconjunto de los mecanismos relevados al robot DM3.
 
-Se dejan documentados los distintos mecanismos de seguridad implementados así como una guía de recomendaciones a seguir para garantizar la seguridad.
+Se dejan documentados los distintos mecanismos de seguridad implementados así como una guía de recomendaciones a seguir para garantizar la seguridad. Queda disponible el código fuente de todo lo implementado en el contexto del proyecto.
 
 \chapter{Estado del Arte}
 En esta sección se incluye un breve resumen del estado del arte. En la Sección 2.1 se presentan normas y estándares internacionales, finalmente, en la Sección 2.2 se describen aspectos de interacción humano-robot desde la perspectiva de la seguridad.
 
 \section{Normas y Estándares Internacionales}
-Durante la investigación inicial para la realización de este proyecto se estudiaron varias normas y estándares internacionales relacionados con la seguridad, algunos mas específicos que otros considerando el ámbito del proyecto. Se presenta brevemente las mas relevantes.
+Durante la investigación inicial para la realización de este proyecto se estudiaron varias normas y estándares internacionales relacionados con la seguridad, algunos mas específicos que otros, considerando el ámbito del proyecto. Se presenta brevemente las mas relevantes.
 
 \subsection{ISO10218 - Robots y Dispositivos Robóticos, Requerimientos de Seguridad Para Robots Industriales} \label{sec: Marco Teorico :: Normas :: ISO 10218}
 Especifica los requerimientos y pautas para un diseño seguro, medidas de protección e información para el uso de robots industriales. Describe peligros básicos asociados con los robots y proporciona los requisitos para eliminar, o reducir, los riesgos asociados a estos peligros. Aplica solo a los robots industriales, a pesar de esto los principios establecidos se pueden utilizar para otros tipos de robots. Se divide en dos partes ISO 10218-1 e ISO 10218-2, la primer parte aborda sólo el robot (manipulador y controlador) y la segunda parte aborda el sistema robótico y su aplicación.
@@ -231,13 +228,13 @@ En las aplicaciones industriales, donde el uso de robots está extendido, la seg
 Existe una jerarquía de controles operacionales para mitigar o eliminar peligros: 
 
 \begin{itemize}
-\item \textit{Eliminar el peligro}: es muy importante analizar e identificar riesgos y peligros de forma temprana y cuando se detecta uno que puede ser eliminado, debe eliminarse. Es la primer estrategia de control en la jerarquía y debe ser considerado, sobre todo, en la etapa de diseño del sistema. No obstante puede ser considerado en una etapa posterior rediseñando el sistema, por ejemplo para incorporar un nuevo mecanismo o dispositivo que permite eliminar el peligro en cuestión.
-\item \textit{Controlar el peligro}: una vez considerada la estrategia de eliminación de peligros, donde no todos pudieron ser eliminados, se debe tratar de controlarlos reduciendo su probabilidad de ocurrencia o minimizando sus propiedades de peligro. Por ejemplo, considerando un robot colaborativo en el que es imposible suprimir la interacción con humanos para eliminar el peligro de colisión, una forma de controlar o reducir dicho peligro es incorporar mecanismos y sensores para prevenir y detectar las colisiones, de forma de poder reducir la probabilidad de ocurrencia de éstas y de minimizar el daño que pueden causar.
-\item \textit{Controles administrativos}: en este control se debe considerar todo lo que respecta a señales que advierten al operador sobre la existencia de un peligro dado. Se debe contar con señales visibles y audibles que indiquen el correcto funcionamiento del robot y que llamen la atención de los operarios cuando haya riesgo de un potencial accidente. 
+\item \textit{Eliminar el peligro}: es muy importante analizar e identificar riesgos y peligros de forma temprana, y cuando se detecta uno que puede ser eliminado, debe eliminarse. Es la primer estrategia de control en la jerarquía y debe ser considerada, sobre todo, en la etapa de diseño del sistema. No obstante puede ser considerada en una etapa posterior rediseñando el sistema, por ejemplo para incorporar un nuevo mecanismo o dispositivo que permita eliminar un nuevo peligro encontrado.
+\item \textit{Controlar el peligro}: una vez considerada la estrategia de eliminación de peligros, donde generalmente no todos pueden de ser eliminados, se debe tratar de controlarlos reduciendo su probabilidad de ocurrencia o minimizando sus propiedades nocivas. Por ejemplo, considerando un robot colaborativo en el que es imposible suprimir la interacción con humanos para eliminar el peligro de colisión, una forma de controlar o reducir dicho peligro es incorporar mecanismos y sensores para prevenir y detectar las colisiones, de forma de poder reducir la probabilidad de ocurrencia de éstas y de minimizar el daño que puedan causar.
+\item \textit{Controles administrativos}: en este control se debe considerar todo lo que respecta a señales que advierten al operador sobre la existencia de un peligro dado. Se debe contar con señales visibles y audibles que indiquen el correcto funcionamiento del robot y que llamen la atención de los operarios cuando haya un funcionamiento fuera de lo normal o riesgo de un potencial accidente. 
 Otro aspecto importante a considerar en este punto es advertir y entrenar a los operadores sobre procedimientos para la operación segura con el robot.
-\item \textit{Protección personal}: este es el último de la jerarquía y dónde se debe pensar que todas las estrategias anteriores no pudieron sortear el peligro y se produce el accidente, es por ello que se debe pensar en el equipamiento de protección corporal para los operarios de forma que se reduzca las consecuencias del accidente.
+\item \textit{Protección personal}: este es el último control de la jerarquía y dónde se debe pensar que todas las estrategias anteriores no pudieron sortear el peligro, produciéndose el accidente, es por ello que se debe pensar en el equipamiento de protección corporal para los operarios de forma que se reduzca las consecuencias del accidente.
 \end{itemize}
-La experiencia de la industria indica que el primer punto de la jerarquia es el más exitoso como estrategia de reducción de riesgos~\cite{ANSIRIA1506}~\cite{IEC61508}. Este ha sido aplicado incluso en robots no industriales como pueden ser los presentados en ~\cite{Yamada1997}, ~\cite{Yamada1999} y ~\cite{Bicchia} que cuentan en su diseño con cobertura visco-eléctrica o articulaciones esféricas y flexibles.
+La experiencia de la industria indica que el primer punto de la jerarquia es el más exitoso como estrategia de reducción de riesgos~\cite{ANSIRIA1506}~\cite{IEC61508}. Este ha sido aplicado incluso en robots no industriales como pueden ser los presentados en ~\cite{Yamada1997}, ~\cite{Yamada1999} y ~\cite{Bicchia} que cuentan en su diseño, por ejemplo, con cobertura visco-eléctrica o articulaciones esféricas y flexibles.
 
 \chapter{Marco Teórico}
 Este capítulo presenta el marco teórico en el cual se encuadra el proyecto. En la Sección 3.1 se presenta el protocolo de comunicación HDLC, en la sección 3.2 se mencionan los aspectos básicos de la plataforma MCC, en la Sección 3.3 se describe el protocolo TCP, a continuación en la Sección 3.4 se describe brevemente Robot Operative System (ROS), y finalmente, en la Sección 3.5 se describen las características del Sistema Operativo de Tiempo Real (RTOS).
