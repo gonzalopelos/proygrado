@@ -497,7 +497,7 @@ Es un protocolo de la capa de transporte de Internet fiable y orientado a la con
 
 Una conexión TCP proporciona un servicio full-duplex, esto es, dada una conexión TCP entre el proceso A que se ejecuta en un host y el proceso B que se ejecuta en otro host, los datos de la capa de aplicación pueden fluir desde el proceso A al proceso B en el mismo instante que los datos de la capa de aplicación fluyen del proceso B al proceso A. Además el protocolo garantiza que los datos serán entregados en su destino, sin errores y en el mismo orden en que se transmitieron.
 
-\section{Robot Operating System (ROS)}
+\section{Robot Operating System (ROS)} \label{sec: Marco Teórico - ROS}
 El Sistema Operativo de Robots (en inglés Robot Operating System, ROS), es un meta-sistema operativo de código abierto para robots. Provee servicios que uno esperaría de un sistema operativo, incluyendo abstracción del hardware, control de dispositivos de bajo nivel, implementación de funcionalidades comúnmente usadas, intercambio de mensajes entre procesos y gestión de paquetes. También provee herramientas y librerías para obtener, compilar, codificar, y ejecutar código a través de múltiples computadoras \cite{wikiROS}.
 
 \begin{figure}[H]
@@ -983,21 +983,21 @@ Como se comentó en \ref{sec:Sol Prop :: Requerimientos} cuando se describieron 
 
 \subsection{Entorno de desarrollo}
 \subsubsection{Utilizados para desarrollo en la placa de entrada/salida}
-Para el desarrollo del firmware se utilizó la plataforma Kinetis Design Studio, que es un entorno de desarrollo para Kinetis MCU y permite la edición robusta, la compilación y la depuración de sus diseños. Está basado en software libre y de código abierto que incluye Eclipse, GNU Compiler Collection (GCC), GNU Debugger (GDB).
+Para el desarrollo del firmware se utilizó la plataforma Kinetis Design Studio \cite{KDS}, que es un entorno de desarrollo para Kinetis MCU y permite la edición robusta, la compilación y la depuración de sus diseños. Está basado en software libre y de código abierto que incluye Eclipse, GNU Compiler Collection (GCC), GNU Debugger (GDB).
 También se utlizaron las siguientes librerías de código en C++:
 \begin{itemize}
-	\item \textit{EthernetInterface}: librería que provee una API para establecer conexiones a internet. En particular se utilizó esta librería para crear sockets TCP y establecer la comunicación con la SBC.
-	\item \textit{mbed-rtos}: esta librería ofrece la implementación del Sistema operativo oficial mbed en tiempo real basado en la implementación RTX del estándar abierto de la API CMSIS-RTOS.
-	\item \textit{mpc4728}: librería que implmenta las interfaces I2CInterface y DACInterface, provistas por mbed, para proveer una API que permite la comunicación con el dispositivo DAC MCP4728.
-	\item \textit{mbed}: SDK oficial de mbed C / C ++ que proporciona la plataforma de software y las bibliotecas básicas para el desarrollo de aplicaciones.
+	\item \textit{EthernetInterface}: librería \cite{EthernetInterface} que provee una API C++ para establecer conexiones a internet mediante una conexión Ethernet. En particular se utilizó esta librería para crear sockets TCP y establecer la comunicación con la SBC.
+	\item \textit{mbed-rtos}: esta librería \cite{mbed-rtos} ofrece la implementación del Sistema operativo oficial mbed en tiempo real basado en la implementación RTX del estándar abierto de la API CMSIS-RTOS.
+	\item \textit{mpc4728}: librería \cite{MCP4728} que implmenta las interfaces I2CInterface y DACInterface, provistas por mbed, para proveer una API que permite la comunicación con el dispositivo DAC MCP4728.
+	\item \textit{mbed}: SDK oficial de mbed C / C ++ \cite{mbed}  que proporciona la plataforma de software y las bibliotecas básicas para el desarrollo de aplicaciones.
 \end{itemize}
 Para gestionar el versionado del desarrollo se utilizó un repositorio en GitHub \footnote{El repositorio se encuentra accesible en la dirección https://github.com/gonzalopelos/proygrado} en el que además del código del firmware se incluye documentación relevante al proyecto, como ser: diagramas de arquitectura, componentes y estados, documentación asociada al relevamiento del estado del artye y el propio documento de informe de proyecto.
 \subsubsection{Utilizados para desarrollo en la SBC}
-\begin{itemize}
-    \item IDEs
-    \item Librerías y SDKs
-    \item Repositorios de código
-\end{itemize}
+Para realizar el desarrollo de módulos ROS \ref{sec: Marco Teórico - ROS} en la SBC se utilizó la plataforma RoboWare Studio \cite{RoboWare}, basada en el IDE Visual Studio Code \cite{vscode}, que ofrece un espacio de trabajo ROS para editar, compilar y depurar el código desarrollado.
+También se utilizó el paquete de ROS \textit{rqt\_plot} \cite{rqt-plot} que provee una interfaz gráfica para visualizar diagramas en dos dimensiones de valores que numéricos registrados en un tópico.
+
+El versionado de este código es manejado en el repositorio GitLab de la facultad de ingeniería, más precisamente en el proyecto \textit{dm3\/ros} \footnote{El código desarrollado se encuentra accesible en la dirección https://gitlab.fing.edu.uy/dm3/ros/tree/navigation}.
+
 \section{Supervisión de Sub-sistemas y componentes} \label{sec: Implementación :: Supervisión}
 Para dar un panorama general de los componentes del sistema de control y sus relaciones, se presenta el siguiente diagrama.
 
