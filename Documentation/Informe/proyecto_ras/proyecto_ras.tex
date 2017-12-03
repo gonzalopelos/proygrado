@@ -118,6 +118,10 @@ Montevideo, Diciembre de 2017.}
 	description={Single Board Computer}
 }
 
+\newglossaryentry{CRC}{
+	name=CRC,
+	description={Comprobación de redundancia cíclica}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Contents:
@@ -240,9 +244,10 @@ La experiencia de la industria indica que el primer punto de la jerarquia es el 
 Este capítulo presenta el marco teórico en el cual se encuadra el proyecto. En la Sección 3.1 se presenta el protocolo de comunicación HDLC, en la sección 3.2 se mencionan los aspectos básicos de la plataforma MCC, en la Sección 3.3 se describe el protocolo TCP, a continuación en la Sección 3.4 se describe brevemente Robot Operative System (ROS), y finalmente, en la Sección 3.5 se describen las características del Sistema Operativo de Tiempo Real (RTOS).
 
 \section{High-Level Data Link Control}
-Es un protocolo de comunicaciones de propósito general punto a punto, que opera a nivel de enlace de datos. Se basa en ISO 3309 e ISO 4335. Surge como una evolución del anterior SDLC. Proporciona recuperación de errores en caso de pérdida de paquetes de datos, fallos de secuencia y otros, por lo que ofrece una comunicación confiable entre el transmisor y el receptor. (\cite{RFC2687} \cite{RFC1662})
 
 \subsection{Introducción}
+HDLC es un protocolo de comunicaciones de propósito general punto a punto, que opera a nivel de enlace de datos. Se basa en ISO 3309 e ISO 4335. Surge como una evolución del anterior SDLC. Proporciona recuperación de errores en caso de pérdida de paquetes de datos, fallos de secuencia y otros, por lo que ofrece una comunicación confiable entre el transmisor y el receptor. (\cite{RFC2687} \cite{RFC1662})
+
 El protocolo define detalladamente varios conceptos:
 \begin{itemize}
 \item \textbf{Estaciones - Terminales:}
@@ -260,7 +265,7 @@ El protocolo define detalladamente varios conceptos:
 	\begin{itemize}[label={--}]
 	\item Modo de respuesta normal: (NRM-“Normal response mode”) Se usa en la configuración no balanceada. La estación primaria puede iniciar la transferencia de datos a la secundaria, pero la secundaria sólo puede transmitir datos usando respuestas a las órdenes de la primaria.
     \item Modo balanceado asíncrono: (ABM-“Asynchronous balanced mode”) Se usa en la configuración balanceada, en la cual una estación combinada puede iniciar la transmisión sin necesidad de recibir permiso de la otra estación combinada.
-    \item Modo de respuesta asíncrono: (ARM-“Asynchronous response mode”) Se usa en la configuración no balanceada. La estación secundaria puede iniciar la transmisión sin tener permiso explícito de la primaria, aunque ésta última sigue siendo la responsable del funcionamiento del enlace, incluyendo la iniciación, la recuperación de errores y la desconexión lógica.
+    \item Modo de respuesta asíncrono: (ARM-“Asynchronous response mode”) Se usa en la configuración no balanceada. La estación secundaria puede iniciar la transmisión sin tener permiso explícito de la primaria, aunque ésta última sigue siendo la responsable del funcionamiento del enlace, incluyendo la inicialización, la recuperación de errores y la desconexión lógica.
 	\end{itemize}
 \end{itemize}
 El modo NRM se usa en líneas con múltiples conexiones, con varios terminales conectados a un computador central, que sondea las entradas de cada terminal. En ocasiones se usa NRM en conexiones punto a punto. El ABM es el mas utilizado de los tres modos, ya que al no necesitar sondeos, los enlaces full duplex punto a punto son mas eficientes.
@@ -322,7 +327,7 @@ El primer bit o los dos primeros del campo de control, identifican el tipo de tr
 \caption[Formato de campo de control de 8 bits]{Formato de campo de control de 8 bits.}
 \end{figure}
 
-La figura anterior muestra el formato de campo de control de 8 bits, que maneja contadores para números de secuencias de tres bits, aunque se puede utilizar el formato extendido de siete bits, mediante la selección del modo extendido en la negociación inicial, con el formato de campos de la siguiente figura.
+La figura anterior muestra el formato de campo de control de 8 bits, que maneja contadores para números de secuencias de tres bits, aunque se puede utilizar el formato extendido con contadores de siete bits, mediante la selección del modo extendido en la negociación inicial, con el formato de campos de la siguiente figura.
 
 \begin{figure}[H]
 \centering
@@ -334,22 +339,22 @@ La figura anterior muestra el formato de campo de control de 8 bits, que maneja 
 Sólo presente en las tramas-I (y en algunas tramas-N). Puede contener cualquier secuencia de bits siempre que sea una secuencia de 8n bits, (n natural), por lo tanto con una longitud variable.
 
 \subsubsection{Campo de Secuencia de Comprobación de Trama (FCS - Frame Check Sequence)}
-Es un código de detección de errores, calculado sobre los bits de la trama, excluyendo los delimitadores. Se usa generalmente una CRC (Comprobación de redundancia cíclica) de 16 bits, y como opcional una de 32 bits.
+Es un código de detección de errores, calculado sobre los bits de la trama, excluyendo los delimitadores. Se usa generalmente una \gls{CRC} de 16 bits, y como opcional una de 32 bits.
 
 \subsection{Funcionamiento}
-Se lleva a cabo mediante el intercambio de tramas-I, tramas-S y tramas-U entre dos estaciones, que transportan órdenes y respuestas. Implica necesariamente tres fases: iniciación, transferencia de datos y desconexión.
+Se lleva a cabo mediante el intercambio de tramas-I, tramas-S y tramas-U entre dos estaciones, que transportan órdenes y respuestas. Implica necesariamente tres fases: inicialización, transferencia de datos y desconexión.
 
-\subsubsection{Iniciación}
+\subsubsection{Inicialización}
 Cualquiera de los extremos puede iniciar la transmisión, generando alguna de las seis posibles órdenes de modo. Esta orden cumple los siguientes tres propósitos:
 \begin{itemize}
-	\item Avisar al otro extremo que se ha solicitado la iniciación.
+	\item Avisar al otro extremo que se ha solicitado la inicialización.
     \item Especificar el modo solicitado (NRM, ABM o ARM)
     \item Especificar si se utilizaran números de secuencia de 3 ó 7 bits.
 \end{itemize}
 Si la solicitud del transmisor se acepta, el receptor envía una trama de confirmación no numerada (UA-“unnembered acknowledged”). Si la solicitud se rechaza, el receptor envía una trama de modo desconectado (DM - “disconnected mode”).
 
 \subsubsection{Transferencia de Datos}
-Con la iniciación solicitada y aceptada, se habrá establecido la conexión lógica. Ambos lados pueden comenzar a enviar datos mediante tramas-I, comenzando con el número de secuencia 0. La secuencia de tramas-I se numeran secuencialmente módulo 8 ó módulo 128, según se utilice 3 ó 7 bits respectivamente, utilizando el campo N(S).
+Con la inicialización solicitada y aceptada, se habrá establecido la conexión lógica. Ambos lados pueden comenzar a enviar datos mediante tramas-I, comenzando con el número de secuencia 0. La secuencia de tramas-I se numeran secuencialmente módulo 8 ó módulo 128, según se utilice contadores de 3 ó 7 bits respectivamente, utilizando el campo N(S).
 
 El campo N(R) se utiliza para la confirmación de las tramas-I recibidas, por lo que se indica al otro extremo el número de la próxima trama que se espera recibir (“reconocimiento inclusivo”). 
 
@@ -365,7 +370,7 @@ Las \textbf{tramas-S} también se utilizan para el control de flujo y errores:
 Cualquiera de los extremos puede solicitar la desconexión, ya sea por iniciativa propia (detección de un fallo) o por solicitud de una capa superior. HDLC lleva a cabo la desconexión transmitiendo una trama de desconexión (DISC), a la que el otro extremo responderá con una UA.
 
 \subsection{Ejemplos de Operación}
-En los diagramas siguientes, cada fila especifica el nombre de la trama. Cuando se requiere, se dan los contenidos de V(S) y de V(R). El bit P/F (“poll/final”) se fija en 0, salvo cuando explícitamente aparece, que estará indicado en 1.
+En los diagramas siguientes, en cada flecha se especifica el nombre de la trama. Cuando se requiere, se dan los contenidos de V(S) y de V(R). El bit P/F (“poll/final”) se fija en 0, salvo cuando explícitamente aparece, que estará indicado en 1.
 
 %\subsubsection{Iniciación del enlace y desconexión}
 %\begin{minipage}{0.3\textwidth}
@@ -463,7 +468,7 @@ Los buffers del receptor se pueden desbordar porque HDLC puede ser incapaz de pr
 Cada módulo del micro-controlador y el host representan un proceso (o servicio) direccionable de forma individual mediante un identificador único llamado \textit{pid}.
 MCC ofrece una API que consiste en la definición de la estructura de mensajes que pueden ser transferidos. La interfaz define un conjunto de métodos, que se identifican por un código llamado \textit{opcode}, y un conjunto de parámetros. 
 Algunos de los \textit{opcodes} son reservados y tienen una semántica predefinida que es contemplada por un proceso encargado de administrar a la placa micro-controlador y a todas las tareas. 
-Los procesos ofrecen un mecanismo uniforme para brindar meta información sobre si mismos, de ésta manera es posible interrogar a un proceso sobre su API.
+Los procesos ofrecen un mecanismo uniforme para brindar metainformación sobre sí mismos, de ésta manera es posible interrogar a un proceso sobre su API.
 
 \subsubsection{Enlace}
 El medio de comunicación entre el host y la placa micro-controladora donde se intercambian mensajes.
@@ -507,8 +512,8 @@ ROS no remplaza a los sistemas operativos tradicionales sino que trabaja junto c
 
 \begin{itemize}
   \item Computación Distribuida: Muchos sistemas robóticos modernos dependen de software que abarca muchos procesos diferentes y ejecuta  en varias computadoras diferentes, lo cual presenta la necesidad de comunicación entre estos procesos. ROS provee dos mecanismos para llevar adelante esta comunicación, la publicación de mensajes en tópicos y las llamadas a servicios.
-  \item Reutilización de Software: El rápido progreso de la investigación robótica ha resultado en una creciente colección de buenos algoritmos para resolver tareas comunes como la navegación, la planificación de movimientos, la construcción de mapas y muchas otras. La existencia de estos algoritmos solo es verdaderamente útil si hay una forma de aplicarlos en nuevos contextos sin la necesidad de reimplementarlos para cada nuevo sistema. ROS ayuda a prevenir este problema en al menos dos formas, los paquetes estándar de ROS proveen una implementación estable y \textit{debuggeada} de muchos algoritmos importantes y el pasaje de mensajes propuesto por ROS se ha vuelto el estándar \textit{de facto} para la interoperabilidad de software robótico. Esto resulta en que comúnmente se encuentren disponibles para ROS interfaces al hardware mas moderno e implementaciones de los algoritmos más avanzados.
-  \item Testeo Rápido: Una de las razones por las cuales el desarrollo de software para robots es mas complejo que otras clases de desarrollo es que el testeo puede consumir mucho tiempo y es propenso a errores. Es posible que muchas veces no se cuente con el robot físico para trabajar con el, y cuando esta disponible el trabajo es lento y delicado. Utilizar ROS provee dos soluciones a este problema. Sistemas que utilicen ROS, bien diseñados, separan el control de bajo nivel del hardware, el procesamiento de alto nivel y la toma de decisiones en programas distintos, esta separación permite sustituir los programas de bajo nivel por simuladores, lo cual permite testear los componentes de alto nivel del sistema. ROS provee una forma simple de grabar y reproducir datos de sensores y otros mensajes, esto significa que se puede obtener mas beneficios del tiempo en el que se tenga físicamente disponible el robot ya que grabando la información de los sensores luego es posible reproducirla y testear distintas formas de procesar los mismos datos. En la jerga de ROS estas grabaciones son llamadas \textit{bags} y una herramienta llamada \textit{rosbag} es la que se utiliza para grabar y reproducirlas.
+  \item Reutilización de Software: El rápido progreso de la investigación robótica ha resultado en una creciente colección de buenos algoritmos para resolver tareas comunes como la navegación y construcción de mapas, la planificación de movimientos y muchas otras. La existencia de estos algoritmos solo es verdaderamente útil si hay una forma de aplicarlos en nuevos contextos sin la necesidad de reimplementarlos para cada nuevo sistema. ROS ayuda a prevenir este problema en al menos dos formas, los paquetes estándar de ROS proveen una implementación estable y \textit{debuggeada} de muchos algoritmos importantes y el pasaje de mensajes propuesto por ROS se ha vuelto el estándar \textit{de facto} para la interoperabilidad de software robótico. Esto resulta en que comúnmente se encuentren disponibles para ROS interfaces al hardware mas moderno e implementaciones de los algoritmos más avanzados.
+  \item Testeo Rápido: Una de las razones por las cuales el desarrollo de software para robots es mas complejo que otras clases de desarrollo es que el testeo puede consumir mucho tiempo y es propenso a errores. Es posible que muchas veces no se cuente con el robot físico para trabajar con él, y cuando está disponible el trabajo es lento y delicado. Utilizar ROS provee dos soluciones a este problema. Sistemas que utilicen ROS, bien diseñados, separan el control de bajo nivel del hardware, el procesamiento de alto nivel y la toma de decisiones en programas distintos, esta separación permite sustituir los programas de bajo nivel por simuladores, lo cual permite testear los componentes de alto nivel del sistema. ROS provee una forma simple de grabar y reproducir datos de sensores y otros mensajes, esto significa que se puede obtener mas beneficios del tiempo en el que se tenga físicamente disponible el robot ya que grabando la información de los sensores luego es posible reproducirla y testear distintas formas de procesar los mismos datos. En la jerga de ROS estas grabaciones son llamadas \textit{bags} y una herramienta llamada \textit{rosbag} es la que se utiliza para grabarlas y reproducirlas.
 \end{itemize}
 
 Cabe destacar que ROS no es la única plataforma en ofrecer estas capacidades, sin embargo existe un apoyo generalizado a ROS en el ámbito de la robótica y una gran comunidad al rededor del mismo. Esta ``masa crítica'' de apoyo hace que sea razonable pensar que ROS seguirá evolucionando, expandiéndose y mejorando en el futuro. Esta es una fuerte razón para elegir ROS a la hora de seleccionar un marco de trabajo.
@@ -534,7 +539,7 @@ Los algoritmos mas comunes de planificación son:
       \item Planificador por turnos: Todas las tareas tienen la misma prioridad. Se define una porción de tiempo (\textit{time slice}) durante el cual una tarea puede ejecutar durante cada turno. Si la tarea finaliza su ejecución, cambia a estado en espera o consume toda la porción de tiempo asignada el planificador comienza a ejecutar la siguiente tarea lista para ejecutar.
       \item Planificador Expropiativo de Prioridad Fija: Las tareas tienen prioridad fija. Cada tarea ejecuta durante una porción de tiempo luego de la cual el planificador expropia el uso del procesador, la siguiente tarea a ejecutar sera la de mas alta prioridad que este lista. Este comportamiento puede hacer que tareas de prioridad baja esperen indefinidamente, para remediar esto se puede ir incrementando la prioridad de las tareas en espera a medida que pasa el tiempo de forma que eventualmente sean seleccionadas por el planificador para ejecutar.
   	\end{itemize}
-  \item Planificador Cooperativo: Confía en que cada tarea ceda regularmente tiempo a las otras tareas del sistema. Puede sufrir de inanición si una tarea mal programada no cede el control, por esta afirmación no debería emplearse en un sistema de tiempo real. Sin embargo sí se puede considerar el uso este planificador, ya que permite obtener comportamiento \textit{soft real-time} y mediante el uso de interrupciones y otros mecanismos cumplir con los requerimientos \textit{hard real-time}, en escenarios en los cuales utilizar un RTOS es excesivo con las ventajas de que este planificador es simple de implementar, \textit{debuggear} y consume poca memoria flash y RAM.
+  \item Planificador Cooperativo: Confía en que cada tarea ceda regularmente tiempo a las otras tareas del sistema. Puede sufrir de inanición si una tarea mal programada no cede el control, por esta afirmación no debería emplearse en un sistema de tiempo real. Sin embargo sí se puede considerar el uso este planificador, ya que permite obtener comportamiento \textit{soft real-time} y mediante el uso de interrupciones y otros mecanismos cumplir con los requerimientos \textit{hard real-time}, en escenarios en los cuales utilizar un RTOS es excesivo, con las ventajas de que este planificador es simple de implementar, \textit{debuggear} y consume poca memoria flash y RAM.
   \item Planificador de Menor Tiempo de Respuesta Primero: Las prioridades de las tareas son dinámicas. Al momento de realizar un cambio de tarea este planificador seleccionara aquella tarea lista mas próxima a finalizar, por ejemplo asignando prioridades inversamente proporcionales al tiempo restante para finalizar. Tiene las ventajas de que no hay necesidad de definir las prioridades de las tareas de antemano, en general realiza menos cambios de contexto y es posible aprovechar el procesador al 100\%. Como desventajas se puede mencionar que es menos predecible (el tiempo de respuesta de las tareas es variable), brinda menos control sobre la ejecución (no es posible cambiar la prioridad de las tareas a demanda), tiene un mayor costo de implementación y es muy difícil computar el tiempo de respuesta. \\[-7pt]
 \end{itemize}
 
@@ -544,8 +549,8 @@ Las tareas (\textit{tasks}), que forman las unidades lógicas de computación en
 
 \begin{itemize}[topsep=-11pt]
 	\item Tarea de tiempo real duro (\textit{Hard real-time task}): Si la tarea no es finalizada antes de su tiempo límite, aunque sea una sola vez, se debe considerar que el sistema ha fallado. Debe estar determinado y acotado con exactitud el tiempo en el cual ejecutan estas tareas, e incluso las latencias de interrupción y cambio de contexto. El sistema de airbags de un vehículo es un claro ejemplo de este tipo de tarea, el sistema debe desplegar los airbag en el momento exacto y de no hacerlo (tanto si los despliega temprano como tarde) el resultado será desastroso.
-    \item Tarea de tiempo real blando (\textit{Soft real-time task}): Para estas tareas los tiempos límites deben ser en su mayoría cumplidos, pero se acepta el incumplimiento de unos pocos sin que el resultado de esto sea considerado falla del sistema. Para estas tareas solo se define la precedencia y secuencia de las operaciones que realizan, las latencias de interrupción y cambio de contexto son pequeñas pero puede haber desviaciones entre las esperadas y las observadas. El resultado de la ejecución de la tarea se sigue considerando útil aún cuando se ha obtenido luego del tiempo límite, la acumulación de no cumplimientos de tiempos límites para estas tareas resultará en la degradación de la calidad del servicio del sistema. Un sistema de transmisión de audio y video en vivo es un ejemplo de este tipo de tareas, las restricciones de tiempo deben cumplirse para que el audio y el video estén sincronizados, violaciones a las restricciones temporales que no ocurran frecuentemente no afectan gravemente la calidad de la transmisión pero una acumulación de estas resultaría en audio y video notablemente fuera de sincronía.
-    \item Tarea de tiempo real firme (\textit{Firm real-time task}): Al igual que para las tareas de tiempo real blando, si no es frecuente, el no cumplir con el límite de tiempo establecido para la tarea no implica una falla del sistema, incluso si el no cumplimiento es reiterado. Sin embargo, a diferencia de estas el resultado de la tarea carece de valor si es obtenido luego del tiempo límite (la utilidad del resultado es 0 luego del \textit{deadline}). Un ejemplo de tarea de este tipo se puede encontrar en sistema de manufactura con líneas que cuenten con robots para el ensamblado, en estos el no cumplir con un tiempo límite resultará en el ensamblado incorrecto de la pieza. Pero mientras la ocurrencia de piezas mal ensambladas sea infrecuente y no muy costosas la producción continuará.
+    \item Tarea de tiempo real blando (\textit{Soft real-time task}): Para estas tareas los tiempos límites deben ser en su mayoría cumplidos, pero se acepta el incumplimiento de unos pocos sin que el resultado de esto sea considerado falla del sistema. Para estas tareas solo se define la precedencia y secuencia de las operaciones que realizan, las latencias de interrupción y cambio de contexto deben ser pequeñas pero puede haber desviaciones entre las esperadas y las observadas. El resultado de la ejecución de la tarea se sigue considerando útil aún cuando se ha obtenido luego del tiempo límite, la acumulación de no cumplimientos de tiempos límites para estas tareas resultará en la degradación de la calidad del servicio del sistema. Un sistema de transmisión de audio y video en vivo es un ejemplo de este tipo de tareas, las restricciones de tiempo deben cumplirse para que el audio y el video estén sincronizados, violaciones a las restricciones temporales que no ocurran frecuentemente no afectan gravemente la calidad de la transmisión pero una acumulación de estas resultaría en audio y video notablemente fuera de sincronía.
+    \item Tarea de tiempo real firme (\textit{Firm real-time task}): Al igual que para las tareas de tiempo real blando, si no es frecuente, el no cumplir con el límite de tiempo establecido para la tarea no implica una falla del sistema, incluso si el no cumplimiento es reiterado. Sin embargo, a diferencia de estas el resultado de la tarea carece de valor si es obtenido luego del tiempo límite (la utilidad del resultado es 0 luego del \textit{deadline}). Un ejemplo de tarea de este tipo se puede encontrar en sistema de manufactura con líneas que cuenten con robots para el ensamblado, en estos el no cumplir con un tiempo límite resultará en el ensamblado incorrecto de la pieza. Pero mientras la ocurrencia de piezas mal ensambladas sea infrecuente y no muy costosa la producción continuará.
 \\[-7pt]
 \end{itemize}
 
