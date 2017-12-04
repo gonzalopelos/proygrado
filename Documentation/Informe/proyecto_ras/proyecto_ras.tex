@@ -1006,7 +1006,7 @@ A los efectos de facilitar la integración de la placa de entrada/salida al prot
   \end{minipage}
 \end{figure}
 
-\subsubsection{Sensores}
+\subsubsection{Sensores} \label{sec: Plataforma :: Sensores}
 El sensor de distancia de ultrasonido utilizado, ítem 9 de las Figuras \ref{fig:PrototipoDM31} y \ref{fig:PrototipoDM32}, es el HC-SR04 cuyo funcionamiento y características se puede observar en \cite{HCSR04}.
 
 El kill switch utilizado es el que se observa en las Figuras \ref{fig:PrototipoDM32} y \ref{fig:PrototipoDM33}, ítem 3.
@@ -1048,7 +1048,7 @@ Para dar un panorama general de los componentes del sistema de control y sus rel
 \caption[Diagrama del sub-sistema Dm3Security]{Diagrama de relación de componentes del sistema de control.}
 \end{figure}
 
-El componente Dm3Security define un conjunto de mecanismos para realizar chequeos de seguridad, así como también provee un mecanismo de suscripción para recibir alertas o notificaciones generadas por dichos mecanismos. Se puede observar en el diagrama de la figura \ref{fig: Diagrama_de_subsistema_Dm3Security} que el componente Dm3Module es quien se subscribe para recibir las notificaciones y de esta manera tomar las acciones correspondientes, entre las que se encuentran: (des)habilitar al robot, activar alertas audibles y visibles, frenar las ruedas, generar y enviar reportes a la \hl{SBC}.
+El componente Dm3Security define un conjunto de mecanismos para realizar chequeos de seguridad, así como también provee un mecanismo de suscripción para recibir alertas o notificaciones generadas por dichos mecanismos. Se puede observar en el diagrama de la figura \ref{fig: Diagrama_de_subsistema_Dm3Security} que el componente Dm3Module es quien se subscribe para recibir las notificaciones y de esta manera tomar las acciones correspondientes, entre las que se encuentran: (des)habilitar al robot, activar alertas audibles y visibles, frenar las ruedas, generar y enviar reportes a la \gls{SBC}.
 El siguiente diagrama describe el flujo del proceso implementado para procesar las alertas de seguridad y manejar los estados del robot.
 
 \begin{figure}[H]
@@ -1061,7 +1061,7 @@ El siguiente diagrama describe el flujo del proceso implementado para procesar l
 Por otra parte el componente Dm3Security tiene como principal responsabilidad la detección de peligro para notificarlo con la mayor eficiencia posible, es por ello que depende de los componentes:
 \begin{itemize}
 \item  \textul{MotorModule}, para obtener información asociada a la comunicación con los motores, las potencias establecidas y las velocidades de las ruedas.
-\item  \textul{Communication}, para monitorear el estado de la conexión entre los sistemas \hl{SBC} e \hl{IOBoard}.
+\item  \textul{Communication}, para monitorear el estado de la conexión entre los sistemas en las placas\gls{SBC} y de entrada/salida.
 \item  \textul{Ultrasonic}, para detectar objetos próximos. Este componente genera una interrupción al sistema y notifica la distancia a la que detecta un objeto.
 \item  \textul{Bumper}, detecta el contacto con un objeto y al igual que el ultrasonido también genera una interrupción al sistema notificando la colisión.
 \end{itemize}
@@ -1070,9 +1070,9 @@ Por otra parte el componente Dm3Security tiene como principal responsabilidad la
 Se implementaron dos mecanismos para la detección de objetos próximos, uno utilizando sensores de ultrasonido enfocado en la prevención del accidente, y el otro utilizando sensores de contacto enfocado en detectar la colisión y minimizar el peligro del accidente.
 
 \subsubsection{Detección con sensores de ultrasonido}
-El componente Dm3Security implementa una rutina que atiende las interrupciones generadas por el componente Ultrasonic reportando las distancias de los objetos detectados. Este componente Ultrasonic es simplemente un manejador del dispositivo \hl{Referencia al Ultrasonido} que emite un sonido y en función del tiempo que transcurre hasta recibir el eco de la onda emitida, debido al choque de ésta con un objeto, es capaz de determinar a qué distancia se encuentra el objeto que hizo rebotar a la onda.
+El componente Dm3Security implementa una rutina que atiende las interrupciones generadas por el componente Ultrasonic reportando las distancias de los objetos detectados. Este componente Ultrasonic es simplemente un manejador del sensor de ultrasonido descrito en \ref{sec: Plataforma :: Sensores} que emite un sonido y en función del tiempo que transcurre hasta recibir el eco de la onda emitida, debido al choque de ésta con un objeto, es capaz de determinar a qué distancia se encuentra el objeto que hizo rebotar a la onda.
 
-El mecanismo desarrollado realiza un filtro a las señales reportadas por el sensor, de forma de suprimir variaciones muy rápidas en estas, seguramente a consecuencia de errores en el sensado. El filtro en cuestión es denominado \hl{Filtro paso bajo} de primer orden que consiste en:
+El mecanismo desarrollado realiza un filtro a las señales reportadas por el sensor, de forma de suprimir variaciones muy rápidas en estas, seguramente a consecuencia de errores en el sensado. El filtro en cuestión es denominado Filtro Pasabajos \cite{FiltroPasabajos} de primer orden que consiste en:
 
 \begin{center}
 $dist = dist_{anterior} + \alpha * (dist_{actual} - dist_{anterior})$ 
@@ -1113,7 +1113,7 @@ A continuación se presenta un diagrama que ilustra el flujo de acciones desarro
 \label{fig: Diagrama de flujo - Control de velocidad máxima}
 \end{figure}
 
-Para filtrar errores de medición que realizan los \hl{sensores de Hall} sobre las ruedas del robot, se desarrolló el filtro que se menciona en el diagrama de la figura \ref{fig: Diagrama de flujo - Control de velocidad máxima}. El mismo consiste en considerar el conjunto de las últimas \textit{SPEEDS\_CHECK\_WINDOW\_SIZE} velocidades reportadas, siendo este parámetro un valor configurado en el encabezado del componente Dm3Security, y calcular la velocidad promedio entre ellas. Luego esta velocidad será comparada contra la máxima velocidad permitida, valor que también se configura en el encabezado del componente Dm3Security con el nombre \textit{SPEED\_MAX\_VALUE\_ALLOWED}.
+Para filtrar errores de medición que realizan los sensores de Hall \cite{MPC4728} sobre las ruedas del robot, se desarrolló el filtro que se menciona en el diagrama de la figura \ref{fig: Diagrama de flujo - Control de velocidad máxima}. El mismo consiste en considerar el conjunto de las últimas \textit{SPEEDS\_CHECK\_WINDOW\_SIZE} velocidades reportadas, siendo este parámetro un valor configurado en el encabezado del componente Dm3Security, y calcular la velocidad promedio entre ellas. Luego esta velocidad será comparada contra la máxima velocidad permitida, valor que también se configura en el encabezado del componente Dm3Security con el nombre \textit{SPEED\_MAX\_VALUE\_ALLOWED}.
 
 \subsubsection{Control de potencias}
 El mecanismo de controles de potencia consiste en contrastar, en valores porcentuales, a la potencia establecida en los motores con la velocidad alcanzada por el robot. A continuación se presenta un diagrama que ilustra el flujo desarrollado.
@@ -1159,7 +1159,7 @@ Este componente es utilizado por el proceso principal del sistema, donde se cons
 Se desarrollaron tres mecanismos para indicar estados del robot a los operarios, como se describe en la sección \ref{sec: sol prop - Indicadores de Estado}, estos indicadores son: Pantalla LCD indicando estados reportados por los mecanismos de seguridad, Sirena audible indicando un riesgo alto de seguridad y la Luz de Emergencia que indica que el robot se encuentra con la alimentación de energía activa.
 
 \subsection{Pantalla LCD}
-Desde la \hl{IO Board} se reporta el estado de todos los mecanismos de seguridad así como también el estado general del robot. El mensaje es procesado en la \hl{SBC} y finalmente enviado a la Pantalla LCD don es presentado a los operarios. El siguiente diagrama de actividad describe dicho flujo de procesamiento.
+Desde la placa de entrada/salida se reporta el estado de todos los mecanismos de seguridad así como también el estado general del robot. El mensaje es procesado en la \gls{SBC} y finalmente enviado a la Pantalla LCD don es presentado a los operarios. El siguiente diagrama de actividad describe dicho flujo de procesamiento.
 
 \begin{figure}[H]
 \centering
@@ -1289,12 +1289,12 @@ Para el primer experimento cuando se ordeno al robot avanzar a velocidades super
 
 \section{Pruebas de Rendimiento}
 \subsection{Throughput de la conexión TCP}
-Se realizaron experimentos sobre la comunicación entre las placas \hl{SBC} e \hl{IO\_Board} buscando dimensionar el flujo de datos que es soportado en dicha comunicación. Es importante aclarar que las características del hardware utilizado (las placas se encuentran cableadas a un router \ref{fig:PrototipoDM31} item 20) permiten transferencias de datos a 100 Mbits/s 
+Se realizaron experimentos sobre la comunicación entre las placas \gls{SBC} y de entrada/salida buscando dimensionar el flujo de datos que es soportado en dicha comunicación. Es importante aclarar que las características del hardware utilizado (las placas se encuentran cableadas a un router \ref{fig:PrototipoDM31} item 20) permiten transferencias de datos a \SI{100}{\mega\bit/\second}. 
 
 Los experimentos consisten en monitorear y analizar los paquetes  de datos que se transmiten en la comunicación entre las placas considerando diferentes escenarios:
 \begin{itemize}
-	\item \textul{b\'{a}sico}: únicamente hay flujo de datos desde la \hl{IOBoard} a la \hl{SBC}, y dicho flujo corresponde a los reportes esenciales que realiza la placa para comunicar el estado de los motores (velocidades y potencias de los motores), así como también el estado general del robot y de sus mecanismos y dispositivos de seguridad.
-	\item \textul{carga a 15hz}: contempla el flujo de datos del escenario anterior y agrega un tráfico de 15 mensajes por segundo, con la semántica de la funcionalidad \hl{ping}, enviados desde la placa \hl{SBC} a la placa \hl{IOBoard}, y al procesar estos mensajes esta última los responde generando un mensaje idéntico al recibido, lo que genera un flujo de daos extra desde la \hl{IOBoard} a la \hl{SBC} contemplando los reportes y todos los menajes de ping.
+	\item \textul{b\'{a}sico}: únicamente hay flujo de datos desde la placa de entrada/salida a la \gls{SBC}, y dicho flujo corresponde a los reportes esenciales que realiza la placa para comunicar el estado de los motores (velocidades y potencias de los motores), así como también el estado general del robot y de sus mecanismos y dispositivos de seguridad.
+	\item \textul{carga a 15hz}: contempla el flujo de datos del escenario anterior y agrega un tráfico de 15 mensajes por segundo, con la semántica de la funcionalidad \textit{ping} \footnote{La funcionalidad hace referencia al programa de utilidad para el diagnóstico del estado de la comunicación entre dos o más dispositivos en una misma red de datos.}, enviados desde la placa \gls{SBC} a la placa de entrada/salida, y al procesar estos mensajes esta última los responde generando un mensaje idéntico al recibido, lo que genera un flujo de daos extra desde la placa de entrada/salida a la \gls{SBC} contemplando los reportes y todos los menajes de ping.
 	\item \textul{carga a 30hz}: idéntico al escenario anterior pero generando 30 mensajes por segundo en lugar de generar 10.
 	\item \textul{carga a 50hz}: idéntico al escenario anterior pero generando 50 mensajes por segundo en lugar de generar 30.
 \end{itemize}
@@ -1416,7 +1416,7 @@ Analizando los paquetes de control de TCP encontramos errores de confirmaciones 
 
 
 \subsection{Tiempo de respuesta frente a situaciones anómalas (tiempo de deshabilitación)}
-Con este experimento se pretendió tener una estimación del tiempo que insume el proceso de deshabilitación presentado en \hl{(Agregar ref a lugar donde se describe el proceso)} cuando alguno de los mecanismos de seguridad desarrollados indica que se esta en una configuración de peligro. El proceso de deshabilitación siempre es el mismo para todos los mecanismos de seguridad, por ello se decidió realizar el experimento utilizando solo uno de los mecanismos, en concreto, el mecanismo de control de distancias.
+Con este experimento se pretendió tener una estimación del tiempo que insume el proceso de deshabilitación presentado en \ref{fig: Diagrama_de_flujo_proceso_alertas_de_seguridad} cuando alguno de los mecanismos de seguridad desarrollados indica que se esta en una configuración de peligro. El proceso de deshabilitación siempre es el mismo para todos los mecanismos de seguridad, por ello se decidió realizar el experimento utilizando solo uno de los mecanismos, en concreto, el mecanismo de control de distancias.
 
 \begin{table}[H]  
   \centering
