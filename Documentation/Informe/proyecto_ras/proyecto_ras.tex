@@ -626,7 +626,7 @@ Primero en la sección \ref{sec: Guía Seguridad :: Diseño y Construcción} se 
   \item Proveer la capacidad de parar el sistema automáticamente frente a velocidades anormales desarrolladas por componentes del robot al llevar a cabo sus tareas.
   \item Incluir técnicas de prevención de colisiones y minimización del impacto frente a accidentes.
     \begin{itemize}
-        \item Prevención del accidente: Uso de sensores ubicados en puntos estratégicos para considerar el volumen del robot y un área virtual de alto riesgo. Esto acompañado de algoritmos que permiten tomar decisiones frente a posibles colisiones.
+        \item Prevención del accidente: Uso de sensores ubicados en puntos estratégicos para considerar el volumen del robot y un área virtual de alto riesgo. Esto acompañado de algoritmos que permitan tomar decisiones frente a posibles colisiones.
         \item En caso de accidente: El sistema deberá estar preparado para actuar de manera que minimice el impacto (fuerzas repulsivas, torque, etc.).
     \end{itemize}
   \item El acceso a la unidad de control, el arranque, parada y modificación del programa deben estar restringidos mediante algún mecanismo de seguridad (llaves, códigos de acceso, etc.)
@@ -648,7 +648,7 @@ Primero en la sección \ref{sec: Guía Seguridad :: Diseño y Construcción} se 
   \item Contar con señales luminosas y acústicas que indiquen el correcto funcionamiento del robot y que llamen la atención cuando haya riesgo de accidente.
   \item Cortar la alimentación y neutralizar todos los dispositivos de almacenamiento de energía del robot durante el proceso de ajuste o reparación de algún componente.
   \item De existir una etapa de aprendizaje para el sistema robótico, solo deberán tener el control del robot desarrolladores y personal capacitado mientras dure.
-  \item No superar velocidades de \SI{250}{\milli\metre/\second} $=$ \SI{0.9}{\kilo\metre/\hour} en las etapas de producción y puesta en marcha. Realizar pruebas progresivas aumentando las velocidades paulatinamente hasta lograr ejecutar de manera continua y a las velocidades finales deseadas.
+  \item No superar velocidades de \SI{250}{\milli\metre/\second} $=$ \SI{0.9}{\kilo\metre/\hour} en las etapas de puesta en producción y marcha. Realizar pruebas progresivas aumentando las velocidades paulatinamente hasta lograr ejecutar de manera continua y a las velocidades finales deseadas.
 \end{itemize}
 
 \subsection{Operarios}
@@ -674,11 +674,11 @@ Señalizar el espacio de trabajo. Aun cuando el ambiente en el que opere el robo
 Se comenta muy brevemente a continuación un conjunto de técnicas de interés mencionadas en los distintos trabajos que formaron parte de la bibliografía del proyecto.
 \begin{itemize}
 \item Supervisión de Funciones: 
-Se debe considerar la supervisión básica del movimiento del robot, i.e. el movimiento ejecutado se corresponde con el movimiento comandado; la supervisión de las cantidades cinemáticas como son la posición, velocidad, aceleración y frenado; la supervisión de las cantidades dinámicas como lo son el torque y la fuerza; y la supervisión de funciones definidas por el usuario, relacionadas con la aplicación. Se debe buscar que la incertidumbre que el robot tiene acerca de su estado sea mínima.
+Se debe considerar la supervisión básica del movimiento del robot, i.e., el movimiento ejecutado se corresponde con el movimiento comandado; la supervisión de las cantidades cinemáticas como son la posición, velocidad, aceleración y frenado; la supervisión de las cantidades dinámicas como lo son el torque y la fuerza; y la supervisión de funciones definidas por el usuario, relacionadas con la aplicación. Se debe buscar que la incertidumbre que el robot tiene acerca de su estado sea mínima.
 
 Estas funciones deben permitir detectar fallos (conocer su existencia), ubicarlos (aislar fallo, detectar lugar y tiempo, acotar efectos para evitar propagación) e identificarlos (estimar tipo, naturaleza y dimensiones o alcance), esto es, realizar un diagnóstico del fallo.
 \item Recuperación Frente a Fallas: 
-Las técnicas de recuperación frente a fallas proveen mecanismos para que el sistema siga operando de forma normal a pesar de la existencia de fallas. A continuación se describen tres técnicas utilizadas con este propósito.
+Las técnicas de recuperación frente a fallas proveen mecanismos para que el sistema siga operando de forma normal a pesar de la existencia de fallas. A continuación se describen cuatro técnicas utilizadas con este propósito.
 	\begin{itemize}
 		\item Enmascaramiento del fallos: Una forma de recuperación frente a fallos es simplemente tolerarlos y enmascararlos, de esta forma el error no se expresa. De hecho, ni siquiera es necesaria la detección del fallo. Una técnica de enmascaramiento de fallos es la de \textit{mayoría de votos}, en esta se cuentan con sensores redundantes los cuales ``votan'' acerca del estado de lo sensado y el valor que se considera es el indicado por la mayoría. Si se selecciona adecuadamente el tipo, ubicación y cantidad de sensores se puede lograr que el sistema opere correctamente aunque algunos de los sensores reporten lecturas erróneas. Esta técnica se puede incluso mejorar considerando la confianza que se tiene en las lecturas de cada sensor y ponderar los votos considerando el valor atribuido a esta confianza. En \cite{GARCIA200711} y \cite{ROGINA1999} se puede ver más detalle de esta técnica.
 		\item Reintento de procesamiento: Si el tipo de aplicación hace que sea aceptable, muchas veces un nuevo intento de procesamiento puede ser satisfactorio, siendo muy común en fallos transitorios.
@@ -686,7 +686,7 @@ Las técnicas de recuperación frente a fallas proveen mecanismos para que el si
 		\item Diversidad de diseño: La única aproximación a la tolerancia frente a fallas que tienen su origen en el diseño es aplicar la diversidad en el diseño, esto es, la implementación de más de una variante de la función a realizar. Esto aplica tanto al software como al hardware. 
 	\end{itemize}
 \item Prevención de Colisiones:
-  Estas técnicas agrupadas bajo este nombre persiguen como objetivo el evitar que el robot colisione.
+  Las técnicas agrupadas bajo este nombre persiguen como objetivo el evitar que el robot colisione.
   \begin{itemize}
   	\item 3D Sensor Fusión: Fusión en tiempo real de información provista por sensores de imagen tridimensional para crear una representación del espacio a través de una grilla de evidencia volumétrica (\textit{volumetric evidence/occupancy grid}). Se segmenta el espacio en fondo, robots y humanos. Al rededor del robot se define una zona de peligro y al rededor de cada persona o todo aquello que se quiera proteger se define una zona de seguridad. Si estas zonas se intersecan el robot se debe enlentecer o detener hasta que la situación se resuelva.
     \item Predicción de Movimiento y Acción Humana: Bajo este titulo se engloban varias técnicas que persiguen como fin otorgar al robot la capacidad de inferir o predecir movimientos y acciones humanas. Ya sea esto para evitar accidentes o asistir en la realización de tareas. 
@@ -706,7 +706,7 @@ Las técnicas de recuperación frente a fallas proveen mecanismos para que el si
 \end{itemize}
 
 \chapter{Solución Propuesta}
-En este capítulo se plantea la solución al problema abordado en el proyecto. En la Sección 4.1 se detallan los requerimientos del sistema, en la Sección 4.2 se muestra la arquitectura de la solución, en la Sección 4.3 se presenta y justifica los protocolos de comunicación empleados, en la Sección 4.4 se presentan y describen los mecanismos de seguridad desarrollados e integrados al DM3 y por último en la Sección 4.5 el se describe el método utilizado para comunicar el estado del robot a los usuarios.
+En este capítulo se plantea la solución al problema abordado en el proyecto. En la Sección 5.1 se detallan los requerimientos del sistema, en la Sección 5.2 se muestra la arquitectura de la solución, en la Sección 5.3 se presenta y justifica los protocolos de comunicación empleados, en la Sección 5.4 se presentan y describen los mecanismos de seguridad desarrollados e integrados al DM3 y por último en la Sección 5.5 el se describe el método utilizado para comunicar el estado del robot a los usuarios.
 
 \section{Requerimientos} \label{sec:Sol Prop :: Requerimientos}
 Los requerimientos del proyecto fueron los siguientes:
@@ -741,7 +741,7 @@ Ofrece los medios por los cuales el sistema puede lograr sus objetivos eficiente
 \subsection{Requerimientos}
 El principal requerimiento no funcional que presenta el sistema de control del robot es que debe ser un sistema dedicado, en una placa de entrada/salida, a interactuar con el hardware a bajo nivel, con alto rendimiento para el censado, procesamiento de los datos y actuación en respuesta a situaciones de riesgo para la seguridad del robot y su entorno. También se definen los requerimientos no funcionales para el sistema que se describen a continuación.
 \subsubsection{Sistema modularizado}
-Si bien el sistema implementado en la placa de entrada/salida tiene gran interacción con la placa SBC, es muy importante que existan módulo que pueden operar de forma autónoma y desacoplada, por ejemplo para tomar acciones que evitarían un accidente.
+Si bien el sistema implementado en la placa de entrada/salida tiene gran interacción con la placa SBC, es muy importante que existan módulos que pueden operar de forma autónoma y desacoplada, por ejemplo para tomar acciones que evitarían un accidente.
 \subsubsection{Sistema flexible}
 Pensando en la evolución del sistema y considerando que inicialmente se desarrolla un prototipo, es deseable que la arquitectura permita suplantar módulos que interactuan con un hardware específico por otro módulo que interactua con otro hardware pero resuelve la misma problemática. Por ejemplo, si hoy se tiene un módulo para detectar obstáculos con sensores de proximidad ultrasónicos y el día de mañana se desea cambiar a sensores láser se debe poder cambiar dicho módulo, de forma simple, sin alterar al resto del sistema.
 También es importante considerar aspectos de configuración, teniendo en cuenta ciertos parámetros como velocidades máximas y distancias mínimas, que permitirán luego ajustar y optimizar el rendimiento del robot según el contexto en el que opere.
@@ -852,9 +852,9 @@ Componente responsable de manejar el estado general del robot en base a los esta
 
 Se prosigue a describir brevemente las características del robot en cada uno de los estados.
 \begin{itemize}
-\item \textul{Enabled}: en este estado el robot se encuentra operando o listo para operar con todos sus mecanismos activos y funcionando correctamente. A este estado se puede llegar únicamente cuando se recibe el un comando de habilitación desde la placa \gls{SBC} y el sistema de control de la placa de entrada/salida no ha detectado alertas de seguridad.
-\item \textul{Warning}: este estado indica que se ha detectado una alerta de criticidad media, por ejemplo, cuando hay un obstáculo próximo al robot y éste no se está moviendo en dirección a dicho obstáculo, se detecta una alerta de criticidad media por lo que el estado del robot pasa a ser \textit{Warning}. A este estado se llega únicamente desde el estado \textit{Enabled} y es posible pasar al estado \textit{Disabled} en caso de tener una alerta de criticidad mayor, considerando el ejemplo anterior, si se detecta velocidad en dirección al obstáculo el alerta es de criticidad alta.
-\item \textul{Disabled}: estado que indica que el robot no está operativo, los motores están deshabilitados y seguramente se encuentre frenado (eventualmente se puede desactivar el freno manualmente aunque el robot esté deshabilitado). Es posible que el robot se encuentre en este estado debido a que se detectó un alerta de criticidad alta como la descrita en el punto anterior o porque se recibió un comando para deshabilitar al robot desde la \gls{SBC}. La única forma de salir de este estado es recibiendo un comando de habilitado desde la \gls{SBC} y que no se detectan alertas de algún tipo, en tal caso el robot pasa al estado \textit{Enabled}.
+\item \textul{Enabled}: en este estado el robot se encuentra operando o listo para operar con todos sus mecanismos activos y funcionando correctamente. A este estado se puede llegar únicamente cuando se recibe un comando de habilitación desde la placa \gls{SBC} y el sistema de control de la placa de entrada/salida no ha detectado alertas de seguridad.
+\item \textul{Warning}: este estado indica que se ha detectado una alerta de criticidad media, por ejemplo, cuando hay un obstáculo próximo al robot y éste no se está moviendo en dirección a dicho obstáculo, se detecta una alerta de criticidad media por lo que el estado del robot pasa a ser \textit{Warning}. A este estado se llega únicamente desde el estado \textit{Enabled} y es posible pasar al estado \textit{Disabled} en caso de tener una alerta de criticidad mayor, considerando el ejemplo anterior, si se detecta velocidad en dirección al obstáculo la alerta es de criticidad alta.
+\item \textul{Disabled}: estado que indica que el robot no está operativo, los motores están deshabilitados y seguramente se encuentre frenado (eventualmente se puede desactivar el freno manualmente aunque el robot esté deshabilitado). Es posible que el robot se encuentre en este estado debido a que se detectó un alerta de criticidad alta como la descrita en el punto anterior o porque se recibió un comando para deshabilitar al robot desde la \gls{SBC}. La única forma de salir de este estado es recibiendo un comando de habilitación desde la \gls{SBC} y que no se detectan alertas de algún tipo, en tal caso el robot pasa al estado \textit{Enabled}.
 \end{itemize}
 
 Este componente también es responsable de manejar una sirena, la cual se activa al detectar una alerta de seguridad o al recibir un comando específico para ello desde la \gls{SBC}, y de reportar cada cambio de estado o de alerta de seguridad a la \gls{SBC} mediante mensajes MCC.
