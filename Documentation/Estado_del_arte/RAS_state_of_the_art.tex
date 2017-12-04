@@ -1,0 +1,1227 @@
+%% LyX 2.2.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[spanish]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{textcomp}
+\usepackage{graphicx}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+%% A simple dot to overcome graphicx limitations
+\newcommand{\lyxdot}{.}
+
+
+\makeatother
+
+\usepackage{babel}
+\addto\shorthandsspanish{\spanishdeactivate{~<>}}
+
+\begin{document}
+\include{title_page}
+
+\pagebreak{}
+
+\tableofcontents{}
+
+\pagebreak{}
+
+\section{Introducción}
+
+Si los robots van a ser introducidos en el mundo de los humanos para
+asistir o ayudar a una persona en la realización de una acción o tarea,
+dos problemas clave de los robots actuales deberán de ser solucionados.
+La interfaz robot-humano deberá ser de uso intuitivo y la seguridad
+del usuario en lo que respecta a heridas infligidas por colisiones
+deberá estar garantizada
+
+\subsection{Definiciones}
+\begin{itemize}
+\item Peligro (Hazard): Fuente de daño potencial.
+\item Riesgo (Risk):Combinación de la probabilidad de que ocurra un daño
+por la gravedad de ese daño.
+\item Seguridad funcional: La seguridad funcional es la parte de la seguridad
+global que depende del funcionamiento correcto del proceso o equipo
+en respuesta a sus entradas. La IEC TR 61508-0 proporciona el siguiente
+ejemplo para ayudar a aclarar el significado de la seguridad funcional.
+\textquotedblleft Por ejemplo, un dispositivo de protección contra
+sobre-temperatura que utiliza un sensor térmico en los bobinados de
+un motor eléctrico para desactivar el motor antes de que pueda calentarse
+en exceso, es un caso de seguridad funcional. Pero proporcionar aislamiento
+especial para resistir altas temperaturas no es un ejemplo de seguridad
+funcional (aunque es un ejemplo de seguridad y podría proteger precisamente
+contra el mismo peligro)\textquotedblright . 
+\item Colaboración: Trabajo realizado por robots y humanos juntos para cumplir
+una tarea \cite{moon2010recent}.
+\item Robot colaborativo: Robot diseñado para la interacción directa con
+un humano \cite{moon2010recent}.
+\item Field Robot: Robot diseñado para operar en ambientes no restringidos,
+no artificiales, normalmente al aire libre y en toda la gama de condiciones
+operativas y ambientales: un robot para el mundo \textquotedblleft natural\textquotedblright \cite{fieldrobotics}. 
+\end{itemize}
+
+\section{Normas y Estándares de Seguridad}
+
+\subsection{ISO 10218}
+
+\textquotedblleft Robots and robotic devices -{}- Safety requirements
+for industrial robots\textquotedblright{} \cite{ISO10218-1}: Especifica
+los requerimientos y directrices para un diseño inherentemente seguro,
+medidas de protección e información para el uso de robots industriales.
+En ella se describen peligros básicos asociados con los robots y proporciona
+los requisitos para eliminar, o reducir de manera adecuada, los riesgos
+asociados a estos peligros. Aplica solo a los robots industriales,
+a pesar de esto los principios de seguridad establecidos en la norma
+se pueden utilizar para otros tipos de robots.
+
+\subsection{ISO/TS 15066}
+
+\textquotedblleft Robots and robotic devices -{}- Collaborative robots\textquotedblright :
+Especifica los requerimientos de seguridad para los sistemas de robots
+industriales colaborativos y el ambiente de trabajo, y complementa
+los requisitos y la orientación sobre la operación de robots industriales
+colaborativos dada por las normas ISO 10218-1 e ISO 10218-2. Aplica
+lo mismo que la norma anterior para el caso de robots no industriales,
+es útil aunque no especifica para estos.
+
+\subsection{ISO 13482}
+
+\textquotedblleft Robots and robotic devices -{}- Safety requirements
+for personal care robots\textquotedblright{} \cite{safetycertificationpractices}:
+Especifica los requerimientos y directrices para un diseño inherentemente
+seguro, medidas de protección e información para el uso de robots
+para el cuidado personal, en particular, los siguientes tres tipos
+de robots: Robot sirviente móvil. Robot asistente físico. Robot portador
+de persona. Ofrece una categorización de robots basada en sus atributos
+entre la cual se encuentra el tipo 3.2, robots personales móviles
+de \textquotedbl{}múltiples pasajeros\textquotedbl{} o \textquotedbl{}pasajeros
+no de pie\textquotedbl{} o \textquotedbl{}al aire libre\textquotedbl{}
+o \textquotedbl{}superficies irregulares\textquotedbl{} o \textquotedbl{}no
+lento\textquotedbl{} o \textquotedbl{}no liviano\textquotedbl{} o
+\textquotedbl{} autónomo\textquotedbl{}. Este tipo de robots cubriría
+a los field robots y en particular a los robots de este tipo utilizados
+para la agricultura.
+
+\subsection{ISO 25119}
+
+\textquotedblleft Tractors and machinery for agriculture and forestry
+-{}- Safety-related parts of control systems\textquotedblright : Solo
+aborda el peligro para los humanos, y no para el robot. Cubre los
+posibles peligros causados por el comportamiento funcional de los
+sistemas relacionados con la seguridad, a diferencia de los riesgos
+que surgen de los propios equipos. Alcance: Establece los principios
+generales para el diseño y desarrollo de las partes relacionadas con
+la seguridad de los sistemas de control (SRP / CS) en los tractores
+utilizados en la agricultura y la silvicultura, máquinas autopropulsadas
+de montar y máquinas montadas, semi-montadas y arrastradas utilizadas
+en agricultura.
+
+\subsection{ANSI/RIA R15.06}
+
+\textquotedblleft American National Standard for Industrial Robots
+and Robot Systems- Safety Requirements\textquotedblright : El estándar
+ANSI define disposiciones de consenso para la construcción, reconstrucción,
+modificación, instalación, protección, atención, pruebas y puesta
+en marcha de robots y sistemas de robótica, así como la formación
+de operadores de los sistemas de robot y robótica y personal de mantenimiento.
+Es la adopción nacional (Estados Unidos) del estándar ISO 10218-1
+y 10218-2.
+
+\subsection{Otras normas}
+\begin{itemize}
+\item ISO 26262 - Seguridad funcional, automotriz.
+\item ISO 13854 - Distancias mínimas para evitar aplastamientos.
+\item ISO 13855 - Posicionamiento de las protecciones.
+\item ISO 13857 - Distancias seguras.
+\item ISO 14120 - Protecciones en posición fija o movibles.
+\end{itemize}
+
+\section{Seguridad en Robots Colaborativos}
+
+La seguridad en sistemas robotizados contempla dos vertientes, la
+que se refiere a la seguridad propia del robot que debe ser contemplada
+desde el diseño del mismo y es responsabilidad del fabricante; y aquella
+que está relacionada con el diseño e implantación del sistema, su
+utilización, programación y mantenimiento que requiere de una cuota
+mayor de responsabilidad del usuario del sistema que opera de forma
+colaborativa con el robot.
+
+Existen normas (ver Sección 2 de este documento) que proporcionan
+un marco de trabajo a diseñadores y fabricantes de robots de gran
+ayuda para lograr productos más seguros en su uso, por ejemplo presentando
+estrategias de trabajo para el desarrollo y selección de medidas de
+seguridad que consideran:
+\begin{itemize}
+\item Determinación de los límites del sistema, intención de uso, espacio
+y tiempos de trabajo considerando:
+\begin{itemize}
+\item Aspectos de interacción con personas.
+\item Manipulación de objetos.
+\item Transporte de carga.
+\item Factores de riesgo ambiental.
+\item Tareas de mantenimiento, cómo y cuándo deberán ser llevadas a cabo.
+\end{itemize}
+\item Identificación de todos los peligros que puede generar el robot durante
+todas las fases de trabajo. En este punto se deben considerar:
+\begin{itemize}
+\item Fallas de hardware (motores, sensores, fuentes de alimentación).
+\item Fallas de software (sistemas de control).
+\item Riesgos asociados a un trabajo colaborativo entre el robot y operarios.
+\item Riesgos vinculados a un mal uso del robot (error humano, no respetar
+políticas de seguridad, no respetar protocolos).
+\end{itemize}
+\item Se debe definir el riesgo de que se produzca un accidente, esto es
+calculado probabilísticamente en función del daño que pueda producir
+\end{itemize}
+
+\subsection{Diseño y construcción del robot}
+
+En el diseño del robot y de su sistema de control es muy importante
+considerar siempre el posible accidente, tomándose las acciones oportunas
+para evitarlo en la medida de lo posible.
+
+\subsubsection{Diseño Mecánico}
+
+En lo que respecta al diseño mecánico del robot, deberán considerarse
+las siguientes medidas enfocadas en la prevención del posible accidente.
+\begin{itemize}
+\item Acceso al panel de control principal: El panel de control principal
+del robot debe estar instalado fuera del área de trabajo del mismo.
+Para el caso en el que no hay un espacio de trabajo bien definido
+deberá haber una base de control que esté accesible siempre para los
+operarios.
+\item Paradas de emergencia: Deben existir paradas de emergencia con accionadas
+mediante botones de fácil acceso que deberán estar situados en posiciones
+fácilmente localizables. Las identificaciones de estas paradas de
+emergencia son una parte fundamental de la formación del personal.
+Estos dispositivos tienen prioridad sobre todos los demás controles.
+\item Identificación de dispositivos de control: Todos los dispositivos
+de control deberán estar claramente identificados y etiquetados indicando
+su propósito. Los controles de accionamiento deben estar diseñados
+para indicar el estado de funcionamiento del robot.
+\item Controles de accionamiento o alimentación de energía: Los controles
+de accionamiento o alimentación de energía del robot deben estar protegidos
+contra acciones involuntarias. Cada robot cuenta con un interruptor
+independiente que se puede bloquear solo en la posición de apagado.
+\item Interacción robot-operarios: Se utilizan pantallas para brindar indicaciones
+al usuario de forma de minimizar los errores que éstos pueden cometer,
+así como también para indicar estados del robot.
+\item Dispositivos de detección de presencia: Los detectores de presencia
+que se usan más comúnmente en la seguridad de la robótica son esteras
+de presión (colocadas en el suelo) y cortinas de luz (similares a
+las matrices de fotocélulas). Estos dispositivos se pueden utilizar
+para detectar una persona entrar en un área peligrosa cerca de un
+robot. Los detectores de proximidad que operan en capacitancia eléctrica,
+ultrasonido, radiofrecuencia, láser, y los principios de televisión
+están \textquotedblleft actualmente\textquotedblright{} en fase de
+pruebas de fiabilidad en laboratorios de investigación, debido a limitaciones
+reconocidas en su capacidad de detectar la presencia de personal en
+algunos escenarios, por ejemplo en condiciones climáticas variadas
+si es que el robot opera al aire libre.
+\item Sistemas de alerta audible y visible: Los sistemas de alertas audibles
+y visibles se pueden utilizar para mejorar la eficacia de los métodos
+de salvaguardia (detectores de proximidad, barreras, etc.). Los efectos
+de las señales audibles y visibles deben ser fácilmente reconocibles
+por los operarios.
+\item Movilidad segura del robot: El robot debe estar diseñado para que
+pueda ser movido en cualquiera de sus ejes sin la necesidad de utilizar
+la potencia de accionamiento del sistema.
+\item Frenos mecánicos adicionales: si el robot maneja grandes cargas, debe
+contar con frenos adicionales que se activen cuando se corte la alimentación
+de los actuadores. También se debe disponer de mecanismos para desactivar
+estos frenos de forma manual.
+\end{itemize}
+
+\subsubsection{Diseño de Software}
+
+En lo que respecta al diseño de software del robot, deberán considerarse
+las siguientes medidas enfocadas en la prevención del posible accidente.
+\begin{itemize}
+\item Se debe proveer la capacidad de parar el sistema automáticamente ante
+velocidades anormales de componentes del robot en el desarrollo de
+tareas.
+\item Técnicas de prevención de colisiones y para minimizar el impacto del
+accidente.
+\begin{itemize}
+\item Prevención del accidente: Uso de sensores ubicados en puntos estratégicos
+para considerar el volumen del robot y un área virtual de alto riesgo.
+Esto acompañado de algoritmos que permiten tomar decisiones frente
+a posibles colisiones. \\
+En algunos casos se utilizan cámaras para reconocer personas y considerar
+los riesgos de la interacción.
+\item En caso de accidente: Existen casos en los que una posible colisión
+no pudo ser detectada a tiempo para prevenirla, en tales casos el
+sistema de control deberá estar preparado para actuar de manera de
+minimizar el impacto (fuerza repulsiva, torque).
+\end{itemize}
+\item Códigos de Acceso al Sistema: el acceso a la unidad de control, el
+arranque, parada y modificación del programa, deben estar limitadas
+mediante el empleo de algún mecanismo de seguridad (llaves, códigos
+de seguridad, etc.).
+\item Se debe contemplar mecanismos de recuperación ante fallas, se pueden
+considerar sistemas de control alternativos, backup.
+\item El sistema de control debe realizar una continua supervisión del correcto
+funcionamiento de todos los subsistemas y componentes del robot, incluso
+debe supervisar el funcionamiento del propio sistema de control para
+ello existen componentes como el watch-dog. 
+\end{itemize}
+
+\subsection{Instalación y Explotación}
+
+En el uso del sistema y en especial durante las fases de instalación
+y puesta en marcha deben respetarse rigurosamente determinadas normas
+que reducirán el riesgo de accidente. Es importante que los operarios
+cuenten con información adecuada sobre los posibles riesgos y acciones
+de contingencia. Algunos de los puntos más relevantes a tener en cuenta
+son los siguientes:
+\begin{itemize}
+\item Se deben considerar rigurosamente todas las especificaciones del fabricante.
+\item No permitir que personal no calificado opere con el robot.
+\item Instalar mecanismos de seguridad para acceder al sistema del robot
+(códigos de acceso al sistema, etc.).
+\item Proporcionar elementos para identificar claramente la zona de trabajo
+del robot y sus movimientos. Proporcionar sistemas para controlar
+al robot fuera de su zona de trabajo (por ejemplo para una parada
+de emergencia). 
+\item Se debe establecer un control periódico de todos los equipos y conexiones
+de seguridad que resultan ser críticos. 
+\item Las señales que indican el movimiento del robot deben ser bien visibles
+y si es posible deberán indicarse en el suelo y paredes. Se debe contar
+con señales luminosas y acústicas que indiquen el correcto funcionamiento
+del robot así como también que llamen la atención cuando haya (o aumente
+el) riesgo de un potencial accidente. 
+\item En el proceso de ajuste o reparación de algún componente se deberán
+neutralizar todos los dispositivos de almacenamiento de energía del
+robot. 
+\item Sólo los desarrolladores y personal capacitado tienen el control del
+robot cuando éste está en la etapa de aprendizaje. 
+\item Según el estándar ANSI en las etapas de construcción y puesta en marcha
+el robot no puede superar velocidades de 250 mm/s = 0,9 km/h. Se deben
+realizar pruebas progresivas, comenzando por velocidades lentas y
+paso a paso, luego se podrá ejecutar de manera continua y a mayores
+velocidades. 
+\end{itemize}
+
+\subsubsection{Operarios}
+
+En la fase de instalación y explotación una de las tareas más importantes
+es capacitar a los operarios considerando los siguientes puntos:
+\begin{itemize}
+\item Deberá existir administradores o supervisores que se encarguen de
+hacer cumplir las políticas de seguridad. 
+\item El personal debe entender la tarea completa para la que está programado
+el robot antes de poder comenzar a operar con él. 
+\item La empresa que opera con robots tiene que dejar por escrito que asegura
+que todo el personal es consciente de ello y está capacitado para
+cumplir con las políticas de seguridad. 
+\item Los operadores del robot reciben una formación adecuada en el reconocimiento
+de riesgos/peligros, del equipo y de procedimientos adecuados para
+operar con el robot. 
+\item Si es necesario capacitar a un operario colaborando con el robot compartiendo
+su espacio de trabajo se debe realizar a velocidades lentas y brindando
+un conocimiento previo de las paradas de emergencia y de los componentes
+que alimentan de energía al robot. 
+\item Las operaciones de programación y mantenimiento sólo podrán ser efectuadas
+por personal especializado. 
+\end{itemize}
+
+\subsubsection{Ambiente}
+
+El ambiente es uno de los factores que tiene suma importancia en lo
+que respecta a consideraciones en las medidas de seguridad que serán
+implementadas para reducir el riesgo de accidente cuando el robot
+esté trabajando y sobre todo en las interacciones con los operarios.
+A continuación algunos de los puntos más relevantes a tener en cuenta: 
+\begin{itemize}
+\item El robot debe estar diseñado para contemplar las condiciones ambientales
+a las que puede estar sometido al momento de realizar las tareas.
+En el caso de estar a la intemperie deberá de considerarse factores
+de humedad, presión atmosférica, lluvia, etc. que podrán variar repentinamente
+en el proceso de ejecución de las tareas y el robot deberá estar preparado
+para actuar de buena forma frente a esas eventualidades.
+\item Es de vital importancia analizar las posibles condiciones ambientales
+al momento de seleccionar los sensores para el robot de forma de garantizar
+que estos funcionaran correctamente en todas ellas. De no ser posible
+esto se deberá disponer sensores redundantes que puedan medir las
+misma magnitudes físicas en diferentes condiciones y/o técnicas de
+sensor fusion (ver Seccion 3.3.3). 
+\item En caso de utilizar dispositivos de visualización (cámaras) será de
+gran importancia contemplar los diferentes niveles de iluminación
+a los que estará sometido el robot en el desempeño de sus tareas.
+\end{itemize}
+
+\subsection{Técnicas Utilizadas}
+
+\subsubsection{Supervisión de Funciones}
+
+Se debe considerar la supervisión básica del movimiento del robot,
+i.e. el movimiento ejecutado se corresponde con el movimiento comandado;
+la supervisión de las cantidades cinemáticas como son la posición,
+velocidad, aceleración y frenado; la supervisión de las cantidades
+dinámicas como lo son el torque y la fuerza; y la supervisión de funciones
+definidas por el usuario, relacionadas con la aplicación. Se debe
+buscar que la incertidumbre que el robot tiene acerca de su estado
+sea mínima.
+
+Estas funciones deben permitir detectar fallos (conocer su existencia),
+ubicarlos (aislar fallo, detectar lugar y tiempo, acotar efectos para
+evitar propagación) e identificarlos (estimar tipo, naturaleza y dimensiones
+o alcance), esto es, realizar un diagnóstico del fallo.
+
+\subsubsection{Recuperación Frente a Fallas}
+
+Las técnicas de recuperación frente a fallas proveen mecanismos para
+que el sistema siga operando de forma normal a pesar de la existencia
+de fallas. A continuación se describen tres técnicas utilizadas con
+este propósito.
+\begin{itemize}
+\item Enmascaramiento del fallos: Una forma de recuperación frente a fallos
+es simplemente tolerarlos y enmascararlos, de esta forma el error
+no se expresa. De hecho, ni siquiera es necesaria la detección del
+fallo. Una técnica de enmascaramiento de fallos es la de \emph{mayoría
+de votos}, en esta se cuentan con sensores redundantes los cuales
+\textquotedbl{}votan\textquotedbl{} acerca del estado de lo sensado
+y el valor que se considera es el indicado por la mayoría. Si se selecciona
+adecuadamente el tipo, ubicación y cantidad de sensores se puede lograr
+que el sistema opere correctamente aunque algunos de los sensores
+reporten lecturas erróneas. Esta técnica se puede incluso mejorar
+considerando la confianza que se tiene en las lecturas de cada sensor
+y ponderar los votos considerando el valor atribuido a esta confianza.
+En \cite{GARCIA200711} y \cite{ROGINA1999}se puede ver más detalle
+de esta técnica.
+\item Reintento de procesamiento: Si el tipo de aplicación hace que sea
+aceptable, muchas veces un nuevo intento de procesamiento puede ser
+satisfactorio, siendo muy común en fallos transitorios.
+\item Control tolerante pasivo: Utiliza la propiedad de los sistemas realimentados
+de hacer frente a las perturbaciones, cambios en la dinámica e incluso
+fallos. Un cambio inesperdado en el sistema crea un efecto sobre el
+mismo que se transmite al sistema de control y éste a su vez trata
+de compensarlo rápidamente. En este sentido, el control tolerante
+pasivo es un diseño robusto del sistema de control realimentado para
+hacerlo inmune a fallos \cite{PATTON19971029}.
+\item Diversidad de diseño: La única aproximación a la tolerancia frente
+a fallas que tienen su origen en el diseño es aplicar la diversidad
+en el diseño, esto es, la implementación de más de una variante de
+la función a realizar. Esto aplica tanto al software como al hardware.
+\end{itemize}
+
+\subsubsection{Prevención de Colisiones}
+
+Las técnicas detalladas a continuación tienen como propósito evitar
+que el robot colisione con humanos, otros robots y el ambiente.
+\begin{itemize}
+\item 3D Sensor Fusion: Fusión en tiempo real de la información provista
+por múltiples sensores de imagen tridimensional (range cameras, stereo
+vision sensors, etc) para crear una representación del espacio a través
+de una grilla de evidencia volumétrica (volumetric evidence grid).
+El espacio es segmentado en fondo, robots y personas. Rodeando a cada
+robot se define una zona de peligro (danger zone) adaptativa basada
+en la posición de robot y trayectoria. De forma similar cada persona
+es rodeada por una zona de seguridad (safety zone). Una zona de peligro
+intersectando una zona de seguridad indica que el robot y la persona
+se encuentran muy cerca y que una colisión podría ser inminente. En
+estos casos el robot se detiene o enlentece hasta que la situación
+se resuelve. En \cite{Rybski_2012_7263} se presenta la técnica en
+detalle y su aplicación para un robot industrial en una celda de trabajo.
+En \cite{martin1996robot} y \cite{Hu:2012:RPO:2415754.2415804} se
+describe en mayor detalle los fundamentos y construcción de evidence/occupancy
+grids. En \cite{lasota2014toward} los autores afirman que esta tecnica
+es promisoria.
+\item Human Action/Motion Prediction: Bajo este título se engloban varias
+técnicas cuyo fin es el de, como su nombre lo describe, dotar a los
+agentes robóticos de la capacidad inferir y predecir los movimientos
+y acciones humanas. Ya sea con el fin de evitar colisiones, asistir
+en tareas u otros fines. Esto implica alguna noción de intención conjunta,
+en la que ambas partes mantienen un conjunto de creencias compartidas
+sobre el estado del mundo y la tarea que está siendo realizada \cite{hawkins2013probabilistic}.
+La habilidad de un agente dado para adaptarse \textquoteleft en línea\textquoteright{}
+con el fin de interactuar mejor con otro agente es un muy difícil
+e importante problema. Y este problema se vuelve aún más difícil cuando
+el agente con el cual se debe interactuar es un humano, dado que los
+humanos aprenden rápido y se comportan de forma no determinista \cite{COIN:COIN266}.
+\end{itemize}
+
+\subsubsection{Estrategias de Control de Colisiones}
+
+El fin que se desea alcanzar con las estrategias de control de colisiones
+es el de mitigar el daño causado a humanos y al robot mismo en el
+caso de ocurrir una colisión. Cabe destacar que la decisión de que
+hacer frente a la ocurrencia de una colisión puede llegar a ser en
+extremo compleja, como puede ser en el caso de una colisión con un
+humano en un ambiente exterior y dinámico.
+\begin{itemize}
+\item Control de Torque con Compensación de la Gravedad: En \cite{haddadin2008collision}
+y \cite{Luca2007} se presenta esta técnica con la que se logra que
+luego de la detección de una colisión los actuadores del robot no
+solo se detengan sino que además queden \textquotedbl{}livianos\textquotedbl{}
+y \textquotedbl{}dóciles\textquotedbl{} de forma que el humano pueda
+manipularlos fácilmente sin que ofrezcan resistenca. Cabe destacar
+que el control de torque por sí solo logra esto, pero la compensación
+de la gravedad mejora la técnica.
+\end{itemize}
+
+\subsubsection{Estrategias de Control}
+
+Se presentan algunas estrategias de control orientadas a la seguridad
+en la interacción humano-robot.
+\begin{itemize}
+\item Kinetostatic Danger Field: Lacevic y Rocco introducen en \cite{lacevic2010kinetostatic}
+el concepto de Kinetostatic Danger Field, una cantidad que captura
+el estado completo del robot, su configuracion y velocidad. Este método
+persigue estimar el peligro en la vecindad del robot. Se trata de
+una generalización del enfoque del campo de potenciales, con el cual
+tiene sin embargo dos grandes diferencias; primero, este enfoque captura
+la postura y velocidad del robot, y segundo, la fuente del campo de
+potenciales es el robot mismo en lugar de los sujetos/obstáculos.
+Dada esta similitud con el enfoque del campo de potenciales es posible
+utilizar la cantidad Kinetostatic Danger Field para abordar el problema
+de evitar obstáculos.
+\end{itemize}
+
+\subsubsection{Códigos de Acceso al Sistema}
+
+El acceso a la unidad de control, el arranque, parada y modificación
+del programa, deben estar limitadas mediante el empleo de algún mecanismo
+de seguridad (llaves, códigos de seguridad, etc.) \cite{secRobAragon}.
+
+\section{Evaluación de Placas de E/S}
+
+Se presentan las características y aspectos relevantes de un conjunto
+de placas que se han analizado y podrían ser utilizadas para la implementación
+de un componente del proyecto de grado Aspectos de Seguridad y HRI
+Aplicados en un Robot Agropecuario. En particular se desea que la
+placa seleccionada cumpla con un conjunto de requerimientos que detallaremos
+a continuación:
+\begin{itemize}
+\item Interfaz con USB.
+\item Interfaz de comunicación serial síncrona y asíncrona. Soportar I2C.
+\item Al menos 6 salidas salidas digitales para direcciones de ruedas (4),
+freno, habilitación, luz de seguridad y bocina. 
+\item Entradas para la senal de los sensores hall.
+\item Servicio de Watch-Dog Timer (WDT).
+\end{itemize}
+
+\subsection{Arduino Mega}
+
+Es una placa basada en el microcontrolador ATmega1280, compatible
+con la mayoría de las placas diseñadas para Arduino Duemilanove o
+Diecimila.
+\begin{center}
+\includegraphics[width=0.5\linewidth]{\string"Placas Proyecto - Imagenes/Arduino mega 2560 r3\string".jpg}
+\par\end{center}
+
+\subsubsection{Especificación Técnica}
+
+A continuación se describen los componentes técnicos de la placa y
+microcontrolador.
+\begin{itemize}
+\item Microcontrolador: ATmega1280 \cite{ATMEGA1280}.
+\begin{itemize}
+\item Velocidad del reloj: 16 MHz.
+\item Arquitectura: Cuenta con una arquitectura avanzada RISC de 8 bits.
+\begin{itemize}
+\item 135 Instrucciones de gran alcance, la mayoría ejecuta en un solo ciclo
+de reloj.
+\item 32 \texttimes{} 8 registros para trabajo de propósito general.
+\item Funcionamiento totalmente estático.
+\item Hasta 16 MIPS de rendimiento a 16 MHz.
+\item Multiplicador de 2 ciclos On-Chip.
+\end{itemize}
+\item Memoria: Tiene 128 KB de memoria flash para almacenar código (de los
+cuales 4 KB se utiliza para el bootloader), 8 KB de SRAM y 4KB de
+EEPROM (que puede ser leído y escrito con la biblioteca EEPROM \cite{ArduinoEEPROM}).
+\item WDT (Watchdog Timer): El WDT es un temporizador que cuenta ciclos
+de un oscilador de 128kHz particular para el módulo. Da una interrupción
+o restablece el sistema cuando el contador alcanza un valor de tiempo
+de espera determinado. En el modo de funcionamiento normal, se requiere
+que el sistema utilice la instrucción WDR (Watchdog Timer Reiniciar)
+para reiniciar el contador antes de que se alcance el valor de tiempo
+de espera, si el sistema no reinicia el contador, se emitirá un reset
+o alarma de sistema. El microcontrolador ATmega1280 cuenta con un
+WDT que presenta las siguientes características:
+\begin{itemize}
+\item Ciclos de un oscilador separado al oscilador del chip.
+\item 3 modos de funcionamiento.
+\begin{itemize}
+\item Interrupción.
+\item Restablecimiento del sistema.
+\item Interrupción y restablecimiento del sistema.
+\end{itemize}
+\item Período de tiempo de espera configurable de 16ms a 8s.
+\item Fusible para mantener siempre encendido el WDT por hardware en modo
+de tolerancia a fallas.
+\end{itemize}
+\end{itemize}
+\item Energía: La placa puede ser alimentada a través de una conexión USB
+o con una fuente de alimentación externa. La fuente de alimentación
+se selecciona automáticamente. La energía externa (no USB) puede venir
+de un adaptador de CA a CC o se puede conectar a una batería. El adaptador
+se puede conectar a un enchufe de 2,1 mm de centro-positivo en el
+conector de alimentación de la placa y los potenciales de una batería
+se pueden insertar en los cabezales de pin GND y Vin del conector
+POWER de la placa.\\
+La placa puede funcionar con un suministro externo de 6 a 20 volts,
+sin embargo, si se suministra menos de 7V el pin de 5V puede suministrar
+menos de cinco voltios y la placa puede ser inestable. Si se utiliza
+más de 12V, el regulador de voltaje se puede sobrecalentar y dañar
+la placa. El rango recomendado es de 7 a 12 voltios.
+\item Entrada y Salida: La placa cuenta con 54 pines digitales que pueden
+ser utilizado tanto de entrada como de salida. Algunos de estos pines
+tienen funciones específicas.
+\begin{itemize}
+\item Serial: Los pines 0, 1, 19, 18, 17, 16, 15, 14 se utilizan para recibir
+(RX) y transmitir datos en serie (TX) TTL. Los pines 0 y 1 también
+están conectados a los pines correspondientes del chips Serial FTDI
+USB-to-TTL.
+\item Interrupciones externas: los pines 2,3,18,19,20 y 21 pueden configurarse
+para activar una interrupción en un valor bajo, un flanco ascendente,
+descendente o un cambio de valor.
+\item PWM: los pines comprendidos entre los rangos 2 a 13 y 44 a 46 proporcionan
+una salida PWM de 8 bits.
+\item SPI: los pines 50, 51, 52 y 53 soportan la comunicación SPI, que,
+aunque proporcionada por el hardware subyacente, actualmente no está
+incluido en el lenguaje de Arduino. Los pines SPI también se desglosan
+en la cabecera ICSP, que es físicamente compatible con el Duemilanove
+y Diecimila.
+\item LED: el pin 13 está conectado a un LED incorporado a la placa. Cuando
+el valor en ese pin es ALTO el LED está encendido y cuando el valor
+es BAJO está apagado.
+\item I\textsuperscript{2}C: los pines 20 y 21 brindan soporte a la comunicación
+I2C (TWI) utilizando Wire Library \cite{WIRELibrary}.
+\end{itemize}
+La placa también cuenta con 16 pines de entradas analógicas, cada
+una de las cuales proporcionan 10 bits de resolución (1.024 valores
+diferentes).
+\end{itemize}
+
+\subsubsection{Herramientas de desarrollo}
+
+Es posible desarrollar utilizando el software (IDE) de Arduino \cite{ArduinoIDE}
+para facilitar la escritura del código y la actualización de este
+en la placa. El entorno de desarrollo de Arduino está desarrollado
+en Java respetando las políticas Open Source y puede ejecutar en las
+plataformas Mac OS X, Linux y Windows. Adicionalmente a las estructuras,
+variables, constantes, y funciones que vienen en la placa detalladas
+en \cite{ArduinoLangRef} es posible incorporar nuevas librerías que
+proporcionan funcionalidad adicional en el uso de programas (sketches
+en terminología Arduino) para, por ejemplo, trabajar con hardware
+o manipular datos. El IDE de Arduino cuenta con una componente para
+importar librerías \cite{ArduinoLibs}. Las librerías están escritas
+en C/C++ y como se describe en \cite{ArduinoWriteLib} es posible
+escribir librerías propias.
+
+\subsubsection{Acceso al producto}
+
+La placa Arduino Mega no se encuentra disponible en la tienda de Arduino,
+en su lugar se comercializa la placa Arduino Mega 2560 que es una
+actualización de la anterior. La placa Arduino Mega 2560 actualiza
+respecto a su antecesora:
+\begin{itemize}
+\item Incorpora 128KB de memoria flash.
+\item Está basada en el microcontrolador ATmega2560 con similares características
+al del controlador ATmega1280.
+\item Suplanta el chip convertidor de USB a serial FTDI y en su cuenta con
+el ATmega16U2 programado como un convertidor de USB a serie.
+\end{itemize}
+El precio de la placa Arduino Mega 2560 es de USD 45 + impuestos en
+Amazon (Estados unidos).
+
+\subsection{MBED LPC1768}
+
+El mbed NXP LPC1768 está diseñado para la creación de prototipos de
+todo tipo de dispositivos, sobre todo las que incluyen Ethernet, USB
+y la flexibilidad de un conjunto amplio de interfaces de periféricos
+y de una buena cantidad de memoria FLASH.
+\begin{center}
+%\includegraphics[width=0.5\linewidth]{\string"Placas Proyecto - Imagenes/LPC1768_enabled3.JPG.250x250_q85\string".jpg}
+\par\end{center}
+
+\subsubsection{Especificación Técnica}
+
+A continuación se describen los componentes técnicos de la placa y
+microcontrolador.
+\begin{itemize}
+\item Microcontrolador: mbed NXP LPC1768 \cite{LPC1769} basado en el procesador
+ARM \textregistered{} Cortex\textregistered -M3 \cite{CortexM3} que
+se promociona como líder en la industria para aplicaciones en tiempo
+real altamente deterministas, desarrollado específicamente para permitir
+desarrollar plataformas de bajo costo y de alto rendimiento para una
+amplia gama de dispositivos.
+\begin{itemize}
+\item Velocidad de reloj: 96MHz
+\item Arquitectura: El ARM Cortex-M3 es un microprocesador de 32 bits que
+ofrece alto rendimiento y muy bajo consumo de energía. Ofrece un conjunto
+de instrucciones Thumb-2 de baja latencia de interrupción, división
+de hardware, múltiples instrucciones interrumpibles/continuables de
+carga y almacenamiento, interrupciones con estado salvado y restaurado
+automático. Se emplean técnicas de canalización para que todas las
+partes de los sistemas de procesamiento y de memoria pueden funcionar
+de forma continua. La ARM Cortex-M3 incluye tres buses AHB-Lite:
+\begin{enumerate}
+\item Bus del sistema.
+\item Bus de I-código
+\item Bus D-código
+\end{enumerate}
+Los buses I-código y D-código centrales son más rápidos que el bus
+de sistema y se utilizan teniendo un bus dedicado para la instrucción
+fetch (I-código) y un bus para el acceso a datos (D-código). El uso
+de dos buses de núcleo permite operaciones simultáneas si las operaciones
+concurrentes aplican a diferentes dispositivos.
+\item Memoria: Cuenta con 512KB de memoria flash en el chip y un acelerador
+en el puerto que maximiza la performance en el uso con los puertos
+rápidos AHB-Lite. El LPC1768 contiene un total de 64 kB RAM estática
+(SRAM), eso incluye a la SRAM principal de 32 kB, accesible por la
+CPU y el controlador de DMA en un bus de alta velocidad, y dos bloques
+de 16 KB de SRAM cada uno situados en un puerto esclavo separado en
+la matriz multicapa AHB. Esta arquitectura permite al CPU y DMA acceso
+separado sobre tres RAMs diferentes que pueden acceder de forma simultánea.
+También cuenta con 4KB de EEPROM.
+\item WDT (Watchdog Timer): El módulo WDT presenta las siguientes características:
+\begin{itemize}
+\item Modo de depuración.
+\item Habilitado por software pero requiere un restablecimiento por hardware
+o una interrupción específica para deshabilitarlo.
+\item Una secuencia de alimentación incorrecta o incompleta provoca una
+interrupción o restablecimiento si el WDT está activo.
+\item Bandera para indicar un reinicio del watchdog.
+\item Períodos de tiempo configurables.
+\item El reloj del Watchdog (WDCLK) puede ser seleccionado de osciladores
+internos (IRC), del oscilador de RTC, o del reloj periférico APB.
+Esto da una amplia gama de posibles opciones de sincronización de
+la operación watchdog en diferentes condiciones de reducción de potencia.
+También proporciona la capacidad de ejecutar el WDT desde una fuente
+totalmente interna que no depende de un cristal externo para una mayor
+fiabilidad.
+\end{itemize}
+\end{itemize}
+\item Energía: La placa puede ser alimentada a través de una conexión USB
+o con una fuente de alimentación externa, obteniendo 5V por la conexión
+USB y soportando de 4.5V a 9V por medio de una fuente de alimentación
+externa.
+\item Entrada y salida: La placa cuenta con 40 pines de 0.1 pulgadas. El
+siguiente esquema muestra la distribución de los mismos junto con
+las características particulares de cada uno.\\
+\includegraphics[width=0.5\linewidth]{\string"Placas Proyecto - Imagenes/LPC1768_pinout\string".png}
+
+Como se puede ver en la imagen la placa cuenta con pines que presentan
+características particulares, es de interés mencionar los siguientes:
+\begin{itemize}
+\item Entradas analógicas: la placa cuenta con 6 pines (p15-p20) para entradas
+analógicas de 12 bits de resolución.
+\item Serial: los pines 9, 10, 13, 14, 27, 28 se utilizan para recibir (RX)
+y transmitir datos en serie (TX) TTL.
+\item PWM: los pines comprendidos entre el rango p21-p26 proporcionan salidas
+PWM.
+\item SPI: los pines 5, 6, 7, 11, 12 y 13 soportan la comunicación SPI.
+\item I2C: los pines 9, 10, 27 y 28 brindan soporte a la comunicación I\textsuperscript{2}C.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Herramientas de desarrollo}
+
+La companía mbed ofrece un conjunto de herramientas online para desarrolladores
+que facilitan el uso y programación de sus productos. En el sitio
+web \cite{mbedTools} se encuentra información sobre cómo desarrollar
+utilizando productos mbed así como también apoyo técnico de una comunidad
+que promueve el trabajo en conjunto, pudiendo intercambiar código
+o respondiendo a preguntas para brindar soluciones a problemas. También
+se puede acceder a un entorno de desarrollo (IDE) online de C/C++
+\cite{mbedCompiler} que está diseñado para poder escribir programas,
+compilarlos y descargarlos para ejecutarlos en el microcontrolador
+mbed de forma simple y ágil. Cabe mencionar que también es posible
+escribir el código del programa en un editor particular y generar
+el binario a ejecutar con GCC por ejemplo.
+
+\subsubsection{Acceso al producto}
+
+El producto se puede adquirir a través de varios distribuidores recomendados
+por el fabricante \cite{LPC1768Order} y el precio es de USD 49.
+
+\subsection{USB IO BOARD}
+
+Este es un producto de la serie ODROID de la empresa surcoreana Hardkernel,
+dedicada al open hardware. Según se indica en \cite{USBIOBOARDWiki}
+es una placa de expansión de IO a USB que provee interfaces GPIO,
+PWM, SPI, UART, I2C y ADC. Utiliza el microcontrolador USB PIC18F45K50-QFN
+compatible con 3.3V/5V. Incluye una cabecera de 28 pines que hacen
+que sea simple de conectar con otra breadbord o circuito. Tiene un
+bootloader para descargar/cargar el firmware.
+\begin{center}
+\includegraphics[width=0.5\linewidth]{\string"Placas Proyecto - Imagenes/USBIOBOARD\string".jpg}
+\par\end{center}
+
+\subsubsection{Especificación Técnica}
+
+A continuación se describen los componentes técnicos de la placa y
+microcontrolador.
+\begin{itemize}
+\item Microcontrolador: PIC18F45K50-QFN de 8 bits de la empresa Microchip
+\cite{PIC18F45K50}, líderes del mercado de microcontroladores \cite{MicrochipWiki}.
+\begin{itemize}
+\item Velocidad de reloj: Entre 31Khz y 48Mhz, configurable según necesidad.
+Esta configuración tiene impacto en el consumo de energía.
+\item Arquitectura: Microcontrolador de la familia PIC18 de 8 bits, arquitectura
+Harvard modificada. Las instrucciones tienen un largo de 16 bits,
+se puede ver el set de instrucciones en \cite{PICInstructionSet}.
+\begin{itemize}
+\item 77 Instrucciones divididas en 4 grupos:
+\begin{itemize}
+\item 31 instrucciones orientadas a bytes que manipulan registros.
+\item 5 instrucciones orientadas a bits que manipulación registros.
+\item 23 instrucciones de control.
+\item 10 instrucciones que manipulan inmediatos.
+\item 8 instrucciones leer/escribir entre la memoria de datos y programa.
+\end{itemize}
+\item Hasta 12 MIPS de rendimiento a 48Mhz.
+\end{itemize}
+\item Memoria: 
+\begin{itemize}
+\item Memoria de programa: 32KB Flash.
+\item Memoria de datos: 2KB SRAM y 256 bytes EEPROM.
+\end{itemize}
+\item WDT (Watchdog Timer): El módulo WDT presenta las siguientes características:
+\begin{itemize}
+\item Impulsado por el oscilador interno INTRC (31 Khz)
+\item Período nominal de 4ms.
+\item Utilizando un postscaler cuyas salidas pueden ser seleccionadas por
+un multiplexor el período puede ser configurado entre 4ms y 131,072s
+(2,18m).
+\item El WDT y el postscaler serán restablecidos durante estos eventos:
+\begin{itemize}
+\item Se ejecuta la instrucción SLEEP.
+\item Se ejecuta la instrucción CLRWDT.
+\item Los bits IRCF del registro OSCCON son cambiados.
+\item Ha ocurrido una falla de reloj.
+\end{itemize}
+\item Diagrama de bloques del WDT \cite{PIC18F45K50}:\\
+\includegraphics[width=0.5\linewidth]{\string"Placas Proyecto - Imagenes/USBIOBOARD_WDT\string".PNG}
+\end{itemize}
+\end{itemize}
+\item Energía: La placa puede ser alimentada a través de una conexión USB
+o con una fuente de alimentación externa, el rango de operación es
+entre 3.3V y 5V. El microcontrolador posee varias opciones para la
+gestión de la energía, esto permite su funcionamiento con un consumo
+de energía extremadamente bajo.
+\item Entrada y salida: La placa cuenta con 2 cabeceras de 14 pines cada
+una, adicionalmente cuenta con una cabecera de 5 pines que puede ser
+utilizada para debug o actualización del boot loader, todos los pins
+son de 0,1 pulgadas. El siguiente esquema muestra la distribución
+de los mismos:\\
+\includegraphics[width=0.5\linewidth]{\string"Placas Proyecto - Imagenes/USBIOBOARD_pinout\string".png}\\
+Como se puede ver en la imagen la placa cuenta con pines que presentan
+características particulares, es de interés mencionar los siguientes:
+\begin{itemize}
+\item Entradas/Salidas digitales: Todos los pines menos VDD, GND y 3V3.
+\item Entradas analógicas: 25 canales (AN01 - AN25).
+\item Salidas analógicas: Cuenta con un módulo DAC con 32 niveles de voltaje
+de salida seleccionables dependiendo de la configuración de los bits
+DACR<4:0> del registro VREFCON2. La fórmula para determinar el voltaje
+de salida se puede ver en la sección 23.0 de \cite{PIC18F45K50}.
+\item Serial: 
+\begin{itemize}
+\item Asíncrona/Síncrona (módulo EUSART): Los pines RX/DT y TX/CK se utilizan
+para recibir y transmitir datos en serie.
+\item Sólo Síncrona (módulo MSSP): 
+\begin{itemize}
+\item SPI: utilizando los pines SDO, SDI y SCK.
+\item I2C: utilizando los pines SDA y SCL.
+\end{itemize}
+\end{itemize}
+\item PWM: Pins P1B, P1C, P1D, FLT0, CCP2.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Herramientas de desarrollo}
+
+Microchip provee un cross compiler para este PIC en \cite{PIC18CCompiler}
+así como el IDE de desarrollo MPLAB X en \cite{MPLABIDE}. Adicionalmente
+en \cite{USBIOBOARDWiki}, la wiki de la placa, se encuentran ejemplos
+de firmware y de como actualizarlo. En el foro de ODROID para este
+producto, \cite{USBIOBOARDForum}, se puede encontrar bastante referencia
+con respecto a cómo interactuar con la placa, se proveen muchos ejemplos
+y código para acceder a la placa tanto en C como en Python.
+
+\subsubsection{Acceso al producto}
+
+Es posible comprar esta placa en la tienda de ODROID o en la tienda
+AmeriDroid a un precio de USD 15 \cite{USBIOBOARDStore} y \cite{Ameridroid}.
+
+\subsection{FRDM-K64F}
+
+La placa FROM-K64F \cite{K64F} ha sido diseñado por Freescale en
+colaboración con mbed para prototipos de todo tipo dispositivos. Se
+basa en el Freescale K64F, con un núcleo ARM Cortex-M4F de 32 bits
+que funciona a 120MHz de frecuencia. Incluye 1MB de memoria FLASH,
+256 KB de RAM y varias interfaces como ser Ethernet, SPI, I2C, ADC,
+DAC, PWM, UART.
+\begin{center}
+%\includegraphics[width=0.5\linewidth]{\string"Placas Proyecto - Imagenes/FRDM-K64F_400x300_WO6GnVU.png.250x250_q85\string".jpg}
+\par\end{center}
+
+\subsubsection{Especificación técnica}
+
+A continuación se describen los componentes técnicos de la placa y
+microcontrolador.
+\begin{itemize}
+\item Microcontrolador: Freescale K64F Kinetis K64 MCU \cite{K64FDatasheet}
+basado en el proces ador ARM\textregistered{} Cortex\texttrademark -M4
+\cite{CortexM4} diseñado para procesar señales con gran eficiencia
+y bajo consumo de energía.
+\begin{itemize}
+\item Velocidad del reloj: 120MHz.
+\item Arquitectura: El ARM\textregistered{} Cortex\textregistered -M4 es
+uno de los miembros más reciente de procesadores de la serie Cortex-M
+de ARM dirigidos a núcleos microprocesadores basados en bajo costo,
+ambientes con impulsados por interrupciones, deterministas. El procesador
+Cortex M4 se basa en la arquitectura ARMv7 y Thumb\textregistered -2
+ISA y es compatible con las arquitecturas de Cortex M3, Cortex M1
+y Cortex M0; proporciona instrucciones de 32 bits con SIMD (single
+instruction multiple data) estilo DSP.
+\item Memoria: Cuenta con 1MB de memoria flash en el chip y 256 KB RAM estática
+(SRAM). De EEPROM 32KB.
+\item WDT (Watchdog Timer): Cuenta con un monitor externo de Watchdog (EMW)
+y un componente de software para el módulo con los siguientes modos
+de operación:
+\begin{itemize}
+\item Modo de Parada: Cuando el componente funciona en este modo y los servicios
+del CPU no invocan al componente EMW. Al entrar al modo de Parada
+se congelan los contadores del EMW y las únicas formas posibles de
+salir de dicho modos son, restableciendo el sistema o generando una
+interrupción.
+\item Modo espera: Se genera una interrupción que es manejada por el propio
+componente que podrá esperar por otros módulos. Modo debug.
+\end{itemize}
+\end{itemize}
+\item Energía: La placa puede ser alimentada a través de una conexión USB
+o con una fuente de alimentación externa, obteniendo 5V por la conexión
+USB y soportando de 4.5V a 9V por medio de una fuente de alimentación
+externa. La salida VOUT a los periféricos de energía es regulada a
+3.3v y los pines de entrada/salida digitales son de 3.3v y 4mA cada
+uno.
+\item Entrada y salida: La placa cuenta con 86 pines de 0.1 pulgadas. Los
+siguientes esquemas muestran la distribución de los mismos junto con
+las características particulares de cada uno.\\
+\includegraphics[width=0.5\linewidth]{\string"Placas Proyecto - Imagenes/frdm_k64f_reve4_header_pinout\string".jpg}\\
+\includegraphics[width=0.5\linewidth]{\string"Placas Proyecto - Imagenes/frdm-k64f_peripherals\string".png}\\
+Como se puede ver en la imagen la placa cuenta con pines que presentan
+características particulares, es de interés mencionar los siguientes:
+\begin{itemize}
+\item Entradas analógicas: la placa cuenta con 6 pines (PTB2, PTB3, PTB10,
+PTB11, PTC10, PTC11) para entradas analógicas de 12 bits de resolución.
+\item Serial: los pines comprendidos entre PTC14-PTC17 se utilizan para
+recibir (RX) y transmitir datos en serie (TX) TTL.
+\item PWM: los pines \{PTC10, PTC11, PTD0, PTD1, PTD2, PTD3, PTC0, PTC2,
+PTC3, PTC4, PTA1, PTA2\} proporcionan salidas PWM.
+\item SPI: los pines comprendidos entre PTD1-PTD3 soportan la comunicación
+SPI.
+\item I\textsuperscript{2}C: los pines PTE24 y PTE25 brindan soporte a
+la comunicación I\textsuperscript{2}C.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Herramientas de desarrollo}
+
+Dado que esta placa es un producto habilitado por mbed goza del HDK
+y SDK proporcionado por la compañía ya descrito en la sección 4.2.2
+de este documento.
+
+\subsubsection{Acceso al producto}
+
+El producto se puede adquirir a través de distribuidores \cite{K64FAmazon}
+que facilitan el acceso desde Uruguay y el precio es de USD 58 más
+impuestos.
+
+\subsection{LeoLivre}
+
+La placa LeoLivre 1.2 fue concebida para ser utilizada en el ámbito
+de la robótica educacional y se diseñó tomando como inspiración tres
+placas preexistentes, la Arduino Leonardo \cite{ArduinoLeonardo},
+la USB4Butia \cite{USB4Butia} y la vinciDuino \cite{VinciDuino}.
+Es una placa de dimensiones pequeñas que posee grandes funcionalidades
+con la cual es posible explorar el mundo de la robótica.
+\begin{center}
+\includegraphics[width=0.5\linewidth]{\string"Placas Proyecto - Imagenes/LeoLivre\string".PNG}
+\par\end{center}
+
+\subsubsection{Especificación técnica}
+
+Al construir la LeoLivre se tomó de la Arduino Leonardo su microcontrolador
+y de la USB4Butía la conexión con periféricos vía RJ45. A continuación
+se describen los componentes técnicos de la placa y microcontrolador.
+\begin{itemize}
+\item Microcontrolador: Microcontrolador de 8 bits ATmega32u4 de la empresa
+Atmel \cite{ATmega32U4}.
+\begin{itemize}
+\item Velocidad del reloj: 16 MHz.
+\item Arquitectura: Harvard modificada RISC de 8 bits. Cuenta con un set
+de 135 instrucciones, la mayoría ejecuta en un único ciclo de reloj.
+\item Memoria:
+\begin{itemize}
+\item Memoria de programa: 32KB Flash.
+\item Memoria de datos: 2.5KB SRAM y 1024 bytes EEPROM.
+\end{itemize}
+\item WDT (Watchdog Timer): El módulo WDT presenta las siguientes características:
+\begin{itemize}
+\item Impulsado por un oscilador independiente de 128 Khz.
+\item Timeout configurable dentro del rango de los 16ms y los 8s.
+\end{itemize}
+\end{itemize}
+\item Energía: La placa puede ser alimentada a través de una conexión USB
+o con una fuente de alimentación externa, el rango de operación es
+entre 2.7V y 5.5V.
+\item Entrada y salida: La placa cuenta con 20 pines digitales y 6 pines
+de comunicación analógica y 4 conectores RJ45 para comunicación instantánea
+con periféricos que son reconocidos reconocidos rápidamente por la
+IDE.\\
+\includegraphics[width=0.5\linewidth]{\string"Placas Proyecto - Imagenes/LeoLivre_pinout\string".PNG}
+\begin{itemize}
+\item Entradas analógicas: 6 canales de 10bits.
+\item Serial: Cuenta con un puerto de comunicación serial.
+\item SPI: Cuenta con bus SPI.
+\item PWM: 7 de los pines digitales pueden ser utilizados para PWM.
+\item I\textsuperscript{2}C: Cuenta con 1 bus I\textsuperscript{2}C.
+\item JTAG: Tiene este bus para debug.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Herramientas de desarrollo}
+
+Dado que esta placa es un producto híbrido cuyas principales inspiraciones
+son la Arduino Leonardo y la USB4Butia es posible desarrollar en ella
+utilizando el Eclipse, Arduino IDE y turtlebots \cite{LeoLivreCPBR7}.
+Es posible desarrollar en C/C++ y compilar con avr-gcc.
+
+\subsubsection{Acceso al producto}
+
+La placa debe ser construida ya que es un proyecto abierto, los componentes
+tienen un precio accesible y se consiguen en el mercado. Se estima
+que su costo de construcción ronda los US\$20.
+
+\subsection{USB4Butia}
+
+Es una interfaz de entrada/salida USB, derivada de la USB4All, y está
+especializada en el uso con el robot butiá 2.0 intentando simplificar
+su uso y aumentar su capacidad sensorial, además de actuar de manera
+robusta. Se busca que el diseño de la placa sea abierto y que la construcción
+pueda ser realizada manualmente, facibilitando así la accesibilidad.
+\cite{USB4ButiaWiki} Su objetivos principales es ser económica, con
+componentes de facil acceso en el mercado local. También tener puertos
+conectores para dispositivos que soporten plug and play, bus para
+motors AX12, PWM para manejar de servomotores y pines para acceder
+al bajo nivel \cite{USB4ButiaHackpoints}.
+\begin{center}
+%\includegraphics[width=0.5\linewidth]{\string"Placas Proyecto - Imagenes/USB4butia.png\string".jpg}
+\par\end{center}
+
+\subsubsection{Especificación Técnica}
+
+A continuación se describen los componentes técnicos de la placa y
+microcontrolador.
+\begin{itemize}
+\item Microcontrolador: Microcontrolador de 8 bit PIC18F4550 de la empresa
+Microchip \cite{PIC18F4550}.
+\begin{itemize}
+\item Velocidad del reloj: 48 MHz
+\item Arquitectura: Arquitectura RISC avanzada Harvard de 8 bits. Tiene
+un set de 77 instrucciones. 
+\item Memoria:
+\begin{itemize}
+\item Memoria de programa: 32KB Flash
+\item Memoria de datos: 2KB SRAM y 256 bytes EEPROM.
+\end{itemize}
+\item WDT (Watchdog Timer): Presenta la siguientes características:
+\begin{itemize}
+\item Timeout configurable dentro del rango de los 41ms y los 131s.
+\item Impulsado por un oscilador interno y compartido de 31 Khz.
+\end{itemize}
+\end{itemize}
+\item Energía: Puede ser alimentada a través del conector USB B y puede
+operar entre 2v a 5.5v.
+\item Entrada y salida: La placa cuenta con 6 puertos RJ45 de entrada salida
+para conectar sensores y actuadores analogicos. Por otro lado cuenta
+con 8 pines digitales de entrada/salida para uso general.
+\begin{itemize}
+\item Serial: Cuenta con un puerto de comunicación serial.
+\item SPI: Cuenta con bus SPI.
+\item PWM: Tiene 2 modulos, uno de ellos mejorado.
+\item I\textsuperscript{2}C: Cuenta con 1 bus I\textsuperscript{2}C.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Herramientas de desarrollo}
+
+Es posible desarrollar en ella utilizando el Eclipse como IDE y turtlebots.
+
+\subsubsection{Acceso al producto}
+
+La placas se construye manualmente porque es un proyecto abierto.
+Se propone un diseño de la misma, pero solo a modo de sugerencia.
+Los componentes se encuentran en el mercado local y son económicos.
+El costo de todos los componentes necesarios ronda los US\$15.
+
+\subsection{ODROID-SHOW}
+
+Otro producto de la serie ODROID de la empresa surcoreana Hardkernel,
+dedicada al open hardware. Según se indica en \cite{ODROIDShowWiki}
+es una placa compatible con Arduino cuyo propósito principal es mostrar
+información sobre el estado interno, de una PC o SBC a la que esté
+conectada vía USB, y para esto cuenta con una pantalla TFT LCD de
+2.2\textquotedblright . De todas formas ofrece posibilidades de extensión
+proveyendo interfaz GPIO, I2C y ADC. Diseñada, considerando sus dimensiones,
+para ser apilada sobre la ODROID U3 utiliza el microcontrolador ATmega328
+compatible con 3.7V/5.5V.
+\begin{center}
+\includegraphics[width=0.5\linewidth]{\string"Placas Proyecto - Imagenes/ODROIDSHOW\string".jpg}
+\par\end{center}
+
+\subsubsection{Especificación Técnica}
+
+A continuación se describen los componentes técnicos de la placa y
+microcontrolador extraída de \cite{ODROIDShowWiki} y \cite{ATmega328DataSheet}.
+\begin{itemize}
+\item Microcontrolador: Microcontrolador de 8 bits ATmega328 de la empresa
+ATMel \cite{ATmega328}.
+\begin{itemize}
+\item Velocidad de reloj: Hasta 20 MHz.
+\item Arquitectura: Harvard modificada RISC de 8 bits. Cuenta con un set
+de 131 instrucciones, la mayoría ejecuta en un único ciclo de reloj.
+\item Memoria: 
+\begin{itemize}
+\item Memoria de programa: 32KB Flash.
+\item Memoria de datos: 2KB SRAM y 1024 bytes EEPROM.
+\end{itemize}
+\item WDT (Watchdog Timer): El módulo WDT presenta las siguientes características:
+\begin{itemize}
+\item Impulsado por un oscilador independiente de 128 Khz.
+\item Período nominal de 16ms.
+\item Puede ser configurado entre 16ms y 8s.
+\end{itemize}
+\end{itemize}
+\item Energía: La placa puede ser alimentada a través de una conexión USB
+o con una fuente de alimentación externa, el rango de operación es
+entre 3.7V y 5.5V.
+\item Entrada y salida: La placa cuenta con 1 cabeceras de 6 pines para
+IO:\\
+\includegraphics[width=0.5\linewidth]{\string"Placas Proyecto - Imagenes/ODROIDSHOW_boarddetail\string".jpg}
+\begin{itemize}
+\item Entradas/Salidas digitales: Todos los 6 pines.
+\item Entradas analógicas: Los canales ADC5, ADC4 y ADC6 que se observan
+en el esquema \cite{ODROIDShowSchematics}.
+\item Serial: 
+\begin{itemize}
+\item Asíncrona/Síncrona: NO. Si bien el microcontrolador posee un módulo
+USART este está ocupado en la placa para comunicarse con el chip CP2104
+que provee conversión UART a USB para conectarse con la PC o placa
+host (el microcontrolador no posee tiene interfaz USB).
+\item Sólo Síncrona: 
+\begin{itemize}
+\item SPI: NO. Si bien el microcontrolador provee SPI este está ocupado
+en la placa para con la pantalla TFT LCD.
+\item I\textsuperscript{2}C: Los puertos PC4 y PC5 que se observan en \cite{ODROIDShowSchematics}
+se utilizan como pines SDA y SCL respectivamente.
+\end{itemize}
+\end{itemize}
+\item PWM: NO. Si bien el microcontrolador posee 6 canales PWM, los puertos
+PB3-PB1; PD6-PD5 y PD3 que se observan en \cite{ODROIDShowSchematics},
+estos no se exponen en los 6 puertos de IO o estan conectados a la
+pantalla LCD, esto último también es visible en \cite{ODROIDShowSchematics}
+así como en el diagrama de bloques a continuación extraído de \cite{ODROIDShowHW}.\\
+\includegraphics[width=0.5\linewidth]{\string"Placas Proyecto - Imagenes/ODROIDSHOW_block\string".png}
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Herramientas de desarrollo}
+
+Dado que esta placa es un producto compatible con Arduino Leonardo
+es posible desarrollar en ella utilizando el Arduino IDE. Es posible
+desarrollar en C/C++ y compilar con avr-gcc. En el foro de ODROID,
+para este producto \cite{ODROIDShowForum}, se puede encontrar bastante
+referencia con respecto a cómo interactuar con la placa y se proveen
+ejemplos en Python.
+
+\subsubsection{Acceso al producto}
+
+Es posible comprar esta placa en la tienda de ODROID o en la tienda
+AmeriDroid a un precio de USD 25 \cite{ODROIDShowStore}.
+
+\subsection{Conclusiones}
+
+Comenzaremos las conclusiones presentando una tabla donde se muestra,
+para cada placa, si cumple o no con los requerimientos planteados
+en la introducción a este documento. Luego, haremos mención de aquellas
+placas que tengan alguna característica notable que valga destacar.
+Por último, se presenta una conclusión respecto de cuál es la placa
+que a nuestro juicio se debería usar en este proyecto.
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline 
+Placa & Cumple con los requisitos?\tabularnewline
+\hline 
+\hline 
+Arduino Mega & SI\tabularnewline
+\hline 
+MBED LPC1768 & SI\tabularnewline
+\hline 
+USB IO BOARD & SI\tabularnewline
+\hline 
+FRDM-K64F & SI\tabularnewline
+\hline 
+LeoLivre & SI\tabularnewline
+\hline 
+USB4Butía & SI\tabularnewline
+\hline 
+ODROID-SHOW & NO\tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+
+Salvo las placas mbed, en general las vistas poseen características
+similares, diferenciándose sobre todo en aspectos que no parecen relevantes
+para este proyecto. A continuación se describen características que
+consideramos destacables de algunas de las placas.
+
+Con respecto a la placa USB4Butiá se destaca el gran conocimiento
+acumulado del grupo MINA ya fué creada por miembros de dicho grupo
+y se le ha dado una gran variedad de usos en distintos proyectos.
+Igualmente tiene una notoria limitante en cuanto a su hardware, debido
+a una capacidad de procesamiento y de almacenamiento acotado.
+
+La placa Leo Livre tiene características similares a la USB4Butiá
+y la Arduino Leonardo, y si bien la capacidad de su hardware no es
+de las mejores al compararla con otras (e.g.: mbed) puede ser una
+buena opción. Se destacan sus buenas capacidades de extensión ya que
+cuenta con un alto número de pines y varios conectores RJ45. La principal
+desventaja que encontramos es que, pese a tratarse de un proyecto
+de hardware libre, no parece tener una comunidad pujante detrás como
+para encontrar referencia y apoyo al utilizarla. Además, la información
+disponible sobre la misma es escasa.
+
+Si bien la placa ODROID-SHOW no cumple con los requerimientos puede
+ser una adición interesante al proyecto, en la etapa de desarrollo
+para facilitar el debug haciendo que esta despliegue el estado de
+las placas (SBC y/o entrada/salida) y en etapas posteriores como herramienta
+para diagnóstico.
+
+Las placas mbed claramente son las más potentes en cuanto a características
+de hardware, estando por encima del resto en capacidad de procesamiento,
+memoria y componentes de entrada/salida. Otras de las cosas que vale
+la pena mencionar son las facilidades de desarrollo que proporciona
+la compañía contando con herramientas para el desarrollo propiamente
+como también compartiendo información y brindando soporte mediante
+un sitio web para desarrolladores. Considerando las facilidades de
+acceso y en particular el precio, no existen mayores diferencias entre
+las características de las placas analizadas por lo que no es un factor
+determinante en la elección de la placa que resulta más conveniente
+para el desarrollo del proyecto. Finalmente, consideramos la placa
+mbed FRDM-K64F proporciona las mejores características de hardware
+y facilidades al desarrollo frente al resto de las placas analizadas.
+
+\pagebreak{}
+
+\bibliographystyle{unsrt}
+\bibliography{Bibliografia}
+
+\end{document}
