@@ -114,15 +114,7 @@ Si los robots van a ser introducidos en el mundo de los humanos para asistir
  clave de los robots actuales deberán de ser solucionados.
  La interfaz robot-humano deberá ser de uso intuitivo y la seguridad del
  usuario en lo que respecta a heridas infligidas por colisiones deberá estar
- garantizada.
-\end_layout
-
-\begin_layout Subsection
-Interacción Persona Robot
-\end_layout
-
-\begin_layout Standard
-ToDo
+ garantizada
 \end_layout
 
 \begin_layout Subsection
@@ -694,6 +686,7 @@ Es de vital importancia analizar las posibles condiciones ambientales al
  De no ser posible esto se deberá disponer sensores redundantes que puedan
  medir las misma magnitudes físicas en diferentes condiciones y/o técnicas
  de sensor fusion (ver Seccion 3.3.3).
+ 
 \end_layout
 
 \begin_layout Itemize
@@ -711,7 +704,21 @@ Supervisión de Funciones
 \end_layout
 
 \begin_layout Standard
-ToDo (ver https://drive.google.com/file/d/0B5b9cF_5KTdQTWstTzJTWFVsMFk/view)
+Se debe considerar la supervisión básica del movimiento del robot, i.e.
+ el movimiento ejecutado se corresponde con el movimiento comandado; la
+ supervisión de las cantidades cinemáticas como son la posición, velocidad,
+ aceleración y frenado; la supervisión de las cantidades dinámicas como
+ lo son el torque y la fuerza; y la supervisión de funciones definidas por
+ el usuario, relacionadas con la aplicación.
+ Se debe buscar que la incertidumbre que el robot tiene acerca de su estado
+ sea mínima.
+\end_layout
+
+\begin_layout Standard
+Estas funciones deben permitir detectar fallos (conocer su existencia),
+ ubicarlos (aislar fallo, detectar lugar y tiempo, acotar efectos para evitar
+ propagación) e identificarlos (estimar tipo, naturaleza y dimensiones o
+ alcance), esto es, realizar un diagnóstico del fallo.
 \end_layout
 
 \begin_layout Subsubsection
@@ -719,7 +726,74 @@ Recuperación Frente a Fallas
 \end_layout
 
 \begin_layout Standard
-ToDo
+Las técnicas de recuperación frente a fallas proveen mecanismos para que
+ el sistema siga operando de forma normal a pesar de la existencia de fallas.
+ A continuación se describen tres técnicas utilizadas con este propósito.
+\end_layout
+
+\begin_layout Itemize
+Enmascaramiento del fallos: Una forma de recuperación frente a fallos es
+ simplemente tolerarlos y enmascararlos, de esta forma el error no se expresa.
+ De hecho, ni siquiera es necesaria la detección del fallo.
+ Una técnica de enmascaramiento de fallos es la de 
+\emph on
+mayoría de votos
+\emph default
+, en esta se cuentan con sensores redundantes los cuales "votan" acerca
+ del estado de lo sensado y el valor que se considera es el indicado por
+ la mayoría.
+ Si se selecciona adecuadamente el tipo, ubicación y cantidad de sensores
+ se puede lograr que el sistema opere correctamente aunque algunos de los
+ sensores reporten lecturas erróneas.
+ Esta técnica se puede incluso mejorar considerando la confianza que se
+ tiene en las lecturas de cada sensor y ponderar los votos considerando
+ el valor atribuido a esta confianza.
+ En 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "GARCIA200711"
+
+\end_inset
+
+ y 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ROGINA1999"
+
+\end_inset
+
+se puede ver más detalle de esta técnica.
+\end_layout
+
+\begin_layout Itemize
+Reintento de procesamiento: Si el tipo de aplicación hace que sea aceptable,
+ muchas veces un nuevo intento de procesamiento puede ser satisfactorio,
+ siendo muy común en fallos transitorios.
+\end_layout
+
+\begin_layout Itemize
+Control tolerante pasivo: Utiliza la propiedad de los sistemas realimentados
+ de hacer frente a las perturbaciones, cambios en la dinámica e incluso
+ fallos.
+ Un cambio inesperdado en el sistema crea un efecto sobre el mismo que se
+ transmite al sistema de control y éste a su vez trata de compensarlo rápidament
+e.
+ En este sentido, el control tolerante pasivo es un diseño robusto del sistema
+ de control realimentado para hacerlo inmune a fallos 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "PATTON19971029"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Diversidad de diseño: La única aproximación a la tolerancia frente a fallas
+ que tienen su origen en el diseño es aplicar la diversidad en el diseño,
+ esto es, la implementación de más de una variante de la función a realizar.
+ Esto aplica tanto al software como al hardware.
 \end_layout
 
 \begin_layout Subsubsection
@@ -754,8 +828,6 @@ key "Rybski_2012_7263"
 
  se presenta la técnica en detalle y su aplicación para un robot industrial
  en una celda de trabajo.
- En [ver carpeta 20170106 del material, tiene papers de ejemplo de aplicación
- de la técnica para para robots móviles en interiores y exteriores].
  En 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -825,7 +897,26 @@ El fin que se desea alcanzar con las estrategias de control de colisiones
 \end_layout
 
 \begin_layout Itemize
-Torque Control with Gravity Compensation: ToDo
+Control de Torque con Compensación de la Gravedad: En 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "haddadin2008collision"
+
+\end_inset
+
+ y 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Luca2007"
+
+\end_inset
+
+ se presenta esta técnica con la que se logra que luego de la detección
+ de una colisión los actuadores del robot no solo se detengan sino que además
+ queden "livianos" y "dóciles" de forma que el humano pueda manipularlos
+ fácilmente sin que ofrezcan resistenca.
+ Cabe destacar que el control de torque por sí solo logra esto, pero la
+ compensación de la gravedad mejora la técnica.
 \end_layout
 
 \begin_layout Subsubsection
