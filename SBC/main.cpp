@@ -1,14 +1,5 @@
-//#include <iostream>
-//
-//using namespace std;
-//
-//int main() {
-//    cout << "Hello, World!" << endl;
-//    return 0;
-//}
-
 /*******************************************************
- HIDAPI & HDLC
+ HDLC
 ********************************************************/
 
 #include <stdio.h>
@@ -18,7 +9,8 @@
 #include <errno.h>     // Error number definitions
 #include <unistd.h>
 #include "includes/yahdlc.h"
-#include "includes/usb_controller.h"
+#include "frdm_communication.h"
+
 
 
 
@@ -30,7 +22,6 @@
 
 #define BAUDRATE B38400
 /* change this definition for the correct port */
-#define MODEMDEVICE "/dev/bus/usb/002/006"
 #define _POSIX_SOURCE 1 /* POSIX compliant source */
 
 #define FALSE 0
@@ -38,9 +29,6 @@
 
 #define MAX_STR 255
 
-wchar_t wstr[MAX_STR];
-
-volatile int STOP=FALSE;
 
 
 
@@ -62,6 +50,8 @@ int get_data (char* frame, unsigned int frame_length, char* data, unsigned int* 
 
 
 
+
+
 int main(int argc, char* argv[])
 {
 
@@ -78,7 +68,7 @@ void ReadCommands(){
     printf("******************************************************\n");
     printf("Comandos:\n");
     printf("\t\"0\"-> Quit\n");
-    printf("\t\"80\"-> Toggle LEDs\n");
+    printf("\t\"1\"-> Toggle LEDs\n");
     printf("\t\"100\"-> Write 0000 and Read 1111\n");
     printf("\t\"101\"-> Write 0000\n");
     printf("\t\"102\"-> Write 1111\n");
@@ -95,13 +85,20 @@ void ProcessComands(int command){
     int res;
     int i,n;
     char* str;
+    int file_descriptor;
 
     switch(command){
         case 0: // Quit command
             return;
             break;
         case 1: //Toggle LEDs command
-            printf("Toggle LEDs");
+            file_descriptor = open_frdm_connection();
+            if(send_to_frdm(file_descriptor, "1", 1) == 1){
+                printf("Toogle leds successfully\n");
+            }else{
+                printf("Error sending command\n");
+            }
+            close_frdm_connection(file_descriptor);
             break;
         case 2:
 

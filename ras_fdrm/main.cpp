@@ -1,13 +1,24 @@
 #include "mbed.h"
 
-DigitalOut gpo(D0);
+Serial pc(USBTX, USBRX);
 DigitalOut led(LED_RED);
+DigitalOut ledGreen(LED_GREEN);
 
 int main()
 {
+	led = 0;
+	ledGreen = 0;
     while (true) {
-        gpo = !gpo; // toggle pin
-        led = !led; // toggle led
-        wait(0.2f);
+    	int command = pc.getc();
+    	switch(command){
+    	case 1:
+    		led = !led;
+    		ledGreen = !led;
+    		break;
+    	default:
+    		ledGreen = !ledGreen;
+    	}
+
+        wait(0.4f);
     }
 }
